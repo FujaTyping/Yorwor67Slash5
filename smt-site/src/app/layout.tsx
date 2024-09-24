@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
+import Footbar from "./components/footbar";
 
 export const metadata: Metadata = {
   title: "Hatyaiwit | Home",
@@ -19,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"antialiased"}>{children}</body>
+      <body className={"antialiased"}>
+        {children}
+        <Footbar />
+      </body>
     </html>
   );
 }

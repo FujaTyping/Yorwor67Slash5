@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar } from "flowbite-react";
 import { useState } from "react";
 import { FaHome, FaAddressCard } from "react-icons/fa";
+import { RiMenuFold4Fill } from "react-icons/ri";
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -11,8 +12,8 @@ export default function SideNavbar() {
   const handleClose = () => setIsOpen(false);
   return (
     <>
-      <Button color="blue" onClick={() => setIsOpen(true)}>
-        Show navigation
+      <Button color="blue" outline pill onClick={() => setIsOpen(true)}>
+        <RiMenuFold4Fill className="h-6 w-6" />
       </Button>
       <Drawer open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
