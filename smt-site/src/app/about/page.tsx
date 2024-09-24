@@ -1,17 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import SideNavbar from "../components/navbar";
-import { Button } from "@nextui-org/button";
 
 export default function About() {
-  const router = useRouter();
   return (
     <div className="container">
-      <SideNavbar />
       <h1>About M.4/5</h1>
-      <h2>Powered by NEXT.JS with NEXTUI</h2>
-      <Button onClick={() => router.push("/")}>Home</Button>
+      <h2>Powered by NEXT.JS with Flowbite</h2>
+      <SideNavbar />
     </div>
   );
 }

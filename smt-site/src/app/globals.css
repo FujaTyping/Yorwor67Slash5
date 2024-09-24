@@ -24,6 +24,10 @@ Button {
   margin-top: 20px;
 }
 
+li:hover {
+  cursor: pointer;
+}
+
 .container {
   text-align: center;
   display: flex;

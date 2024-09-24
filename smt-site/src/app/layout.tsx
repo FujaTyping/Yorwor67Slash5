@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
-import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Hatyaiwit | Home",
@@ -19,10 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="yorwor-light">
-      <body className={"antialiased"}>
-        <Providers>{children}</Providers>
-      </body>
+    <html lang="en">
+      <body className={"antialiased"}>{children}</body>
     </html>
   );
 }
