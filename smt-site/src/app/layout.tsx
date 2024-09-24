@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light">
+    <html lang="en" className="yorwor-light">
       <body className={"antialiased"}>
         <Providers>{children}</Providers>
       </body>
