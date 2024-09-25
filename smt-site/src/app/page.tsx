@@ -11,8 +11,8 @@ export default async function Home() {
   });
   return (
     <div className="container">
-      <h1>Hatyaiwit M.4/5</h1>
-      <h2>Powered by NEXT.JS with Flowbite</h2>
+      <h1>Hello Batman</h1>
+      <h2>Powered by Superman</h2>
       <br />
       <div>
         DATA : {JSON.stringify(RealData.Homework[0])}
