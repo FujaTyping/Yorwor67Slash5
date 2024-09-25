@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
+import SideNavbar from "./components/sidebar";
 import Footbar from "./components/footbar";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={"antialiased"}>
+        <SideNavbar />
         {children}
         <Footbar />
       </body>

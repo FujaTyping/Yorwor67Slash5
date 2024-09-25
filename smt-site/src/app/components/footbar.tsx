@@ -6,7 +6,7 @@ import Yorwor from "../favicon.ico";
 export default function Footbar() {
   return (
     <>
-      <Footer container>
+      <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
             <Footer.Brand src={Yorwor.src} alt="Yorwor Logo" name="Hatyaiwit" />
@@ -20,10 +20,13 @@ export default function Footbar() {
               <Footer.Link href="http://202.129.48.202/">
                 ระเบียนผลการเรียน
               </Footer.Link>
+              <Footer.Link href="https://yorworplatform.com/">
+                Yorwor platform
+              </Footer.Link>
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
-          <Footer.Copyright by="SMT TEAMS" year={2024} />
+          <Footer.Copyright style={{color: 'white'}} by="SMT TEAMS" year={2024} />
         </div>
       </Footer>
     </>

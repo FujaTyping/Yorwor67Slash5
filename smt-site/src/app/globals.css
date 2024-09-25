@@ -28,6 +28,39 @@ li:hover {
   cursor: pointer;
 }
 
+#TopBarNav {
+  background-color: #2d76ff;
+  color: white;
+  padding: 15px;
+}
+
+#SideDrawer {
+  text-align: center;
+  background-color: #2d76ff;
+}
+
+#Footbar {
+  background-color: #2d76ff !important;
+  border-radius: 0;
+}
+
+#Footbar a,
+#CopyrightFootbar,
+#SideDrawer h5,
+#SideDrawer a,
+#SideDrawer svg {
+  color: white;
+}
+
+#SideDrawer a:hover,
+#SideDrawer button:hover {
+  background-color: red;
+}
+
+#SideDrawer button {
+  margin: auto;
+}
+
 .container {
   text-align: center;
   display: flex;
