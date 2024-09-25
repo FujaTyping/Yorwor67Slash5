@@ -1,4 +1,9 @@
-"use client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Hatyaiwit - เกี่ยวกับห้องเรา",
+  description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย",
+};
 
 export default function About() {
   return (

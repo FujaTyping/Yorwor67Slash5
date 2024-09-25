@@ -5,7 +5,7 @@ import SideNavbar from "./components/sidebar";
 import Footbar from "./components/footbar";
 
 export const metadata: Metadata = {
-  title: "Hatyaiwit | Home",
+  title: "Hatyaiwit - ม.4/5",
   description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย",
 };
 

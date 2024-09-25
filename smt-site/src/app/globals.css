@@ -2,9 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Prompt";
+  src: url("./fonts/Prompt.ttf");
+}
+
+@font-face {
+  font-family: "NotoSansThai";
+  src: url("./fonts/NotoSansThai.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
+  font-family: Prompt !important;
 }
 
 body {
@@ -22,6 +33,10 @@ h2 {
 
 Button {
   margin-top: 20px;
+}
+
+a {
+  text-decoration: none !important;
 }
 
 li:hover {

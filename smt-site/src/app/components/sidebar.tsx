@@ -15,11 +15,20 @@ export default function SideNavbar() {
     <>
       <Navbar id="TopBarNav" fluid>
         <Navbar.Brand>
-          <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">SMT - Yorwor</span>
+          <img
+            src={Yorwor.src}
+            className="mr-3 h-6 sm:h-9"
+            alt="Flowbite React Logo"
+          />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            SMT - Yorwor
+          </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Button style={{margin: 'auto',backgroundColor: '#ff1616'}} onClick={() => setIsOpen(true)}>
+          <Button
+            style={{ margin: "auto", backgroundColor: "#ff1616" }}
+            onClick={() => setIsOpen(true)}
+          >
             <RiMenuFold4Fill className="mr-2 h-5 w-5" />
             เมนู
           </Button>

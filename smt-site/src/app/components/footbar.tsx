@@ -26,7 +26,11 @@ export default function Footbar() {
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
-          <Footer.Copyright style={{color: 'white'}} by="SMT TEAMS" year={2024} />
+          <Footer.Copyright
+            style={{ color: "white" }}
+            by="SMT TEAMS"
+            year={2024}
+          />
         </div>
       </Footer>
     </>
