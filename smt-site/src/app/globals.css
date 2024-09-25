@@ -39,7 +39,8 @@ a {
   text-decoration: none !important;
 }
 
-li:hover {
+li:hover,
+#Navbranded:hover {
   cursor: pointer;
 }
 

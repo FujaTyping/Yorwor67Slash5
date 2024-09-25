@@ -14,7 +14,7 @@ export default function SideNavbar() {
   return (
     <>
       <Navbar id="TopBarNav" fluid>
-        <Navbar.Brand>
+        <Navbar.Brand id="Navbranded" onClick={() => router.push("/")}>
           <img
             src={Yorwor.src}
             className="mr-3 h-6 sm:h-9"
