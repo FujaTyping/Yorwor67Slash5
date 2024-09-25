@@ -39,6 +39,17 @@ exapp.get("/homework", async (req, res) => {
     res.send(RealData);
 });
 
+exapp.get("/classcode", async (req, res) => {
+    let RealData = {
+        Classcode: [],
+    };
+    const querySnapshot = await getDocs(collection(db, "Classcode"));
+    querySnapshot.forEach((doc) => {
+        RealData.Classcode.push(doc.data());
+    });
+    res.send(RealData);
+});
+
 exapp.use((req, res, next) => {
     res.status(404).send("There is no API here (404)");
 });
