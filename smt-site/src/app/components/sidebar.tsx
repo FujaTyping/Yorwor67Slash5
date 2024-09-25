@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FaHome, FaAddressCard } from "react-icons/fa";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
+import Divider from "../assets/TopDivider.png"
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
+      <img style={{width: '100%'}} src={Divider.src} />
       <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
