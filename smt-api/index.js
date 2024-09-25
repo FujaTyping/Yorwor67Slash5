@@ -1,0 +1,48 @@
+const { initializeApp } = require("firebase/app");
+const { getFirestore } = require("firebase/firestore");
+const { collection, doc, getDoc, getDocs } = require("firebase/firestore");
+const express = require("express");
+const axios = require("axios");
+require("dotenv").config();
+
+const config = require("./config.json");
+const exapp = express();
+const port = config.port;
+
+const firebaseConfig = {
+    apiKey: process.env.ApiKey,
+    authDomain: process.env.AuthDomain,
+    projectId: process.env.ProjectId,
+    storageBucket: process.env.StorageBucket,
+    messagingSenderId: process.env.MessagingSenderId,
+    appId: process.env.AppId,
+    measurementId: process.env.MeasurementId
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+exapp.get("/announcement", async (req, res) => {
+    const docRef = doc(db, "Announcement", "Main");
+    const docSnap = await getDoc(docRef);
+    res.send(docSnap.data());
+});
+
+exapp.get("/homework", async (req, res) => {
+    let RealData = {
+        Homework: [],
+    };
+    const querySnapshot = await getDocs(collection(db, "Homework"));
+    querySnapshot.forEach((doc) => {
+        RealData.Homework.push(doc.data());
+    });
+    res.send(RealData);
+});
+
+exapp.use((req, res, next) => {
+    res.status(404).send("There is no API here (404)");
+});
+
+exapp.listen(port, () => {
+    console.log(`smt-site API is running on port : ${port}`);
+});
