@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Prompt";
+  src: url("./fonts/Prompt.ttf");
+}
+
+@font-face {
+  font-family: "NotoSansThai";
+  src: url("./fonts/NotoSansThai.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Prompt !important;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+Button {
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+li:hover,
+#Navbranded:hover {
+  cursor: pointer;
+}
+
+#TopBarNav {
+  background-color: #2d76ff;
+  color: white;
+  padding: 15px;
+}
+
+#SideDrawer {
+  text-align: center;
+  background-color: #2d76ff;
+}
+
+#Footbar {
+  background-color: #2d76ff !important;
+  border-radius: 0;
+}
+
+#Footbar a,
+#CopyrightFootbar,
+#SideDrawer h5,
+#SideDrawer a,
+#SideDrawer svg {
+  color: white;
+}
+
+#SideDrawer a:hover,
+#SideDrawer button:hover {
+  background-color: red;
+}
+
+#SideDrawer button {
+  margin: auto;
+}
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #Footbar img {
+    margin-bottom: 15px;
+  }
+}
