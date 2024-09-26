@@ -65,8 +65,10 @@ li:hover,
 #CopyrightFootbar,
 #SideDrawer h5,
 #SideDrawer a,
+#SideDrawer span,
 #SideDrawer svg {
   color: white;
+  text-align: center;
 }
 
 #SideDrawer a:hover,
@@ -86,7 +88,6 @@ li:hover,
   align-items: center;
   height: 100vh;
 }
-
 
 @media only screen and (max-width: 600px) {
   #Footbar img {

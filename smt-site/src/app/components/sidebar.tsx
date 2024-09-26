@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard } from "react-icons/fa";
+import { FaHome, FaAddressCard, FaBook } from "react-icons/fa";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
-import Divider from "../assets/TopDivider.png"
+import Divider from "../assets/TopDivider.png";
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <img style={{width: '100%'}} src={Divider.src} />
+      <img style={{ width: "100%" }} src={Divider.src} />
       <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
@@ -50,6 +50,11 @@ export default function SideNavbar() {
                     >
                       หน้าหลัก
                     </Sidebar.Item>
+                    <Sidebar.Collapse icon={FaBook} label="ฝ่ายการเรียน">
+                      <Sidebar.Item onClick={() => router.push("/homework")}>
+                        การบ้าน
+                      </Sidebar.Item>
+                    </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
