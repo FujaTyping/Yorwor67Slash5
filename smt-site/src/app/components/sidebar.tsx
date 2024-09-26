@@ -54,6 +54,9 @@ export default function SideNavbar() {
                       <Sidebar.Item onClick={() => router.push("/homework")}>
                         การบ้าน
                       </Sidebar.Item>
+                      <Sidebar.Item onClick={() => router.push("/classcode")}>
+                        รหัสห้องเรียน
+                      </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายสารวัตร">
                       <Sidebar.Item onClick={() => router.push("/absent")}>
