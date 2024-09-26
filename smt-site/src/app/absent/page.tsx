@@ -40,8 +40,9 @@ export default function Absent() {
     <>
       <title>{title}</title>
       <div className="container">
-        <h1>Absent M.4/5</h1>
-        <h2>Powered by NEXT.JS with Flowbite</h2>
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          📝 เช็คชื่อ - Absent
+        </h1>
         <div style={{ marginTop: "20px" }} className="overflow-x-auto">
           <Table hoverable>
             <Table.Head>

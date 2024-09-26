@@ -40,8 +40,12 @@ export default function Classroom() {
     <>
       <title>{title}</title>
       <div className="container">
-        <h1>Classroom M.4/5</h1>
-        <h2>Powered by NEXT.JS with Flowbite</h2>
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          👩🏻‍💻 รหัสห้องเรียน - Classroom code
+        </h1>
+        <h2 style={{ fontSize: "18px" }}>
+          ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **
+        </h2>
         <div style={{ marginTop: "20px" }} className="overflow-x-auto">
           <Table hoverable>
             <Table.Head>

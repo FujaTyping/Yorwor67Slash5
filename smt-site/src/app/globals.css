@@ -29,6 +29,16 @@ body {
   width: 100%;
 }
 
+th {
+  font-size: 18px;
+  background-color: hsl(219, 100%, 71%) !important;
+  color: white;
+}
+
+td {
+  font-size: 15px;
+}
+
 h1 {
   font-size: 35px;
 }
@@ -66,10 +76,10 @@ li:hover,
 }
 
 .Totop {
-	position: fixed !important;
-	bottom: 20px !important;
-	right: 20px !important;
-	z-index: 1;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 1;
 }
 
 #Footbar {

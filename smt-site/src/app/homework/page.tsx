@@ -14,10 +14,10 @@ interface Homework {
 export default function Homework() {
   const [data, setData] = useState<Homework[]>([
     {
-      Due: "Fetching",
-      Decs: "Fetching",
-      Time: "Fetching",
-      Subject: "Fetching",
+      Due: "กำลังดึงข้อมูล",
+      Decs: "กำลังดึงข้อมูล",
+      Time: "กำลังดึงข้อมูล",
+      Subject: "กำลังดึงข้อมูล",
     },
   ]);
   const [title] = useState("Hatyaiwit - การบ้าน");
@@ -31,9 +31,9 @@ export default function Homework() {
       .catch((error) => {
         setData([
           {
-            Due: "Error",
-            Decs: "While",
-            Time: "Fetching",
+            Due: "ไม่สามารถ",
+            Decs: "ดึงข้อมูล",
+            Time: "ได้",
             Subject: `${error}`,
           },
         ]);
@@ -43,9 +43,17 @@ export default function Homework() {
     <>
       <title>{title}</title>
       <div className="container">
-        <h1>Homework M.4/5</h1>
-        <h2>Powered by NEXT.JS with Flowbite</h2>
-        <div style={{ marginTop: "20px" }} className="overflow-x-auto">
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          📚 การบ้าน - Homework
+        </h1>
+        <h2 style={{ fontSize: "18px" }}>
+          ** ✅ = รับงานแล้ว , ⏰ = มีการเปลื่ยนเวลา **
+        </h2>
+        <div
+          id="DataFrame"
+          style={{ marginTop: "20px" }}
+          className="overflow-x-auto"
+        >
           <Table hoverable>
             <Table.Head>
               <Table.HeadCell>วันที่</Table.HeadCell>
