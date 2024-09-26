@@ -8,9 +8,7 @@ require("dotenv").config();
 
 const config = require("./config.json");
 const exapp = express();
-exapp.use(cors({
-    origin: '*'
-}));
+exapp.use(cors());
 const port = config.port;
 
 const firebaseConfig = {
