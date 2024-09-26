@@ -3,10 +3,14 @@ const { getFirestore } = require("firebase/firestore");
 const { collection, doc, getDoc, getDocs } = require("firebase/firestore");
 const express = require("express");
 const axios = require("axios");
+const cors = require('cors')
 require("dotenv").config();
 
 const config = require("./config.json");
 const exapp = express();
+exapp.use(cors({
+    origin: '*'
+}));
 const port = config.port;
 
 const firebaseConfig = {
