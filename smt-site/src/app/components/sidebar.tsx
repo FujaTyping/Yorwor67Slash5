@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard, FaBook, FaGetPocket } from "react-icons/fa";
+import { FaHome, FaAddressCard, FaBook, FaClipboardList } from "react-icons/fa";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.png";
@@ -55,9 +55,9 @@ export default function SideNavbar() {
                         การบ้าน
                       </Sidebar.Item>
                     </Sidebar.Collapse>
-                    <Sidebar.Collapse icon={FaGetPocket} label="ฝ่ายสารวัตร">
+                    <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายสารวัตร">
                       <Sidebar.Item onClick={() => router.push("/absent")}>
-                        การขาด
+                        เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
