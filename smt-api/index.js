@@ -52,6 +52,17 @@ exapp.get("/classcode", async (req, res) => {
     res.send(RealData);
 });
 
+exapp.get("/absent", async (req, res) => {
+    let RealData = {
+        Absent: [],
+    };
+    const querySnapshot = await getDocs(collection(db, "Absent"));
+    querySnapshot.forEach((doc) => {
+        RealData.Absent.push(doc.data());
+    });
+    res.send(RealData);
+});
+
 exapp.use((req, res, next) => {
     res.status(404).send("There is no API here (404)");
 });
