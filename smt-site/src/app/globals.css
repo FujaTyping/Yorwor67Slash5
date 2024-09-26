@@ -89,10 +89,6 @@ li:hover,
   max-width: 1150px;
 }
 
-.h2Decs {
-  font-size: 15 !important;
-}
-
 .centered-text-h2 {
   font-size: 25px;
   text-align: center;
@@ -117,9 +113,5 @@ li:hover,
 
   h2 {
     font-size: 20px;
-  }
-
-  .h2Decs {
-    font-size: 15 !important;
   }
 }
