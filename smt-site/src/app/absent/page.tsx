@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function Absent() {
-  const [title] = useState("Hatyaiwit - การบ้าน");
+  const [title] = useState("Hatyaiwit - การขาด");
   return (
     <>
       <title>{title}</title>
