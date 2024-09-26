@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
@@ -35,7 +36,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <img style={{ width: "100%" }} src={Divider.src} />
+      <img alt="DividerTop" style={{ width: "100%" }} src={Divider.src} />
       <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
@@ -45,28 +46,36 @@ export default function SideNavbar() {
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
-                      onClick={() => router.push("/")}
+                      as={Link}
+                      href="/"
                       icon={FaHome}
                     >
                       หน้าหลัก
                     </Sidebar.Item>
                     <Sidebar.Collapse icon={FaBook} label="ฝ่ายการเรียน">
-                      <Sidebar.Item onClick={() => router.push("/homework")}>
+                      <Sidebar.Item
+                        as={Link}
+                        href="/homework">
                         การบ้าน
                       </Sidebar.Item>
-                      <Sidebar.Item onClick={() => router.push("/classcode")}>
+                      <Sidebar.Item
+                        as={Link}
+                        href="/classcode">
                         รหัสห้องเรียน
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายสารวัตร">
-                      <Sidebar.Item onClick={() => router.push("/absent")}>
+                      <Sidebar.Item
+                        as={Link}
+                        href="/absent">
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
-                      onClick={() => router.push("/about")}
+                      as={Link}
+                      href="/about"
                       icon={FaAddressCard}
                     >
                       เกี่ยวกับห้องเรา

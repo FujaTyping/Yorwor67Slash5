@@ -7,7 +7,7 @@ import Divider from "../assets/FootDivider.png"
 export default function Footbar() {
   return (
     <>
-      <img style={{width: '100%'}} src={Divider.src} />
+      <img alt="DividerFoot" style={{width: '100%'}} src={Divider.src} />
       <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
