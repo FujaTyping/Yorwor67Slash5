@@ -4,6 +4,7 @@ import "./globals.css";
 import 'animate.css';
 import SideNavbar from "./components/sidebar";
 import Footbar from "./components/footbar";
+import ToTopButton from "./components/totop"
 
 export const metadata: Metadata = {
   description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย",
@@ -26,6 +27,7 @@ export default function RootLayout({
         <SideNavbar />
         {children}
         <Footbar />
+        <ToTopButton />
       </body>
     </html>
   );

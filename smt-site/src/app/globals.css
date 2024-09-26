@@ -65,6 +65,13 @@ li:hover,
   background-color: #2d76ff;
 }
 
+.Totop {
+	position: fixed !important;
+	bottom: 20px !important;
+	right: 20px !important;
+	z-index: 1;
+}
+
 #Footbar {
   background-color: #2d76ff !important;
   border-radius: 0;
