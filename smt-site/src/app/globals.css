@@ -12,6 +12,11 @@
   src: url("./fonts/NotoSansThai.ttf");
 }
 
+@font-face {
+  font-family: "Itim";
+  src: url("./fonts/Itim.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -38,6 +43,10 @@ Button {
 
 a {
   text-decoration: none !important;
+}
+
+.title {
+  font-family: Itim !important;
 }
 
 li:hover,

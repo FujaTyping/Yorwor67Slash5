@@ -36,7 +36,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <img alt="DividerTop" style={{ width: "100%" }} src={Divider.src} />
+      <img alt="DividerTop" style={{ width: "100%" }} src={Divider.src}></img>
       <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>

@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <title>{title}</title>
-      <img style={{ width: '90%', margin: 'auto', marginTop: '25px' }} src={Banner.src}></img>
+      <img className="animate__animated animate__tada" alt="SMTBanner" style={{ width: '90%', margin: 'auto', marginTop: '25px' }} src={Banner.src}></img>
       <div className="container">
         <h1 style={{ marginBottom: '15px' }} className="border-b">📢 ประกาศ - Announcement</h1>
         <h2 className="gap-3 centered-text-h2">

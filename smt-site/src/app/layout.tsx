@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import "./globals.css";
+import 'animate.css';
 import SideNavbar from "./components/sidebar";
 import Footbar from "./components/footbar";
 
