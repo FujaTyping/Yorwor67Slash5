@@ -24,6 +24,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+app.use("/favicon.ico", express.static("./favicon.ico"));
+
 exapp.get("/announcement", async (req, res) => {
     const docRef = doc(db, "Announcement", "Main");
     const docSnap = await getDoc(docRef);
