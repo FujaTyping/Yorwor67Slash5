@@ -36,7 +36,7 @@ th {
 }
 
 td {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 h1 {
@@ -106,6 +106,15 @@ li:hover,
   margin: auto;
 }
 
+.ccard {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 30px;
+  margin: auto;
+}
+
+.cardd-item {}
+
 .container {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -139,5 +148,9 @@ li:hover,
 
   h2 {
     font-size: 20px;
+  }
+
+  .ccard {
+    grid-template-columns: repeat(1, auto);
   }
 }

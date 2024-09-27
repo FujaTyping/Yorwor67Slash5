@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table } from "flowbite-react";
+import { Table, Card } from "flowbite-react";
+import { CgGirl, CgBoy } from "react-icons/cg";
+import { PiStudentFill } from "react-icons/pi";
+import { FaRunning } from "react-icons/fa";
 
 interface Absent {
   Date: string;
@@ -10,11 +13,12 @@ interface Absent {
   All: string;
 }
 
-interface Static {
+interface Staticdata {
   Boy: string;
   Girl: string;
   All: string;
   Absent: string;
+  Date: string;
 }
 
 export default function Absent() {
@@ -25,14 +29,13 @@ export default function Absent() {
       All: "กำลังดึงข้อมูล",
     },
   ]);
-  const [staticdata, setStaticdata] = useState<Static[]>([
-    {
-      Boy: "กำลังดึงข้อมูล",
-      Girl: "กำลังดึงข้อมูล",
-      All: "กำลังดึงข้อมูล",
-      Absent: "กำลังดึงข้อมูล",
-    },
-  ]);
+  const [Staticdata, setStaticdata] = useState<Staticdata>({
+    Boy: "0",
+    Girl: "0",
+    All: "0",
+    Absent: "0",
+    Date: "กำลังดึงข้อมูล",
+  });
   const [title] = useState("Hatyaiwit - เช็คชื่อ");
 
   useEffect(() => {
@@ -45,11 +48,18 @@ export default function Absent() {
       .catch((error) => {
         setData([
           {
-            Date: "Error",
-            Number: "Fetching",
+            Date: "ไม่สามารถ",
+            Number: "ดึงข้อมูล",
             All: `${error}`,
           },
         ]);
+        setStaticdata({
+          Boy: "*",
+          Girl: "*",
+          All: "*",
+          Absent: "*",
+          Date: "ไม่สามารถดึงข้อมูลได้",
+        });
       });
   }, []);
   return (
@@ -60,6 +70,41 @@ export default function Absent() {
           🗳️ สถิตินักเรียน - Static
         </h1>
         <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
+        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
+        <div style={{ marginTop: '15px' }} className="ccard">
+          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
+            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+              <span style={{ display: 'flex', alignItems: 'center' }}><CgBoy style={{ marginRight: '5px' }} /> นักเรียนชาย</span>
+            </h5>
+            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+              ทั้งหมด 20 คน , มา {Staticdata.Boy} คน
+            </h2>
+          </Card>
+          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
+            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+              <span style={{ display: 'flex', alignItems: 'center' }}><CgGirl style={{ marginRight: '5px' }} /> นักเรียนหญิง</span>
+            </h5>
+            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+              ทั้งหมด 16 คน , มา {Staticdata.Girl} คน
+            </h2>
+          </Card>
+          <Card style={{ backgroundColor: '#ff6767', color: 'white' }} id="cardd-item">
+            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+              <span style={{ display: 'flex', alignItems: 'center' }}><FaRunning style={{ marginRight: '5px' }} /> นักเรียนที่ขาด</span>
+            </h5>
+            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+              ขาด / ลา {Staticdata.Absent} คน
+            </h2>
+          </Card>
+          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
+            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+              <span style={{ display: 'flex', alignItems: 'center' }}><PiStudentFill style={{ marginRight: '5px' }} /> นักเรียนทั้งหมด</span>
+            </h5>
+            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+              ทั้งหมด 36 คน , มา {Staticdata.All} คน
+            </h2>
+          </Card>
+        </div>
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
