@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
 import { FaHome, FaAddressCard, FaBook, FaClipboardList } from "react-icons/fa";
+import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.png";
@@ -69,6 +70,13 @@ export default function SideNavbar() {
                         as={Link}
                         href="/absent">
                         เช็คชื่อ
+                      </Sidebar.Item>
+                    </Sidebar.Collapse>
+                    <Sidebar.Collapse icon={SiGoogledocs} label="เอกสาร">
+                      <Sidebar.Item
+                        as={Link}
+                        href="/whiteroom">
+                        ห้องเรียนสีขาว
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
