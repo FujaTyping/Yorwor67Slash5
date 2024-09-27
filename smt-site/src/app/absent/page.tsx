@@ -73,34 +73,34 @@ export default function Absent() {
         <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
         <div style={{ marginTop: '15px' }} className="ccard">
           <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
               <span style={{ display: 'flex', alignItems: 'center' }}><CgBoy style={{ marginRight: '5px' }} /> นักเรียนชาย</span>
-            </h5>
-            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+            </h1>
+            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
               ทั้งหมด 20 คน , มา {Staticdata.Boy} คน
             </h2>
           </Card>
           <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
               <span style={{ display: 'flex', alignItems: 'center' }}><CgGirl style={{ marginRight: '5px' }} /> นักเรียนหญิง</span>
-            </h5>
-            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+            </h1>
+            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
               ทั้งหมด 16 คน , มา {Staticdata.Girl} คน
             </h2>
           </Card>
           <Card style={{ backgroundColor: '#ff6767', color: 'white' }} id="cardd-item">
-            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
               <span style={{ display: 'flex', alignItems: 'center' }}><FaRunning style={{ marginRight: '5px' }} /> นักเรียนที่ขาด</span>
-            </h5>
-            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+            </h1>
+            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
               ขาด / ลา {Staticdata.Absent} คน
             </h2>
           </Card>
           <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h5 className="text-2xl font-bold tracking-tight dark:text-white">
+            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
               <span style={{ display: 'flex', alignItems: 'center' }}><PiStudentFill style={{ marginRight: '5px' }} /> นักเรียนทั้งหมด</span>
-            </h5>
-            <h2 style={{ fontSize: '23px' }} className="font-normal dark:text-gray-400">
+            </h1>
+            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
               ทั้งหมด 36 คน , มา {Staticdata.All} คน
             </h2>
           </Card>
