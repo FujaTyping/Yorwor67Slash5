@@ -38,7 +38,7 @@ exapp.get("/homework", async (req, res) => {
   };
   const querySnapshot = await getDocs(collection(db, "Homework"));
   querySnapshot.forEach((doc) => {
-    RealData.Homework.push(doc.data());
+    RealData.Homework.unshift(doc.data());
   });
   res.send(RealData);
 });
@@ -66,7 +66,7 @@ exapp.get("/absent", async (req, res) => {
       RealData.Static = doc.data();
       FirstObject = false;
     } else {
-      RealData.Absent.push(doc.data());
+      RealData.Absent.unshift(doc.data());
     }
   });
   res.send(RealData);
