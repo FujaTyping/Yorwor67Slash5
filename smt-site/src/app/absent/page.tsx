@@ -10,12 +10,27 @@ interface Absent {
   All: string;
 }
 
+interface Static {
+  Boy: string;
+  Girl: string;
+  All: string;
+  Absent: string;
+}
+
 export default function Absent() {
   const [data, setData] = useState<Absent[]>([
     {
-      Date: "Fetching",
-      Number: "Fetching",
-      All: "Fetching",
+      Date: "กำลังดึงข้อมูล",
+      Number: "กำลังดึงข้อมูล",
+      All: "กำลังดึงข้อมูล",
+    },
+  ]);
+  const [staticdata, setStaticdata] = useState<Static[]>([
+    {
+      Boy: "กำลังดึงข้อมูล",
+      Girl: "กำลังดึงข้อมูล",
+      All: "กำลังดึงข้อมูล",
+      Absent: "กำลังดึงข้อมูล",
     },
   ]);
   const [title] = useState("Hatyaiwit - เช็คชื่อ");
@@ -25,6 +40,7 @@ export default function Absent() {
       .get(`https://api.smt.siraphop.me/absent`)
       .then((response) => {
         setData(response.data.Absent);
+        setStaticdata(response.data.Static);
       })
       .catch((error) => {
         setData([
@@ -39,6 +55,12 @@ export default function Absent() {
   return (
     <>
       <title>{title}</title>
+      <div className="container">
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          🗳️ สถิตินักเรียน - Static
+        </h1>
+        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
+      </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           📝 เช็คชื่อ - Absent
