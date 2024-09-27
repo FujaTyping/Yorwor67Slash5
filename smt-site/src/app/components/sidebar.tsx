@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard, FaBook, FaClipboardList } from "react-icons/fa";
+import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
@@ -87,6 +87,13 @@ export default function SideNavbar() {
                       icon={FaAddressCard}
                     >
                       เกี่ยวกับห้องเรา
+                    </Sidebar.Item>
+                    <Sidebar.Item
+                      as={Link}
+                      href="/aboutweb"
+                      icon={FaCode}
+                    >
+                      เกี่ยวกับเว็บไซต์
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
