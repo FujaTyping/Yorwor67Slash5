@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table } from "flowbite-react";
+import { Table, Clipboard } from "flowbite-react";
 
 interface Classcode {
   Subject: string;
@@ -65,7 +65,20 @@ export default function Classroom() {
                         {Classroom.Subject}
                       </Table.Cell>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                        {Classroom.Code}
+                        <span style={{ display: "flex", alignItems: "center" }}>
+                          <p style={{ margin: 0 }}>{Classroom.Code}</p>
+                          <Clipboard.WithIcon
+                            style={{
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              marginTop: "30px",
+                              marginLeft: "5px",
+                              position: "static",
+                            }}
+                            valueToCopy={Classroom.Code}
+                          />
+                        </span>
                       </Table.Cell>
                       <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                         {Classroom.Teacher}
