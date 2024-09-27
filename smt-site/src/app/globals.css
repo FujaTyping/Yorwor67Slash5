@@ -115,13 +115,17 @@ li:hover,
 
 .cardd-item {}
 
+#AboutBtn a {
+  background-color: #2d76ff !important;
+}
+
 .container {
   padding-top: 3rem;
   padding-bottom: 3rem;
   padding-left: 2rem;
   padding-right: 2rem;
   margin: auto;
-  max-width: 1150px;
+  max-width: 80%;
 }
 
 .centered-text-h2 {
@@ -136,6 +140,10 @@ li:hover,
 @media only screen and (max-width: 600px) {
   #Footbar img {
     margin-bottom: 15px;
+  }
+
+  .container {
+    max-width: 95%;
   }
 
   h1 {
