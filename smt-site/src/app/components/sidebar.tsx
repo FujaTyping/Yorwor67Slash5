@@ -72,6 +72,13 @@ export default function SideNavbar() {
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
+                    <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายกิจกรรม">
+                      <Sidebar.Item
+                        as={Link}
+                        href="/timeline">
+                        บันทึกกิจกรรม
+                      </Sidebar.Item>
+                    </Sidebar.Collapse>
                     <Sidebar.Collapse icon={SiGoogledocs} label="เอกสาร">
                       <Sidebar.Item
                         as={Link}
