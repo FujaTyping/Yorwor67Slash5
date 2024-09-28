@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Button } from "flowbite-react";
 import NotImage from "./assets/404.png"
 import Link from 'next/link'
 import { FaHome, FaBook } from "react-icons/fa";
 
 export default function NotFound() {
-  const router = useRouter();
   return (
     <div className="container">
       <div className="FOF-flex gap-12" style={{ justifyContent: 'center', alignItems: 'center' }}>
