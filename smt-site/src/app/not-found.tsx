@@ -9,7 +9,7 @@ export default function NotFound() {
   return (
     <div className="container">
       <div className="FOF-flex gap-12" style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <img style={{ borderRadius: '30px' }} src={NotImage.src}></img>
+        <img alt="NotfoundImage" style={{ borderRadius: '30px' }} src={NotImage.src}></img>
         <div>
           <h2 className="font-bold" style={{ fontSize: '35px' }} >404 - Not found</h2>
           <p style={{ fontSize: '18px' }}>โอ๊ะ! ดูเหมือนคุณจะหลงทางในโลกของวิทยาศาสตร์ คณิตศาสตร์ และเทคโนโลยี!
