@@ -143,6 +143,44 @@ li:hover,
   background-color: #2d76ff !important;
 }
 
+ol {
+  transform: translateX(12%);
+}
+
+ol svg {
+  color: white !important;
+}
+
+ol img {
+  max-width: 75%;
+  height: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
+
+ol span {
+  background-color: #ff6767 !important;
+}
+
+ol time {
+  color: black !important;
+  font-size: 18px !important;
+}
+
+ol h3 {
+  font-size: 20px !important;
+}
+
+#TimeDecs {
+  font-size: 18px !important;
+  max-width: 51rem;
+}
+
+#TimeDecs {
+  color: black !important;
+}
+
 .container {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -192,5 +230,9 @@ li:hover,
 
   .FOF-flex img {
     max-width: 200px;
+  }
+
+  #TimeDecs {
+    max-width: 25rem;
   }
 }

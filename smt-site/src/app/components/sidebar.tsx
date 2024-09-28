@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
+import { LuPartyPopper } from "react-icons/lu";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.png";
 
@@ -72,10 +73,10 @@ export default function SideNavbar() {
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
-                    <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายกิจกรรม">
+                    <Sidebar.Collapse icon={LuPartyPopper} label="ฝ่ายกิจกรรม">
                       <Sidebar.Item
                         as={Link}
-                        href="/timeline">
+                        href="/activities">
                         บันทึกกิจกรรม
                       </Sidebar.Item>
                     </Sidebar.Collapse>
