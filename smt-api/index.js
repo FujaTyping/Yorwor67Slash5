@@ -1,14 +1,23 @@
 const { initializeApp } = require("firebase/app");
 const { getFirestore } = require("firebase/firestore");
-const { collection, doc, getDoc, getDocs } = require("firebase/firestore");
+const {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  setDoc,
+} = require("firebase/firestore");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
+const generateID = require("./module");
 
 const config = require("./config.json");
 const exapp = express();
 exapp.use(cors());
+exapp.use(express.json());
 const port = config.port;
 
 const firebaseConfig = {
@@ -32,6 +41,19 @@ exapp.get("/announcement", async (req, res) => {
   res.send(docSnap.data());
 });
 
+exapp.patch("/announcement", async (req, res) => {
+  const message = req.body.msg;
+  if (!message) {
+    res.status(400).send("Invalid body");
+  } else {
+    const announcementRef = doc(db, "Announcement", "Main");
+    await updateDoc(announcementRef, {
+      Text: `${message}`,
+    });
+    res.send(`Update announcment to ${message}`);
+  }
+});
+
 exapp.get("/homework", async (req, res) => {
   let RealData = {
     Homework: [],
@@ -43,6 +65,25 @@ exapp.get("/homework", async (req, res) => {
   res.send(RealData);
 });
 
+exapp.post("/homework", async (req, res) => {
+  const Decs = req.body.decs;
+  const Due = req.body.due;
+  const Subject = req.body.subj;
+  const Time = req.body.time;
+  if (!Decs || !Due || !Subject || !Time) {
+    res.status(400).send("Invalid body");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "Homework", `${UID}`), {
+      Decs: `${Decs}`,
+      Due: `${Due}`,
+      Subject: `${Subject}`,
+      Time: `${Time}`,
+    });
+    res.send(`New data add as id : ${UID}`);
+  }
+});
+
 exapp.get("/classcode", async (req, res) => {
   let RealData = {
     Classcode: [],
@@ -52,6 +93,23 @@ exapp.get("/classcode", async (req, res) => {
     RealData.Classcode.push(doc.data());
   });
   res.send(RealData);
+});
+
+exapp.post("/classcode", async (req, res) => {
+  const Code = req.body.code;
+  const Teacher = req.body.teac;
+  const Subject = req.body.subj;
+  if (!Code || !Teacher || !Subject) {
+    res.status(400).send("Invalid body");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "Classcode", `${UID}`), {
+      Code: `${Code}`,
+      Teacher: `${Teacher}`,
+      Subject: `${Subject}`,
+    });
+    res.send(`New data add as id : ${UID}`);
+  }
 });
 
 exapp.get("/absent", async (req, res) => {
@@ -70,6 +128,34 @@ exapp.get("/absent", async (req, res) => {
     }
   });
   res.send(RealData);
+});
+
+exapp.post("/absent", async (req, res) => {
+  const ZAbsent = req.body.zabs;
+  const ZBoy = req.body.zboy;
+  const ZDate = req.body.zdate;
+  const ZGirl = req.body.zgirl;
+  const All = req.body.all;
+  const Date = req.body.date;
+  const Number = req.body.number;
+  if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !All || !Date || !Number) {
+    res.status(400).send("Invalid body");
+  } else {
+    const absentRef = doc(db, "Absent", "0");
+    const UID = generateID();
+    await updateDoc(absentRef, {
+      Absent: `${ZAbsent}`,
+      Boy: `${ZBoy}`,
+      Date: `${ZDate}`,
+      Girl: `${ZGirl}`,
+    });
+    await setDoc(doc(db, "Absent", `${UID}`), {
+      All: `${All}`,
+      Date: `${Date}`,
+      Number: `${Number}`,
+    });
+    res.send(`New data add as id : ${UID}`);
+  }
 });
 
 exapp.use((req, res, next) => {
