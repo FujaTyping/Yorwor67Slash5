@@ -113,7 +113,23 @@ li:hover,
   margin: auto;
 }
 
-.cardd-item {}
+.cardd-item {
+  background-color: hsl(219, 100%, 71%);
+  color: white;
+}
+
+.cardd-item svg {
+  color: hsl(219, 100%, 71%) !important;
+}
+
+.cardd-red {
+  background-color: #ff6767;
+  color: white;
+}
+
+.cardd-red svg {
+  color: #ff6767 !important;
+}
 
 #AboutBtn a {
   background-color: #2d76ff !important;

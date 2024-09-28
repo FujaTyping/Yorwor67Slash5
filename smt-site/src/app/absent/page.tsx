@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Card } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRunning } from "react-icons/fa";
@@ -67,43 +67,47 @@ export default function Absent() {
       <title>{title}</title>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          🗳️ สถิตินักเรียน - Static
+          🗳️ สถิตินักเรียน - Status
         </h1>
         <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
         <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
         <div style={{ marginTop: '15px' }} className="ccard">
-          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
-              <span style={{ display: 'flex', alignItems: 'center' }}><CgBoy style={{ marginRight: '5px' }} /> นักเรียนชาย</span>
-            </h1>
-            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
-              ทั้งหมด 20 คน , มา {Staticdata.Boy} คน
-            </h2>
-          </Card>
-          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
-              <span style={{ display: 'flex', alignItems: 'center' }}><CgGirl style={{ marginRight: '5px' }} /> นักเรียนหญิง</span>
-            </h1>
-            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
-              ทั้งหมด 16 คน , มา {Staticdata.Girl} คน
-            </h2>
-          </Card>
-          <Card style={{ backgroundColor: '#ff6767', color: 'white' }} id="cardd-item">
-            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
-              <span style={{ display: 'flex', alignItems: 'center' }}><FaRunning style={{ marginRight: '5px' }} /> นักเรียนที่ขาด</span>
-            </h1>
-            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
-              ขาด / ลา {Staticdata.Absent} คน
-            </h2>
-          </Card>
-          <Card style={{ backgroundColor: 'hsl(219, 100%, 71%)', color: 'white' }} id="cardd-item">
-            <h1 style={{ fontSize: '22px' }} className="text-2xl font-bold tracking-tight dark:text-white">
-              <span style={{ display: 'flex', alignItems: 'center' }}><PiStudentFill style={{ marginRight: '5px' }} /> นักเรียนทั้งหมด</span>
-            </h1>
-            <h2 style={{ fontSize: '20px' }} className="font-normal dark:text-gray-400">
-              ทั้งหมด 36 คน , มา {Staticdata.All} คน
-            </h2>
-          </Card>
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <CgGirl className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
+              <p className="text-sm">นักเรียนชาย (ทั้งหมด 20 คน)</p>
+            </div>
+          </article>
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <CgBoy className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
+              <p className="text-sm">นักเรียนหญิง (ทั้งหมด 16 คน)</p>
+            </div>
+          </article>
+          <article className="cardd-red flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <FaRunning className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">ขาด / ลา {Staticdata.Absent} คน</p>
+              <p className="text-sm">นักเรียนที่ขาด</p>
+            </div>
+          </article>
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <PiStudentFill className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.All} คน</p>
+              <p className="text-sm">นักเรียนทั้งหมด (36 คน)</p>
+            </div>
+          </article>
         </div>
       </div>
       <div className="container">

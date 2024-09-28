@@ -25,7 +25,7 @@ export default function About() {
           ห้องเรียน 4/5 SMT ของพวกเราเป็นห้องเรียนที่มีจุดมุ่งหมายในการพัฒนาความสามารถทางด้านวิศวกรรมนอกจากนี้ ยังมุ่งเน้นการเสริมสร้างความรู้ในด้านวิทยาศาสตร์ คณิตศาสตร์ และเทคโนโลยี เพื่อเตรียมความพร้อมให้กับนักเรียนในการเผชิญกับความท้าทายในโลกยุคใหม่
           และยังมีการจัดกิจกรรมเสริม เช่น การแข่งขันด้านต่างๆ เพื่อให้นักเรียนได้พัฒนาทักษะการแข่งขันและเรียนรู้การทำงานภายใต้ความกดดัน นอกจากนี้ เรายังมีการเชิญวิทยากรจากภายนอกมาให้ความรู้และแชร์ประสบการณ์ต่างๆ เพื่อเปิดมุมมองใหม่ให้กับนักเรียน
         </h2>
-        <Button className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]" style={{ maxWidth: '220px', margin: 'auto' }} as={Link} href="https://github.com/FujaTyping/Yorwor67Slash5" color="blue"><RiInstagramFill style={{ margin: 'auto', marginRight: '5px' }} className="mr-3 h-4 w-4" />Instagram</Button>
+        <Button className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]" style={{ maxWidth: '220px', margin: 'auto' }} as={Link} href="https://www.instagram.com/seetubhazadaimod/" color="blue"><RiInstagramFill style={{ margin: 'auto', marginRight: '5px' }} className="mr-3 h-4 w-4" />Instagram</Button>
       </div>
     </>
   );
