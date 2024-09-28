@@ -74,7 +74,7 @@ export default function Absent() {
         <div style={{ marginTop: '15px' }} className="ccard">
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
             <span className="rounded-full bg-white p-3">
-              <CgGirl className="size-8" />
+              <CgBoy className="size-8" />
             </span>
             <div>
               <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
@@ -83,7 +83,7 @@ export default function Absent() {
           </article>
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
             <span className="rounded-full bg-white p-3">
-              <CgBoy className="size-8" />
+              <CgGirl className="size-8" />
             </span>
             <div>
               <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
