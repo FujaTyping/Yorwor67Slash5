@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode } from "react-icons/fa";
+import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode, FaBookmark } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import Yorwor from "../favicon.ico";
@@ -72,7 +72,7 @@ export default function SideNavbar() {
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
-                    <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายกิจกรรม">
+                    <Sidebar.Collapse icon={FaBookmark} label="ฝ่ายกิจกรรม">
                       <Sidebar.Item
                         as={Link}
                         href="/timeline">
