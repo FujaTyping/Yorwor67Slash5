@@ -36,7 +36,7 @@ th {
 }
 
 td {
-  font-size: 15px;
+  font-size: 17px;
 }
 
 h1 {
@@ -106,13 +106,88 @@ li:hover,
   margin: auto;
 }
 
+.ccard {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 30px;
+  margin: auto;
+}
+
+.FOF-flex {
+  display: flex;
+}
+
+.FOF-flex img {
+  max-width: 240px;
+}
+
+.cardd-item {
+  background-color: hsl(219, 100%, 71%);
+  color: white;
+}
+
+.cardd-item svg {
+  color: hsl(219, 100%, 71%) !important;
+}
+
+.cardd-red {
+  background-color: #ff6767;
+  color: white;
+}
+
+.cardd-red svg {
+  color: #ff6767 !important;
+}
+
+#AboutBtn a {
+  background-color: #2d76ff !important;
+}
+
+ol {
+  transform: translateX(12%);
+}
+
+ol svg {
+  color: white !important;
+}
+
+ol img {
+  max-width: 75%;
+  height: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
+
+ol span {
+  background-color: #ff6767 !important;
+}
+
+ol time {
+  color: black !important;
+  font-size: 18px !important;
+}
+
+ol h3 {
+  font-size: 20px !important;
+}
+
+#TimeDecs {
+  font-size: 18px !important;
+  max-width: 51rem;
+}
+
+#TimeDecs {
+  color: black !important;
+}
+
 .container {
   padding-top: 3rem;
   padding-bottom: 3rem;
   padding-left: 2rem;
   padding-right: 2rem;
   margin: auto;
-  max-width: 1150px;
+  max-width: 80%;
 }
 
 .centered-text-h2 {
@@ -129,6 +204,10 @@ li:hover,
     margin-bottom: 15px;
   }
 
+  .container {
+    max-width: 95%;
+  }
+
   h1 {
     font-size: 25px;
   }
@@ -139,5 +218,21 @@ li:hover,
 
   h2 {
     font-size: 20px;
+  }
+
+  .ccard {
+    grid-template-columns: repeat(1, auto);
+  }
+
+  .FOF-flex {
+    flex-direction: column;
+  }
+
+  .FOF-flex img {
+    max-width: 200px;
+  }
+
+  #TimeDecs {
+    max-width: 25rem;
   }
 }

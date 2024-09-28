@@ -13,9 +13,9 @@ interface Classcode {
 export default function Classroom() {
   const [data, setData] = useState<Classcode[]>([
     {
-      Subject: "Fetching",
-      Code: "Fetching",
-      Teacher: "Fetching",
+      Subject: "กำลังดึงข้อมูล",
+      Code: "กำลังดึงข้อมูล",
+      Teacher: "กำลังดึงข้อมูล",
     },
   ]);
   const [title] = useState("Hatyaiwit - รหัสห้องเรียน");
@@ -29,8 +29,8 @@ export default function Classroom() {
       .catch((error) => {
         setData([
           {
-            Subject: "Error",
-            Code: "Fetching",
+            Subject: "ไม่สามารถ",
+            Code: "ดึงข้อมูลได้",
             Teacher: `${error}`,
           },
         ]);

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table } from "flowbite-react";
+import { CgGirl, CgBoy } from "react-icons/cg";
+import { PiStudentFill } from "react-icons/pi";
+import { FaRunning } from "react-icons/fa";
 
 interface Absent {
   Date: string;
@@ -10,11 +13,12 @@ interface Absent {
   All: string;
 }
 
-interface Static {
+interface Staticdata {
   Boy: string;
   Girl: string;
   All: string;
   Absent: string;
+  Date: string;
 }
 
 export default function Absent() {
@@ -25,14 +29,13 @@ export default function Absent() {
       All: "กำลังดึงข้อมูล",
     },
   ]);
-  const [staticdata, setStaticdata] = useState<Static[]>([
-    {
-      Boy: "กำลังดึงข้อมูล",
-      Girl: "กำลังดึงข้อมูล",
-      All: "กำลังดึงข้อมูล",
-      Absent: "กำลังดึงข้อมูล",
-    },
-  ]);
+  const [Staticdata, setStaticdata] = useState<Staticdata>({
+    Boy: "0",
+    Girl: "0",
+    All: "0",
+    Absent: "0",
+    Date: "กำลังดึงข้อมูล",
+  });
   const [title] = useState("Hatyaiwit - เช็คชื่อ");
 
   useEffect(() => {
@@ -45,11 +48,18 @@ export default function Absent() {
       .catch((error) => {
         setData([
           {
-            Date: "Error",
-            Number: "Fetching",
+            Date: "ไม่สามารถ",
+            Number: "ดึงข้อมูล",
             All: `${error}`,
           },
         ]);
+        setStaticdata({
+          Boy: "*",
+          Girl: "*",
+          All: "*",
+          Absent: "*",
+          Date: "ไม่สามารถดึงข้อมูลได้",
+        });
       });
   }, []);
   return (
@@ -57,9 +67,48 @@ export default function Absent() {
       <title>{title}</title>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          🗳️ สถิตินักเรียน - Static
+          🗳️ สถิตินักเรียน - Status
         </h1>
         <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
+        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
+        <div style={{ marginTop: '15px' }} className="ccard">
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <CgBoy className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
+              <p className="text-sm">นักเรียนชาย (ทั้งหมด 20 คน)</p>
+            </div>
+          </article>
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <CgGirl className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
+              <p className="text-sm">นักเรียนหญิง (ทั้งหมด 16 คน)</p>
+            </div>
+          </article>
+          <article className="cardd-red flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <FaRunning className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">ขาด / ลา {Staticdata.Absent} คน</p>
+              <p className="text-sm">นักเรียนที่ขาด</p>
+            </div>
+          </article>
+          <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <span className="rounded-full bg-white p-3">
+              <PiStudentFill className="size-8" />
+            </span>
+            <div>
+              <p className="text-2xl font-medium">มา {Staticdata.All} คน</p>
+              <p className="text-sm">นักเรียนทั้งหมด (36 คน)</p>
+            </div>
+          </article>
+        </div>
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
