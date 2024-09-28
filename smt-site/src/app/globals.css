@@ -113,6 +113,14 @@ li:hover,
   margin: auto;
 }
 
+.FOF-flex {
+  display: flex;
+}
+
+.FOF-flex img {
+  max-width: 240px;
+}
+
 .cardd-item {
   background-color: hsl(219, 100%, 71%);
   color: white;
@@ -176,5 +184,13 @@ li:hover,
 
   .ccard {
     grid-template-columns: repeat(1, auto);
+  }
+
+  .FOF-flex {
+    flex-direction: column;
+  }
+
+  .FOF-flex img {
+    max-width: 200px;
   }
 }
