@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { HiInformationCircle } from "react-icons/hi";
+import { Alert } from "flowbite-react"
 
 export default function Admin() {
   const router = useRouter();
+  const [showAlert, setShowAlert] = useState(true);
   const [title] = useState("Hatyaiwit - ผู้ดูแลระบบ");
   const [email, setEmail] = useState('ด้วย Gmail');
   const [username, setUsername] = useState('กรุณาล็อกอิน');
@@ -32,6 +35,12 @@ export default function Admin() {
           setEmail(user.email);
           setUsername(user.displayName);
           setPhotourl(user.photoURL);
+
+          if (!user.email.includes('@hatyaiwit.ac.th')) {
+            setShowAlert(true);
+          } else {
+            setShowAlert(false);
+          }
         };
 
         getAllRequest.onerror = () => {
@@ -48,16 +57,33 @@ export default function Admin() {
     <>
       <title>{title}</title>
       <div className="container">
-        <h1 style={{textAlign:'center'}}>ยินดีต้อนรับ</h1>
-        <div style={{ margin: 'auto',maxWidth:'33rem' }} className="p-2">
+        <h1 style={{ textAlign: 'center' }}>ยินดีต้อนรับ !</h1>
+        <div style={{ margin: 'auto', maxWidth: '33rem' }} className="p-2">
           <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
             <img alt="Profile" className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={photourl}></img>
             <div className="flex-grow">
-              <h2 className="text-gray-900 title-font font-medium">{username}</h2>
-              <p className="text-gray-500">{email}</p>
+              <h2 className="title-font font-medium">{username}</h2>
+              <p>{email}</p>
             </div>
           </div>
         </div>
+        <h1 style={{ marginTop: '25px' }} className="border-t"></h1>
+        {showAlert ? (
+          <Alert
+            style={{ marginTop: '30px' }}
+            additionalContent={
+              'หากต้องการเปลื่ยนแปลงข้อมูลในเว็ปไซต์ ต้องใช้อีเมล @hatyaiwit.ac.th เท่านั้น'
+            }
+            color="failure"
+            icon={HiInformationCircle}
+          >
+            <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล @hatyaiwit.ac.th
+          </Alert>
+        ) : (
+          <Alert style={{ marginTop: '30px' }} color="success" icon={HiInformationCircle}>
+            <span className="font-medium">แจ้งเตือน !</span> ระบบหลังบ้านกำลังจะมาเร็วๆนี้
+          </Alert>
+        )}
       </div>
     </>
   );
