@@ -10,7 +10,7 @@ import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.png";
-import { signInWithGoogle, auth, provider } from '../lib/firebase-auth';
+import { signInWithGoogle } from '../lib/firebase-auth';
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -109,9 +109,9 @@ export default function SideNavbar() {
                     <Sidebar.Item
                       onClick={() => {
                         signInWithGoogle().then((userCredential) => {
-                          console.log('Signed in successfully:', userCredential.user);
+                          router.push('/admin');
                         }).catch((error) => {
-                          console.error('Sign-in failed:', error);
+                          console.error(error);
                         });
                       }}
                       icon={FaKey}
