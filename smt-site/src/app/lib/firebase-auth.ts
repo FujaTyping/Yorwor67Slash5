@@ -9,10 +9,9 @@ const auth = getAuth(app);
 export const signInWithGoogle = async (): Promise<UserCredential> => {
     try {
         const result = await signInWithPopup(auth, provider);
-        const credential = GoogleAuthProvider.credentialFromResult(result);
         return result;
-    } catch (error: any) {
-        const errorMessage = error.message;
+    } catch (error: unknown) {
+        const errorMessage = error;
         console.error(errorMessage);
         throw error;
     }

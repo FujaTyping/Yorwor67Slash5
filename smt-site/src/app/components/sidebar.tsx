@@ -108,7 +108,7 @@ export default function SideNavbar() {
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
                       onClick={() => {
-                        signInWithGoogle().then((userCredential) => {
+                        signInWithGoogle().then(() => {
                           router.push('/admin');
                         }).catch((error) => {
                           console.error(error);
