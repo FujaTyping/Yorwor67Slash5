@@ -12,7 +12,8 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
-const generateID = require("./module");
+const generateID = require("./lib/module");
+const userData = require("./user.json");
 
 const config = require("./config.json");
 const exapp = express();
@@ -33,6 +34,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const Authenticate = (req, res, next) => {
+  const Auth = req.get("Auth");
+  if (!userData.user.includes(Auth)) {
+    return res.status(400).send("Invalid credentials");
+  }
+  next();
+};
+
 exapp.use("/favicon.ico", express.static("./favicon.ico"));
 
 exapp.get("/announcement", async (req, res) => {
@@ -41,7 +50,7 @@ exapp.get("/announcement", async (req, res) => {
   res.send(docSnap.data());
 });
 
-exapp.patch("/announcement", async (req, res) => {
+exapp.patch("/announcement", Authenticate, async (req, res) => {
   const message = req.body.msg;
   if (!message) {
     res.status(400).send("Invalid body");
@@ -65,7 +74,7 @@ exapp.get("/homework", async (req, res) => {
   res.send(RealData);
 });
 
-exapp.post("/homework", async (req, res) => {
+exapp.post("/homework", Authenticate, async (req, res) => {
   const Decs = req.body.decs;
   const Due = req.body.due;
   const Subject = req.body.subj;
@@ -95,7 +104,7 @@ exapp.get("/classcode", async (req, res) => {
   res.send(RealData);
 });
 
-exapp.post("/classcode", async (req, res) => {
+exapp.post("/classcode", Authenticate, async (req, res) => {
   const Code = req.body.code;
   const Teacher = req.body.teac;
   const Subject = req.body.subj;
@@ -123,11 +132,11 @@ exapp.get("/absent", async (req, res) => {
     if (FirstObject) {
       FirstObject = false;
       const data = doc.data();
-      RealData.Static = data
+      RealData.Static = data;
       const Boy = parseInt(data.Boy);
       const Girl = parseInt(data.Girl);
       const All = (Boy + Girl).toString();
-      RealData.Static.All = All
+      RealData.Static.All = All;
     } else {
       RealData.Absent.unshift(doc.data());
     }
@@ -135,7 +144,7 @@ exapp.get("/absent", async (req, res) => {
   res.send(RealData);
 });
 
-exapp.post("/absent", async (req, res) => {
+exapp.post("/absent", Authenticate, async (req, res) => {
   const ZAbsent = req.body.zabs;
   const ZBoy = req.body.zboy;
   const ZDate = req.body.zdate;
