@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode } from "react-icons/fa";
+import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode, FaKey } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.png";
+import { signInWithGoogle, auth, provider } from '../lib/firebase-auth';
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -102,6 +103,20 @@ export default function SideNavbar() {
                       icon={FaCode}
                     >
                       เกี่ยวกับเว็บไซต์
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item
+                      onClick={() => {
+                        signInWithGoogle().then((userCredential) => {
+                          console.log('Signed in successfully:', userCredential.user);
+                        }).catch((error) => {
+                          console.error('Sign-in failed:', error);
+                        });
+                      }}
+                      icon={FaKey}
+                    >
+                      ล็อกอิน
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
