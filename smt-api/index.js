@@ -44,6 +44,10 @@ const Authenticate = (req, res, next) => {
 
 exapp.use("/favicon.ico", express.static("./favicon.ico"));
 
+exapp.get("/permission", Authenticate, async (req, res) => {
+  res.send("Pass");
+});
+
 exapp.get("/announcement", async (req, res) => {
   const docRef = doc(db, "Announcement", "Main");
   const docSnap = await getDoc(docRef);
