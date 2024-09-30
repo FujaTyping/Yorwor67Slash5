@@ -37,7 +37,11 @@ const db = getFirestore(app);
 const Authenticate = (req, res, next) => {
   const Auth = req.get("Auth");
   if (!userData.user.includes(Auth)) {
-    return res.status(400).send("Invalid credentials");
+    return res
+      .status(400)
+      .send(
+        `อีเมล ${Auth} ไม่ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
+      );
   }
   next();
 };
@@ -84,7 +88,7 @@ exapp.post("/homework", Authenticate, async (req, res) => {
   const Subject = req.body.subj;
   const Time = req.body.time;
   if (!Decs || !Due || !Subject || !Time) {
-    res.status(400).send("Invalid body");
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const UID = generateID();
     await setDoc(doc(db, "Homework", `${UID}`), {
@@ -93,7 +97,7 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       Subject: `${Subject}`,
       Time: `${Time}`,
     });
-    res.send(`New data add as id : ${UID}`);
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
 
@@ -113,7 +117,7 @@ exapp.post("/classcode", Authenticate, async (req, res) => {
   const Teacher = req.body.teac;
   const Subject = req.body.subj;
   if (!Code || !Teacher || !Subject) {
-    res.status(400).send("Invalid body");
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const UID = generateID();
     await setDoc(doc(db, "Classcode", `${UID}`), {
@@ -121,7 +125,7 @@ exapp.post("/classcode", Authenticate, async (req, res) => {
       Teacher: `${Teacher}`,
       Subject: `${Subject}`,
     });
-    res.send(`New data add as id : ${UID}`);
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
 
@@ -157,7 +161,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
   const Date = req.body.date;
   const Number = req.body.number;
   if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !All || !Date || !Number) {
-    res.status(400).send("Invalid body");
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const absentRef = doc(db, "Absent", "0");
     const UID = generateID();
@@ -172,7 +176,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Date: `${Date}`,
       Number: `${Number}`,
     });
-    res.send(`New data add as id : ${UID}`);
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
 
