@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
+import { Button, Drawer, Sidebar, Navbar, Modal } from "flowbite-react";
 import { useState } from "react";
 import {
   FaHome,
@@ -15,6 +15,7 @@ import {
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.webp";
 import { signInWithGoogle } from "../lib/firebase-auth";
@@ -23,6 +24,8 @@ export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [message, setMessage] = useState("ERROR");
   return (
     <>
       <Navbar id="TopBarNav" fluid>
@@ -101,7 +104,8 @@ export default function SideNavbar() {
                             router.push("/admin");
                           })
                           .catch((error) => {
-                            console.error(error);
+                            setMessage(error.message);
+                            setOpenModal(true);
                           });
                       }}
                       icon={FaKey}
@@ -115,6 +119,31 @@ export default function SideNavbar() {
           </Sidebar>
         </Drawer.Items>
       </Drawer>
+      <Modal
+        show={openModal}
+        size="md"
+        onClose={() => setOpenModal(false)}
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              เกิดข้อผิดผลาด ไม่สามารถล็อกอินได้ {message}
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+                onClick={() => setOpenModal(false)}
+              >
+                ลองอีกครั้ง
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
