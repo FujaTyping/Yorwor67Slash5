@@ -1,13 +1,13 @@
 "use client";
 
 import { Footer } from "flowbite-react";
-import SMT from "../assets/SMT.png";
-import Divider from "../assets/FootDivider.png"
+import SMT from "../assets/SMT.webp";
+import Divider from "../assets/FootDivider.webp";
 
 export default function Footbar() {
   return (
     <>
-      <img alt="DividerFoot" style={{ width: '100%' }} src={Divider.src} ></img>
+      <img alt="DividerFoot" style={{ width: "100%" }} src={Divider.src}></img>
       <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
@@ -33,7 +33,12 @@ export default function Footbar() {
             by="SMT TEAMS M.4/5 (สงวนลิขสิทธิ์ทั้งหมด)"
             year={2024}
           />
-          <p style={{ cursor: 'pointer', color: 'white' }} onClick={() => document.location = 'mailto:yorwor@siraphop.me'}>yorwor@siraphop.me</p>
+          <p
+            style={{ cursor: "pointer", color: "white" }}
+            onClick={() => (document.location = "mailto:yorwor@siraphop.me")}
+          >
+            yorwor@siraphop.me
+          </p>
         </div>
       </Footer>
     </>

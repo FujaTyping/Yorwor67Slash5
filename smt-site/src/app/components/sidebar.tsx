@@ -1,16 +1,23 @@
 "use client";
 
-import Link from 'next/link'
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar } from "flowbite-react";
 import { useState } from "react";
-import { FaHome, FaAddressCard, FaBook, FaClipboardList, FaCode, FaKey } from "react-icons/fa";
+import {
+  FaHome,
+  FaAddressCard,
+  FaBook,
+  FaClipboardList,
+  FaCode,
+  FaKey,
+} from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import Yorwor from "../favicon.ico";
-import Divider from "../assets/TopDivider.png";
-import { signInWithGoogle } from '../lib/firebase-auth';
+import Divider from "../assets/TopDivider.webp";
+import { signInWithGoogle } from "../lib/firebase-auth";
 
 export default function SideNavbar() {
   const router = useRouter();
@@ -48,71 +55,54 @@ export default function SideNavbar() {
               <div>
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item
-                      as={Link}
-                      href="/"
-                      icon={FaHome}
-                    >
+                    <Sidebar.Item as={Link} href="/" icon={FaHome}>
                       หน้าหลัก
                     </Sidebar.Item>
                     <Sidebar.Collapse icon={FaBook} label="ฝ่ายการเรียน">
-                      <Sidebar.Item
-                        as={Link}
-                        href="/homework">
+                      <Sidebar.Item as={Link} href="/homework">
                         การบ้าน
                       </Sidebar.Item>
-                      <Sidebar.Item
-                        as={Link}
-                        href="/classcode">
+                      <Sidebar.Item as={Link} href="/classcode">
                         รหัสห้องเรียน
                       </Sidebar.Item>
                     </Sidebar.Collapse>
-                    <Sidebar.Collapse icon={FaClipboardList} label="ฝ่ายสารวัตร">
-                      <Sidebar.Item
-                        as={Link}
-                        href="/absent">
+                    <Sidebar.Collapse
+                      icon={FaClipboardList}
+                      label="ฝ่ายสารวัตร"
+                    >
+                      <Sidebar.Item as={Link} href="/absent">
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={LuPartyPopper} label="ฝ่ายกิจกรรม">
-                      <Sidebar.Item
-                        as={Link}
-                        href="/activities">
+                      <Sidebar.Item as={Link} href="/activities">
                         บันทึกกิจกรรม
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={SiGoogledocs} label="เอกสาร">
-                      <Sidebar.Item
-                        as={Link}
-                        href="/whiteroom">
+                      <Sidebar.Item as={Link} href="/whiteroom">
                         ห้องเรียนสีขาว
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item
-                      as={Link}
-                      href="/about"
-                      icon={FaAddressCard}
-                    >
+                    <Sidebar.Item as={Link} href="/about" icon={FaAddressCard}>
                       เกี่ยวกับห้องเรา
                     </Sidebar.Item>
-                    <Sidebar.Item
-                      as={Link}
-                      href="/aboutweb"
-                      icon={FaCode}
-                    >
+                    <Sidebar.Item as={Link} href="/aboutweb" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
                       onClick={() => {
-                        signInWithGoogle().then(() => {
-                          router.push('/admin');
-                        }).catch((error) => {
-                          console.error(error);
-                        });
+                        signInWithGoogle()
+                          .then(() => {
+                            router.push("/admin");
+                          })
+                          .catch((error) => {
+                            console.error(error);
+                          });
                       }}
                       icon={FaKey}
                     >
