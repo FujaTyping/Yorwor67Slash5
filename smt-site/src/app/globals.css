@@ -143,6 +143,10 @@ li:hover,
   background-color: #2d76ff !important;
 }
 
+.AboutBtn{
+  background-color: #2d76ff !important;
+}
+
 ol {
   transform: translateX(12%);
 }
