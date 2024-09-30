@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 import GitHubImg from "../assets/github.webp";
 import Link from "next/link";
 import { FaGithubAlt } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
 
 export default function AboutWeb() {
@@ -41,7 +42,7 @@ export default function AboutWeb() {
               Open-source project
             </h2>
             <h3>
-              M.4/5 class website aimed at improving the student experience by
+              M.4/5 className website aimed at improving the student experience by
               providing essential tools such as attendance tracking and homework
               management. The website allows students to easily check if theyve
               been marked absent for the day and view current homework
@@ -74,60 +75,50 @@ export default function AboutWeb() {
                 Donate
               </Button>
             </Button.Group>
-          </div>
-          <div className="block" style={{ marginTop: "120px" }}>
-            <h1 className="font-bold border-b">Contributor 🔧</h1>
-            <div
-              className="flex flex-col md:flex-row justify-center items-center space-x-0 md:space-x-60"
-              style={{ marginTop: "30px" }}
-            >
-              <div className="block justify-center items-center text-center mb-10 md:mb-0">
-                <img
-                  className="rounded-full size-60"
-                  src="https://github.com/FujaTyping.png"
-                />
-                <h2 style={{ fontSize: "32px", marginTop: "20px" }}>
-                  FujaTyping
-                </h2>
-                <h3 style={{ fontSize: "20px" }}>Siraphop Sukchu</h3>
-                <Button
-                  className="AboutBtn"
-                  style={{ marginTop: "15px" }}
-                  as={Link}
-                  href="https://github.com/FujaTyping/"
-                  color="blue"
-                >
-                  <FaGithubAlt
-                    style={{ margin: "auto", marginRight: "5px" }}
-                    className="mr-3 h-4 w-4"
-                  />
-                  View on Github
-                </Button>
+            <section style={{ marginTop: '25px' }} className="body-font">
+              <div className="container px-5 py-24 mx-auto">
+                <div style={{marginBottom: '40px'}} className="flex flex-col text-center w-full">
+                  <h1 className="text-2xl title-font mb-4 tracking-widest font-bold">OUR TEAM</h1>
+                  <p className="lg:w-2/3 mx-auto">We are a team of dedicated SMT students from Hatyaiwittayalai School, combining our coding and design skills to create innovative solutions for our school and community</p>
+                </div>
+                <div className="flex flex-wrap -m-4">
+                  <div className="p-4 lg:w-1/2">
+                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                      <img alt="Siraphop Sukchu" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/86290693?v=4"></img>
+                      <div className="flex-grow sm:pl-8">
+                        <h2 className="title-font font-medium text-lg text-gray-900">Siraphop Sukchu</h2>
+                        <h3 className="text-gray-500 mb-3">Frontend & API</h3>
+                        <p className="mb-4">{"JavaScript — the king of the coding kingdom"}</p>
+                        <span className="inline-flex">
+                          <a href="https://github.com/FujaTyping">
+                            <FaGithub
+                              className="h-6 w-6"
+                            />
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 lg:w-1/2">
+                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                      <img alt="TeetouchNoppakun" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/137798282?v=4"></img>
+                      <div className="flex-grow sm:pl-8">
+                        <h2 className="title-font font-medium text-lg text-gray-900">Teetouch Noppakun</h2>
+                        <h3 className="text-gray-500 mb-3">Database &  Authentication & Frontend</h3>
+                        <p className="mb-4">{"The first computer “bug” was an actual real-life bug"}</p>
+                        <span className="inline-flex">
+                          <a href="https://github.com/kunzaka001">
+                            <FaGithub
+                              className="h-6 w-6"
+                            />
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="block justify-center items-center text-center">
-                <img
-                  className="rounded-full size-60"
-                  src="https://github.com/kunzaka001.png"
-                />
-                <h2 style={{ fontSize: "32px", marginTop: "20px" }}>
-                  kunzaka001
-                </h2>
-                <h3 style={{ fontSize: "20px" }}>Teetouch Noppakun</h3>
-                <Button
-                  className="AboutBtn"
-                  style={{ marginTop: "15px" }}
-                  as={Link}
-                  href="https://github.com/kunzaka001/"
-                  color="blue"
-                >
-                  <FaGithubAlt
-                    style={{ margin: "auto", marginRight: "5px" }}
-                    className="mr-3 h-4 w-4"
-                  />
-                  View on Github
-                </Button>
-              </div>
-            </div>
+            </section>
           </div>
         </div>
       </div>

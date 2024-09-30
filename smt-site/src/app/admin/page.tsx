@@ -146,7 +146,7 @@ export default function Admin() {
               <span className="font-medium">แจ้งเตือน !</span>{" "}
               ระบบหลังบ้านกำลังจะมาเร็วๆนี้
             </Alert>
-            <section className="text-gray-600 body-font">
+            <section className="body-font">
               <div
                 style={{ maxWidth: "100%" }}
                 className="container px-5 py-24 mx-auto"
