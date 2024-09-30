@@ -41,7 +41,7 @@ export default function AboutWeb() {
             >
               Open-source project
             </h2>
-            <h3>
+            <h3 className="lg:w-2/3 mx-auto">
               M.4/5 className website aimed at improving the student experience by
               providing essential tools such as attendance tracking and homework
               management. The website allows students to easily check if theyve
@@ -77,8 +77,8 @@ export default function AboutWeb() {
             </Button.Group>
             <section style={{ marginTop: '25px' }} className="body-font">
               <div className="container px-5 py-24 mx-auto">
-                <div style={{marginBottom: '40px'}} className="flex flex-col text-center w-full">
-                  <h1 className="text-2xl title-font mb-4 tracking-widest font-bold">OUR TEAM</h1>
+                <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
+                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">OUR TEAM</h1>
                   <p className="lg:w-2/3 mx-auto">We are a team of dedicated SMT students from Hatyaiwittayalai School, combining our coding and design skills to create innovative solutions for our school and community</p>
                 </div>
                 <div className="flex flex-wrap -m-4">
