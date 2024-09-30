@@ -17,6 +17,7 @@ import {
   Label,
   Textarea,
 } from "flowbite-react";
+import { SiGoogleclassroom } from "react-icons/si";
 
 export default function Admin() {
   const router = useRouter();
@@ -29,14 +30,18 @@ export default function Admin() {
   );
   const [openAlert, setOpenAlert] = useState(false);
   const [message, setMessage] = useState("เตือน !");
-  const [openModal, setOpenModal] = useState(false);
+  const [openHwModal, setOpenHwModal] = useState(false);
+  const [openCcModal, setOpenCcModal] = useState(false);
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
   const [decs, setDecs] = useState("");
   const [due, setDue] = useState("");
+  const [code, setCode] = useState("");
+  const [teacher, setTeacher] = useState("");
 
   function onCloseModal() {
-    setOpenModal(false);
+    setOpenHwModal(false);
+    setOpenCcModal(false);
   }
 
   const submitHomework = () => {
@@ -57,12 +62,39 @@ export default function Admin() {
       )
       .then((response) => {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-        setOpenModal(false);
+        setOpenHwModal(false);
         setOpenAlert(true);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-        setOpenModal(false);
+        setOpenHwModal(false);
+        setOpenAlert(true);
+      });
+  };
+
+  const submitClasscode = () => {
+    axios
+      .post(
+        `https://api.smt.siraphop.me/classcode`,
+        {
+          code: code,
+          subj: subj,
+          teac: teacher,
+        },
+        {
+          headers: {
+            Auth: email,
+          },
+        },
+      )
+      .then((response) => {
+        setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+        setOpenCcModal(false);
+        setOpenAlert(true);
+      })
+      .catch((error) => {
+        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
+        setOpenCcModal(false);
         setOpenAlert(true);
       });
   };
@@ -167,7 +199,31 @@ export default function Admin() {
                         ข้อมูลการบ้านในแต่ละวัน โดยฝ่ายการเรียน
                       </p>
                       <Button
-                        onClick={() => setOpenModal(true)}
+                        onClick={() => setOpenHwModal(true)}
+                        style={{ backgroundColor: "#2d76ff" }}
+                        color="blue"
+                      >
+                        <FaPencilRuler className="mr-2 h-5 w-5" />
+                        บันทึกข้อมูล
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 md:w-1/3 flex">
+                    <div
+                      style={{ backgroundColor: "#2d76ff" }}
+                      className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                    >
+                      <SiGoogleclassroom style={{ color: "white" }} className="h-7 w-7" />
+                    </div>
+                    <div className="flex-grow pl-6">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                        เพิ่มข้อมูลรหัสห้องเรียน
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน
+                      </p>
+                      <Button
+                        onClick={() => setOpenCcModal(true)}
                         style={{ backgroundColor: "#2d76ff" }}
                         color="blue"
                       >
@@ -182,7 +238,7 @@ export default function Admin() {
           </>
         )}
       </div>
-      <Modal show={openModal} onClose={onCloseModal} size="md" popup>
+      <Modal show={openHwModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -234,6 +290,58 @@ export default function Admin() {
             <div className="w-full">
               <Button
                 onClick={submitHomework}
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+              >
+                ส่งข้อมูล
+                <IoSend className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={openCcModal} onClose={onCloseModal} size="md" popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบฟอร์มบันทึกข้อมูล รหัสห้องเรียน
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่วิชาของรหัสห้องเรียน" />
+              </div>
+              <TextInput
+                placeholder="วิชา"
+                onChange={(event) => setSubj(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่รหัสห้องเรียน" />
+              </div>
+              <TextInput
+                onChange={(event) => setCode(event.target.value)}
+                type="text"
+                placeholder="Code"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่ชื่อครูผู้สอน" />
+              </div>
+              <TextInput
+                type="text"
+                onChange={(event) => setTeacher(event.target.value)}
+                placeholder="คุณครู"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={submitClasscode}
                 style={{ backgroundColor: "#2d76ff" }}
                 color="blue"
               >
