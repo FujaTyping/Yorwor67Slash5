@@ -8,6 +8,7 @@ import {
 } from "react-icons/hi";
 import { FaPencilRuler, FaBook } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
+import { FaClipboardUser } from "react-icons/fa6";
 import axios from "axios";
 import {
   Alert,
@@ -32,17 +33,55 @@ export default function Admin() {
   const [message, setMessage] = useState("เตือน !");
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
+  const [openStuModal, setOpenStuModal] = useState(false);
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
   const [decs, setDecs] = useState("");
   const [due, setDue] = useState("");
   const [code, setCode] = useState("");
   const [teacher, setTeacher] = useState("");
+  const [number, setNumber] = useState("");
+  const [all, setAll] = useState("");
+  const [boy, setBoy] = useState("");
+  const [girl, setGirl] = useState("");
+  const [absent, setAbsent] = useState("");
 
   function onCloseModal() {
     setOpenHwModal(false);
     setOpenCcModal(false);
+    setOpenStuModal(false);
   }
+
+  const submitAbsent = () => {
+    axios
+      .post(
+        `https://api.smt.siraphop.me/absent`,
+        {
+          zabs: absent,
+          zboy: boy,
+          zdate: time,
+          zgirl: girl,
+          all: all,
+          date: time,
+          number: number,
+        },
+        {
+          headers: {
+            Auth: email,
+          },
+        },
+      )
+      .then((response) => {
+        setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+        setOpenStuModal(false);
+        setOpenAlert(true);
+      })
+      .catch((error) => {
+        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
+        setOpenStuModal(false);
+        setOpenAlert(true);
+      });
+  };
 
   const submitHomework = () => {
     axios
@@ -232,6 +271,30 @@ export default function Admin() {
                       </Button>
                     </div>
                   </div>
+                  <div className="p-4 md:w-1/3 flex">
+                    <div
+                      style={{ backgroundColor: "#2d76ff" }}
+                      className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                    >
+                      <FaClipboardUser style={{ color: "white" }} className="h-7 w-7" />
+                    </div>
+                    <div className="flex-grow pl-6">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                        เช็คชื่อนักเรียน
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร
+                      </p>
+                      <Button
+                        onClick={() => setOpenStuModal(true)}
+                        style={{ backgroundColor: "#2d76ff" }}
+                        color="blue"
+                      >
+                        <FaPencilRuler className="mr-2 h-5 w-5" />
+                        บันทึกข้อมูล
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>
@@ -342,6 +405,91 @@ export default function Admin() {
             <div className="w-full">
               <Button
                 onClick={submitClasscode}
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+              >
+                ส่งข้อมูล
+                <IoSend className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={openStuModal} onClose={onCloseModal} size="md" popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบฟอร์มบันทึกข้อมูล สถิตินักเรียน
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่วันที่" />
+              </div>
+              <TextInput
+                placeholder="วว / ดด / ปป"
+                onChange={(event) => setTime(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่เลขที่ขาด" />
+              </div>
+              <TextInput
+                onChange={(event) => setNumber(event.target.value)}
+                type="text"
+                placeholder="1 , 2 , 3"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="สรุปสถิติ" />
+              </div>
+              <TextInput
+                type="text"
+                onChange={(event) => setAll(event.target.value)}
+                placeholder="ขาด 0 , ลา 0"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="จำนวนนักเรียน (ที่ขาด)" />
+              </div>
+              <TextInput
+                type="text"
+                onChange={(event) => setAbsent(event.target.value)}
+                placeholder="0"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
+              </div>
+              <TextInput
+                type="text"
+                onChange={(event) => setBoy(event.target.value)}
+                placeholder="0"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
+              </div>
+              <TextInput
+                type="text"
+                onChange={(event) => setGirl(event.target.value)}
+                placeholder="0"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={submitAbsent}
                 style={{ backgroundColor: "#2d76ff" }}
                 color="blue"
               >
