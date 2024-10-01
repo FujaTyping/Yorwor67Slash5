@@ -6,7 +6,8 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn } from "react-icons/fa";
+import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
 import axios from "axios";
@@ -31,9 +32,11 @@ export default function Admin() {
   );
   const [openAlert, setOpenAlert] = useState(false);
   const [message, setMessage] = useState("เตือน !");
+  const [openAmModal, setOpenAmModal] = useState(false);
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
+  const [text, setText] = useState("");
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
   const [decs, setDecs] = useState("");
@@ -41,7 +44,6 @@ export default function Admin() {
   const [code, setCode] = useState("");
   const [teacher, setTeacher] = useState("");
   const [number, setNumber] = useState("");
-  const [all, setAll] = useState("");
   const [boy, setBoy] = useState("");
   const [girl, setGirl] = useState("");
   const [absent, setAbsent] = useState("");
@@ -50,7 +52,33 @@ export default function Admin() {
     setOpenHwModal(false);
     setOpenCcModal(false);
     setOpenStuModal(false);
+    setOpenAmModal(false);
   }
+
+  const submitAnnouncement = () => {
+    axios
+      .patch(
+        `https://api.smt.siraphop.me/announcement`,
+        {
+          msg: text,
+        },
+        {
+          headers: {
+            Auth: email,
+          },
+        },
+      )
+      .then((response) => {
+        setMessage(`อัพเดทข้อความแล้ว`);
+        setOpenAmModal(false);
+        setOpenAlert(true);
+      })
+      .catch((error) => {
+        setMessage(`ไม่สามารถอัพเดทข้อความได้ ${error.response.data}`);
+        setOpenAmModal(false);
+        setOpenAlert(true);
+      });
+  };
 
   const submitAbsent = () => {
     axios
@@ -61,7 +89,6 @@ export default function Admin() {
           zboy: boy,
           zdate: time,
           zgirl: girl,
-          all: all,
           date: time,
           number: number,
         },
@@ -228,6 +255,30 @@ export default function Admin() {
                       style={{ backgroundColor: "#2d76ff" }}
                       className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                     >
+                      <FaBullhorn style={{ color: "white" }} className="h-7 w-7" />
+                    </div>
+                    <div className="flex-grow pl-6">
+                      <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                        แก้ไขประกาศ
+                      </h2>
+                      <p className="leading-relaxed text-base">
+                        ข้อความประกาศของเว็ปไซต์
+                      </p>
+                      <Button
+                        onClick={() => setOpenAmModal(true)}
+                        style={{ backgroundColor: "#2d76ff" }}
+                        color="blue"
+                      >
+                        <FaEraser className="mr-2 h-5 w-5" />
+                        แก้ไขข้อมูล
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 md:w-1/3 flex">
+                    <div
+                      style={{ backgroundColor: "#2d76ff" }}
+                      className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                    >
                       <FaBook style={{ color: "white" }} className="h-7 w-7" />
                     </div>
                     <div className="flex-grow pl-6">
@@ -301,6 +352,36 @@ export default function Admin() {
           </>
         )}
       </div>
+      <Modal show={openAmModal} onClose={onCloseModal} size="md" popup>
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบฟอร์มอัพเดทข้อความ ประกาศ
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่ข้อความประกาศ" />
+              </div>
+              <TextInput
+                placeholder="ประกาศ"
+                onChange={(event) => setText(event.target.value)}
+                required
+              />
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={submitAnnouncement}
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+              >
+                อัพเดทข้อมูล
+                <GrUpdate className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal show={openHwModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
@@ -434,23 +515,12 @@ export default function Admin() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่เลขที่ขาด" />
+                <Label htmlFor="text" value="ใส่เลขที่ขาด (ไม่มีใส่ -)" />
               </div>
               <TextInput
                 onChange={(event) => setNumber(event.target.value)}
                 type="text"
                 placeholder="1 , 2 , 3"
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="สรุปสถิติ" />
-              </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setAll(event.target.value)}
-                placeholder="ขาด 0 , ลา 0"
                 required
               />
             </div>
