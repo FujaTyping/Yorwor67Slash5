@@ -8,7 +8,7 @@ const useLocalStorge = (IsAdminpage: boolean) => {
   const [photourl, setPhotourl] = useState(
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s",
   );
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
