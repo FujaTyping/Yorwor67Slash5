@@ -352,7 +352,7 @@ export default function Admin() {
           </>
         )}
       </div>
-      <Modal show={openAmModal} onClose={onCloseModal} size="md" popup>
+      <Modal className="animate__animated animate__fadeIn" show={openAmModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -382,7 +382,7 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal show={openHwModal} onClose={onCloseModal} size="md" popup>
+      <Modal className="animate__animated animate__fadeIn" show={openHwModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -444,7 +444,7 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal show={openCcModal} onClose={onCloseModal} size="md" popup>
+      <Modal className="animate__animated animate__fadeIn" show={openCcModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -496,7 +496,7 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal show={openStuModal} onClose={onCloseModal} size="md" popup>
+      <Modal className="animate__animated animate__fadeIn" show={openStuModal} onClose={onCloseModal} size="md" popup>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -571,6 +571,7 @@ export default function Admin() {
         </Modal.Body>
       </Modal>
       <Modal
+        className="animate__animated animate__fadeIn"
         show={openAlert}
         size="md"
         onClose={() => setOpenAlert(false)}

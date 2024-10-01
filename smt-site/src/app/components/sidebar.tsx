@@ -171,6 +171,7 @@ export default function SideNavbar() {
         </Drawer.Items>
       </Drawer>
       <Modal
+        className="animate__animated animate__fadeIn"
         show={openModal}
         size="md"
         onClose={() => setOpenModal(false)}
