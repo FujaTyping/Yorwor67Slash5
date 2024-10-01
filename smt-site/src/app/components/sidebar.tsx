@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar, Modal, Avatar } from "flowbite-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   FaHome,
   FaAddressCard,
@@ -20,43 +20,15 @@ import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.webp";
 import { signInWithGoogle } from "../lib/firebase-auth";
 import { MdWork } from "react-icons/md";
+import useLocalStorge from "../lib/localstorage-db";
 
 export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
+  const { photourl } = useLocalStorge(false);
   const [openModal, setOpenModal] = useState(false);
-  const [photourl, setPhotourl] = useState(
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s",
-  );
   const [message, setMessage] = useState("ERROR");
-
-  useEffect(() => {
-    const request = indexedDB.open("firebaseLocalStorageDb", 1);
-
-    request.onsuccess = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      const transaction = db.transaction(["firebaseLocalStorage"], "readonly");
-      const objectStore = transaction.objectStore("firebaseLocalStorage");
-
-      const getAllRequest = objectStore.getAll();
-
-      getAllRequest.onsuccess = () => {
-        const data = getAllRequest.result;
-        const user = data[0]?.value;
-
-        setPhotourl(user.photoURL);
-      };
-
-      getAllRequest.onerror = () => {
-        console.error("Error accessing firebaseLocalStorage");
-      };
-    };
-
-    request.onerror = (event) => {
-      console.error((event.target as IDBOpenDBRequest).error);
-    };
-  }, []);
 
   return (
     <>
@@ -72,20 +44,29 @@ export default function SideNavbar() {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Avatar onClick={() => {
-            if (photourl == "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s") {
-              signInWithGoogle()
-                .then(() => {
-                  router.push("/admin");
-                })
-                .catch((error) => {
-                  setMessage(error.message);
-                  setOpenModal(true);
-                });
-            } else {
-              router.push("/admin");
-            }
-          }} style={{ marginRight: '10px', cursor: 'pointer' }} alt="User" img={photourl} rounded />
+          <Avatar
+            onClick={() => {
+              if (
+                photourl ==
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s"
+              ) {
+                signInWithGoogle()
+                  .then(() => {
+                    router.push("/admin");
+                  })
+                  .catch((error) => {
+                    setMessage(error.message);
+                    setOpenModal(true);
+                  });
+              } else {
+                router.push("/admin");
+              }
+            }}
+            style={{ marginRight: "10px", cursor: "pointer" }}
+            alt="User"
+            img={photourl}
+            rounded
+          />
           <Button
             style={{ margin: "auto", backgroundColor: "#ff1616" }}
             onClick={() => setIsOpen(true)}
@@ -116,7 +97,10 @@ export default function SideNavbar() {
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={MdWork} label="ฝ่ายการงาน">
-                      <Sidebar.Item as={Link} href="https://docs.google.com/spreadsheets/d/1vE3AuC6LyMnIgz3w05nGTNYqu2N9CYXlSJKGjSMyeW4/edit?usp=sharing">
+                      <Sidebar.Item
+                        as={Link}
+                        href="https://docs.google.com/spreadsheets/d/1vE3AuC6LyMnIgz3w05nGTNYqu2N9CYXlSJKGjSMyeW4/edit?usp=sharing"
+                      >
                         รายงานบันทึกคะแนนย่อย
                       </Sidebar.Item>
                     </Sidebar.Collapse>

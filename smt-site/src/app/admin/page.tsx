@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
@@ -20,18 +19,13 @@ import {
   Textarea,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
+import useLocalStorge from "../lib/localstorage-db";
 
 export default function Admin() {
-  const router = useRouter();
-  const [showAlert, setShowAlert] = useState(true);
   const [title] = useState("Hatyaiwit - ผู้ดูแลระบบ");
-  const [email, setEmail] = useState("ด้วย Gmail");
-  const [username, setUsername] = useState("กรุณาล็อกอิน");
-  const [photourl, setPhotourl] = useState(
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s",
-  );
-  const [openAlert, setOpenAlert] = useState(false);
+  const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [message, setMessage] = useState("เตือน !");
+  const [openAlert, setOpenAlert] = useState(false);
   const [openAmModal, setOpenAmModal] = useState(false);
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
@@ -165,44 +159,6 @@ export default function Admin() {
       });
   };
 
-  useEffect(() => {
-    const request = indexedDB.open("firebaseLocalStorageDb", 1);
-
-    request.onsuccess = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      const transaction = db.transaction(["firebaseLocalStorage"], "readonly");
-      const objectStore = transaction.objectStore("firebaseLocalStorage");
-
-      const getAllRequest = objectStore.getAll();
-
-      getAllRequest.onsuccess = () => {
-        const data = getAllRequest.result;
-        const user = data[0]?.value;
-
-        if (!user) {
-          return router.push("/");
-        }
-
-        setEmail(user.email);
-        setUsername(user.displayName);
-        setPhotourl(user.photoURL);
-
-        if (!user.email.includes("@hatyaiwit.ac.th")) {
-          setShowAlert(true);
-        } else {
-          setShowAlert(false);
-        }
-      };
-
-      getAllRequest.onerror = () => {
-        console.error("Error accessing firebaseLocalStorage");
-      };
-    };
-
-    request.onerror = (event) => {
-      console.error((event.target as IDBOpenDBRequest).error);
-    };
-  }, []);
   return (
     <>
       <title>{title}</title>
@@ -241,8 +197,8 @@ export default function Admin() {
               color="success"
               icon={HiInformationCircle}
             >
-              <span className="font-medium">แจ้งเตือน !</span>{" "}
-              ระบบหลังบ้านกำลังจะมาเร็วๆนี้
+              <span className="font-medium">แจ้งเตือน !</span> สามารถ แก้ไข /
+              เพิ่ม ข้อมูลภายในเว็ปไซต์ได้จากหน้านี้
             </Alert>
             <section className="body-font">
               <div
@@ -255,7 +211,10 @@ export default function Admin() {
                       style={{ backgroundColor: "#2d76ff" }}
                       className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                     >
-                      <FaBullhorn style={{ color: "white" }} className="h-7 w-7" />
+                      <FaBullhorn
+                        style={{ color: "white" }}
+                        className="h-7 w-7"
+                      />
                     </div>
                     <div className="flex-grow pl-6">
                       <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
@@ -303,7 +262,10 @@ export default function Admin() {
                       style={{ backgroundColor: "#2d76ff" }}
                       className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                     >
-                      <SiGoogleclassroom style={{ color: "white" }} className="h-7 w-7" />
+                      <SiGoogleclassroom
+                        style={{ color: "white" }}
+                        className="h-7 w-7"
+                      />
                     </div>
                     <div className="flex-grow pl-6">
                       <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
@@ -327,7 +289,10 @@ export default function Admin() {
                       style={{ backgroundColor: "#2d76ff" }}
                       className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                     >
-                      <FaClipboardUser style={{ color: "white" }} className="h-7 w-7" />
+                      <FaClipboardUser
+                        style={{ color: "white" }}
+                        className="h-7 w-7"
+                      />
                     </div>
                     <div className="flex-grow pl-6">
                       <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
@@ -352,7 +317,13 @@ export default function Admin() {
           </>
         )}
       </div>
-      <Modal className="animate__animated animate__fadeIn" show={openAmModal} onClose={onCloseModal} size="md" popup>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openAmModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -382,7 +353,13 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal className="animate__animated animate__fadeIn" show={openHwModal} onClose={onCloseModal} size="md" popup>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openHwModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -444,7 +421,13 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal className="animate__animated animate__fadeIn" show={openCcModal} onClose={onCloseModal} size="md" popup>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openCcModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
@@ -496,7 +479,13 @@ export default function Admin() {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal className="animate__animated animate__fadeIn" show={openStuModal} onClose={onCloseModal} size="md" popup>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openStuModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
