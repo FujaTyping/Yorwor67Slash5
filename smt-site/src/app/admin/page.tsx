@@ -69,7 +69,7 @@ export default function Admin() {
         },
       )
       .then((response) => {
-        setMessage(`อัพเดทข้อความแล้ว`);
+        setMessage(`อัพเดทข้อความแล้ว ${response.data}`);
         setOpenAmModal(false);
         setOpenAlert(true);
       })

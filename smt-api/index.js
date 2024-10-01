@@ -61,13 +61,13 @@ exapp.get("/announcement", async (req, res) => {
 exapp.patch("/announcement", Authenticate, async (req, res) => {
   const message = req.body.msg;
   if (!message) {
-    res.status(400).send("Invalid body");
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const announcementRef = doc(db, "Announcement", "Main");
     await updateDoc(announcementRef, {
       Text: `${message}`,
     });
-    res.send(`Update announcment to ${message}`);
+    res.send(`เป็น ${message}`);
   }
 });
 
@@ -157,10 +157,9 @@ exapp.post("/absent", Authenticate, async (req, res) => {
   const ZBoy = req.body.zboy;
   const ZDate = req.body.zdate;
   const ZGirl = req.body.zgirl;
-  const All = req.body.all;
   const Date = req.body.date;
   const Number = req.body.number;
-  if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !All || !Date || !Number) {
+  if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !Date || !Number) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const absentRef = doc(db, "Absent", "0");
@@ -172,7 +171,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Girl: `${ZGirl}`,
     });
     await setDoc(doc(db, "Absent", `${UID}`), {
-      All: `${All}`,
+      All: `ขาด / ลา ${ZAbsent}`,
       Date: `${Date}`,
       Number: `${Number}`,
     });
