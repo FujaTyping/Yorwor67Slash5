@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Carousel } from "flowbite-react";
 import { Button } from "flowbite-react";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
 import About1 from "../assets/Carousel/About1.webp";
 import About2 from "../assets/Carousel/About2.webp";
 import { RiInstagramFill } from "react-icons/ri";
+import { FaStar } from "react-icons/fa6";
 
 export default function About() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับห้องเรา");
@@ -51,6 +53,13 @@ export default function About() {
           />
           Instagram
         </Button>
+        <Marquee style={{marginTop: '20px'}} gradient={true} gradientColor="white" gradientWidth={25}>
+          <p className="title">เรื่องคิดเลขอ่ะเกรดหนึ่ง เรื่องคิดถึงอ่ะเกรดสี่</p><FaStar />
+          <p className="title">การบ้านเท่าภูเขา ความโง่เขลาเท่าจักรวาล</p><FaStar />
+          <p className="title">งานเลี้ยงย่อมมีวันเลิกรา อาจาร์ยเข้าช้า ไม่มีวันเลิกเร็ว</p><FaStar />
+          <p className="title">คำที่ครูบอกออกสอบ มักจะไม่เจอในข้อสอบเสมอ</p><FaStar />
+          <p className="title">เรื่องเรียนเป็นเรื่องตลก สอบตกเป็นเรื่องธรรมดา</p><FaStar />
+        </Marquee>
       </div>
     </>
   );

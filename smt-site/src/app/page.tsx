@@ -35,7 +35,7 @@ export default function Home() {
           📢 ประกาศ - Announcement
         </h1>
         <h2 className="gap-3 centered-text-h2">
-          <Marquee pauseOnHover={true}>{data}</Marquee>
+          <Marquee gradient={true} gradientColor="white" gradientWidth={25} pauseOnHover={true}>{data}</Marquee>
         </h2>
       </div>
       <div className="container">
