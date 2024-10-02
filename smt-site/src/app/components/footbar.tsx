@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Footer } from "flowbite-react";
 import SMT from "../assets/SMT.webp";
 import Divider from "../assets/FootDivider.webp";
@@ -13,6 +14,9 @@ export default function Footbar() {
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
             <Footer.Brand src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
             <Footer.LinkGroup>
+              <Footer.Link as={Link} href="/terms">
+                ข้อตกลงและเงื่อนไขการใช้บริการ
+              </Footer.Link>
               <Footer.Link href="https://www.hatyaiwit.ac.th/">
                 เว็ปโรงเรียน
               </Footer.Link>
@@ -30,7 +34,7 @@ export default function Footbar() {
           <Footer.Divider />
           <Footer.Copyright
             style={{ color: "white" }}
-            by="SMT TEAMS M.4/5 (สงวนลิขสิทธิ์ทั้งหมด)"
+            by="ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)"
             year={2024}
           />
           <p

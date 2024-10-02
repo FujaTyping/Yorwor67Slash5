@@ -52,14 +52,14 @@ export default function SideNavbar() {
               ) {
                 signInWithGoogle()
                   .then(() => {
-                    router.push("/admin");
+                    router.push("/user");
                   })
                   .catch((error) => {
                     setMessage(error.message);
                     setOpenModal(true);
                   });
               } else {
-                router.push("/admin");
+                router.push("/user");
               }
             }}
             style={{ marginRight: "10px", cursor: "pointer" }}
@@ -136,7 +136,7 @@ export default function SideNavbar() {
                       onClick={() => {
                         signInWithGoogle()
                           .then(() => {
-                            router.push("/admin");
+                            router.push("/user");
                           })
                           .catch((error) => {
                             setMessage(error.message);

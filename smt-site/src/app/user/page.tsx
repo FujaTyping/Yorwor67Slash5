@@ -22,7 +22,7 @@ import { SiGoogleclassroom } from "react-icons/si";
 import useLocalStorge from "../lib/localstorage-db";
 
 export default function Admin() {
-  const [title] = useState("Hatyaiwit - ผู้ดูแลระบบ");
+  const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [message, setMessage] = useState("เตือน !");
   const [openAlert, setOpenAlert] = useState(false);
