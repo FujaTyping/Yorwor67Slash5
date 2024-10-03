@@ -77,7 +77,7 @@ export default function Absent() {
               <CgBoy className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
+              <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
               <p className="text-sm">นักเรียนชาย (ทั้งหมด 20 คน)</p>
             </div>
           </article>
@@ -86,7 +86,7 @@ export default function Absent() {
               <CgGirl className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
+              <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
               <p className="text-sm">นักเรียนหญิง (ทั้งหมด 16 คน)</p>
             </div>
           </article>
