@@ -7,6 +7,9 @@ const {
   getDocs,
   updateDoc,
   setDoc,
+  serverTimestamp,
+  query,
+  orderBy,
 } = require("firebase/firestore");
 const express = require("express");
 const axios = require("axios");
@@ -49,7 +52,7 @@ const Authenticate = (req, res, next) => {
 exapp.use("/favicon.ico", express.static("./favicon.ico"));
 
 exapp.get("/permission", Authenticate, async (req, res) => {
-  res.send("Pass");
+  res.send(`Pass`);
 });
 
 exapp.get("/announcement", async (req, res) => {
@@ -75,9 +78,9 @@ exapp.get("/homework", async (req, res) => {
   let RealData = {
     Homework: [],
   };
-  const querySnapshot = await getDocs(collection(db, "Homework"));
+  const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
   querySnapshot.forEach((doc) => {
-    RealData.Homework.unshift(doc.data());
+    RealData.Homework.push(doc.data());
   });
   res.send(RealData);
 });
@@ -96,6 +99,7 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       Due: `${Due}`,
       Subject: `${Subject}`,
       Time: `${Time}`,
+      timestamp: serverTimestamp(),
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
@@ -130,25 +134,22 @@ exapp.post("/classcode", Authenticate, async (req, res) => {
 });
 
 exapp.get("/absent", async (req, res) => {
-  let FirstObject = true;
   let RealData = {
     Static: {},
     Absent: [],
   };
-  const querySnapshot = await getDocs(collection(db, "Absent"));
+  const querySnapshot = await getDocs(query(collection(db, "Absent"), orderBy("timestamp", "desc")));
   querySnapshot.forEach((doc) => {
-    if (FirstObject) {
-      FirstObject = false;
-      const data = doc.data();
-      RealData.Static = data;
-      const Boy = parseInt(data.Boy);
-      const Girl = parseInt(data.Girl);
-      const All = (Boy + Girl).toString();
-      RealData.Static.All = All;
-    } else {
-      RealData.Absent.unshift(doc.data());
-    }
+    RealData.Absent.push(doc.data());
   });
+  const statRef = doc(db, "Status", "Absent");
+  const statdocSnap = await getDoc(statRef);
+  const data = statdocSnap.data();
+  RealData.Static = data;
+  const Boy = parseInt(data.Boy);
+  const Girl = parseInt(data.Girl);
+  const All = (Boy + Girl).toString();
+  RealData.Static.All = All;
   res.send(RealData);
 });
 
@@ -162,9 +163,9 @@ exapp.post("/absent", Authenticate, async (req, res) => {
   if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !Date || !Number) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
-    const absentRef = doc(db, "Absent", "0");
+    const statAbRef = doc(db, "Status", "Absent");
     const UID = generateID();
-    await updateDoc(absentRef, {
+    await updateDoc(statAbRef, {
       Absent: `${ZAbsent}`,
       Boy: `${ZBoy}`,
       Date: `${ZDate}`,
@@ -174,6 +175,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       All: `ขาด / ลา ${ZAbsent}`,
       Date: `${Date}`,
       Number: `${Number}`,
+      timestamp: serverTimestamp(),
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
