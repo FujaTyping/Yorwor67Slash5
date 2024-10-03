@@ -218,7 +218,7 @@ export default function Admin() {
               </>
             ) : (
               <>
-                <section className="body-font">
+                <section className="body-font animate__animated animate__fadeInUp">
                   <div
                     style={{ maxWidth: "100%" }}
                     className="container px-5 py-24 mx-auto"
