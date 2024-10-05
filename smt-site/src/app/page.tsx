@@ -50,7 +50,8 @@ export default function Home() {
           <br></br>กรณีพบข้อผิดพลาด สามารถแจ้งข้อมูลได้ที่ สนง.วิชาการ 2
         </h2>
         <img
-          loading="lazy"
+          width={999}
+          height={682}
           alt="Timetable"
           style={{ margin: "auto", marginTop: "10px" }}
           src={Timetable.src}

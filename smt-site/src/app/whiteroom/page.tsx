@@ -20,8 +20,9 @@ export default function Whiteroom() {
                 </h1>
                 <h2 style={{ fontSize: '18px' }}>ห้องเรียนสีขาวเป็นห้องเรียนที่มีแหล่งเรียนรู้ ดูแลช่วยเหลือ เอื้อเฟื้อด้วยคุณธรรม สร้างสรรค์ด้วยกิจกรรม โดยมีการจัดองค์กรภายในห้องเรียน ประกอบด้วยโครงสร้างของแกนนำ นักเรียนแบ่งออกเป็น 4 ฝ่าย คือ ฝ่ายการเรียน ฝ่ายการงาน ฝ่ายสารวัตรนักเรียน และฝ่ายกิจกรรม</h2>
                 <img
-                    loading="lazy"
                     alt="MemberTree"
+                    width={1024}
+                    height={768}
                     style={{ margin: "auto", marginTop: "10px" }}
                     src={TreeImg.src}
                 ></img>
@@ -32,7 +33,8 @@ export default function Whiteroom() {
                 </h1>
                 <h2 style={{ fontSize: '18px' }}>ตารางการทำเวร (ทำความสะอาด) ในห้องเรียนมีความสำคัญเพื่อรักษาสภาพแวดล้อมที่เรียบร้อยและสะอาดสำหรับการเรียนการสอนของนักเรียน</h2>
                 <img
-                    loading="lazy"
+                    width={1024}
+                    height={768}
                     alt="CleaningVein"
                     style={{ margin: "auto", marginTop: "10px" }}
                     src={VeinImg.src}

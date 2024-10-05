@@ -7,8 +7,8 @@ import Footbar from "./components/footbar";
 import ToTopButton from "./components/totop"
 
 export const metadata: Metadata = {
-  description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย",
-  keywords: "ม.4/5 โรงเรียนหาดใหญ่วิทยาลัย (ญ.ว.),4/5 โรงเรียนหาดใหญ่วิทยาลัย,หาดใหญ่วิทยาลัย,4/5 ญ.ว.,ญ.ว. 4/5,4/5 ญ.ว,ญ.ว 4/5,4/5 ญว,hatyaiwit 4/5,4/5,ม.4/5,SMT,smt,โครงการ SMT,โครงการ smt",
+  description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT",
+  keywords: "ม.4/5 โรงเรียนหาดใหญ่วิทยาลัย (ญ.ว.),4/5 โรงเรียนหาดใหญ่วิทยาลัย,หาดใหญ่วิทยาลัย,4/5 ญ.ว.,ญ.ว. 4/5,4/5 ญ.ว,ญ.ว 4/5,4/5 ญว,hatyaiwit 4/5,4/5,ม.4/5,SMT,smt,โครงการ SMT,โครงการ smt,yorwor smt,Yorwor SMT,yorwor m.4/5,Yorwor M.4/5",
 };
 
 export const viewport: Viewport = {

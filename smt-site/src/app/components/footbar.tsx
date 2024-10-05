@@ -12,7 +12,7 @@ export default function Footbar() {
       <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
-            <Footer.Brand src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
+            <Footer.Brand width={324} height={105} src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
             <Footer.LinkGroup>
               <Footer.Link as={Link} href="/terms">
                 ข้อตกลงและเงื่อนไขการใช้บริการ
