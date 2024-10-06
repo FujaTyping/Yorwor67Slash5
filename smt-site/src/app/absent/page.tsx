@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table } from "flowbite-react";
+import { Table, Pagination } from "flowbite-react";
 import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRunning } from "react-icons/fa";
@@ -37,6 +37,8 @@ export default function Absent() {
     Date: "กำลังดึงข้อมูล",
   });
   const [title] = useState("Hatyaiwit - เช็คชื่อ");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     axios
@@ -62,6 +64,20 @@ export default function Absent() {
         });
       });
   }, []);
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const currentData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, data.length);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   return (
     <>
       <title>{title}</title>
@@ -123,28 +139,35 @@ export default function Absent() {
               <Table.HeadCell>สรุปสถิติ</Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              {data.map((Absent, index) => {
-                return (
-                  <>
-                    <Table.Row
-                      key={index}
-                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                    >
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                        {Absent.Date}
-                      </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                        {Absent.Number}
-                      </Table.Cell>
-                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
-                        {Absent.All}
-                      </Table.Cell>
-                    </Table.Row>
-                  </>
-                );
-              })}
+              {currentData.map((Absent, index) => (
+                <Table.Row
+                  key={index}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {Absent.Date}
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                    {Absent.Number}
+                  </Table.Cell>
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                    {Absent.All}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
           </Table>
+          <div style={{ flexDirection: 'column', alignItems: 'center', marginTop: '17px' }} className="flex justify-center">
+            <p>แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ</p>
+            <Pagination
+              style={{ marginTop: '-20px' }}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              previousLabel="ก่อนหน้า"
+              nextLabel="ถัดไป"
+            />
+          </div>
         </div>
       </div>
     </>
