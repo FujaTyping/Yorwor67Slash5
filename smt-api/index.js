@@ -173,6 +173,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
     });
     await setDoc(doc(db, "Absent", `${UID}`), {
       All: `ขาด / ลา ${ZAbsent}`,
+      Count: `${ZAbsent}`,
       Date: `${Date}`,
       Number: `${Number}`,
       timestamp: serverTimestamp(),

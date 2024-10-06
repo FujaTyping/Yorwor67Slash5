@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Pagination } from "flowbite-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface Homework {
   Subject: string;
@@ -10,6 +11,10 @@ interface Homework {
   Decs: string;
   Due: string;
 }
+
+const Chartsdata = [
+  { name: "เทอม 1", value: 0 },
+];
 
 export default function Homework() {
   const [data, setData] = useState<Homework[]>([
@@ -64,8 +69,6 @@ export default function Homework() {
           📚 การบ้าน - Homework
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ** ✅ = รับงานแล้ว , ⏰ = มีการเปลื่ยนเวลา **
-          <br />
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
           กรุณาติดต่อฝ่ายการเรียน)
         </h2>
@@ -115,6 +118,24 @@ export default function Homework() {
             />
           </div>
         </div>
+      </div>
+      <div className="container">
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          📊 สถิติการบ้าน - Chart
+        </h1>
+        <h2 style={{ fontSize: "18px" }}>
+          สรุปจำนวนภาระงานทั้งหมด ของ ทุกภาคเรียน
+        </h2>
+        <ResponsiveContainer style={{ marginTop: '25px' }} width="100%" height={300}>
+          <LineChart data={Chartsdata}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="value" name="ภาระงาน" stroke="#ff1616" activeDot={{ r: 8 }} />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </>
   );
