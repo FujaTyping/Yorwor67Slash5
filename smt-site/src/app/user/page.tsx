@@ -164,6 +164,7 @@ export default function Admin() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ textAlign: "center" }}>ยินดีต้อนรับ !</h1>
         <div style={{ margin: "auto", maxWidth: "33rem" }} className="p-2">

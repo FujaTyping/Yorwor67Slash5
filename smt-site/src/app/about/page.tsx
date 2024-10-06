@@ -15,6 +15,7 @@ export default function About() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div
         style={{ marginTop: "25px" }}
         className="h-56 sm:h-64 xl:h-80 2xl:h-96 animate__animated animate__jackInTheBox"
@@ -53,7 +54,7 @@ export default function About() {
           />
           Instagram
         </Button>
-        <Marquee style={{marginTop: '20px'}} gradient={true} gradientColor="white" gradientWidth={25}>
+        <Marquee style={{ marginTop: '20px' }} gradient={true} gradientColor="white" gradientWidth={25}>
           <p className="title">เรื่องคิดเลขอ่ะเกรดหนึ่ง เรื่องคิดถึงอ่ะเกรดสี่</p><FaStar />
           <p className="title">การบ้านเท่าภูเขา ความโง่เขลาเท่าจักรวาล</p><FaStar />
           <p className="title">งานเลี้ยงย่อมมีวันเลิกรา อาจาร์ยเข้าช้า ไม่มีวันเลิกเร็ว</p><FaStar />

@@ -11,6 +11,7 @@ export default function NotFound() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container">
         <div
           className="FOF-flex gap-12"

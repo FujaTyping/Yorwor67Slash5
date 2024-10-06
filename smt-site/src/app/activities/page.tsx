@@ -16,6 +16,7 @@ export default function TimeLine() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ marginBottom: "20px" }} className="border-b">
           🎉 บันทึกกิจกรรม - Activities

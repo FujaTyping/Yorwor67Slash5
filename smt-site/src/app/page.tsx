@@ -24,6 +24,7 @@ export default function Home() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <img
         className="animate__animated animate__tada"
         alt="SMTBanner"

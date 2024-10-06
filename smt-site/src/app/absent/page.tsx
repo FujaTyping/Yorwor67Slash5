@@ -65,6 +65,7 @@ export default function Absent() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           🗳️ สถิตินักเรียน - Status

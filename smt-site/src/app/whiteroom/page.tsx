@@ -11,6 +11,7 @@ export default function Whiteroom() {
     return (
         <>
             <title>{title}</title>
+            <meta property="og:title" content={title} />
             <Alert style={{ width: '80%', margin: 'auto', marginTop: '20px' }} color="failure" icon={HiInformationCircle}>
                 <span className="font-medium">แจ้งเตือน !</span> อยู่ระหว่างการปรับปรุ่งข้อมูล
             </Alert>
