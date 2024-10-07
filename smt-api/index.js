@@ -35,6 +35,8 @@ const firebaseConfig = {
 };
 
 const webhookURL = process.env.DscWebhook;
+const LineAuth = process.env.LINEauth;
+const LineID = process.env.LINEuserid;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -102,6 +104,29 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       Time: `${Time}`,
       timestamp: serverTimestamp(),
     });
+    const Linedata = {
+      to: `${LineID}`,
+      messages: [
+        {
+          type: "sticker",
+          packageId: "446",
+          stickerId: "2024"
+        },
+        {
+          type: 'text',
+          text: `📚 มีการบ้านใหม่มาแล้ว !!\n• วันที่ : ${Time}\n• วิชา : ${Subject}\n• รายละเอียด : ${Decs}\n• วันกำหนดส่ง : ${Due}\n\n⚠️ อย่าลืมส่งการบ้านให้ตรงเวลานะ !!`
+        }
+      ]
+    };
+    axios.post("https://api.line.me/v2/bot/message/push", Linedata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${LineAuth}`
+      }
+    })
+      .catch(error => {
+        console.error(`ไม่สามารถส่งข้อความได้ ${error.message}`);
+      });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
@@ -179,6 +204,29 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Number: `${Number}`,
       timestamp: serverTimestamp(),
     });
+    const Linedata = {
+      to: `${LineID}`,
+      messages: [
+        {
+          type: "sticker",
+          packageId: "1070",
+          stickerId: "17860"
+        },
+        {
+          type: 'text',
+          text: `📋 การเช็คชื่อประจำวัน ${Date}\n• จำนวนนักเรียนที่ขาด / ลา : ${ZAbsent} คน\n• เลขที่ที่ขาด / ลา : ${Number}\n• นักเรียนมาทั้งหมด : ${parseInt(ZBoy) + parseInt(ZGirl)} คน`
+        }
+      ]
+    };
+    axios.post("https://api.line.me/v2/bot/message/push", Linedata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${LineAuth}`
+      }
+    })
+      .catch(error => {
+        console.error(`ไม่สามารถส่งข้อความได้ ${error.message}`);
+      });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
@@ -191,7 +239,7 @@ exapp.post("/feedback", async (req, res) => {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const Payload = {
-      "embeds": [ 
+      "embeds": [
         {
           "title": "Yorwor67Slash5 - Feedback  📩",
           "description": `${Decs}`,
