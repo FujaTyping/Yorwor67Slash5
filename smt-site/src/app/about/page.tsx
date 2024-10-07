@@ -9,6 +9,7 @@ import About1 from "../assets/Carousel/About1.webp";
 import About2 from "../assets/Carousel/About2.webp";
 import { RiInstagramFill } from "react-icons/ri";
 import { FaStar } from "react-icons/fa6";
+import { FaLine } from "react-icons/fa";
 
 export default function About() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับห้องเรา");
@@ -41,20 +42,34 @@ export default function About() {
           เรายังมีการเชิญวิทยากรจากภายนอกมาให้ความรู้และแชร์ประสบการณ์ต่างๆ
           เพื่อเปิดมุมมองใหม่ให้กับนักเรียน
         </h2>
-        <Button
-          className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
-          style={{ maxWidth: "220px", margin: "auto" }}
-          as={Link}
-          href="https://www.instagram.com/seetubhazadaimod/"
-          color="blue"
-        >
-          <RiInstagramFill
-            style={{ margin: "auto", marginRight: "5px" }}
-            className="mr-3 h-4 w-4"
-          />
-          Instagram
-        </Button>
-        <Marquee style={{ marginTop: '20px' }} gradient={true} gradientColor="white" gradientWidth={25}>
+        <div style={{ justifyContent: 'center', alignItems: 'center' }} className="flex gap-5">
+          <Button
+            className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
+            style={{ maxWidth: "220px" }}
+            as={Link}
+            href="https://www.instagram.com/seetubhazadaimod/"
+            color="blue"
+          >
+            <RiInstagramFill
+              style={{ margin: "auto", marginRight: "5px" }}
+              className="mr-3 h-4 w-4"
+            />
+            Instagram
+          </Button>
+          <Button
+            style={{ maxWidth: "220px", backgroundColor: '#00b900' }}
+            as={Link}
+            href="https://lin.ee/L1apV3k"
+            color="blue"
+          >
+            <FaLine
+              style={{ margin: "auto", marginRight: "5px" }}
+              className="mr-3 h-5 w-5"
+            />
+            Line Offical
+          </Button>
+        </div>
+        <Marquee style={{ marginTop: '25px' }} gradient={true} gradientColor="white" gradientWidth={25}>
           <p className="title">เรื่องคิดเลขอ่ะเกรดหนึ่ง เรื่องคิดถึงอ่ะเกรดสี่</p><FaStar />
           <p className="title">การบ้านเท่าภูเขา ความโง่เขลาเท่าจักรวาล</p><FaStar />
           <p className="title">งานเลี้ยงย่อมมีวันเลิกรา อาจาร์ยเข้าช้า ไม่มีวันเลิกเร็ว</p><FaStar />
