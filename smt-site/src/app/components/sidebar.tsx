@@ -15,6 +15,7 @@ import {
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
+import { IoSend } from "react-icons/io5";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.webp";
@@ -129,6 +130,9 @@ export default function SideNavbar() {
                     </Sidebar.Item>
                     <Sidebar.Item as={Link} href="/aboutweb" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
+                    </Sidebar.Item>
+                    <Sidebar.Item as={Link} href="/feedback" icon={IoSend}>
+                      ส่งความคิดเห็น
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
