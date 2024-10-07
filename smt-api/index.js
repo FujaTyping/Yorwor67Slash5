@@ -34,6 +34,7 @@ const firebaseConfig = {
   measurementId: process.env.MeasurementId,
 };
 
+const webhookURL = process.env.DscWebhook;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -179,6 +180,44 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       timestamp: serverTimestamp(),
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
+  }
+});
+
+exapp.post("/feedback", async (req, res) => {
+  const Name = req.body.name;
+  const Email = req.body.email;
+  const Decs = req.body.decs;
+  if (!Name || !Email || !Decs) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const Payload = {
+      "embeds": [
+        {
+          "title": "Yorwor67Slash5 - Feedback  📩",
+          "description": `${Decs}`,
+          "color": 36863,
+          "fields": [
+            {
+              "name": "คำขอโดย",
+              "value": `${Name}`,
+              "inline": true
+            },
+            {
+              "name": "อีเมล",
+              "value": `${Email}`,
+              "inline": true
+            }
+          ]
+        }
+      ],
+    };
+    axios.post(webhookURL, Payload)
+      .then(response => {
+        res.send(`เราได้รับคำขอของคุณแล้ว จะตอบกลับทางอีเมลที่ให้ไว้ในภายหลัง`);
+      })
+      .catch(error => {
+        res.send(error.message);
+      });
   }
 });
 
