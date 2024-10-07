@@ -37,12 +37,12 @@ export default function TimeLine() {
       <title>{title}</title>
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
-          <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
-          ส่งความคิดเห็น
+          <h1 style={{ marginBottom: "15px" }} className="border-b">
+            📥 ส่งความคิดเห็น - Feedback
           </h1>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-          กรุณาแบ่งปันความคิดเห็นหรือข้อเสนอแนะของคุณเพื่อช่วยให้เราปรับปรุงบริการ เราจะพยามพัฒนาเว็บของเราตามความคิดเห็นทุกๆท่าน
-          </p>
+          <h2 style={{ fontSize: "18px" }}>
+            กรุณาแบ่งปันความคิดเห็นหรือข้อเสนอแนะของคุณเพื่อช่วยให้เราปรับปรุงบริการ เราจะพยามพัฒนาเว็บของเราตามความคิดเห็นทุกๆท่าน
+          </h2>
         </div>
         <div className="lg:w-1/2 md:w-2/3 mx-auto">
           <form className="flex flex-wrap -m-2">
@@ -50,7 +50,7 @@ export default function TimeLine() {
               <div className="relative">
                 <label
                   htmlFor="name"
-                  className="leading-7 text-sm text-gray-600"
+                  className="leading-7 text-sm"
                 >
                   ชื่อผู้ส่ง
                 </label>
@@ -65,9 +65,9 @@ export default function TimeLine() {
               <div className="relative">
                 <label
                   htmlFor="email"
-                  className="leading-7 text-sm text-gray-600"
+                  className="leading-7 text-sm"
                 >
-                  อีเมช
+                  อีเมล
                 </label>
                 <TextInput
                   placeholder="อีเมล"
@@ -80,7 +80,7 @@ export default function TimeLine() {
               <div className="relative">
                 <label
                   htmlFor="description"
-                  className="leading-7 text-sm text-gray-600"
+                  className="leading-7 text-sm"
                 >
                   สิ่งที่ต้องการจะให้ปรับปรุง
                 </label>
@@ -121,7 +121,7 @@ export default function TimeLine() {
                 style={{ backgroundColor: "#2d76ff" }}
                 color="blue"
                 onClick={() => setOpenModal(false)}
-                
+
               >
                 ตกลง
               </Button>

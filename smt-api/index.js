@@ -191,7 +191,7 @@ exapp.post("/feedback", async (req, res) => {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const Payload = {
-      "embeds": [
+      "embeds": [ 
         {
           "title": "Yorwor67Slash5 - Feedback  📩",
           "description": `${Decs}`,
