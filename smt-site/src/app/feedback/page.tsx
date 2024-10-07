@@ -6,7 +6,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { IoSend } from "react-icons/io5";
 
-export default function TimeLine() {
+export default function Feedback() {
   const [title] = useState("Hatyaiwit - ข้อเสนอแนะ");
 
   const [name, setName] = useState("");
