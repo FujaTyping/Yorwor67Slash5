@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Button, TextInput, Textarea, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
+import Turnstile, { useTurnstile } from "react-turnstile";
 import { IoSend } from "react-icons/io5";
 
 export default function Feedback() {
+  const turnstile = useTurnstile();
   const [title] = useState("Hatyaiwit - ข้อเสนอแนะ");
 
   const [name, setName] = useState("");
@@ -14,22 +16,30 @@ export default function Feedback() {
   const [decs, setDecs] = useState("");
   const [message, setMessage] = useState("เตือน !");
   const [openModal, setOpenModal] = useState(false);
+  const [isVerify, setVerify] = useState(false);
 
   const submitFeedback = () => {
-    axios
-      .post(`https://api.smt.siraphop.me/feedback`, {
-        name: name,
-        email: email,
-        decs: decs,
-      })
-      .then((response) => {
-        setMessage(`ส่งข้อมูลแล้ว ${response.data}`);
-        setOpenModal(true);
-      })
-      .catch((error) => {
-        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-        setOpenModal(true);
-      });
+    if (isVerify) {
+      axios
+        .post(`https://api.smt.siraphop.me/feedback`, {
+          name: name,
+          email: email,
+          decs: decs,
+        })
+        .then((response) => {
+          setMessage(`ส่งข้อมูลแล้ว ${response.data}`);
+          setOpenModal(true);
+          setVerify(false);
+          turnstile.reset();
+        })
+        .catch((error) => {
+          setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
+          setOpenModal(true);
+        });
+    } else {
+      setMessage(`ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`);
+      setOpenModal(true);
+    }
   };
 
   return (
@@ -90,6 +100,16 @@ export default function Feedback() {
                   required
                 />
               </div>
+            </div>
+            <div className="flex justify-center items-center p-2 w-full">
+              <Turnstile
+                sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                theme="light"
+                language={"th"}
+                onVerify={() => {
+                  setVerify(true);
+                }}
+              />
             </div>
             <div className="flex justify-center items-center p-2 w-full">
               <Button style={{ backgroundColor: "#2d76ff" }}
