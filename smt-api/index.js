@@ -102,10 +102,10 @@ exapp.post("/line/announcement", Authenticate, async (req, res) => {
       }
     })
       .then((response) => {
-        res.send(`ส่งข้อความไปยัง Line Offical แล้ว !`);
+        res.send(`ไปยัง Line Offical แล้ว !`);
       })
       .catch(error => {
-        res.send(`ไม่สามารถส่งข้อความได้ ${error.message}`);
+        res.send(`${error.message}`);
       });
   }
 });

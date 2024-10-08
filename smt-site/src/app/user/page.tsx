@@ -21,6 +21,7 @@ import {
 import { SiGoogleclassroom } from "react-icons/si";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile from "react-turnstile";
+import { BsPencilSquare } from "react-icons/bs";
 
 export default function Admin() {
   const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
@@ -28,7 +29,9 @@ export default function Admin() {
   const [showCaptcha, setshowCaptcha] = useState(true);
   const [message, setMessage] = useState("เตือน !");
   const [openAlert, setOpenAlert] = useState(false);
+  const [openLineAlert, setOpenLineAlert] = useState(false);
   const [openAmModal, setOpenAmModal] = useState(false);
+  const [openLoAAModal, setOpenLoAAModal] = useState(false);
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
@@ -43,12 +46,14 @@ export default function Admin() {
   const [boy, setBoy] = useState("");
   const [girl, setGirl] = useState("");
   const [absent, setAbsent] = useState("");
+  const [author, setAuthor] = useState("");
 
   function onCloseModal() {
     setOpenHwModal(false);
     setOpenCcModal(false);
     setOpenStuModal(false);
     setOpenAmModal(false);
+    setOpenLoAAModal(false);
   }
 
   const submitAnnouncement = () => {
@@ -158,6 +163,33 @@ export default function Admin() {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenCcModal(false);
         setOpenAlert(true);
+      });
+  };
+
+  const submitLineOAAnounment = () => {
+    axios
+      .post(
+        `https://api.smt.siraphop.me/line/announcement`,
+        {
+          author: author,
+          date: time,
+          msg: decs,
+        },
+        {
+          headers: {
+            Auth: email,
+          },
+        },
+      )
+      .then((response) => {
+        setMessage(`ส่งข้อความ ${response.data}`);
+        setOpenLoAAModal(false);
+        setOpenLineAlert(true);
+      })
+      .catch((error) => {
+        setMessage(`ไม่สามารถส่งข้อความได้ ${error.response.data}`);
+        setOpenLoAAModal(false);
+        setOpenLineAlert(true);
       });
   };
 
@@ -327,6 +359,33 @@ export default function Admin() {
                           >
                             <FaPencilRuler className="mr-2 h-5 w-5" />
                             บันทึกข้อมูล
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="p-4 md:w-1/3 flex">
+                        <div
+                          style={{ backgroundColor: '#00b900' }}
+                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                        >
+                          <FaBullhorn
+                            style={{ color: "white" }}
+                            className="h-7 w-7"
+                          />
+                        </div>
+                        <div className="flex-grow pl-6">
+                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                            ส่งข้อความประกาศ
+                          </h2>
+                          <p className="leading-relaxed text-base">
+                            ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical
+                          </p>
+                          <Button
+                            onClick={() => setOpenLoAAModal(true)}
+                            style={{ backgroundColor: '#00b900' }}
+                            color="success"
+                          >
+                            <BsPencilSquare className="mr-2 h-5 w-5" />
+                            ร่างข้อความ
                           </Button>
                         </div>
                       </div>
@@ -582,6 +641,62 @@ export default function Admin() {
       </Modal>
       <Modal
         className="animate__animated animate__fadeIn"
+        show={openLoAAModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบร่างข้อความ ประกาศ
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่วันที่" />
+              </div>
+              <TextInput
+                placeholder="วว / ดด / ปป"
+                onChange={(event) => setTime(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ประกาศจาก" />
+              </div>
+              <TextInput
+                placeholder="คุณครู.. , สำนักงานคณะกรรมการนักเรียน"
+                onChange={(event) => setAuthor(event.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่รายละเอียดประกาศ" />
+              </div>
+              <Textarea
+                onChange={(event) => setDecs(event.target.value)}
+                placeholder="รายละเอียดประกาศ"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <Button
+                onClick={submitLineOAAnounment}
+                style={{ backgroundColor: '#00b900' }}
+                color="success"
+              >
+                ส่งข้อความ
+                <IoSend className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        className="animate__animated animate__fadeIn"
         show={openAlert}
         size="md"
         onClose={() => setOpenAlert(false)}
@@ -599,6 +714,32 @@ export default function Admin() {
                 style={{ backgroundColor: "#2d76ff" }}
                 color="blue"
                 onClick={() => setOpenAlert(false)}
+              >
+                ตกลง
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openLineAlert}
+        size="md"
+        onClose={() => setOpenLineAlert(false)}
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              {message}
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button
+                style={{ backgroundColor: '#00b900' }}
+                color="success"
+                onClick={() => setOpenLineAlert(false)}
               >
                 ตกลง
               </Button>
