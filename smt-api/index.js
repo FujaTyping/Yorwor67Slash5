@@ -37,6 +37,8 @@ const firebaseConfig = {
 };
 
 const webhookURL = process.env.DscWebhook;
+const LineAuth = process.env.LINEauth;
+const LineID = process.env.LINEuserid;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -74,6 +76,37 @@ exapp.patch("/announcement", Authenticate, async (req, res) => {
       Text: `${message}`,
     });
     res.send(`เป็น ${message}`);
+  }
+});
+
+exapp.post("/line/announcement", Authenticate, async (req, res) => {
+  const Date = req.body.date;
+  const Author = req.body.author;
+  const Message = req.body.msg;
+  if (!Date || !Author || !Message) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const Linedata = {
+      "to": `${LineID}`,
+      "messages": [
+        {
+          "type": 'text',
+          "text": `📣 ประกาศจาก ${Author}\nณ วันที่ ${Date}\n${Message}`
+        }
+      ]
+    };
+    axios.post("https://api.line.me/v2/bot/message/push", Linedata, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${LineAuth}`
+      }
+    })
+      .then((response) => {
+        res.send(`ส่งข้อความไปยัง Line Offical แล้ว !`);
+      })
+      .catch(error => {
+        res.send(`ไม่สามารถส่งข้อความได้ ${error.message}`);
+      });
   }
 });
 
