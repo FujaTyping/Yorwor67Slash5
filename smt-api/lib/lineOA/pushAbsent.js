@@ -2,11 +2,9 @@ const axios = require("axios");
 require("dotenv").config();
 
 const LineAuth = process.env.LINEauth;
-const LineID = process.env.LINEuserid;
 
 function pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl) {
     const Linedata = {
-        "to": `${LineID}`,
         "messages": [
             {
                 "type": "flex",
@@ -144,7 +142,7 @@ function pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl) {
             }
         ]
     };
-    axios.post("https://api.line.me/v2/bot/message/push", Linedata, {
+    axios.post("https://api.line.me/v2/bot/message/broadcast", Linedata, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${LineAuth}`
