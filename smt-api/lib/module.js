@@ -1,3 +1,5 @@
+const stickersData = require('../data/stickers.json');
+
 function generateID() {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -11,4 +13,10 @@ function generateID() {
   return result;
 }
 
-module.exports = generateID;
+function randomSticker() {
+  const stickers = stickersData.stickers;
+  const randomIndex = Math.floor(Math.random() * stickers.length);
+  return stickers[randomIndex];
+}
+
+module.exports = { generateID, randomSticker };

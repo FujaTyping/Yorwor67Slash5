@@ -15,10 +15,10 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
-const generateID = require("./lib/module");
+const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
-const userData = require("./user.json");
+const userData = require("./data/user.json");
 
 const config = require("./config.json");
 const exapp = express();
@@ -85,8 +85,14 @@ exapp.post("/line/announcement", Authenticate, async (req, res) => {
   if (!Date || !Author || !Message) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
+    const stickerID = randomSticker();
     const Linedata = {
       "messages": [
+        {
+          "type": "sticker",
+          "packageId": `${stickerID.PID}`,
+          "stickerId": `${stickerID.SID}`
+        },
         {
           "type": 'text',
           "text": `📣 ประกาศจาก ${Author}\nณ วันที่ ${Date}\n${Message}`
