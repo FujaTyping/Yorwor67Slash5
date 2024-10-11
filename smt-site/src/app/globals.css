@@ -117,6 +117,10 @@ li:hover,
   display: flex;
 }
 
+.Def-flex {
+  display: flex;
+}
+
 .FOF-flex img {
   max-width: 240px;
 }
@@ -247,5 +251,13 @@ ol h3 {
 
   #TimeDecs {
     max-width: 25rem;
+  }
+
+  .Def-flex {
+    flex-direction: column;
+  }
+
+  .Def-flex div {
+    margin-top: 10px;
   }
 }

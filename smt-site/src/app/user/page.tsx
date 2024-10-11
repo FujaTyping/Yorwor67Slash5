@@ -5,7 +5,7 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook, FaEraser, FaBullhorn } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaPowerOff } from "react-icons/fa";
 import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
@@ -22,8 +22,11 @@ import { SiGoogleclassroom } from "react-icons/si";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile from "react-turnstile";
 import { BsPencilSquare } from "react-icons/bs";
+import { getAuth, signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function Admin() {
+  const router = useRouter();
   const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [showCaptcha, setshowCaptcha] = useState(true);
@@ -211,6 +214,21 @@ export default function Admin() {
               <p>{email}</p>
             </div>
           </div>
+          {showCaptcha ? (<></>)
+            : (<>
+              <Button style={{ margin: 'auto', marginTop: '15px', backgroundColor: "#ff1616" }} onClick={() => {
+                const auth = getAuth();
+                signOut(auth).then(() => {
+                  router.push("/");
+                }).catch((error) => {
+                  setMessage(`${error.message}`);
+                  setOpenAlert(true);
+                });
+              }}>
+                <FaPowerOff style={{ marginRight: '9px' }} className="h-6 w-6" />
+                ออกจากระบบ
+              </Button>
+            </>)}
         </div>
         <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
         {showAlert ? (
