@@ -3,7 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Table, Pagination } from "flowbite-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRunning } from "react-icons/fa";
@@ -51,7 +60,7 @@ export default function Absent() {
     Absent: "0",
     Date: "กำลังดึงข้อมูล",
   });
-  const [showDetilsData, setshowDetilsData] = useState(false)
+  const [showDetilsData, setshowDetilsData] = useState(false);
   const [title] = useState("Hatyaiwit - เช็คชื่อ");
   const [currentPage, setCurrentPage] = useState(1);
   const DatadetailsRef = useRef<null | HTMLDivElement>(null);
@@ -59,7 +68,7 @@ export default function Absent() {
 
   const handleShowClick = () => {
     setshowDetilsData(true);
-    DatadetailsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    DatadetailsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -68,10 +77,12 @@ export default function Absent() {
       .then((response) => {
         setData(response.data.Absent);
         setStaticdata(response.data.Static);
-        const chartData = response.data.Absent.slice(0, 7).reverse().map((item: Absent) => ({
-          name: `${item.Date}`,
-          Count: parseInt(item.Count),
-        }));
+        const chartData = response.data.Absent.slice(0, 7)
+          .reverse()
+          .map((item: Absent) => ({
+            name: `${item.Date}`,
+            Count: parseInt(item.Count),
+          }));
         setChartsData(chartData);
       })
       .catch((error) => {
@@ -116,14 +127,14 @@ export default function Absent() {
         </h1>
         <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
         <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
-        <div style={{ marginTop: '15px' }} className="ccard">
+        <div style={{ marginTop: "15px" }} className="ccard">
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
             <span className="rounded-full bg-white p-3">
               <CgBoy className="size-8" />
             </span>
             <div>
               <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
-              <p className="text-sm">นักเรียนชาย (ทั้งหมด 20 คน)</p>
+              <p className="text-sm">นักเรียนชาย (ทั้งหมด 21 คน)</p>
             </div>
           </article>
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
@@ -132,7 +143,7 @@ export default function Absent() {
             </span>
             <div>
               <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
-              <p className="text-sm">นักเรียนหญิง (ทั้งหมด 16 คน)</p>
+              <p className="text-sm">นักเรียนหญิง (ทั้งหมด 15 คน)</p>
             </div>
           </article>
           <article className="cardd-red flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
@@ -140,7 +151,9 @@ export default function Absent() {
               <FaRunning className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">ขาด / ลา {Staticdata.Absent} คน</p>
+              <p className="text-2xl font-medium">
+                ขาด / ลา {Staticdata.Absent} คน
+              </p>
               <p className="text-sm">นักเรียนที่ขาด</p>
             </div>
           </article>
@@ -160,22 +173,47 @@ export default function Absent() {
           📊 สถิตินักเรียนรายสัปดาห์ - Chart
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          สรุปจำนวนการขาด / ลา ของนักเรียนตลอด 7 วันที่ผ่านมา<br /><span onClick={handleShowClick} className="flex" style={{ cursor: 'pointer', alignItems: 'center' }}><IoEyeSharp style={{ marginRight: '6px' }} /> ดูประวัติการเช็คชื่อ</span>
+          สรุปจำนวนการขาด / ลา ของนักเรียนตลอด 7 วันที่ผ่านมา
+          <br />
+          <span
+            onClick={handleShowClick}
+            className="flex"
+            style={{ cursor: "pointer", alignItems: "center" }}
+          >
+            <IoEyeSharp style={{ marginRight: "6px" }} /> ดูประวัติการเช็คชื่อ
+          </span>
         </h2>
-        <ResponsiveContainer style={{ marginTop: '25px' }} width="100%" height={300}>
-          <LineChart data={Chartsdata} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+        <ResponsiveContainer
+          style={{ marginTop: "25px" }}
+          width="100%"
+          height={300}
+        >
+          <LineChart
+            data={Chartsdata}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="Count" name="นักเรียนที่ไม่มา" stroke="#ff1616" activeDot={{ r: 8 }} />
+            <Line
+              type="monotone"
+              dataKey="Count"
+              name="นักเรียนที่ไม่มา"
+              stroke="#ff1616"
+              activeDot={{ r: 8 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
       {showDetilsData && (
         <>
-          <div id="StuDetils" ref={DatadetailsRef} className="container animate__animated animate__fadeInUp">
+          <div
+            id="StuDetils"
+            ref={DatadetailsRef}
+            className="container animate__animated animate__fadeInUp"
+          >
             <h1 style={{ marginBottom: "15px" }} className="border-b">
               📝 เช็คชื่อ - Absent
             </h1>
@@ -205,10 +243,19 @@ export default function Absent() {
                   ))}
                 </Table.Body>
               </Table>
-              <div style={{ flexDirection: 'column', alignItems: 'center', marginTop: '17px' }} className="flex justify-center">
-                <p>แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ</p>
+              <div
+                style={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "17px",
+                }}
+                className="flex justify-center"
+              >
+                <p>
+                  แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ
+                </p>
                 <Pagination
-                  style={{ marginTop: '-20px' }}
+                  style={{ marginTop: "-20px" }}
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
