@@ -55,8 +55,24 @@ const Authenticate = (req, res, next) => {
 
 exapp.use("/favicon.ico", express.static("./favicon.ico"));
 
-exapp.get("/permission", Authenticate, async (req, res) => {
-  res.send(`Pass`);
+exapp.get("/permission", async (req, res) => {
+  const Auth = req.get("Auth");
+  if (!Auth) {
+    res.status(400).send("ไม่พบอีเมลในการเข้าสู่ระบบ");
+  } else {
+    if (userData.user.includes(Auth)) {
+      return res
+        .send(
+          `Pass`,
+        );
+    } else {
+      return res
+        .status(400)
+        .send(
+          `อีเมล ${Auth} ไม่ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
+        );
+    }
+  }
 });
 
 exapp.get("/announcement", async (req, res) => {
