@@ -1,18 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import { Footer } from "flowbite-react";
-import SMT from "../assets/SMT.png";
-import Divider from "../assets/FootDivider.png"
+import SMT from "../assets/SMT.webp";
+import Divider from "../assets/FootDivider.webp";
 
 export default function Footbar() {
   return (
     <>
-      <img style={{width: '100%'}} src={Divider.src} />
+      <img alt="DividerFoot" style={{ width: "100%" }} src={Divider.src}></img>
       <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
-            <Footer.Brand src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
+            <Footer.Brand width={105} height={105} src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
             <Footer.LinkGroup>
+              <Footer.Link as={Link} href="/terms">
+                ข้อตกลงและเงื่อนไขการใช้บริการ
+              </Footer.Link>
               <Footer.Link href="https://www.hatyaiwit.ac.th/">
                 เว็ปโรงเรียน
               </Footer.Link>
@@ -30,10 +34,15 @@ export default function Footbar() {
           <Footer.Divider />
           <Footer.Copyright
             style={{ color: "white" }}
-            by="SMT TEAMS M.4/5 (สงวนลิขสิทธิ์ทั้งหมด)"
+            by="ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)"
             year={2024}
           />
-          <p style={{ cursor: 'pointer', color: 'white' }} onClick={() => document.location = 'mailto:yorwor@siraphop.me'}>yorwor@siraphop.me</p>
+          <p
+            style={{ cursor: "pointer", color: "white" }}
+            onClick={() => (document.location = "mailto:yorwor@siraphop.me")}
+          >
+            yorwor@siraphop.me
+          </p>
         </div>
       </Footer>
     </>
