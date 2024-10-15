@@ -10,13 +10,16 @@ import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
 import axios from "axios";
+import type { CustomFlowbiteTheme } from "flowbite-react";
 import {
+  Flowbite,
   Alert,
   Button,
   Modal,
   TextInput,
   Label,
   Textarea,
+  Datepicker,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import useLocalStorge from "../lib/localstorage-db";
@@ -25,7 +28,28 @@ import { BsPencilSquare } from "react-icons/bs";
 import { getAuth, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-export default function Admin() {
+const ywTheme: CustomFlowbiteTheme = {
+  datepicker: {
+    popup: {
+      footer: {
+        button: {
+          today: "bg-blue-700 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+        }
+      }
+    },
+    views: {
+      days: {
+        items: {
+          item: {
+            selected: "bg-blue-700 text-white hover:bg-blue-600",
+          }
+        }
+      }
+    }
+  }
+};
+
+export default function User() {
   const router = useRouter();
   const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
@@ -95,9 +119,9 @@ export default function Admin() {
         `https://api.smt.siraphop.me/absent`,
         {
           zabs: absent,
-          zboy: boy,
+          zboy: `${boy}`,
           zdate: time,
-          zgirl: girl,
+          zgirl: `${girl}`,
           date: time,
           number: number,
         },
@@ -501,16 +525,23 @@ export default function Admin() {
                 required
               />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่วันที่" />
+            <div className="flex gap-5">
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="ใส่วันที่" />
+                </div>
+                <Flowbite theme={{ theme: ywTheme }}>
+                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString()}`)} />
+                </Flowbite>
               </div>
-              <TextInput
-                onChange={(event) => setTime(event.target.value)}
-                type="text"
-                placeholder="วว / ดด / ปป"
-                required
-              />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="ใส่วันกำหนดส่ง" />
+                </div>
+                <Flowbite theme={{ theme: ywTheme }}>
+                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setDue(`${date?.toLocaleDateString()}`)} />
+                </Flowbite>
+              </div>
             </div>
             <div>
               <div className="mb-2 block">
@@ -519,17 +550,6 @@ export default function Admin() {
               <Textarea
                 onChange={(event) => setDecs(event.target.value)}
                 placeholder="รายละเอียดงาน"
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่วันกำหนดส่ง" />
-              </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setDue(event.target.value)}
-                placeholder="วว / ดด / ปป"
                 required
               />
             </div>
@@ -649,11 +669,9 @@ export default function Admin() {
               <div className="mb-2 block">
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
-              <TextInput
-                placeholder="วว / ดด / ปป"
-                onChange={(event) => setTime(event.target.value)}
-                required
-              />
+              <Flowbite theme={{ theme: ywTheme }}>
+                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString()}`)} />
+              </Flowbite>
             </div>
             <div>
               <div className="mb-2 block">
@@ -683,7 +701,7 @@ export default function Admin() {
                   <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
                 </div>
                 <TextInput
-                  type="text"
+                  type="number"
                   onChange={(event) => setBoy(event.target.value)}
                   placeholder="0"
                   required
@@ -694,7 +712,7 @@ export default function Admin() {
                   <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
                 </div>
                 <TextInput
-                  type="text"
+                  type="number"
                   onChange={(event) => setGirl(event.target.value)}
                   placeholder="0"
                   required
@@ -745,11 +763,9 @@ export default function Admin() {
               <div className="mb-2 block">
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
-              <TextInput
-                placeholder="วว / ดด / ปป"
-                onChange={(event) => setTime(event.target.value)}
-                required
-              />
+              <Flowbite theme={{ theme: ywTheme }}>
+                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString()}`)} />
+              </Flowbite>
             </div>
             <div>
               <div className="mb-2 block">
