@@ -38,6 +38,7 @@ export default function Admin() {
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
@@ -60,6 +61,7 @@ export default function Admin() {
   }
 
   const submitAnnouncement = () => {
+    setIsLoading(true);
     axios
       .patch(
         `https://api.smt.siraphop.me/announcement`,
@@ -76,15 +78,18 @@ export default function Admin() {
         setMessage(`อัพเดทข้อความแล้ว ${response.data}`);
         setOpenAmModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถอัพเดทข้อความได้ ${error.response.data}`);
         setOpenAmModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitAbsent = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/absent`,
@@ -106,15 +111,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenStuModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenStuModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitHomework = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/homework`,
@@ -134,15 +142,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenHwModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenHwModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitClasscode = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/classcode`,
@@ -161,15 +172,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenCcModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenCcModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitLineOAAnounment = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/line/announcement`,
@@ -188,11 +202,13 @@ export default function Admin() {
         setMessage(`ส่งข้อความ ${response.data}`);
         setOpenLoAAModal(false);
         setOpenLineAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อความได้ ${error.response.data}`);
         setOpenLoAAModal(false);
         setOpenLineAlert(true);
+        setIsLoading(false);
       });
   };
 
@@ -214,21 +230,18 @@ export default function Admin() {
               <p>{email}</p>
             </div>
           </div>
-          {showCaptcha ? (<></>)
-            : (<>
-              <Button style={{ margin: 'auto', marginTop: '15px', backgroundColor: "#ff1616" }} onClick={() => {
-                const auth = getAuth();
-                signOut(auth).then(() => {
-                  router.push("/");
-                }).catch((error) => {
-                  setMessage(`${error.message}`);
-                  setOpenAlert(true);
-                });
-              }}>
-                <FaPowerOff style={{ marginRight: '9px' }} className="h-6 w-6" />
-                ออกจากระบบ
-              </Button>
-            </>)}
+          <Button style={{ margin: 'auto', marginTop: '15px', backgroundColor: "#ff1616" }} onClick={() => {
+            const auth = getAuth();
+            signOut(auth).then(() => {
+              router.push("/");
+            }).catch((error) => {
+              setMessage(`${error.message}`);
+              setOpenAlert(true);
+            });
+          }}>
+            <FaPowerOff style={{ marginRight: '9px' }} className="h-6 w-6" />
+            ออกจากระบบ
+          </Button>
         </div>
         <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
         {showAlert ? (
@@ -439,14 +452,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitAnnouncement}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                อัพเดทข้อมูล
-                <GrUpdate className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    อัพเดทข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitAnnouncement}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    อัพเดทข้อมูล
+                    <GrUpdate className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -507,14 +534,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitHomework}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitHomework}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -565,14 +606,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitClasscode}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitClasscode}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -622,37 +677,53 @@ export default function Admin() {
                 required
               />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
+            <div className="flex gap-5">
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
+                </div>
+                <TextInput
+                  type="text"
+                  onChange={(event) => setBoy(event.target.value)}
+                  placeholder="0"
+                  required
+                />
               </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setBoy(event.target.value)}
-                placeholder="0"
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
+                </div>
+                <TextInput
+                  type="text"
+                  onChange={(event) => setGirl(event.target.value)}
+                  placeholder="0"
+                  required
+                />
               </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setGirl(event.target.value)}
-                placeholder="0"
-                required
-              />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitAbsent}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitAbsent}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -701,14 +772,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitLineOAAnounment}
-                style={{ backgroundColor: '#00b900' }}
-                color="success"
-              >
-                ส่งข้อความ
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: '#00b900' }}
+                    color="success"
+                  >
+                    ส่งข้อความ
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitLineOAAnounment}
+                    style={{ backgroundColor: '#00b900' }}
+                    color="success"
+                  >
+                    ส่งข้อความ
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
