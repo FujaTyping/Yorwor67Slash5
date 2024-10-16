@@ -20,39 +20,43 @@ const useLocalStorge = (IsAdminpage: boolean) => {
         .objectStore("firebaseLocalStorage");
       const value = await store.getAll();
       if (value.length == 1) {
-        const user = value[0]?.value;
-        if (user) {
-          setPhotourl(user.photoURL);
-          setIsLogin(true);
-        }
-        if (IsAdminpage) {
-          if (!user) {
-            return router.push("/");
+        if (value[0]?.fbase_key !== "__sak") {
+          const user = value[0]?.value;
+          if (user) {
+            setPhotourl(user.photoURL);
+            setIsLogin(true);
           }
-          setEmail(user.email);
-          setUsername(user.displayName);
-          if (!user.email.includes("@hatyaiwit.ac.th")) {
-            setShowAlert(true);
-          } else {
-            setShowAlert(false);
+          if (IsAdminpage) {
+            if (!user) {
+              return router.push("/");
+            }
+            setEmail(user.email);
+            setUsername(user.displayName);
+            if (!user.email.includes("@hatyaiwit.ac.th")) {
+              setShowAlert(true);
+            } else {
+              setShowAlert(false);
+            }
           }
         }
       } else {
-        const user = value[1]?.value;
-        if (user) {
-          setPhotourl(user.photoURL);
-          setIsLogin(true);
-        }
-        if (IsAdminpage) {
-          if (!user) {
-            return router.push("/");
+        if (value[1]?.fbase_key !== "__sak") {
+          const user = value[1]?.value;
+          if (user) {
+            setPhotourl(user.photoURL);
+            setIsLogin(true);
           }
-          setEmail(user.email);
-          setUsername(user.displayName);
-          if (!user.email.includes("@hatyaiwit.ac.th")) {
-            setShowAlert(true);
-          } else {
-            setShowAlert(false);
+          if (IsAdminpage) {
+            if (!user) {
+              return router.push("/");
+            }
+            setEmail(user.email);
+            setUsername(user.displayName);
+            if (!user.email.includes("@hatyaiwit.ac.th")) {
+              setShowAlert(true);
+            } else {
+              setShowAlert(false);
+            }
           }
         }
       }
