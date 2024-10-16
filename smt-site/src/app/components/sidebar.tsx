@@ -11,6 +11,7 @@ import {
   FaClipboardList,
   FaCode,
   FaKey,
+  FaPowerOff,
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
@@ -20,6 +21,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Yorwor from "../favicon.ico";
 import Divider from "../assets/TopDivider.webp";
 import { signInWithGoogle } from "../lib/firebase-auth";
+import { getAuth, signOut } from "firebase/auth";
 import { MdWork } from "react-icons/md";
 import useLocalStorge from "../lib/localstorage-db";
 
@@ -27,7 +29,7 @@ export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
-  const { photourl } = useLocalStorge(false);
+  const { photourl, isLogin } = useLocalStorge(false);
   const [openModal, setOpenModal] = useState(false);
   const [message, setMessage] = useState("ERROR");
 
@@ -35,11 +37,7 @@ export default function SideNavbar() {
     <>
       <Navbar id="TopBarNav" fluid>
         <Navbar.Brand id="Navbranded" as={Link} href="/">
-          <img
-            src={Yorwor.src}
-            className="mr-3 h-6 sm:h-9"
-            alt="Flowbite React Logo"
-          />
+          <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             SMT - Yorwor
           </span>
@@ -151,6 +149,29 @@ export default function SideNavbar() {
                     >
                       ล็อกอิน
                     </Sidebar.Item>
+
+                    {isLogin ? (
+                      <>
+                        <Sidebar.Item
+                          onClick={() => {
+                            const auth = getAuth();
+                            signOut(auth)
+                              .then(() => {
+                                router.push("/");
+                              })
+                              .catch((error) => {
+                                setMessage(error.message);
+                                setOpenModal(true);
+                              });
+                          }}
+                          icon={FaPowerOff}
+                        >
+                          ออกจากระบบ
+                        </Sidebar.Item>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
               </div>
