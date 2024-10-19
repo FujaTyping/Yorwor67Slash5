@@ -19,7 +19,6 @@ import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Yorwor from "../favicon.ico";
-import Divider from "../assets/TopDivider.webp";
 import { signInWithGoogle } from "../lib/firebase-auth";
 import { getAuth, signOut } from "firebase/auth";
 import { MdWork } from "react-icons/md";
