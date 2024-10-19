@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Footer } from "flowbite-react";
-import SMT from "../assets/SMT.webp";
+import SMT from "../assets/SMT.svg";
 import Divider from "../assets/FootDivider.webp";
 
 export default function Footbar() {

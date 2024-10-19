@@ -42,29 +42,17 @@ export default function SideNavbar() {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Avatar
-            onClick={() => {
-              if (
-                photourl ==
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s"
-              ) {
-                signInWithGoogle()
-                  .then(() => {
-                    router.push("/user");
-                  })
-                  .catch((error) => {
-                    setMessage(error.message);
-                    setOpenModal(true);
-                  });
-              } else {
-                router.push("/user");
-              }
-            }}
-            style={{ marginRight: "10px", cursor: "pointer" }}
-            alt="User"
-            img={photourl}
-            rounded
-          />
+          {isLogin ? (
+            <>
+              <Avatar
+                onClick={() => { router.push("/user"); }}
+                style={{ marginRight: "10px", cursor: "pointer" }}
+                alt="User"
+                img={photourl}
+                rounded
+              />
+            </>
+          ) : (<></>)}
           <Button
             style={{ margin: "auto", backgroundColor: "#ff1616" }}
             onClick={() => setIsOpen(true)}
@@ -136,6 +124,7 @@ export default function SideNavbar() {
                       onClick={() => {
                         signInWithGoogle()
                           .then(() => {
+                            window.location.reload();
                             router.push("/user");
                           })
                           .catch((error) => {
@@ -155,6 +144,7 @@ export default function SideNavbar() {
                             const auth = getAuth();
                             signOut(auth)
                               .then(() => {
+                                window.location.reload();
                                 router.push("/");
                               })
                               .catch((error) => {
