@@ -35,7 +35,7 @@ export default function SideNavbar() {
 
   return (
     <>
-      <Navbar id="TopBarNav" fluid>
+      <Navbar id="TopBarNav" style={{ paddingBottom: '20px' }} className="border-solid border-b-8 border-rose-600 mb-8" fluid>
         <Navbar.Brand id="Navbranded" as={Link} href="/">
           <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
@@ -75,7 +75,6 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <img alt="DividerTop" style={{ width: "100%" }} src={Divider.src}></img>
       <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
