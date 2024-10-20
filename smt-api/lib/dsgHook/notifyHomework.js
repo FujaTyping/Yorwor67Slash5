@@ -24,7 +24,45 @@ async function notifyHomework(Time, Subject, Decs, Due) {
     const querySnapshot = await getDocs(collection(db, "DiscordWebhooks"));
     querySnapshot.forEach((doc) => {
         const Url = doc.data().WebhookUrl
-        const Payload = {};
+        const Payload = {
+            "embeds": [
+                {
+                    "color": 16711680,
+                    "image": {
+                        "url": "https://smt.siraphop.me/assets/lineOA/NewHomework.png"
+                    }
+                },
+                {
+                    "title": "📣 แจ้งเตือนการบ้านใหม่ !! (New work)",
+                    "color": 16711680,
+                    "fields": [
+                        {
+                            "name": "วันที่",
+                            "value": `${Time}`,
+                            "inline": true
+                        },
+                        {
+                            "name": "วันกำหนดส่ง",
+                            "value": `${Due}`,
+                            "inline": true
+                        },
+                        {
+                            "name": "วิชา",
+                            "value": `${Subject}`
+                        },
+                        {
+                            "name": "ลายละเอียดงาน",
+                            "value": `${Decs}`
+                        }
+                    ],
+                    "author": {
+                        "name": "SMT Notify",
+                        "url": "https://smt.siraphop.me/homework",
+                        "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                    }
+                }
+            ]
+        };
         axios.post(Url, Payload)
             .catch(error => {
                 console.log(error.message);

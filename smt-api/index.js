@@ -252,8 +252,7 @@ exapp.post("/feedback", async (req, res) => {
     const Payload = {
       "embeds": [
         {
-          "title": "Yorwor67Slash5 - Feedback  📩",
-          "description": `${Decs}`,
+          "title": "📣 แจ้งเตือนการบ้านใหม่ !! (New work)",
           "color": 36863,
           "fields": [
             {
@@ -265,10 +264,19 @@ exapp.post("/feedback", async (req, res) => {
               "name": "อีเมล",
               "value": `${Email}`,
               "inline": true
+            },
+            {
+              "name": "ข้อความ",
+              "value": `${Decs}`
             }
-          ]
+          ],
+          "author": {
+            "name": "SMT Notify",
+            "url": "https://smt.siraphop.me/feedback",
+            "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+          }
         }
-      ],
+      ]
     };
     axios.post(webhookURL, Payload)
       .then(response => {
@@ -280,18 +288,28 @@ exapp.post("/feedback", async (req, res) => {
   }
 });
 
-exapp.post("/discordwebh", async (req, res) => {
-  console.log(req.body);
-  const LwebhookURL = req.body.lwebhurl;
-
-  if (!LwebhookURL) {
+exapp.post("/discord/new", async (req, res) => {
+  const webhookUrl = req.body.hooks;
+  if (!webhookUrl) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
-    const UID = generateID();
-    await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
-      webhookUrl: `${LwebhookURL}`,
-    });
-    res.send(`เเพิ่ม ${LwebhookURL} แล้ว`);
+    if (!webhookUrl.includes('https://discordapp.com/api/webhooks/')) {
+      res.status(400).send("กรุณากรอกลิ้งค์ให้ถูกต้อง");
+    } else {
+      const UID = generateID();
+      if (req.body.email) {
+        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+          WebhookUrl: `${webhookUrl}`,
+          Email: `${req.body.email}`
+        });
+        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+      } else {
+        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+          WebhookUrl: `${webhookUrl}`,
+        });
+        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+      }
+    }
   }
 });
 
