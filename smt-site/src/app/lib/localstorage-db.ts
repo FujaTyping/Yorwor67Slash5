@@ -25,6 +25,7 @@ const useLocalStorge = (IsAdminpage: boolean) => {
           if (user) {
             setPhotourl(user.photoURL);
             setIsLogin(true);
+            setEmail(user.email);
           }
           if (IsAdminpage) {
             if (!user) {
@@ -45,6 +46,7 @@ const useLocalStorge = (IsAdminpage: boolean) => {
           if (user) {
             setPhotourl(user.photoURL);
             setIsLogin(true);
+            setEmail(user.email);
           }
           if (IsAdminpage) {
             if (!user) {
