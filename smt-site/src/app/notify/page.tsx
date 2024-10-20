@@ -11,9 +11,9 @@ import { IoMdAddCircle } from "react-icons/io";
 
 export default function AboutWeb() {
   const router = useRouter();
-  const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
+  const [title] = useState("Hatyaiwit - การแจ้งเตือน");
   const { email } = useLocalStorge(false);
-  const [webUrl, setWebUrl] = useState("");
+  const [hooksUrl, setHooksUrl] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [openDisModal, setOpenDisModal] = useState(false);
@@ -24,8 +24,8 @@ export default function AboutWeb() {
     if (email) {
       axios
         .post(`https://api.smt.siraphop.me/discord/new`, {
-          hooks: webUrl,
-          email: email,
+          hooks: `${hooksUrl}`,
+          email: `${email}`,
         })
         .then((response) => {
           setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
@@ -42,7 +42,7 @@ export default function AboutWeb() {
     } else {
       axios
         .post(`https://api.smt.siraphop.me/discord/new`, {
-          hooks: webUrl,
+          hooks: `${hooksUrl}`,
         })
         .then((response) => {
           setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
@@ -68,8 +68,8 @@ export default function AboutWeb() {
       <title>{title}</title>
       <div className="container">
         <div className="mb-8">
-          <h1>Notification</h1>
-          <p>
+          <h1 style={{ marginBottom: "15px" }} className="border-b">ℹ️ การแจ้งเตือน - Notification</h1>
+          <p style={{ fontSize: "18px" }}>
             เว็บไซต์ห้องเรียนของเรามีฟีเจอร์พิเศษที่ช่วยให้การจัดการการบ้านและงานต่างๆ
             เป็นเรื่องง่ายขึ้น โดยนักเรียนสามารถรับข้อมูลการบ้าน ประกาศ และอื่นๆ
             ผ่านแพลตฟอร์มหลากหลายรูปแบบ ที่เชื่อมต่อกันได้อย่างสะดวกและรวดเร็ว
@@ -79,7 +79,6 @@ export default function AboutWeb() {
             เพื่อให้การเรียนรู้มีประสิทธิภาพและเป็นระเบียบมากยิ่งขึ้น
           </p>
         </div>
-
         <div className="flex flex-wrap justify-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6 ">
           <div className="p-4 md:w-1/3 flex">
             <Card className="max-w-sm">
@@ -95,7 +94,7 @@ export default function AboutWeb() {
                 style={{ backgroundColor: "#7289da" }}
               >
                 <FaDiscord className="mr-2 h-5 w-5" />
-                Insert URL
+                รับการแจ้งเตือน
               </Button>
             </Card>
           </div>
@@ -115,13 +114,12 @@ export default function AboutWeb() {
                 style={{ backgroundColor: "#00b900" }}
               >
                 <FaLine className="mr-2 h-5 w-5" />
-                Insert URL
+                รับการแจ้งเตือน
               </Button>
             </Card>
           </div>
         </div>
       </div>
-
       <Modal
         className="animate__animated animate__fadeIn"
         show={openDisModal}
@@ -133,15 +131,15 @@ export default function AboutWeb() {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              แบบฟอร์มเพิ่ม Webhook url
+              แบบฟอร์มเพิ่มการแจ้งเตือนผ่าน Discord Webhook
             </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่ข้อความwebhookurl" />
+                <Label htmlFor="text" value="กรุณาใส่ลิ้งค์ Discord webhook" />
               </div>
               <TextInput
-                placeholder="Insert WebhookUrl"
-                onChange={(event) => setWebUrl(event.target.value)}
+                placeholder="https://discord.com/api/webhooks/"
+                onChange={(event) => setHooksUrl(event.target.value)}
                 required
               />
             </div>
@@ -150,7 +148,7 @@ export default function AboutWeb() {
                 <>
                   <Button
                     isProcessing
-                    style={{ backgroundColor: "#2d76ff" }}
+                    style={{ backgroundColor: "#7289da" }}
                     color="blue"
                   >
                     เพิ่ม Webhook
@@ -160,10 +158,10 @@ export default function AboutWeb() {
                 <>
                   <Button
                     onClick={submitDiswebhook}
-                    style={{ backgroundColor: "#2d76ff" }}
+                    style={{ backgroundColor: "#7289da" }}
                     color="blue"
                   >
-                    <IoMdAddCircle className="ml-2 h-5 w-5" />
+                    <IoMdAddCircle className="mr-2 h-5 w-5" />
                     เพิ่ม Webhook
                   </Button>
                 </>
@@ -189,7 +187,7 @@ export default function AboutWeb() {
             </h3>
             <div className="flex justify-center gap-4">
               <Button
-                style={{ backgroundColor: "#2d76ff" }}
+                style={{ backgroundColor: "#7289da" }}
                 color="blue"
                 onClick={() => setOpenAlert(false)}
               >

@@ -293,7 +293,7 @@ exapp.post("/discord/new", async (req, res) => {
   if (!webhookUrl) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
-    if (!webhookUrl.includes('https://discordapp.com/api/webhooks/')) {
+    if (!webhookUrl.includes('https://discordapp.com/api/webhooks/') || !webhookUrl.includes('https://discord.com/api/webhooks/')) {
       res.status(400).send("กรุณากรอกลิ้งค์ให้ถูกต้อง");
     } else {
       const UID = generateID();
@@ -302,11 +302,47 @@ exapp.post("/discord/new", async (req, res) => {
           WebhookUrl: `${webhookUrl}`,
           Email: `${req.body.email}`
         });
+        const Payload = {
+          "embeds": [
+            {
+              "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash10 เรียบร้อยแล้ว",
+              "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+              "color": 36863,
+              "author": {
+                "name": "SMT Notify",
+                "url": "https://smt.siraphop.me/notify",
+                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+              }
+            }
+          ]
+        };
+        axios.post(webhookURL, Payload)
+          .catch(error => {
+            res.send(error.message);
+          });
         res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       } else {
         await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
           WebhookUrl: `${webhookUrl}`,
         });
+        const Payload = {
+          "embeds": [
+            {
+              "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash10 เรียบร้อยแล้ว",
+              "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+              "color": 36863,
+              "author": {
+                "name": "SMT Notify",
+                "url": "https://smt.siraphop.me/notify",
+                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+              }
+            }
+          ]
+        };
+        axios.post(webhookURL, Payload)
+          .catch(error => {
+            res.send(error.message);
+          });
         res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       }
     }

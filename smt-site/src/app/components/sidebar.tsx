@@ -18,6 +18,7 @@ import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { IoMdNotifications } from "react-icons/io";
 import Yorwor from "../favicon.ico";
 import { signInWithGoogle } from "../lib/firebase-auth";
 import { getAuth, signOut } from "firebase/auth";
@@ -114,6 +115,9 @@ export default function SideNavbar() {
                     </Sidebar.Item>
                     <Sidebar.Item as={Link} href="/aboutweb" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
+                    </Sidebar.Item>
+                    <Sidebar.Item as={Link} href="/notify" icon={IoMdNotifications}>
+                      รับการแจ้งเตือน
                     </Sidebar.Item>
                     <Sidebar.Item as={Link} href="/feedback" icon={BiSupport}>
                       ส่งความคิดเห็น
