@@ -316,7 +316,7 @@ exapp.post("/discord/new", async (req, res) => {
             }
           ]
         };
-        axios.post(webhookURL, Payload)
+        axios.post(webhookUrl, Payload)
           .catch(error => {
             res.send(error.message);
           });
@@ -339,7 +339,7 @@ exapp.post("/discord/new", async (req, res) => {
             }
           ]
         };
-        axios.post(webhookURL, Payload)
+        axios.post(webhookUrl, Payload)
           .catch(error => {
             res.send(error.message);
           });
