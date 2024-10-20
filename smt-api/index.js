@@ -1,6 +1,6 @@
 const { initializeApp } = require("firebase/app");
-const { getFirestore } = require("firebase/firestore");
 const {
+  getFirestore,
   collection,
   doc,
   getDoc,
@@ -18,6 +18,7 @@ require("dotenv").config();
 const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
+const notifyHomework = require("./lib/dsgHook/notifyHomework");
 const userData = require("./data/user.json");
 
 const config = require("./config.json");
@@ -158,6 +159,7 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       timestamp: serverTimestamp(),
     });
     pushNewHomework(Time, Subject, Decs, Due);
+    notifyHomework(Time, Subject, Decs, Due);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
