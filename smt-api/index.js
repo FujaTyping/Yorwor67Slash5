@@ -252,7 +252,7 @@ exapp.post("/feedback", async (req, res) => {
     const Payload = {
       "embeds": [
         {
-          "title": "📣 แจ้งเตือนการบ้านใหม่ !! (New work)",
+          "title": "📥 มีความคิดเห็นใหม่สำหรับ Yorwor67Slash5",
           "color": 36863,
           "fields": [
             {
