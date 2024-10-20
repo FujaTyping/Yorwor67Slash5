@@ -66,6 +66,7 @@ export default function AboutWeb() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container">
         <div className="mb-8">
           <h1 style={{ marginBottom: "15px" }} className="border-b">ℹ️ การแจ้งเตือน - Notification</h1>

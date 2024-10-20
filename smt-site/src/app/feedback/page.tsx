@@ -49,6 +49,7 @@ export default function Feedback() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 style={{ marginBottom: "15px" }} className="border-b">
