@@ -280,6 +280,21 @@ exapp.post("/feedback", async (req, res) => {
   }
 });
 
+exapp.post("/discordwebh", async (req, res) => {
+  console.log(req.body);
+  const LwebhookURL = req.body.lwebhurl;
+
+  if (!LwebhookURL) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+      webhookUrl: `${LwebhookURL}`,
+    });
+    res.send(`เเพิ่ม ${LwebhookURL} แล้ว`);
+  }
+});
+
 exapp.use((req, res, next) => {
   res.status(404).send("There is no API here (404)");
 });
