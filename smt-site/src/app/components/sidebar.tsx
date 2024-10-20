@@ -63,7 +63,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
+      <Drawer id="SideDrawer" aria-labelledby="DrawerMenu" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
           <Sidebar className="[&>div]:bg-transparent [&>div]:p-0">
