@@ -113,7 +113,7 @@ export default function SideNavbar() {
                     <Sidebar.Item as={Link} href="/about" icon={FaAddressCard}>
                       เกี่ยวกับห้องเรา
                     </Sidebar.Item>
-                    <Sidebar.Item as={Link} href="/aboutweb" icon={FaCode}>
+                    <Sidebar.Item as={Link} href="/about/web" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
                     </Sidebar.Item>
                     <Sidebar.Item as={Link} href="/notify" icon={IoMdNotifications}>

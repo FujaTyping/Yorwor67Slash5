@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "flowbite-react";
-import GitHubImg from "../assets/github.webp";
+import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
 import { FaGithubAlt } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
