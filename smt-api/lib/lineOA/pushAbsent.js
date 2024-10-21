@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const LineAuth = process.env.LINEauth;
 
-function pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl) {
+function pushNewAbsent(Date, ZAbsent, Number, Boy, Girl) {
     const Linedata = {
         "messages": [
             {
@@ -77,7 +77,7 @@ function pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl) {
                                             },
                                             {
                                                 "type": "text",
-                                                "text": `${parseInt(ZBoy) + parseInt(ZGirl)} คน`,
+                                                "text": `${Boy + Girl} คน`,
                                                 "wrap": true,
                                                 "color": "#000000",
                                                 "size": "sm",

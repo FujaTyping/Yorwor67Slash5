@@ -224,11 +224,13 @@ exapp.post("/absent", Authenticate, async (req, res) => {
   } else {
     const statAbRef = doc(db, "Status", "Absent");
     const UID = generateID();
+    const Boy = 21 - parseInt(ZBoy);
+    const Girl = 15 - parseInt(ZGirl);
     await updateDoc(statAbRef, {
       Absent: `${ZAbsent}`,
-      Boy: `${ZBoy}`,
+      Boy: `${Boy}`,
       Date: `${ZDate}`,
-      Girl: `${ZGirl}`,
+      Girl: `${Girl}`,
     });
     await setDoc(doc(db, "Absent", `${UID}`), {
       All: `ขาด / ลา ${ZAbsent}`,
@@ -237,7 +239,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Number: `${Number}`,
       timestamp: serverTimestamp(),
     });
-    pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl);
+    pushNewAbsent(Date, ZAbsent, Number, Boy, Girl);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
