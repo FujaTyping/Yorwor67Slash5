@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
-import Banner from "./assets/Banner.webp";
 
 export default function Home() {
   const [data, setData] = useState("ยินดีต้อนรับเข้าสู่เว็ปไซต์");
@@ -25,12 +24,13 @@ export default function Home() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <img
-        className="animate__animated animate__tada"
-        alt="SMTBanner"
-        style={{ width: "90%", margin: "auto", marginTop: "25px" }}
-        src={Banner.src}
-      ></img>
+      <div className="hbanner animate__animated animate__tada">
+        <h1 className="title text-3xl lg:text-5xl mb-3">ม.4/5 - โครงการ SMT</h1>
+        <p className="text-base lg:text-2xl" style={{ maxWidth: "45rem" }}>
+          เว็ปไซต์ ม.4/5 ของเราเป็นเว็ปไซต์สำหรับรวมรวบข้อมูลต่างๆ เพื่อนำมาช่วยเหลือนักเรียนภายในห้อง
+          เพื่อให้จัดการงานภายในห้องที่ได้รับมอบหมาย หรือตรวจสอบการขาดลาและอื่นๆอีกมากมาย
+        </p>
+      </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           📢 ประกาศ - Announcement
