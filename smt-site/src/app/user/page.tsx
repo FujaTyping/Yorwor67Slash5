@@ -655,7 +655,7 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
               <Flowbite theme={{ theme: ywTheme }}>
-                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => console.log(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
               </Flowbite>
             </div>
             <div>
