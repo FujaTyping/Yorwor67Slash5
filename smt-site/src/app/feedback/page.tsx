@@ -17,9 +17,11 @@ export default function Feedback() {
   const [message, setMessage] = useState("เตือน !");
   const [openModal, setOpenModal] = useState(false);
   const [isVerify, setVerify] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitFeedback = () => {
     if (isVerify) {
+      setIsLoading(true);
       axios
         .post(`https://api.smt.siraphop.me/feedback`, {
           name: name,
@@ -31,10 +33,12 @@ export default function Feedback() {
           setOpenModal(true);
           setVerify(false);
           turnstile.reset();
+          setIsLoading(false);
         })
         .catch((error) => {
           setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
           setOpenModal(true);
+          setIsLoading(false);
         });
     } else {
       setMessage(`ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`);
@@ -45,6 +49,7 @@ export default function Feedback() {
   return (
     <>
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 style={{ marginBottom: "15px" }} className="border-b">
@@ -112,11 +117,22 @@ export default function Feedback() {
               />
             </div>
             <div className="flex justify-center items-center p-2 w-full">
-              <Button style={{ backgroundColor: "#2d76ff" }}
-                color="blue" onClick={submitFeedback}>
-                ส่งคำขอ
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button isProcessing style={{ backgroundColor: "#2d76ff" }}
+                    color="blue" onClick={submitFeedback}>
+                    ส่งคำขอ
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button style={{ backgroundColor: "#2d76ff" }}
+                    color="blue" onClick={submitFeedback}>
+                    ส่งคำขอ
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </form>
         </div>

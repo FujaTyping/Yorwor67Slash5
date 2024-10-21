@@ -1,6 +1,6 @@
 const { initializeApp } = require("firebase/app");
-const { getFirestore } = require("firebase/firestore");
 const {
+  getFirestore,
   collection,
   doc,
   getDoc,
@@ -18,6 +18,7 @@ require("dotenv").config();
 const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
+const notifyHomework = require("./lib/dsgHook/notifyHomework");
 const userData = require("./data/user.json");
 
 const config = require("./config.json");
@@ -158,6 +159,7 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       timestamp: serverTimestamp(),
     });
     pushNewHomework(Time, Subject, Decs, Due);
+    notifyHomework(Time, Subject, Decs, Due);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
@@ -222,11 +224,13 @@ exapp.post("/absent", Authenticate, async (req, res) => {
   } else {
     const statAbRef = doc(db, "Status", "Absent");
     const UID = generateID();
+    const Boy = 21 - parseInt(ZBoy);
+    const Girl = 15 - parseInt(ZGirl);
     await updateDoc(statAbRef, {
       Absent: `${ZAbsent}`,
-      Boy: `${ZBoy}`,
+      Boy: `${Boy}`,
       Date: `${ZDate}`,
-      Girl: `${ZGirl}`,
+      Girl: `${Girl}`,
     });
     await setDoc(doc(db, "Absent", `${UID}`), {
       All: `ขาด / ลา ${ZAbsent}`,
@@ -235,7 +239,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Number: `${Number}`,
       timestamp: serverTimestamp(),
     });
-    pushNewAbsent(Date, ZAbsent, Number, ZBoy, ZGirl);
+    pushNewAbsent(Date, ZAbsent, Number, Boy, Girl);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
@@ -250,8 +254,7 @@ exapp.post("/feedback", async (req, res) => {
     const Payload = {
       "embeds": [
         {
-          "title": "Yorwor67Slash5 - Feedback  📩",
-          "description": `${Decs}`,
+          "title": "📥 มีความคิดเห็นใหม่สำหรับ Yorwor67Slash5",
           "color": 36863,
           "fields": [
             {
@@ -263,10 +266,19 @@ exapp.post("/feedback", async (req, res) => {
               "name": "อีเมล",
               "value": `${Email}`,
               "inline": true
+            },
+            {
+              "name": "ข้อความ",
+              "value": `${Decs}`
             }
-          ]
+          ],
+          "author": {
+            "name": "SMT Notify",
+            "url": "https://smt.siraphop.me/feedback",
+            "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+          }
         }
-      ],
+      ]
     };
     axios.post(webhookURL, Payload)
       .then(response => {
@@ -275,6 +287,67 @@ exapp.post("/feedback", async (req, res) => {
       .catch(error => {
         res.send(error.message);
       });
+  }
+});
+
+exapp.post("/discord/new", async (req, res) => {
+  const webhookUrl = req.body.hooks;
+  if (!webhookUrl) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    if (!(webhookUrl.includes('https://discordapp.com/api/webhooks') || webhookUrl.includes('https://discord.com/api/webhooks'))) {
+      res.status(400).send("กรุณากรอกลิ้งค์ให้ถูกต้อง");
+    } else {
+      const UID = generateID();
+      if (req.body.email) {
+        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+          WebhookUrl: `${webhookUrl}`,
+          Email: `${req.body.email}`
+        });
+        const Payload = {
+          "embeds": [
+            {
+              "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash5 เรียบร้อยแล้ว",
+              "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+              "color": 36863,
+              "author": {
+                "name": "SMT Notify",
+                "url": "https://smt.siraphop.me/notify",
+                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+              }
+            }
+          ]
+        };
+        axios.post(webhookUrl, Payload)
+          .catch(error => {
+            res.send(error.message);
+          });
+        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+      } else {
+        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+          WebhookUrl: `${webhookUrl}`,
+        });
+        const Payload = {
+          "embeds": [
+            {
+              "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash5 เรียบร้อยแล้ว",
+              "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+              "color": 36863,
+              "author": {
+                "name": "SMT Notify",
+                "url": "https://smt.siraphop.me/notify",
+                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+              }
+            }
+          ]
+        };
+        axios.post(webhookUrl, Payload)
+          .catch(error => {
+            res.send(error.message);
+          });
+        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+      }
+    }
   }
 });
 

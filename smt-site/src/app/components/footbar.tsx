@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { Footer } from "flowbite-react";
-import SMT from "../assets/SMT.webp";
-import Divider from "../assets/FootDivider.webp";
+import SMT from "../assets/SMT.svg";
 
 export default function Footbar() {
   return (
     <>
-      <img alt="DividerFoot" style={{ width: "100%" }} src={Divider.src}></img>
+      <div className="footer"></div>
       <Footer id="Footbar" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">

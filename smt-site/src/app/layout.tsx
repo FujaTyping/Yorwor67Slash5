@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
+import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 import 'animate.css';
 import SideNavbar from "./components/sidebar";
@@ -31,6 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={"antialiased"}>
+        <NextTopLoader
+          color="#FF0000"
+          height={4}
+          showSpinner={false}
+        />
         <SideNavbar />
         {children}
         <Footbar />

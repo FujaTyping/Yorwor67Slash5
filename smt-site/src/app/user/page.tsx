@@ -5,28 +5,49 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaPowerOff } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn } from "react-icons/fa";
 import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
 import axios from "axios";
+import type { CustomFlowbiteTheme } from "flowbite-react";
 import {
+  Flowbite,
   Alert,
   Button,
   Modal,
   TextInput,
   Label,
   Textarea,
+  Datepicker,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile from "react-turnstile";
 import { BsPencilSquare } from "react-icons/bs";
-import { getAuth, signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
 
-export default function Admin() {
-  const router = useRouter();
+const ywTheme: CustomFlowbiteTheme = {
+  datepicker: {
+    popup: {
+      footer: {
+        button: {
+          today: "bg-blue-700 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
+        }
+      }
+    },
+    views: {
+      days: {
+        items: {
+          item: {
+            selected: "bg-blue-700 text-white hover:bg-blue-600",
+          }
+        }
+      }
+    }
+  }
+};
+
+export default function User() {
   const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [showCaptcha, setshowCaptcha] = useState(true);
@@ -38,6 +59,7 @@ export default function Admin() {
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
@@ -60,6 +82,7 @@ export default function Admin() {
   }
 
   const submitAnnouncement = () => {
+    setIsLoading(true);
     axios
       .patch(
         `https://api.smt.siraphop.me/announcement`,
@@ -76,23 +99,26 @@ export default function Admin() {
         setMessage(`อัพเดทข้อความแล้ว ${response.data}`);
         setOpenAmModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถอัพเดทข้อความได้ ${error.response.data}`);
         setOpenAmModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitAbsent = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/absent`,
         {
-          zabs: absent,
-          zboy: boy,
+          zabs: `${absent}`,
+          zboy: `${boy}`,
           zdate: time,
-          zgirl: girl,
+          zgirl: `${girl}`,
           date: time,
           number: number,
         },
@@ -106,15 +132,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenStuModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenStuModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitHomework = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/homework`,
@@ -134,15 +163,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenHwModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenHwModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitClasscode = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/classcode`,
@@ -161,15 +193,18 @@ export default function Admin() {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
         setOpenCcModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
         setOpenCcModal(false);
         setOpenAlert(true);
+        setIsLoading(false);
       });
   };
 
   const submitLineOAAnounment = () => {
+    setIsLoading(true);
     axios
       .post(
         `https://api.smt.siraphop.me/line/announcement`,
@@ -188,11 +223,13 @@ export default function Admin() {
         setMessage(`ส่งข้อความ ${response.data}`);
         setOpenLoAAModal(false);
         setOpenLineAlert(true);
+        setIsLoading(false);
       })
       .catch((error) => {
         setMessage(`ไม่สามารถส่งข้อความได้ ${error.response.data}`);
         setOpenLoAAModal(false);
         setOpenLineAlert(true);
+        setIsLoading(false);
       });
   };
 
@@ -214,21 +251,6 @@ export default function Admin() {
               <p>{email}</p>
             </div>
           </div>
-          {showCaptcha ? (<></>)
-            : (<>
-              <Button style={{ margin: 'auto', marginTop: '15px', backgroundColor: "#ff1616" }} onClick={() => {
-                const auth = getAuth();
-                signOut(auth).then(() => {
-                  router.push("/");
-                }).catch((error) => {
-                  setMessage(`${error.message}`);
-                  setOpenAlert(true);
-                });
-              }}>
-                <FaPowerOff style={{ marginRight: '9px' }} className="h-6 w-6" />
-                ออกจากระบบ
-              </Button>
-            </>)}
         </div>
         <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
         {showAlert ? (
@@ -439,14 +461,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitAnnouncement}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                อัพเดทข้อมูล
-                <GrUpdate className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    อัพเดทข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitAnnouncement}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    อัพเดทข้อมูล
+                    <GrUpdate className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -474,16 +510,23 @@ export default function Admin() {
                 required
               />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่วันที่" />
+            <div className="flex gap-5">
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="ใส่วันที่" />
+                </div>
+                <Flowbite theme={{ theme: ywTheme }}>
+                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                </Flowbite>
               </div>
-              <TextInput
-                onChange={(event) => setTime(event.target.value)}
-                type="text"
-                placeholder="วว / ดด / ปป"
-                required
-              />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="ใส่วันกำหนดส่ง" />
+                </div>
+                <Flowbite theme={{ theme: ywTheme }}>
+                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setDue(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                </Flowbite>
+              </div>
             </div>
             <div>
               <div className="mb-2 block">
@@ -495,26 +538,29 @@ export default function Admin() {
                 required
               />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่วันกำหนดส่ง" />
-              </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setDue(event.target.value)}
-                placeholder="วว / ดด / ปป"
-                required
-              />
-            </div>
             <div className="w-full">
-              <Button
-                onClick={submitHomework}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitHomework}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -565,14 +611,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitClasscode}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitClasscode}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -594,11 +654,9 @@ export default function Admin() {
               <div className="mb-2 block">
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
-              <TextInput
-                placeholder="วว / ดด / ปป"
-                onChange={(event) => setTime(event.target.value)}
-                required
-              />
+              <Flowbite theme={{ theme: ywTheme }}>
+                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+              </Flowbite>
             </div>
             <div>
               <div className="mb-2 block">
@@ -613,46 +671,62 @@ export default function Admin() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียน (ที่ขาด)" />
+                <Label htmlFor="text" value="จำนวนนักเรียนทั้งหมด (ที่ขาด)" />
               </div>
               <TextInput
-                type="text"
+                type="number"
                 onChange={(event) => setAbsent(event.target.value)}
                 placeholder="0"
                 required
               />
             </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
+            <div className="flex gap-5">
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่ขาด)" />
+                </div>
+                <TextInput
+                  type="number"
+                  onChange={(event) => setBoy(event.target.value)}
+                  placeholder="0"
+                  required
+                />
               </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setBoy(event.target.value)}
-                placeholder="0"
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่ขาด)" />
+                </div>
+                <TextInput
+                  type="number"
+                  onChange={(event) => setGirl(event.target.value)}
+                  placeholder="0"
+                  required
+                />
               </div>
-              <TextInput
-                type="text"
-                onChange={(event) => setGirl(event.target.value)}
-                placeholder="0"
-                required
-              />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitAbsent}
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-              >
-                ส่งข้อมูล
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitAbsent}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>
@@ -674,11 +748,9 @@ export default function Admin() {
               <div className="mb-2 block">
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
-              <TextInput
-                placeholder="วว / ดด / ปป"
-                onChange={(event) => setTime(event.target.value)}
-                required
-              />
+              <Flowbite theme={{ theme: ywTheme }}>
+                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+              </Flowbite>
             </div>
             <div>
               <div className="mb-2 block">
@@ -701,14 +773,28 @@ export default function Admin() {
               />
             </div>
             <div className="w-full">
-              <Button
-                onClick={submitLineOAAnounment}
-                style={{ backgroundColor: '#00b900' }}
-                color="success"
-              >
-                ส่งข้อความ
-                <IoSend className="ml-2 h-5 w-5" />
-              </Button>
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: '#00b900' }}
+                    color="success"
+                  >
+                    ส่งข้อความ
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitLineOAAnounment}
+                    style={{ backgroundColor: '#00b900' }}
+                    color="success"
+                  >
+                    ส่งข้อความ
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </Modal.Body>

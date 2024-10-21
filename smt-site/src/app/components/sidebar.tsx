@@ -11,15 +11,17 @@ import {
   FaClipboardList,
   FaCode,
   FaKey,
+  FaPowerOff,
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { IoMdNotifications } from "react-icons/io";
 import Yorwor from "../favicon.ico";
-import Divider from "../assets/TopDivider.webp";
 import { signInWithGoogle } from "../lib/firebase-auth";
+import { getAuth, signOut } from "firebase/auth";
 import { MdWork } from "react-icons/md";
 import useLocalStorge from "../lib/localstorage-db";
 
@@ -27,47 +29,31 @@ export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
-  const { photourl } = useLocalStorge(false);
+  const { photourl, isLogin } = useLocalStorge(false);
   const [openModal, setOpenModal] = useState(false);
   const [message, setMessage] = useState("ERROR");
 
   return (
     <>
-      <Navbar id="TopBarNav" fluid>
-        <Navbar.Brand id="Navbranded" onClick={() => router.push("/")}>
-          <img
-            src={Yorwor.src}
-            className="mr-3 h-6 sm:h-9"
-            alt="Flowbite React Logo"
-          />
+      <Navbar id="TopBarNav" style={{ paddingBottom: '20px' }} className="border-solid border-b-8 border-rose-600 mb-8" fluid>
+        <Navbar.Brand id="Navbranded" as={Link} href="/">
+          <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
           <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
             SMT - Yorwor
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Avatar
-            onClick={() => {
-              if (
-                photourl ==
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBID1Qv2l9GtFuT6X24KagJ10o4IbL1zuebg&s"
-              ) {
-                signInWithGoogle()
-                  .then(() => {
-                    router.push("/user");
-                  })
-                  .catch((error) => {
-                    setMessage(error.message);
-                    setOpenModal(true);
-                  });
-              } else {
-                router.push("/user");
-              }
-            }}
-            style={{ marginRight: "10px", cursor: "pointer" }}
-            alt="User"
-            img={photourl}
-            rounded
-          />
+          {isLogin ? (
+            <>
+              <Avatar
+                onClick={() => { router.push("/user"); }}
+                style={{ marginRight: "10px", cursor: "pointer" }}
+                alt="User"
+                img={photourl}
+                rounded
+              />
+            </>
+          ) : (<></>)}
           <Button
             style={{ margin: "auto", backgroundColor: "#ff1616" }}
             onClick={() => setIsOpen(true)}
@@ -77,8 +63,7 @@ export default function SideNavbar() {
           </Button>
         </div>
       </Navbar>
-      <img alt="DividerTop" style={{ width: "100%" }} src={Divider.src}></img>
-      <Drawer id="SideDrawer" open={isOpen} onClose={handleClose}>
+      <Drawer id="SideDrawer" aria-labelledby="DrawerMenu" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>
           <Sidebar className="[&>div]:bg-transparent [&>div]:p-0">
@@ -128,8 +113,11 @@ export default function SideNavbar() {
                     <Sidebar.Item as={Link} href="/about" icon={FaAddressCard}>
                       เกี่ยวกับห้องเรา
                     </Sidebar.Item>
-                    <Sidebar.Item as={Link} href="/aboutweb" icon={FaCode}>
+                    <Sidebar.Item as={Link} href="/about/web" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
+                    </Sidebar.Item>
+                    <Sidebar.Item as={Link} href="/notify" icon={IoMdNotifications}>
+                      รับการแจ้งเตือน
                     </Sidebar.Item>
                     <Sidebar.Item as={Link} href="/feedback" icon={BiSupport}>
                       ส่งความคิดเห็น
@@ -140,6 +128,7 @@ export default function SideNavbar() {
                       onClick={() => {
                         signInWithGoogle()
                           .then(() => {
+                            window.location.reload();
                             router.push("/user");
                           })
                           .catch((error) => {
@@ -151,6 +140,30 @@ export default function SideNavbar() {
                     >
                       ล็อกอิน
                     </Sidebar.Item>
+
+                    {isLogin ? (
+                      <>
+                        <Sidebar.Item
+                          onClick={() => {
+                            const auth = getAuth();
+                            signOut(auth)
+                              .then(() => {
+                                window.location.reload();
+                                router.push("/");
+                              })
+                              .catch((error) => {
+                                setMessage(error.message);
+                                setOpenModal(true);
+                              });
+                          }}
+                          icon={FaPowerOff}
+                        >
+                          ออกจากระบบ
+                        </Sidebar.Item>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
               </div>
