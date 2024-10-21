@@ -115,7 +115,7 @@ export default function User() {
       .post(
         `https://api.smt.siraphop.me/absent`,
         {
-          zabs: absent,
+          zabs: `${absent}`,
           zboy: `${boy}`,
           zdate: time,
           zgirl: `${girl}`,
@@ -671,10 +671,10 @@ export default function User() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียน (ที่ขาด)" />
+                <Label htmlFor="text" value="จำนวนนักเรียนทั้งหมด (ที่ขาด)" />
               </div>
               <TextInput
-                type="text"
+                type="number"
                 onChange={(event) => setAbsent(event.target.value)}
                 placeholder="0"
                 required
@@ -683,7 +683,7 @@ export default function User() {
             <div className="flex gap-5">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่มา)" />
+                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่ขาด)" />
                 </div>
                 <TextInput
                   type="number"
@@ -694,7 +694,7 @@ export default function User() {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่มา)" />
+                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่ขาด)" />
                 </div>
                 <TextInput
                   type="number"
