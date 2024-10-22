@@ -7,8 +7,7 @@ import SMT from "../assets/SMT.svg";
 export default function Footbar() {
   return (
     <>
-      <div className="footer"></div>
-      <Footer id="Footbar" container>
+      <Footer id="Footbar" className="border-solid border-t-8 border-rose-600 mt-12" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
             <Footer.Brand width={105} height={105} src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />

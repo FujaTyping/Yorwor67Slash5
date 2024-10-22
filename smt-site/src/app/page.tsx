@@ -83,7 +83,7 @@ export default function Home() {
                   <img
                     src={Data.Url}
                     alt={Data.Title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover hover:scale-125 transition-all duration-300"
                   />
                 </div>
                 <div className="z-10 bottom-0 text-2xl p-2 text-center bg-white bg-opacity-75 rounded-md">
