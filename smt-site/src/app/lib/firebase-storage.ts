@@ -5,4 +5,4 @@ import firebaseConfig from "./firebase-config";
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export { storage };
+export default storage;
