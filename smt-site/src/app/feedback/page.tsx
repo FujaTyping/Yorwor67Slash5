@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, TextInput, Textarea, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
+import useLocalStorge from "../lib/localstorage-db";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { IoSend } from "react-icons/io5";
 
 export default function Feedback() {
   const turnstile = useTurnstile();
   const [title] = useState("Hatyaiwit - ข้อเสนอแนะ");
-
+  const { email } = useLocalStorge(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [realEmail, setRealEmail] = useState("");
   const [decs, setDecs] = useState("");
   const [message, setMessage] = useState("เตือน !");
   const [openModal, setOpenModal] = useState(false);
@@ -25,7 +26,7 @@ export default function Feedback() {
       axios
         .post(`https://api.smt.siraphop.me/feedback`, {
           name: name,
-          email: email,
+          email: realEmail,
           decs: decs,
         })
         .then((response) => {
@@ -45,6 +46,12 @@ export default function Feedback() {
       setOpenModal(true);
     }
   };
+
+  useEffect(() => {
+    if (email) {
+      setRealEmail(email);
+    }
+  }, [email]);
 
   return (
     <>
@@ -86,7 +93,8 @@ export default function Feedback() {
                 </label>
                 <TextInput
                   placeholder="อีเมล"
-                  onChange={(event) => setEmail(event.target.value)}
+                  value={realEmail}
+                  onChange={(event) => setRealEmail(event.target.value)}
                   required
                 />
               </div>
