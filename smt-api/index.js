@@ -131,6 +131,37 @@ exapp.post("/line/announcement", Authenticate, async (req, res) => {
   }
 });
 
+exapp.get("/completion", async (req, res) => {
+  let RealData = {
+    Completion: [],
+  };
+  const querySnapshot = await getDocs(query(collection(db, "Completion"), orderBy("timestamp", "desc")));
+  querySnapshot.forEach((doc) => {
+    RealData.Completion.push(doc.data());
+  });
+  res.send(RealData);
+});
+
+exapp.post("/completion", Authenticate, async (req, res) => {
+  const Title = req.body.title;
+  const Decs = req.body.decs;
+  const Url = req.body.url;
+  const Time = req.body.time;
+  if (!Title || !Decs || !Url || !Time) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "Completion", `${UID}`), {
+      Title: `${Title}`,
+      Decs: `${Decs}`,
+      Url: `${Url}`,
+      Time: `${Time}`,
+      timestamp: serverTimestamp(),
+    });
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
+  }
+});
+
 exapp.get("/homework", async (req, res) => {
   let RealData = {
     Homework: [],
