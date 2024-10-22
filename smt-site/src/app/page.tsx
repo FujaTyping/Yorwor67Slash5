@@ -1,13 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Carousel } from "flowbite-react";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
 
+interface Completion {
+  Title: string;
+  Decs: string;
+  Url: string;
+  Time: string;
+}
+
 export default function Home() {
   const [data, setData] = useState("ยินดีต้อนรับเข้าสู่เว็ปไซต์");
   const [title] = useState("Hatyaiwit - ม.4/5");
+  const [comData, setComData] = useState<Completion[]>([
+    {
+      Title: "กำลังดึงข้อมูล",
+      Decs: "กำลังดึงข้อมูล",
+      Url: "",
+      Time: "กำลังดึงข้อมูล"
+    },
+  ]);
 
   useEffect(() => {
     axios
@@ -17,6 +33,21 @@ export default function Home() {
       })
       .catch((error) => {
         setData(`${error}`);
+      });
+    axios
+      .get(`https://api.smt.siraphop.me/completion`)
+      .then((response) => {
+        setComData(response.data.Completion);
+      })
+      .catch((error) => {
+        setComData([
+          {
+            Title: "ไม่สามารถ",
+            Decs: "ดึงข้อมูลได้",
+            Url: "",
+            Time: `${error}`
+          },
+        ]);
       });
   }, []);
 
@@ -39,6 +70,30 @@ export default function Home() {
         <h2 className="gap-3 centered-text-h2">
           <Marquee gradient={true} gradientColor="white" gradientWidth={25} pauseOnHover={true}>{data}</Marquee>
         </h2>
+      </div>
+      <div className="container">
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          🏆 การแข่งขัน - Completion
+        </h1>
+        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+          <Carousel slideInterval={5000}>
+            {comData.map((Data, index) => (
+              <div key={index} className="relative h-full flex items-end justify-center">
+                <div className="absolute inset-0 z-[-1]">
+                  <img
+                    src={Data.Url}
+                    alt={Data.Title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="z-10 bottom-0 text-2xl p-2 text-center bg-white bg-opacity-75 rounded-md">
+                  <h2 className="text-base">วันที่ {Data.Time}</h2>
+                  <h1 className="title text-base lg:text-3xl">{Data.Title}</h1>
+                </div>
+              </div>
+            ))}
+          </Carousel>
+        </div>
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "10px" }} className="border-b">
