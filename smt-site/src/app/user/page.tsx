@@ -20,9 +20,13 @@ import {
   Label,
   Textarea,
   Datepicker,
+  FileInput,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
+import { AiFillPicture } from "react-icons/ai";
 import useLocalStorge from "../lib/localstorage-db";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import storage from "../lib/firebase-storage";
 import Turnstile from "react-turnstile";
 import { BsPencilSquare } from "react-icons/bs";
 
@@ -31,20 +35,21 @@ const ywTheme: CustomFlowbiteTheme = {
     popup: {
       footer: {
         button: {
-          today: "bg-blue-700 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700"
-        }
-      }
+          today:
+            "bg-blue-700 text-white hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700",
+        },
+      },
     },
     views: {
       days: {
         items: {
           item: {
             selected: "bg-blue-700 text-white hover:bg-blue-600",
-          }
-        }
-      }
-    }
-  }
+          },
+        },
+      },
+    },
+  },
 };
 
 export default function User() {
@@ -59,6 +64,7 @@ export default function User() {
   const [openHwModal, setOpenHwModal] = useState(false);
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
+  const [openComModal, setOpenComModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState("");
   const [subj, setSubj] = useState("");
@@ -72,6 +78,8 @@ export default function User() {
   const [girl, setGirl] = useState("");
   const [absent, setAbsent] = useState("");
   const [author, setAuthor] = useState("");
+  const [titleCom, setTitleCom] = useState("");
+  const [file, setFile] = useState<File | null>(null);
 
   function onCloseModal() {
     setOpenHwModal(false);
@@ -79,6 +87,8 @@ export default function User() {
     setOpenStuModal(false);
     setOpenAmModal(false);
     setOpenLoAAModal(false);
+    setOpenCcModal(false);
+    setOpenComModal(false);
   }
 
   const submitAnnouncement = () => {
@@ -93,7 +103,7 @@ export default function User() {
           headers: {
             Auth: email,
           },
-        },
+        }
       )
       .then((response) => {
         setMessage(`อัพเดทข้อความแล้ว ${response.data}`);
@@ -126,7 +136,7 @@ export default function User() {
           headers: {
             Auth: email,
           },
-        },
+        }
       )
       .then((response) => {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
@@ -157,7 +167,7 @@ export default function User() {
           headers: {
             Auth: email,
           },
-        },
+        }
       )
       .then((response) => {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
@@ -187,7 +197,7 @@ export default function User() {
           headers: {
             Auth: email,
           },
-        },
+        }
       )
       .then((response) => {
         setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
@@ -217,7 +227,7 @@ export default function User() {
           headers: {
             Auth: email,
           },
-        },
+        }
       )
       .then((response) => {
         setMessage(`ส่งข้อความ ${response.data}`);
@@ -231,6 +241,55 @@ export default function User() {
         setOpenLineAlert(true);
         setIsLoading(false);
       });
+  };
+
+  const submitCompetition = async () => {
+    if (file) {
+      setIsLoading(true);
+      const storageRef = ref(storage, `Reward/${file.name}`);
+      try {
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        console.log(titleCom, decs, time, url);
+        axios
+          .post(
+            `https://api.smt.siraphop.me/completion`,
+            {
+              title: titleCom,
+              decs: decs,
+              time: time,
+              url: url,
+            },
+            {
+              headers: {
+                Auth: email,
+              },
+            }
+          )
+          .then((response) => {
+            setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+            setOpenComModal(false);
+            setOpenAlert(true);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
+            setOpenComModal(false);
+            setOpenAlert(true);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setMessage(`ไม่สามารถบันทึกไฟล์แล้ได้ ${error}`);
+        setOpenComModal(false);
+        setOpenAlert(true);
+        setIsLoading(false);
+      }
+    } else {
+      setMessage(`กรุณาเลือกไฟล์`);
+      setOpenComModal(false);
+      setOpenAlert(true);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -277,8 +336,18 @@ export default function User() {
             </Alert>
             {showCaptcha ? (
               <>
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                  <p style={{ marginBottom: '15px', marginTop: '25px' }}>เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ ก่อนเข้าสู่หน้าผู้ใช้ โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA</p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ marginBottom: "15px", marginTop: "25px" }}>
+                    เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ ก่อนเข้าสู่หน้าผู้ใช้
+                    โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA
+                  </p>
                   <Turnstile
                     sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
                     theme="light"
@@ -329,7 +398,10 @@ export default function User() {
                           style={{ backgroundColor: "#2d76ff" }}
                           className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                         >
-                          <FaBook style={{ color: "white" }} className="h-7 w-7" />
+                          <FaBook
+                            style={{ color: "white" }}
+                            className="h-7 w-7"
+                          />
                         </div>
                         <div className="flex-grow pl-6">
                           <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
@@ -404,7 +476,34 @@ export default function User() {
                       </div>
                       <div className="p-4 md:w-1/3 flex">
                         <div
-                          style={{ backgroundColor: '#00b900' }}
+                          style={{ backgroundColor: "#2d76ff" }}
+                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                        >
+                          <AiFillPicture
+                            style={{ color: "white" }}
+                            className="h-7 w-7"
+                          />
+                        </div>
+                        <div className="flex-grow pl-6">
+                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                            เพิ่มข้อมูลการแข่งขัน
+                          </h2>
+                          <p className="leading-relaxed text-base">
+                            ข้อมูลการแข่งขันของนักเรียน
+                          </p>
+                          <Button
+                            onClick={() => setOpenComModal(true)}
+                            style={{ backgroundColor: "#2d76ff" }}
+                            color="blue"
+                          >
+                            <FaPencilRuler className="mr-2 h-5 w-5" />
+                            บันทึกข้อมูล
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="p-4 md:w-1/3 flex">
+                        <div
+                          style={{ backgroundColor: "#00b900" }}
                           className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                         >
                           <FaBullhorn
@@ -421,7 +520,7 @@ export default function User() {
                           </p>
                           <Button
                             onClick={() => setOpenLoAAModal(true)}
-                            style={{ backgroundColor: '#00b900' }}
+                            style={{ backgroundColor: "#00b900" }}
                             color="success"
                           >
                             <BsPencilSquare className="mr-2 h-5 w-5" />
@@ -516,7 +615,16 @@ export default function User() {
                   <Label htmlFor="text" value="ใส่วันที่" />
                 </div>
                 <Flowbite theme={{ theme: ywTheme }}>
-                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                  <Datepicker
+                    language="th"
+                    labelTodayButton="วันนี้"
+                    labelClearButton="ยกเลิก"
+                    onChange={(date) =>
+                      setTime(
+                        `${date?.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`
+                      )
+                    }
+                  />
                 </Flowbite>
               </div>
               <div>
@@ -524,7 +632,16 @@ export default function User() {
                   <Label htmlFor="text" value="ใส่วันกำหนดส่ง" />
                 </div>
                 <Flowbite theme={{ theme: ywTheme }}>
-                  <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setDue(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                  <Datepicker
+                    language="th"
+                    labelTodayButton="วันนี้"
+                    labelClearButton="ยกเลิก"
+                    onChange={(date) =>
+                      setDue(
+                        `${date?.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`
+                      )
+                    }
+                  />
                 </Flowbite>
               </div>
             </div>
@@ -655,7 +772,16 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
               <Flowbite theme={{ theme: ywTheme }}>
-                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                <Datepicker
+                  language="th"
+                  labelTodayButton="วันนี้"
+                  labelClearButton="ยกเลิก"
+                  onChange={(date) =>
+                    setTime(
+                      `${date?.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`
+                    )
+                  }
+                />
               </Flowbite>
             </div>
             <div>
@@ -749,7 +875,16 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่วันที่" />
               </div>
               <Flowbite theme={{ theme: ywTheme }}>
-                <Datepicker language="th" labelTodayButton="วันนี้" labelClearButton="ยกเลิก" onChange={(date) => setTime(`${date?.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', })}`)} />
+                <Datepicker
+                  language="th"
+                  labelTodayButton="วันนี้"
+                  labelClearButton="ยกเลิก"
+                  onChange={(date) =>
+                    setTime(
+                      `${date?.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`
+                    )
+                  }
+                />
               </Flowbite>
             </div>
             <div>
@@ -777,7 +912,7 @@ export default function User() {
                 <>
                   <Button
                     isProcessing
-                    style={{ backgroundColor: '#00b900' }}
+                    style={{ backgroundColor: "#00b900" }}
                     color="success"
                   >
                     ส่งข้อความ
@@ -787,7 +922,7 @@ export default function User() {
                 <>
                   <Button
                     onClick={submitLineOAAnounment}
-                    style={{ backgroundColor: '#00b900' }}
+                    style={{ backgroundColor: "#00b900" }}
                     color="success"
                   >
                     ส่งข้อความ
@@ -799,6 +934,101 @@ export default function User() {
           </div>
         </Modal.Body>
       </Modal>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openComModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              เพิ่มข้อมูลการแข่งขัน
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่วันที่" />
+              </div>
+              <Flowbite theme={{ theme: ywTheme }}>
+                <Datepicker
+                  language="th"
+                  labelTodayButton="วันนี้"
+                  labelClearButton="ยกเลิก"
+                  onChange={(date) =>
+                    setTime(
+                      `${date?.toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })}`
+                    )
+                  }
+                />
+              </Flowbite>
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ชื่อการแข่งขัน" />
+              </div>
+              <TextInput
+                onChange={(event) => setTitleCom(event.target.value)}
+                type="text"
+                placeholder="การแข่งขัน"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="รายละเอียดการแข่งขัน" />
+              </div>
+              <TextInput
+                onChange={(event) => setDecs(event.target.value)}
+                type="text"
+                placeholder="รายละเอียด"
+                required
+              />
+            </div>
+            <div>
+              <Flowbite theme={{ theme: ywTheme }}>
+                <div className="mb-2 mt-6 block">
+                  <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ" />
+                </div>
+                <FileInput
+                  id="file-upload"
+                  onChange={(event) => {
+                    if (event.target.files) {
+                      setFile(event.target.files[0]);
+                    }
+                  }}
+                />
+              </Flowbite>
+            </div>
+            <div className="w-full">
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitCompetition}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
       <Modal
         className="animate__animated animate__fadeIn"
         show={openAlert}
@@ -825,6 +1055,7 @@ export default function User() {
           </div>
         </Modal.Body>
       </Modal>
+
       <Modal
         className="animate__animated animate__fadeIn"
         show={openLineAlert}
@@ -841,7 +1072,7 @@ export default function User() {
             </h3>
             <div className="flex justify-center gap-4">
               <Button
-                style={{ backgroundColor: '#00b900' }}
+                style={{ backgroundColor: "#00b900" }}
                 color="success"
                 onClick={() => setOpenLineAlert(false)}
               >
