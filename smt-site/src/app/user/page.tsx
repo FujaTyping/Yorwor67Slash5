@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
@@ -66,6 +66,7 @@ export default function User() {
   const [openStuModal, setOpenStuModal] = useState(false);
   const [openComModal, setOpenComModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPermission, setIsPermission] = useState(false);
   const [text, setText] = useState("");
   const [subj, setSubj] = useState("");
   const [time, setTime] = useState("");
@@ -292,6 +293,23 @@ export default function User() {
     }
   };
 
+  useEffect(() => {
+    if (email) {
+      axios
+        .get(`https://api.smt.siraphop.me/permission`, {
+          headers: {
+            Auth: email,
+          },
+        })
+        .then(() => {
+          setIsPermission(true);
+        })
+        .catch(() => {
+          setIsPermission(false);
+        });
+    }
+  }, [email]);
+
   return (
     <>
       <title>{title}</title>
@@ -383,14 +401,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             ข้อความประกาศของเว็ปไซต์
                           </p>
-                          <Button
-                            onClick={() => setOpenAmModal(true)}
-                            style={{ backgroundColor: "#2d76ff" }}
-                            color="blue"
-                          >
-                            <FaEraser className="mr-2 h-5 w-5" />
-                            แก้ไขข้อมูล
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenAmModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaEraser className="mr-2 h-5 w-5" />
+                                แก้ไขข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenAmModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaEraser className="mr-2 h-5 w-5" />
+                                แก้ไขข้อมูล
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="p-4 md:w-1/3 flex">
@@ -410,14 +443,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             ข้อมูลการบ้านในแต่ละวัน โดยฝ่ายการเรียน
                           </p>
-                          <Button
-                            onClick={() => setOpenHwModal(true)}
-                            style={{ backgroundColor: "#2d76ff" }}
-                            color="blue"
-                          >
-                            <FaPencilRuler className="mr-2 h-5 w-5" />
-                            บันทึกข้อมูล
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenHwModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenHwModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="p-4 md:w-1/3 flex">
@@ -437,14 +485,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน
                           </p>
-                          <Button
-                            onClick={() => setOpenCcModal(true)}
-                            style={{ backgroundColor: "#2d76ff" }}
-                            color="blue"
-                          >
-                            <FaPencilRuler className="mr-2 h-5 w-5" />
-                            บันทึกข้อมูล
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenCcModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenCcModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="p-4 md:w-1/3 flex">
@@ -464,14 +527,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร
                           </p>
-                          <Button
-                            onClick={() => setOpenStuModal(true)}
-                            style={{ backgroundColor: "#2d76ff" }}
-                            color="blue"
-                          >
-                            <FaPencilRuler className="mr-2 h-5 w-5" />
-                            บันทึกข้อมูล
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenStuModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenStuModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="p-4 md:w-1/3 flex">
@@ -491,14 +569,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             ข้อมูลการแข่งขันของนักเรียน
                           </p>
-                          <Button
-                            onClick={() => setOpenComModal(true)}
-                            style={{ backgroundColor: "#2d76ff" }}
-                            color="blue"
-                          >
-                            <FaPencilRuler className="mr-2 h-5 w-5" />
-                            บันทึกข้อมูล
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenComModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenComModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className="p-4 md:w-1/3 flex">
@@ -518,14 +611,29 @@ export default function User() {
                           <p className="leading-relaxed text-base">
                             ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical
                           </p>
-                          <Button
-                            onClick={() => setOpenLoAAModal(true)}
-                            style={{ backgroundColor: "#00b900" }}
-                            color="success"
-                          >
-                            <BsPencilSquare className="mr-2 h-5 w-5" />
-                            ร่างข้อความ
-                          </Button>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenLoAAModal(true)}
+                                style={{ backgroundColor: "#00b900" }}
+                                color="success"
+                              >
+                                <BsPencilSquare className="mr-2 h-5 w-5" />
+                                ร่างข้อความ
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenLoAAModal(true)}
+                                style={{ backgroundColor: "#00b900" }}
+                                color="success"
+                              >
+                                <BsPencilSquare className="mr-2 h-5 w-5" />
+                                ร่างข้อความ
+                              </Button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
