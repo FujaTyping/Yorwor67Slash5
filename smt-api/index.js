@@ -10,6 +10,7 @@ const {
   serverTimestamp,
   query,
   orderBy,
+  deleteDoc,
 } = require("firebase/firestore");
 const express = require("express");
 const axios = require("axios");
@@ -379,6 +380,25 @@ exapp.post("/discord/new", async (req, res) => {
         res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       }
     }
+  }
+});
+
+exapp.delete("/discord/revoke", async (req, res) => {
+  const dataId = req.body.hookid;
+  if (!dataId) {
+    return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  }
+  try {
+    const docRef = doc(db, "DiscordWebhooks", dataId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await deleteDoc(docRef);
+      res.send(`ลบข้อมูลเรียบร้อยแล้ว`);
+    } else {
+      res.status(400).send(`ไม่พบข้อมูลไอดี ${dataId}`);
+    }
+  } catch (error) {
+    res.status(500).send(`เกิดข้อผิดพลาดในการลบข้อมูล ${error}`);
   }
 });
 
