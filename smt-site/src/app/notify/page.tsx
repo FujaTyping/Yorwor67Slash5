@@ -8,19 +8,24 @@ import useLocalStorge from "../lib/localstorage-db";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { IoMdAddCircle } from "react-icons/io";
+import { MdDeleteForever } from "react-icons/md";
 
 export default function AboutWeb() {
   const router = useRouter();
   const [title] = useState("Hatyaiwit - การแจ้งเตือน");
   const { email } = useLocalStorge(false);
   const [hooksUrl, setHooksUrl] = useState("");
+  const [hooksId, setHooksId] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [openDisModal, setOpenDisModal] = useState(false);
+  const [openDellModal, setOpenDellModal] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const [hooksSucc, setHooksSucc] = useState(false);
 
   const submitDiswebhook = () => {
     setIsLoading(true);
+    setHooksSucc(false);
     if (email) {
       axios
         .post(`https://api.smt.siraphop.me/discord/new`, {
@@ -29,6 +34,7 @@ export default function AboutWeb() {
         })
         .then((response) => {
           setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+          setHooksSucc(true);
           setOpenDisModal(false);
           setOpenAlert(true);
           setIsLoading(false);
@@ -46,6 +52,7 @@ export default function AboutWeb() {
         })
         .then((response) => {
           setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+          setHooksSucc(true);
           setOpenDisModal(false);
           setOpenAlert(true);
           setIsLoading(false);
@@ -59,8 +66,29 @@ export default function AboutWeb() {
     }
   };
 
+  const revokeDiswebhook = () => {
+    setIsLoading(true);
+    axios
+      .delete(`https://api.smt.siraphop.me/discord/revoke`, {
+        data: { hookid: hooksId }
+      })
+      .then((response) => {
+        setMessage(`ยกเลิกการแจ้งเตือนแล้ว ${response.data}`);
+        setOpenDellModal(false);
+        setOpenAlert(true);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setMessage(`ไม่สามารถยกเลิกการแจ้งเตือนได้ ${error.response.data}`);
+        setOpenDellModal(false);
+        setOpenAlert(true);
+        setIsLoading(false);
+      });
+  }
+
   function onCloseModal() {
     setOpenDisModal(false);
+    setOpenDellModal(false);
   }
 
   return (
@@ -90,13 +118,21 @@ export default function AboutWeb() {
                 ฟีเจอร์สำหรับการแจ้งเตือนการบ้านไปยัง Discord Server ของท่านผ่าน
                 Webhook
               </p>
-              <Button
-                onClick={() => setOpenDisModal(true)}
-                style={{ backgroundColor: "#7289da" }}
-              >
-                <FaDiscord className="mr-2 h-5 w-5" />
-                รับการแจ้งเตือน
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  onClick={() => setOpenDisModal(true)}
+                  style={{ backgroundColor: "#7289da", flex: 5 }}
+                >
+                  <FaDiscord className="mr-2 h-5 w-5" />
+                  รับการแจ้งเตือน
+                </Button>
+                <Button
+                  onClick={() => setOpenDellModal(true)}
+                  style={{ backgroundColor: "#FF0000", flex: 1 }}
+                >
+                  <MdDeleteForever className="mx-auto h-5 w-5" />
+                </Button>
+              </div>
             </Card>
           </div>
           <div className="p-4 md:w-1/3 flex">
@@ -187,7 +223,56 @@ export default function AboutWeb() {
           </div>
         </Modal.Body>
       </Modal>
-
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openDellModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบฟอร์มยกเลิกการแจ้งเตือนผ่าน Discord Webhook
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="กรุณาใส่ไอดีของ Discord webhook" />
+              </div>
+              <TextInput
+                placeholder=" GqzLTlTofb****"
+                onChange={(event) => setHooksId(event.target.value)}
+                required
+              />
+            </div>
+            <div className="w-full">
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#FF0000" }}
+                    color="blue"
+                  >
+                    ยกเลิกการแจ้งเตือน
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={revokeDiswebhook}
+                    style={{ backgroundColor: "#FF0000" }}
+                    color="blue"
+                  >
+                    <MdDeleteForever className="mr-2 h-5 w-5" />
+                    ยกเลิกการแจ้งเตือน
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal
         className="animate__animated animate__fadeIn"
         show={openAlert}
@@ -202,6 +287,12 @@ export default function AboutWeb() {
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
               {message}
             </h3>
+            {hooksSucc ? (
+              <>
+                <p style={{ color: 'red', marginTop: '-15px', fontSize: '13px' }}>กรุณาจำไอดีเอาไว้ เพราะจะใช้ตอนที่ลบข้อมูลออกจากระบบ !</p>
+
+              </>
+            ) : (<></>)}
             <div className="flex justify-center gap-4">
               <Button
                 style={{ backgroundColor: "#7289da" }}
