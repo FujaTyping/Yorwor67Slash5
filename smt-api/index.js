@@ -64,7 +64,7 @@ exapp.get("/permission", async (req, res) => {
     if (userData.user.includes(Auth)) {
       return res
         .send(
-          `Pass`,
+          `อีเมล ${Auth} ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
         );
     } else {
       return res
