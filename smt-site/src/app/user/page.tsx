@@ -344,14 +344,28 @@ export default function User() {
           </Alert>
         ) : (
           <>
-            <Alert
-              style={{ marginTop: "30px" }}
-              color="success"
-              icon={HiInformationCircle}
-            >
-              <span className="font-medium">แจ้งเตือน !</span> สามารถ แก้ไข /
-              เพิ่ม ข้อมูลภายในเว็ปไซต์ได้จากหน้านี้
-            </Alert>
+            {isPermission ? (
+              <>
+                <Alert
+                  style={{ marginTop: "30px" }}
+                  color="success"
+                  icon={HiInformationCircle}
+                >
+                  <span className="font-medium">แจ้งเตือน !</span> สามารถ แก้ไข /
+                  เพิ่ม ข้อมูลภายในเว็ปไซต์ได้จากหน้านี้
+                </Alert>
+              </>
+            ) : (
+              <>
+                <Alert
+                  style={{ marginTop: "30px" }}
+                  color="warning"
+                  icon={HiInformationCircle}
+                >
+                  <span className="font-medium">แจ้งเตือน !</span> อีเมล {email} ไม่ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์
+                </Alert>
+              </>
+            )}
             {showCaptcha ? (
               <>
                 <div
