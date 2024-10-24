@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, SetStateAction } from "react";
 import { Carousel } from "flowbite-react";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
+import ImageViewer from 'react-simple-image-viewer';
+import { IoEyeSharp } from "react-icons/io5";
 
 interface Completion {
   Title: string;
@@ -16,6 +18,12 @@ interface Completion {
 export default function Home() {
   const [data, setData] = useState("ยินดีต้อนรับเข้าสู่เว็ปไซต์");
   const [title] = useState("Hatyaiwit - ม.4/5");
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const images = [
+    'https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Schedule%2FTimetable1.webp?alt=media&token=edeaaf0d-cac6-4684-ad81-00d0253a5500',
+    `${Timetable.src}`,
+  ];
   const [comData, setComData] = useState<Completion[]>([
     {
       Title: "กำลังดึงข้อมูล",
@@ -24,6 +32,16 @@ export default function Home() {
       Time: "กำลังดึงข้อมูล"
     },
   ]);
+
+  const openImageViewer = useCallback((index: SetStateAction<number>) => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
 
   useEffect(() => {
     axios
@@ -100,11 +118,10 @@ export default function Home() {
           📅 ตารางเรียน - Timetable
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 3{" "}
+          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 1{" "}<br />
           <span style={{ color: "red" }}>
-            เริ่มใช้ตั้งแต่วันอังคารที่ 18 มิถุนายน พ.ศ. 2567 เป็นต้นไป
+            เริ่มใช้ตั้งแต่วันจันทร์ที่ 28 ตุลาคม - 1 พฤศจิกายน 2567
           </span>
-          <br></br>กรณีพบข้อผิดพลาด สามารถแจ้งข้อมูลได้ที่ สนง.วิชาการ 2 โรงเรียนหาดใหญ่วิทยาลัย
         </h2>
         <img
           width={999}
@@ -113,7 +130,21 @@ export default function Home() {
           style={{ margin: "auto", marginTop: "10px" }}
           src={Timetable.src}
         ></img>
+        <h2 style={{ fontSize: "18px", cursor: "pointer", justifyContent: 'center', alignItems: 'center' }}
+          onClick={() => { openImageViewer(0) }}
+          className="flex w-full mt-5">
+          <IoEyeSharp style={{ marginRight: "6px" }} /> ดูประวัติตารางเรียนทั้งหมด
+        </h2>
       </div>
+      {isViewerOpen && (
+        <ImageViewer
+          src={images}
+          currentIndex={currentImage}
+          disableScroll={false}
+          closeOnClickOutside={true}
+          onClose={closeImageViewer}
+        />
+      )}
     </>
   );
 }
