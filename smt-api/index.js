@@ -332,10 +332,6 @@ exapp.post("/discord/new", async (req, res) => {
     } else {
       const UID = generateID();
       if (req.body.email) {
-        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
-          WebhookUrl: `${webhookUrl}`,
-          Email: `${req.body.email}`
-        });
         const Payload = {
           "embeds": [
             {
@@ -351,14 +347,17 @@ exapp.post("/discord/new", async (req, res) => {
           ]
         };
         axios.post(webhookUrl, Payload)
+          .then(async response => {
+            await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+              WebhookUrl: `${webhookUrl}`,
+              Email: `${req.body.email}`
+            });
+            res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+          })
           .catch(error => {
-            res.send(error.message);
+            res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
           });
-        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       } else {
-        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
-          WebhookUrl: `${webhookUrl}`,
-        });
         const Payload = {
           "embeds": [
             {
@@ -374,10 +373,15 @@ exapp.post("/discord/new", async (req, res) => {
           ]
         };
         axios.post(webhookUrl, Payload)
+          .then(async response => {
+            await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+              WebhookUrl: `${webhookUrl}`,
+            });
+            res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+          })
           .catch(error => {
-            res.send(error.message);
+            res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
           });
-        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       }
     }
   }
