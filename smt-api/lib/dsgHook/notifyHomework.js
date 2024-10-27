@@ -64,6 +64,9 @@ async function notifyHomework(Time, Subject, Decs, Due) {
             ]
         };
         axios.post(Url, Payload)
+            .then(response => {
+                console.log(`Successfully broadcast to Discord`);
+            })
             .catch(error => {
                 console.log(error.message);
             });

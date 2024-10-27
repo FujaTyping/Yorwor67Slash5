@@ -10,6 +10,7 @@ const {
   serverTimestamp,
   query,
   orderBy,
+  deleteDoc,
 } = require("firebase/firestore");
 const express = require("express");
 const axios = require("axios");
@@ -64,7 +65,7 @@ exapp.get("/permission", async (req, res) => {
     if (userData.user.includes(Auth)) {
       return res
         .send(
-          `Pass`,
+          `อีเมล ${Auth} ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
         );
     } else {
       return res
@@ -128,6 +129,37 @@ exapp.post("/line/announcement", Authenticate, async (req, res) => {
       .catch(error => {
         res.send(`${error.message}`);
       });
+  }
+});
+
+exapp.get("/completion", async (req, res) => {
+  let RealData = {
+    Completion: [],
+  };
+  const querySnapshot = await getDocs(query(collection(db, "Completion"), orderBy("timestamp", "desc")));
+  querySnapshot.forEach((doc) => {
+    RealData.Completion.push(doc.data());
+  });
+  res.send(RealData);
+});
+
+exapp.post("/completion", Authenticate, async (req, res) => {
+  const Title = req.body.title;
+  const Decs = req.body.decs;
+  const Url = req.body.url;
+  const Time = req.body.time;
+  if (!Title || !Decs || !Url || !Time) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "Completion", `${UID}`), {
+      Title: `${Title}`,
+      Decs: `${Decs}`,
+      Url: `${Url}`,
+      Time: `${Time}`,
+      timestamp: serverTimestamp(),
+    });
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
 
@@ -300,10 +332,6 @@ exapp.post("/discord/new", async (req, res) => {
     } else {
       const UID = generateID();
       if (req.body.email) {
-        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
-          WebhookUrl: `${webhookUrl}`,
-          Email: `${req.body.email}`
-        });
         const Payload = {
           "embeds": [
             {
@@ -319,14 +347,17 @@ exapp.post("/discord/new", async (req, res) => {
           ]
         };
         axios.post(webhookUrl, Payload)
+          .then(async response => {
+            await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+              WebhookUrl: `${webhookUrl}`,
+              Email: `${req.body.email}`
+            });
+            res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+          })
           .catch(error => {
-            res.send(error.message);
+            res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
           });
-        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       } else {
-        await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
-          WebhookUrl: `${webhookUrl}`,
-        });
         const Payload = {
           "embeds": [
             {
@@ -342,12 +373,36 @@ exapp.post("/discord/new", async (req, res) => {
           ]
         };
         axios.post(webhookUrl, Payload)
+          .then(async response => {
+            await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+              WebhookUrl: `${webhookUrl}`,
+            });
+            res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+          })
           .catch(error => {
-            res.send(error.message);
+            res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
           });
-        res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
       }
     }
+  }
+});
+
+exapp.delete("/discord/revoke", async (req, res) => {
+  const dataId = req.body.hookid;
+  if (!dataId) {
+    return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  }
+  try {
+    const docRef = doc(db, "DiscordWebhooks", dataId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await deleteDoc(docRef);
+      res.send(`ลบข้อมูลเรียบร้อยแล้ว`);
+    } else {
+      res.status(400).send(`ไม่พบข้อมูลไอดี ${dataId}`);
+    }
+  } catch (error) {
+    res.status(500).send(`เกิดข้อผิดพลาดในการลบข้อมูล ${error}`);
   }
 });
 
