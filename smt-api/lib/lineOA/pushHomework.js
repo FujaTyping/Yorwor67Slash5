@@ -163,6 +163,9 @@ function pushNewHomework(Time, Subject, Decs, Due) {
             'Authorization': `Bearer ${LineAuth}`
         }
     })
+        .then(response => {
+            console.log(`Successfully broadcast to Line`);
+        })
         .catch(error => {
             console.error(`ไม่สามารถส่งข้อความได้ ${error}`);
         });

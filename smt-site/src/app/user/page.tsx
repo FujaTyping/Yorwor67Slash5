@@ -1067,7 +1067,7 @@ export default function User() {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              เพิ่มข้อมูลการแข่งขัน
+              แบบฟอร์มบันทึกข้อมูล การแข่งขัน
             </h3>
             <div>
               <div className="mb-2 block">
@@ -1111,7 +1111,7 @@ export default function User() {
             <div>
               <Flowbite theme={{ theme: ywTheme }}>
                 <div className="mb-2 mt-6 block">
-                  <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ" />
+                  <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ (ขนาดภาพที่แนะนำคือ **แนวนอน)" />
                 </div>
                 <FileInput
                   id="file-upload"
