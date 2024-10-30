@@ -190,8 +190,8 @@ exapp.post("/homework", Authenticate, async (req, res) => {
       Time: `${Time}`,
       timestamp: serverTimestamp(),
     });
-    pushNewHomework(Time, Subject, Decs, Due);
-    notifyHomework(Time, Subject, Decs, Due);
+    await pushNewHomework(Time, Subject, Decs, Due);
+    await notifyHomework(Time, Subject, Decs, Due);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
@@ -271,7 +271,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
       Number: `${Number}`,
       timestamp: serverTimestamp(),
     });
-    pushNewAbsent(Date, ZAbsent, Number, Boy, Girl);
+    await pushNewAbsent(Date, ZAbsent, Number, Boy, Girl);
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
 });
