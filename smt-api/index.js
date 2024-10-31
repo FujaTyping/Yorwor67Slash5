@@ -43,6 +43,26 @@ const LineAuth = process.env.LINEauth;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+let HRealData = {
+  Homework: [],
+};
+let CRealData = {
+  Classcode: [],
+};
+let ARealData = {
+  Static: {},
+  Absent: [],
+};
+let ComRealData = {
+  Completion: [],
+};
+let lastFetchTime = 0;
+let TreelastFetchTime = 0;
+let AbslastFetchTime = 0;
+let ComlastFetchTime = 0;
+const fetchInterval = 5 * 60 * 1000;
+const TreefetchInterval = 3 * 60 * 1000;
+
 const Authenticate = (req, res, next) => {
   const Auth = req.get("Auth");
   if (!userData.user.includes(Auth)) {
@@ -133,14 +153,15 @@ exapp.post("/line/announcement", Authenticate, async (req, res) => {
 });
 
 exapp.get("/completion", async (req, res) => {
-  let RealData = {
-    Completion: [],
-  };
-  const querySnapshot = await getDocs(query(collection(db, "Completion"), orderBy("timestamp", "desc")));
-  querySnapshot.forEach((doc) => {
-    RealData.Completion.push(doc.data());
-  });
-  res.send(RealData);
+  if (Date.now() - ComlastFetchTime > fetchInterval) {
+    const querySnapshot = await getDocs(query(collection(db, "Completion"), orderBy("timestamp", "desc")));
+    ComRealData.Completion = [];
+    querySnapshot.forEach((doc) => {
+      ComRealData.Completion.push(doc.data());
+    });
+    ComlastFetchTime = Date.now();
+  }
+  res.send(ComRealData);
 });
 
 exapp.post("/completion", Authenticate, async (req, res) => {
@@ -164,14 +185,15 @@ exapp.post("/completion", Authenticate, async (req, res) => {
 });
 
 exapp.get("/homework", async (req, res) => {
-  let RealData = {
-    Homework: [],
-  };
-  const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
-  querySnapshot.forEach((doc) => {
-    RealData.Homework.push(doc.data());
-  });
-  res.send(RealData);
+  if (Date.now() - lastFetchTime > fetchInterval) {
+    const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
+    HRealData.Homework = [];
+    querySnapshot.forEach((doc) => {
+      HRealData.Homework.push(doc.data());
+    });
+    lastFetchTime = Date.now();
+  }
+  res.send(HRealData);
 });
 
 exapp.post("/homework", Authenticate, async (req, res) => {
@@ -197,14 +219,15 @@ exapp.post("/homework", Authenticate, async (req, res) => {
 });
 
 exapp.get("/classcode", async (req, res) => {
-  let RealData = {
-    Classcode: [],
-  };
-  const querySnapshot = await getDocs(collection(db, "Classcode"));
-  querySnapshot.forEach((doc) => {
-    RealData.Classcode.push(doc.data());
-  });
-  res.send(RealData);
+  if (Date.now() - TreelastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "Classcode"));
+    CRealData.Classcode = [];
+    querySnapshot.forEach((doc) => {
+      CRealData.Classcode.push(doc.data());
+    });
+    TreelastFetchTime = Date.now();
+  }
+  res.send(CRealData);
 });
 
 exapp.post("/classcode", Authenticate, async (req, res) => {
@@ -225,23 +248,23 @@ exapp.post("/classcode", Authenticate, async (req, res) => {
 });
 
 exapp.get("/absent", async (req, res) => {
-  let RealData = {
-    Static: {},
-    Absent: [],
-  };
-  const querySnapshot = await getDocs(query(collection(db, "Absent"), orderBy("timestamp", "desc")));
-  querySnapshot.forEach((doc) => {
-    RealData.Absent.push(doc.data());
-  });
-  const statRef = doc(db, "Status", "Absent");
-  const statdocSnap = await getDoc(statRef);
-  const data = statdocSnap.data();
-  RealData.Static = data;
-  const Boy = parseInt(data.Boy);
-  const Girl = parseInt(data.Girl);
-  const All = (Boy + Girl).toString();
-  RealData.Static.All = All;
-  res.send(RealData);
+  if (Date.now() - AbslastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(query(collection(db, "Absent"), orderBy("timestamp", "desc")));
+    ARealData.Absent = [];
+    querySnapshot.forEach((doc) => {
+      ARealData.Absent.push(doc.data());
+    });
+    const statRef = doc(db, "Status", "Absent");
+    const statDocSnap = await getDoc(statRef);
+    const data = statDocSnap.data();
+    ARealData.Static = data;
+    const Boy = parseInt(data.Boy);
+    const Girl = parseInt(data.Girl);
+    const All = (Boy + Girl).toString();
+    ARealData.Static.All = All;
+    AbslastFetchTime = Date.now();
+  }
+  res.send(ARealData);
 });
 
 exapp.post("/absent", Authenticate, async (req, res) => {
