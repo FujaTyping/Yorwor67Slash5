@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Clipboard, Pagination } from "flowbite-react";
+import { FaHistory } from "react-icons/fa";
 
 interface Classcode {
   Subject: string;
@@ -60,8 +61,14 @@ export default function Classroom() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           👩🏻‍💻 รหัสห้องเรียน - Classroom code
         </h1>
-        <h2 style={{ fontSize: "18px" }}>
+        <h2 className="flex" style={{ fontSize: "18px" }}>
           ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **
+          <span
+            className="flex"
+            style={{ alignItems: "center", marginLeft: '20px' }}
+          >
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
+          </span>
         </h2>
         <div style={{ marginTop: "20px" }} className="overflow-x-auto">
           <Table hoverable>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Pagination } from "flowbite-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { FaHistory } from "react-icons/fa";
 
 interface Homework {
   Subject: string;
@@ -68,9 +69,15 @@ export default function Homework() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           📚 การบ้าน - Homework
         </h1>
-        <h2 style={{ fontSize: "18px" }}>
+        <h2 className="flex" style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
           กรุณาติดต่อฝ่ายการเรียน)
+          <span
+            className="flex"
+            style={{ alignItems: "center", marginLeft: '20px' }}
+          >
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
+          </span>
         </h2>
         <div
           id="DataFrame"
@@ -130,7 +137,7 @@ export default function Homework() {
           <LineChart data={Chartsdata}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="value" name="ภาระงาน" stroke="#ff1616" activeDot={{ r: 8 }} />
