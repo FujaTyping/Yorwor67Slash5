@@ -69,12 +69,12 @@ export default function Homework() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           📚 การบ้าน - Homework
         </h1>
-        <h2 className="flex" style={{ fontSize: "18px" }}>
+        <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
-          กรุณาติดต่อฝ่ายการเรียน)
+          กรุณาติดต่อฝ่ายการเรียน)<br />
           <span
             className="flex"
-            style={{ alignItems: "center", marginLeft: '20px' }}
+            style={{ alignItems: "center" }}
           >
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
           </span>

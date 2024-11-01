@@ -125,15 +125,16 @@ export default function Absent() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           🗳️ สถิตินักเรียน - Status
         </h1>
-        <h2 className="flex" style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน
+        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน
+        </h2>
+        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}<br />
           <span
             className="flex"
-            style={{ alignItems: "center", marginLeft: '20px' }}
+            style={{ alignItems: "center" }}
           >
-            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
           </span>
         </h2>
-        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
         <div style={{ marginTop: "15px" }} className="ccard">
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
             <span className="rounded-full bg-white p-3">

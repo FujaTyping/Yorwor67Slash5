@@ -61,11 +61,11 @@ export default function Classroom() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           👩🏻‍💻 รหัสห้องเรียน - Classroom code
         </h1>
-        <h2 className="flex" style={{ fontSize: "18px" }}>
-          ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **
+        <h2 style={{ fontSize: "18px" }}>
+          ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **<br />
           <span
             className="flex"
-            style={{ alignItems: "center", marginLeft: '20px' }}
+            style={{ alignItems: "center" }}
           >
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
           </span>
