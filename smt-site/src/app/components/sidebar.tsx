@@ -71,14 +71,14 @@ export default function SideNavbar() {
               <div>
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item as={Link} href="/" icon={FaHome}>
+                    <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/" icon={FaHome}>
                       หน้าหลัก
                     </Sidebar.Item>
                     <Sidebar.Collapse icon={FaBook} label="ฝ่ายการเรียน">
-                      <Sidebar.Item as={Link} href="/homework">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/homework">
                         การบ้าน
                       </Sidebar.Item>
-                      <Sidebar.Item as={Link} href="/classcode">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/classcode">
                         รหัสห้องเรียน
                       </Sidebar.Item>
                     </Sidebar.Collapse>
@@ -86,6 +86,7 @@ export default function SideNavbar() {
                       <Sidebar.Item
                         as={Link}
                         href="https://docs.google.com/spreadsheets/d/1vE3AuC6LyMnIgz3w05nGTNYqu2N9CYXlSJKGjSMyeW4/edit?usp=sharing"
+                        onClick={() => setIsOpen(false)}
                       >
                         รายงานบันทึกคะแนนย่อย
                       </Sidebar.Item>
@@ -94,32 +95,32 @@ export default function SideNavbar() {
                       icon={FaClipboardList}
                       label="ฝ่ายสารวัตร"
                     >
-                      <Sidebar.Item as={Link} href="/absent">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/absent">
                         เช็คชื่อ
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={LuPartyPopper} label="ฝ่ายกิจกรรม">
-                      <Sidebar.Item as={Link} href="/activities">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/activities">
                         บันทึกกิจกรรม
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                     <Sidebar.Collapse icon={SiGoogledocs} label="เอกสาร">
-                      <Sidebar.Item as={Link} href="/whiteroom">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/whiteroom">
                         ห้องเรียนสีขาว
                       </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item as={Link} href="/about" icon={FaAddressCard}>
+                    <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/about" icon={FaAddressCard}>
                       เกี่ยวกับห้องเรา
                     </Sidebar.Item>
-                    <Sidebar.Item as={Link} href="/about/web" icon={FaCode}>
+                    <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/about/web" icon={FaCode}>
                       เกี่ยวกับเว็บไซต์
                     </Sidebar.Item>
-                    <Sidebar.Item as={Link} href="/notify" icon={IoMdNotifications}>
+                    <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/notify" icon={IoMdNotifications}>
                       รับการแจ้งเตือน
                     </Sidebar.Item>
-                    <Sidebar.Item as={Link} href="/feedback" icon={BiSupport}>
+                    <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/feedback" icon={BiSupport}>
                       ส่งความคิดเห็น
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
