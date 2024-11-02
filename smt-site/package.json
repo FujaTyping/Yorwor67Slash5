@@ -14,10 +14,10 @@
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "firebase": "^10.13.2",
-    "flowbite-react": "^0.10.1",
+    "firebase": "^11.0.1",
+    "flowbite-react": "^0.10.2",
     "idb": "^8.0.0",
-    "next": "14.2.13",
+    "next": "15.0.2",
     "nextjs-toploader": "^3.7.15",
     "react": "^18",
     "react-dom": "^18",
@@ -28,18 +28,18 @@
     "react-simple-image-viewer": "^1.2.2",
     "react-turnstile": "^1.1.4",
     "react-viewer": "^3.2.2",
-    "recharts": "^2.12.7",
+    "recharts": "^2.13.3",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.13",
+    "eslint": "^9",
+    "eslint-config-next": "15.0.2",
     "postcss": "^8",
     "prettier": "3.3.3",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5"
   }
 }

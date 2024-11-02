@@ -11,7 +11,7 @@ import { IoEyeSharp } from "react-icons/io5";
 interface Completion {
   Title: string;
   Decs: string;
-  Url: string;
+  Url: any;
   Time: string;
 }
 
@@ -99,7 +99,7 @@ export default function Home() {
               <div key={index} className="relative h-full flex items-end justify-center">
                 <div className="absolute inset-0 z-[-1]">
                   <img
-                    src={Data.Url}
+                    src={Data.Url || null}
                     alt={Data.Title}
                     className="w-full h-full object-cover hover:scale-125 transition-all duration-300"
                   />
