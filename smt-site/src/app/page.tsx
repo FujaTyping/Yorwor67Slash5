@@ -22,6 +22,7 @@ export default function Home() {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [
     'https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Schedule%2FTimetable1.webp?alt=media&token=edeaaf0d-cac6-4684-ad81-00d0253a5500',
+    'https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Schedule%2FTimetable2.webp?alt=media&token=01e862d5-f884-4cad-94d7-bf5d6e3d1828',
     `${Timetable.src}`,
   ];
   const [comData, setComData] = useState<Completion[]>([
@@ -118,9 +119,9 @@ export default function Home() {
           📅 ตารางเรียน - Timetable
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 1{" "}<br />
+          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2{" "}<br />
           <span style={{ color: "red" }}>
-            เริ่มใช้ตั้งแต่วันจันทร์ที่ 28 ตุลาคม - 1 พฤศจิกายน 2567
+            เริ่มใช้ตั้งแต่วันจันทร์ที่ 4 พฤศจิกายน 2567 เป็นต้นไป
           </span>
         </h2>
         <img
