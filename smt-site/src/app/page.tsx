@@ -7,6 +7,7 @@ import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
 import ImageViewer from 'react-simple-image-viewer';
 import { IoEyeSharp } from "react-icons/io5";
+import smtConfig from "./smt-config.mjs";
 
 interface Completion {
   Title: string;
@@ -46,7 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/announcement`)
+      .get(`${smtConfig.apiMain}announcement`)
       .then((response) => {
         setData(response.data.Text);
       })
@@ -54,7 +55,7 @@ export default function Home() {
         setData(`${error}`);
       });
     axios
-      .get(`https://api.smt.siraphop.me/completion`)
+      .get(`${smtConfig.apiMain}completion`)
       .then((response) => {
         setComData(response.data.Completion);
       })

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Table, Pagination } from "flowbite-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { FaHistory } from "react-icons/fa";
+import smtConfig from "../smt-config.mjs";
 
 interface Homework {
   Subject: string;
@@ -32,7 +33,7 @@ export default function Homework() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/homework`)
+      .get(`${smtConfig.apiMain}homework`)
       .then((response) => {
         setData(response.data.Homework);
       })
