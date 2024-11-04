@@ -47,7 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`${smtConfig.apiUser}announcement`)
+      .get(`${smtConfig.apiMain}announcement`)
       .then((response) => {
         setData(response.data.Text);
       })
@@ -55,7 +55,7 @@ export default function Home() {
         setData(`${error}`);
       });
     axios
-      .get(`${smtConfig.apiUser}completion`)
+      .get(`${smtConfig.apiMain}completion`)
       .then((response) => {
         setComData(response.data.Completion);
       })

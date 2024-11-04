@@ -25,7 +25,7 @@ export default function Feedback() {
     if (isVerify) {
       setIsLoading(true);
       axios
-        .post(`${smtConfig.apiUser}feedback`, {
+        .post(`${smtConfig.apiMain}feedback`, {
           name: name,
           email: realEmail,
           decs: decs,

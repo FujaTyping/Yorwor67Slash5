@@ -29,7 +29,7 @@ export default function AboutWeb() {
     setHooksSucc(false);
     if (email) {
       axios
-        .post(`${smtConfig.apiUser}discord/new`, {
+        .post(`${smtConfig.apiMain}discord/new`, {
           hooks: `${hooksUrl}`,
           email: `${email}`,
         })
@@ -48,7 +48,7 @@ export default function AboutWeb() {
         });
     } else {
       axios
-        .post(`${smtConfig.apiUser}discord/new`, {
+        .post(`${smtConfig.apiMain}discord/new`, {
           hooks: `${hooksUrl}`,
         })
         .then((response) => {
@@ -70,7 +70,7 @@ export default function AboutWeb() {
   const revokeDiswebhook = () => {
     setIsLoading(true);
     axios
-      .delete(`${smtConfig.apiUser}discord/revoke`, {
+      .delete(`${smtConfig.apiMain}discord/revoke`, {
         data: { hookid: hooksId }
       })
       .then((response) => {

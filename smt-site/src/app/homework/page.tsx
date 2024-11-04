@@ -33,7 +33,7 @@ export default function Homework() {
 
   useEffect(() => {
     axios
-      .get(`${smtConfig.apiUser}homework`)
+      .get(`${smtConfig.apiMain}homework`)
       .then((response) => {
         setData(response.data.Homework);
       })

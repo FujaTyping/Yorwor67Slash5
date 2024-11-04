@@ -26,7 +26,7 @@ export default function Classroom() {
 
   useEffect(() => {
     axios
-      .get(`${smtConfig.apiUser}classcode`)
+      .get(`${smtConfig.apiMain}classcode`)
       .then((response) => {
         setData(response.data.Classcode);
       })

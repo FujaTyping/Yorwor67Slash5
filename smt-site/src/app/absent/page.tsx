@@ -74,7 +74,7 @@ export default function Absent() {
 
   useEffect(() => {
     axios
-      .get(`${smtConfig.apiUser}absent`)
+      .get(`${smtConfig.apiMain}absent`)
       .then((response) => {
         setData(response.data.Absent);
         setStaticdata(response.data.Static);
