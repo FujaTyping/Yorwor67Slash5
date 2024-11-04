@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Clipboard, Pagination } from "flowbite-react";
 import { FaHistory } from "react-icons/fa";
+import smtConfig from "../smt-config.mjs";
 
 interface Classcode {
   Subject: string;
@@ -25,7 +26,7 @@ export default function Classroom() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/classcode`)
+      .get(`${smtConfig.apiUser}classcode`)
       .then((response) => {
         setData(response.data.Classcode);
       })

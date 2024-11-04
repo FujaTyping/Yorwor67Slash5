@@ -17,6 +17,7 @@ import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRunning, FaHistory } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
+import smtConfig from "../smt-config.mjs"
 
 interface Absent {
   Date: string;
@@ -73,7 +74,7 @@ export default function Absent() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/absent`)
+      .get(`${smtConfig.apiUser}absent`)
       .then((response) => {
         setData(response.data.Absent);
         setStaticdata(response.data.Static);

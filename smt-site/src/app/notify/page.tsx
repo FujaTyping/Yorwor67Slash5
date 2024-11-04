@@ -9,6 +9,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
+import smtConfig from "../smt-config.mjs";
 
 export default function AboutWeb() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function AboutWeb() {
     setHooksSucc(false);
     if (email) {
       axios
-        .post(`https://api.smt.siraphop.me/discord/new`, {
+        .post(`${smtConfig.apiUser}discord/new`, {
           hooks: `${hooksUrl}`,
           email: `${email}`,
         })
@@ -47,7 +48,7 @@ export default function AboutWeb() {
         });
     } else {
       axios
-        .post(`https://api.smt.siraphop.me/discord/new`, {
+        .post(`${smtConfig.apiUser}discord/new`, {
           hooks: `${hooksUrl}`,
         })
         .then((response) => {
@@ -69,7 +70,7 @@ export default function AboutWeb() {
   const revokeDiswebhook = () => {
     setIsLoading(true);
     axios
-      .delete(`https://api.smt.siraphop.me/discord/revoke`, {
+      .delete(`${smtConfig.apiUser}discord/revoke`, {
         data: { hookid: hooksId }
       })
       .then((response) => {
