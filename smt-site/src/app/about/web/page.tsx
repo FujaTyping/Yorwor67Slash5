@@ -1,15 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Button } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
-import { FaGithubAlt } from "react-icons/fa";
+import { FaGithubAlt, FaChevronCircleUp } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
+import { PiWarningOctagonFill } from "react-icons/pi";
+import smtConfig from "../../smt-config.mjs";
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
+  const [api1down, setApi1down] = useState(true);
+  const [api2down, setApi2down] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get(`${smtConfig.apiMain}ping`)
+      .then(() => {
+        setApi1down(false);
+      })
+      .catch(() => {
+        setApi1down(true);
+      });
+    axios
+      .get(`${smtConfig.apiUser}ping`)
+      .then(() => {
+        setApi2down(false);
+      })
+      .catch(() => {
+        setApi2down(true);
+      });
+  }, []);
+
   return (
     <>
       <title>{title}</title>
@@ -76,7 +101,51 @@ export default function AboutWeb() {
                 Donate
               </Button>
             </Button.Group>
-            <section style={{ marginTop: '25px' }} className="body-font">
+            <section style={{ marginTop: '60px' }} className="body-font">
+              <div className="mx-auto">
+                <div className="text-center mb-5">
+                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">STATUS</h1>
+                  <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Live updates on the Yorwor67Slash5 API server health, including uptime and any current issues affecting attendance and homework tools</p>
+                </div>
+                <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
+                  <div className="p-2 sm:w-1/2 w-full">
+                    {api1down ? (
+                      <>
+                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
+                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Vercel)"}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
+                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Vercel)"}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="p-2 sm:w-1/2 w-full">
+                    {api2down ? (
+                      <>
+                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
+                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Railway)"}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
+                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Railway)"}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section className="body-font">
               <div className="container px-5 py-24 mx-auto">
                 <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
                   <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">OUR TEAM</h1>
