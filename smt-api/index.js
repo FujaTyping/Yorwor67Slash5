@@ -97,6 +97,10 @@ exapp.get("/permission", async (req, res) => {
   }
 });
 
+exapp.get("/ping", async (req, res) => {
+  res.send('Pong!');
+});
+
 exapp.get("/announcement", async (req, res) => {
   const docRef = doc(db, "Announcement", "Main");
   const docSnap = await getDoc(docRef);
