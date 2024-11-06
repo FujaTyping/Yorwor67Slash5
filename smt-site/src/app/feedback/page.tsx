@@ -7,6 +7,7 @@ import axios from "axios";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { IoSend } from "react-icons/io5";
+import smtConfig from "../smt-config.mjs";
 
 export default function Feedback() {
   const turnstile = useTurnstile();
@@ -24,7 +25,7 @@ export default function Feedback() {
     if (isVerify) {
       setIsLoading(true);
       axios
-        .post(`https://api.smt.siraphop.me/feedback`, {
+        .post(`${smtConfig.apiMain}feedback`, {
           name: name,
           email: realEmail,
           decs: decs,

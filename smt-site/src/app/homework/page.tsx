@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Pagination } from "flowbite-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { FaHistory } from "react-icons/fa";
+import smtConfig from "../smt-config.mjs";
 
 interface Homework {
   Subject: string;
@@ -31,7 +33,7 @@ export default function Homework() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/homework`)
+      .get(`${smtConfig.apiMain}homework`)
       .then((response) => {
         setData(response.data.Homework);
       })
@@ -70,7 +72,13 @@ export default function Homework() {
         </h1>
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
-          กรุณาติดต่อฝ่ายการเรียน)
+          กรุณาติดต่อฝ่ายการเรียน)<br />
+          <span
+            className="flex"
+            style={{ alignItems: "center" }}
+          >
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
+          </span>
         </h2>
         <div
           id="DataFrame"
@@ -130,7 +138,7 @@ export default function Homework() {
           <LineChart data={Chartsdata}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="value" name="ภาระงาน" stroke="#ff1616" activeDot={{ r: 8 }} />

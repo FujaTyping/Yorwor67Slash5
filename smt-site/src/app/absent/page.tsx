@@ -15,8 +15,9 @@ import {
 } from "recharts";
 import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
-import { FaRunning } from "react-icons/fa";
+import { FaRunning, FaHistory } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
+import smtConfig from "../smt-config.mjs"
 
 interface Absent {
   Date: string;
@@ -73,7 +74,7 @@ export default function Absent() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/absent`)
+      .get(`${smtConfig.apiMain}absent`)
       .then((response) => {
         setData(response.data.Absent);
         setStaticdata(response.data.Static);
@@ -125,8 +126,16 @@ export default function Absent() {
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           🗳️ สถิตินักเรียน - Status
         </h1>
-        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
-        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}</h2>
+        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน
+        </h2>
+        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}<br />
+          <span
+            className="flex"
+            style={{ alignItems: "center" }}
+          >
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
+          </span>
+        </h2>
         <div style={{ marginTop: "15px" }} className="ccard">
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
             <span className="rounded-full bg-white p-3">
@@ -194,7 +203,7 @@ export default function Absent() {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
             <Line

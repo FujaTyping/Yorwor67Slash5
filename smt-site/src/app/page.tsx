@@ -7,11 +7,12 @@ import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
 import ImageViewer from 'react-simple-image-viewer';
 import { IoEyeSharp } from "react-icons/io5";
+import smtConfig from "./smt-config.mjs";
 
 interface Completion {
   Title: string;
   Decs: string;
-  Url: string;
+  Url: any;
   Time: string;
 }
 
@@ -22,6 +23,7 @@ export default function Home() {
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const images = [
     'https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Schedule%2FTimetable1.webp?alt=media&token=edeaaf0d-cac6-4684-ad81-00d0253a5500',
+    'https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Schedule%2FTimetable2.webp?alt=media&token=01e862d5-f884-4cad-94d7-bf5d6e3d1828',
     `${Timetable.src}`,
   ];
   const [comData, setComData] = useState<Completion[]>([
@@ -45,7 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/announcement`)
+      .get(`${smtConfig.apiMain}announcement`)
       .then((response) => {
         setData(response.data.Text);
       })
@@ -53,7 +55,7 @@ export default function Home() {
         setData(`${error}`);
       });
     axios
-      .get(`https://api.smt.siraphop.me/completion`)
+      .get(`${smtConfig.apiMain}completion`)
       .then((response) => {
         setComData(response.data.Completion);
       })
@@ -91,7 +93,7 @@ export default function Home() {
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          🏆 การแข่งขัน - Completion
+          🏆 การแข่งขัน - Competition
         </h1>
         <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel slideInterval={5000}>
@@ -99,7 +101,7 @@ export default function Home() {
               <div key={index} className="relative h-full flex items-end justify-center">
                 <div className="absolute inset-0 z-[-1]">
                   <img
-                    src={Data.Url}
+                    src={Data.Url || null}
                     alt={Data.Title}
                     className="w-full h-full object-cover hover:scale-125 transition-all duration-300"
                   />
@@ -118,9 +120,9 @@ export default function Home() {
           📅 ตารางเรียน - Timetable
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 1{" "}<br />
+          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2{" "}<br />
           <span style={{ color: "red" }}>
-            เริ่มใช้ตั้งแต่วันจันทร์ที่ 28 ตุลาคม - 1 พฤศจิกายน 2567
+            เริ่มใช้ตั้งแต่วันจันทร์ที่ 4 พฤศจิกายน 2567 เป็นต้นไป
           </span>
         </h2>
         <img

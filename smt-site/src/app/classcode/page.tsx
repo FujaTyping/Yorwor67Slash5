@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Clipboard, Pagination } from "flowbite-react";
+import { FaHistory } from "react-icons/fa";
+import smtConfig from "../smt-config.mjs";
 
 interface Classcode {
   Subject: string;
@@ -24,7 +26,7 @@ export default function Classroom() {
 
   useEffect(() => {
     axios
-      .get(`https://api.smt.siraphop.me/classcode`)
+      .get(`${smtConfig.apiMain}classcode`)
       .then((response) => {
         setData(response.data.Classcode);
       })
@@ -61,7 +63,13 @@ export default function Classroom() {
           👩🏻‍💻 รหัสห้องเรียน - Classroom code
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **
+          ** หากไม่พบรหัสวิชาที่หาอยู่ กรุณาติดต่อฝ่ายการเรียน **<br />
+          <span
+            className="flex"
+            style={{ alignItems: "center" }}
+          >
+            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
+          </span>
         </h2>
         <div style={{ marginTop: "20px" }} className="overflow-x-auto">
           <Table hoverable>

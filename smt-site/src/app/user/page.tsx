@@ -29,6 +29,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import storage from "../lib/firebase-storage";
 import Turnstile from "react-turnstile";
 import { BsPencilSquare } from "react-icons/bs";
+import smtConfig from "../smt-config.mjs"
 
 const ywTheme: CustomFlowbiteTheme = {
   datepicker: {
@@ -96,7 +97,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .patch(
-        `https://api.smt.siraphop.me/announcement`,
+        `${smtConfig.apiUser}announcement`,
         {
           msg: text,
         },
@@ -124,7 +125,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `https://api.smt.siraphop.me/absent`,
+        `${smtConfig.apiUser}absent`,
         {
           zabs: `${absent}`,
           zboy: `${boy}`,
@@ -157,7 +158,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `https://api.smt.siraphop.me/homework`,
+        `${smtConfig.apiUser}homework`,
         {
           subj: subj,
           time: time,
@@ -188,7 +189,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `https://api.smt.siraphop.me/classcode`,
+        `${smtConfig.apiUser}classcode`,
         {
           code: code,
           subj: subj,
@@ -218,7 +219,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `https://api.smt.siraphop.me/line/announcement`,
+        `${smtConfig.apiUser}line/announcement`,
         {
           author: author,
           date: time,
@@ -254,7 +255,7 @@ export default function User() {
         console.log(titleCom, decs, time, url);
         axios
           .post(
-            `https://api.smt.siraphop.me/completion`,
+            `${smtConfig.apiUser}completion`,
             {
               title: titleCom,
               decs: decs,
@@ -296,7 +297,7 @@ export default function User() {
   useEffect(() => {
     if (email) {
       axios
-        .get(`https://api.smt.siraphop.me/permission`, {
+        .get(`${smtConfig.apiUser}permission`, {
           headers: {
             Auth: email,
           },
