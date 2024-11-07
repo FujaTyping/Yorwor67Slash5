@@ -728,6 +728,7 @@ export default function User() {
               </div>
               <TextInput
                 placeholder="วิชา"
+                value={subj}
                 onChange={(event) => setSubj(event.target.value)}
                 required
               />
@@ -773,6 +774,7 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่รายละเอียดงาน" />
               </div>
               <Textarea
+                value={decs}
                 onChange={(event) => setDecs(event.target.value)}
                 placeholder="รายละเอียดงาน"
                 required
@@ -824,6 +826,7 @@ export default function User() {
               </div>
               <TextInput
                 placeholder="วิชา"
+                value={subj}
                 onChange={(event) => setSubj(event.target.value)}
                 required
               />
@@ -833,6 +836,7 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่รหัสห้องเรียน" />
               </div>
               <TextInput
+                value={code}
                 onChange={(event) => setCode(event.target.value)}
                 type="text"
                 placeholder="Code"
@@ -845,6 +849,7 @@ export default function User() {
               </div>
               <TextInput
                 type="text"
+                value={teacher}
                 onChange={(event) => setTeacher(event.target.value)}
                 placeholder="คุณครู"
                 required
@@ -912,6 +917,7 @@ export default function User() {
                 <Label htmlFor="text" value="ใส่เลขที่ขาด (ไม่มีใส่ -)" />
               </div>
               <TextInput
+                value={number}
                 onChange={(event) => setNumber(event.target.value)}
                 type="text"
                 placeholder="1 , 2 , 3"
@@ -924,6 +930,7 @@ export default function User() {
               </div>
               <TextInput
                 type="number"
+                value={absent}
                 onChange={(event) => setAbsent(event.target.value)}
                 placeholder="0"
                 required
@@ -936,6 +943,7 @@ export default function User() {
                 </div>
                 <TextInput
                   type="number"
+                  value={boy}
                   onChange={(event) => setBoy(event.target.value)}
                   placeholder="0"
                   required
@@ -947,6 +955,7 @@ export default function User() {
                 </div>
                 <TextInput
                   type="number"
+                  value={girl}
                   onChange={(event) => setGirl(event.target.value)}
                   placeholder="0"
                   required
@@ -1094,6 +1103,7 @@ export default function User() {
               <TextInput
                 onChange={(event) => setTitleCom(event.target.value)}
                 type="text"
+                value={titleCom}
                 placeholder="การแข่งขัน"
                 required
               />
@@ -1105,6 +1115,7 @@ export default function User() {
               <TextInput
                 onChange={(event) => setDecs(event.target.value)}
                 type="text"
+                value={decs}
                 placeholder="รายละเอียด"
                 required
               />
