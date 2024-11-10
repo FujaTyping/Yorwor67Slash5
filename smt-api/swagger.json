@@ -1,0 +1,465 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Yorwor67Slash5 API Documentation",
+    "version": "1.0.0",
+    "title": "Yorwor67Slash5 API",
+    "contact": {
+      "email": "yorwor@siraphop.me"
+    }
+  },
+  "host": "api.smt.siraphop.me",
+  "basePath": "/",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/permission": {
+      "get": {
+        "summary": "Check permission for email",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Email for authorization."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Permission status",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email not found or unauthorized",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "Ping endpoint",
+        "description": "Checks server availability",
+        "responses": {
+          "200": {
+            "description": "Pong!"
+          }
+        }
+      }
+    },
+    "/announcement": {
+      "get": {
+        "summary": "Get main announcement",
+        "responses": {
+          "200": {
+            "description": "Announcement data"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update announcement message",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "msg",
+            "in": "body",
+            "description": "New announcement message",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message updated successfully"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/line/announcement": {
+      "post": {
+        "summary": "Send announcement to LINE",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "announcementData",
+            "in": "body",
+            "description": "Date, author, and message content",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "author": {
+                  "type": "string"
+                },
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sent to LINE Official"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/completion": {
+      "get": {
+        "summary": "Get completion data",
+        "responses": {
+          "200": {
+            "description": "Completion data retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new completion entry",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "completionData",
+            "in": "body",
+            "description": "Title, description, URL, and time",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "decs": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Completion entry added"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/homework": {
+      "get": {
+        "summary": "Get homework data",
+        "responses": {
+          "200": {
+            "description": "Homework data retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new homework entry",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "homeworkData",
+            "in": "body",
+            "description": "Description, due date, subject, and time",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "decs": {
+                  "type": "string"
+                },
+                "due": {
+                  "type": "string"
+                },
+                "subj": {
+                  "type": "string"
+                },
+                "time": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Homework entry added"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/classcode": {
+      "get": {
+        "summary": "Get class codes",
+        "responses": {
+          "200": {
+            "description": "Class codes retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new class code",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "classCodeData",
+            "in": "body",
+            "description": "Code, teacher, and subject",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "teac": {
+                  "type": "string"
+                },
+                "subj": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Class code added"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/absent": {
+      "get": {
+        "summary": "Get absence data",
+        "responses": {
+          "200": {
+            "description": "Absence data retrieved"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add new absence entry",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "absentData",
+            "in": "body",
+            "description": "Absence data details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "zabs": {
+                  "type": "string"
+                },
+                "zboy": {
+                  "type": "string"
+                },
+                "zdate": {
+                  "type": "string"
+                },
+                "zgirl": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "number": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Absence entry added"
+          },
+          "400": {
+            "description": "Incomplete information or unauthorized"
+          }
+        }
+      }
+    },
+    "/feedback": {
+      "post": {
+        "summary": "Submit feedback",
+        "parameters": [
+          {
+            "name": "feedbackData",
+            "in": "body",
+            "description": "Feedback details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "decs": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Feedback submitted"
+          },
+          "400": {
+            "description": "Incomplete information"
+          }
+        }
+      }
+    },
+    "/discord/new": {
+      "post": {
+        "summary": "Add new Discord webhook",
+        "parameters": [
+          {
+            "name": "discordWebhookData",
+            "in": "body",
+            "description": "Webhook URL and email",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hooks": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook added"
+          },
+          "400": {
+            "description": "Invalid URL or incomplete information"
+          }
+        }
+      }
+    },
+    "/discord/revoke": {
+      "delete": {
+        "summary": "Revoke Discord webhook",
+        "parameters": [
+          {
+            "name": "hookid",
+            "in": "body",
+            "description": "Webhook ID",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hookid": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook revoked"
+          },
+          "400": {
+            "description": "Invalid ID or incomplete information"
+          }
+        }
+      }
+    }
+  }
+}
