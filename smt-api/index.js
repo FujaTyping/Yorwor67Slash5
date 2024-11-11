@@ -16,6 +16,8 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
@@ -76,6 +78,8 @@ const Authenticate = (req, res, next) => {
 };
 
 exapp.use("/favicon.ico", express.static("./favicon.ico"));
+
+exapp.use('/document', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 exapp.get("/permission", async (req, res) => {
   const Auth = req.get("Auth");
