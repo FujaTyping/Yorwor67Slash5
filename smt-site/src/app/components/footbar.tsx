@@ -27,6 +27,9 @@ export default function Footbar() {
               <Footer.Link href="https://yorworplatform.com/">
                 Yorwor platform
               </Footer.Link>
+              <Footer.Link href="https://api2.smt.siraphop.me/document/">
+                Open API
+              </Footer.Link>
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
