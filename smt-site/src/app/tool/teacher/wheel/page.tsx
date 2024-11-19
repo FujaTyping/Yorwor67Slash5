@@ -6,6 +6,7 @@ import Confetti from 'react-confetti-boom';
 import useSound from 'use-sound';
 import axios from "axios";
 import smtConfig from "../../../smt-config.mjs";
+import { motion } from "motion/react"
 
 interface Student {
     name: string;
@@ -91,19 +92,50 @@ export default function Wheel() {
                 </h2>
                 <section className="text-gray-600 body-font">
                     <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-                        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                            <img style={{ width: "350px" }} className="object-cover object-center rounded" alt={student ? student.name : "Student"}
-                                src={student ? student.avatar : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="} />
-                        </div>
-                        <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                        <motion.div
+                            className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
+                            key={student ? student.avatar : "defaultImage"}
+                            initial={{ y: -10 }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <img
+                                style={{ width: "350px" }}
+                                className="object-cover object-center rounded"
+                                alt={student ? student.name : "Student"}
+                                src={
+                                    student
+                                        ? student.avatar
+                                        : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
+                                }
+                            />
+                        </motion.div>
+                        <motion.div
+                            className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
+                            key={student ? student.name : "defaultText"}
+                            initial={{ y: -10 }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
                             <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
                                 {student ? student.name : "กดปุ่มด้านล่าง"}
                             </h1>
-                            <p className="mb-4 leading-relaxed text-gray-900">{student ? `${student.nickname} เลขที่ ${student.number}` : "เพื่อสุ่มชื่อนักเรียนในห้อง"}</p>
+                            <p className="mb-4 leading-relaxed text-gray-900">
+                                {student
+                                    ? `${student.nickname} เลขที่ ${student.number}`
+                                    : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
+                            </p>
                             <div className="flex justify-center">
-                                <Button onClick={randomStudent} style={{ backgroundColor: "#ff1616" }} color="failure">สุ่มชื่อ คลิกเลย</Button>
+                                <Button
+                                    onClick={randomStudent}
+                                    style={{ backgroundColor: "#ff1616" }}
+                                    color="failure"
+                                    disabled={isAnimating}
+                                >
+                                    {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
+                                </Button>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
             </div>

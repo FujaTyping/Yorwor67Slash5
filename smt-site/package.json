@@ -17,6 +17,7 @@
     "firebase": "^11.0.1",
     "flowbite-react": "^0.10.2",
     "idb": "^8.0.0",
+    "motion": "^11.11.17",
     "next": "15.0.2",
     "nextjs-toploader": "^3.7.15",
     "react": "^18",
