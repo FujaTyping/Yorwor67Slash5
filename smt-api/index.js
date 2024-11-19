@@ -192,6 +192,17 @@ exapp.post("/completion", Authenticate, async (req, res) => {
   }
 });
 
+exapp.get("/wheel/data", async (req, res) => {
+  const querySnapshot = await getDocs(collection(db, "Wheel"));
+  let RealData = {
+    StudentData: []
+  };
+  querySnapshot.forEach((doc) => {
+    RealData.StudentData.push(doc.data());
+  });
+  res.send(RealData);
+});
+
 exapp.get("/homework", async (req, res) => {
   if (Date.now() - lastFetchTime > fetchInterval) {
     const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
