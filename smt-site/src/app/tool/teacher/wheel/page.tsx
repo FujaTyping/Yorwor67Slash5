@@ -47,19 +47,27 @@ export default function Wheel() {
             if (count >= totalFlashes) {
                 setTimeout(() => {
                     const finalIndex = Math.floor(Math.random() * studentData.length);
-                    setStudent(studentData[finalIndex]);
+                    const finalStudent = studentData[finalIndex];
+                    setStudent(finalStudent);
+
+                    SetStudentData((prevData) => prevData.filter((_, index) => index !== finalIndex));
+
                     setIsAnimating(false);
                 }, delay + 100);
+
                 setConfitiC(30);
                 conPlay();
                 return;
             }
+
             delay += 20;
             tickPlay();
             setTimeout(selectRandomStudent, delay);
         };
+
         selectRandomStudent();
     };
+
 
     useEffect(() => {
         axios
@@ -88,7 +96,7 @@ export default function Wheel() {
                     😲 สุ่มชื่อนักเรียน - Wheel of Names
                 </h1>
                 <h2 style={{ fontSize: "18px" }}>
-                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก 36 คนของห้อง ม.4/5
+                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5
                 </h2>
                 <section className="text-gray-600 body-font">
                     <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
