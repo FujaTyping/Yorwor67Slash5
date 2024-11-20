@@ -30,10 +30,12 @@ export default function Wheel() {
             avatar: "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
         }
     ]);
+    const [studentDis, SetStudentDis] = useState("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
 
     const randomStudent = () => {
         setIsAnimating(true);
         setConfitiC(0);
+        SetStudentDis("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
 
         let count = 0;
         const totalFlashes = 25;
@@ -49,6 +51,7 @@ export default function Wheel() {
                     const finalIndex = Math.floor(Math.random() * studentData.length);
                     const finalStudent = studentData[finalIndex];
                     setStudent(finalStudent);
+                    SetStudentDis(finalStudent.avatar);
 
                     SetStudentData((prevData) => prevData.filter((_, index) => index !== finalIndex));
 
@@ -112,8 +115,8 @@ export default function Wheel() {
                                 className="object-cover object-center rounded"
                                 alt={student ? student.name : "Student"}
                                 src={
-                                    student
-                                        ? student.avatar
+                                    studentDis
+                                        ? studentDis
                                         : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
                                 }
                             />
