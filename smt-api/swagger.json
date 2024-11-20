@@ -64,6 +64,17 @@
         }
       }
     },
+    "/wheel/data": {
+      "get": {
+        "summary": "Get student data",
+        "description": "Student data for wheel",
+        "responses": {
+          "200": {
+            "description": "Student data"
+          }
+        }
+      }
+    },
     "/announcement": {
       "get": {
         "summary": "Get main announcement",

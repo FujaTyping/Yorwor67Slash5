@@ -23,6 +23,7 @@ const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
 const notifyHomework = require("./lib/dsgHook/notifyHomework");
 const userData = require("./data/user.json");
+const path = require('path');
 
 const config = require("./config.json");
 const exapp = express();
@@ -103,6 +104,10 @@ exapp.get("/permission", async (req, res) => {
 
 exapp.get("/ping", async (req, res) => {
   res.send('Pong!');
+});
+
+exapp.get("/swagger.json", async (req, res) => {
+  res.sendFile(path.join(__dirname, 'swagger.json'));
 });
 
 exapp.get("/announcement", async (req, res) => {
