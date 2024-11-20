@@ -99,7 +99,7 @@ export default function Wheel() {
                     😲 สุ่มชื่อนักเรียน - Wheel of Names
                 </h1>
                 <h2 style={{ fontSize: "18px" }}>
-                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5
+                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length + 1} คนของห้อง ม.4/5
                 </h2>
                 <section className="text-gray-600 body-font">
                     <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
