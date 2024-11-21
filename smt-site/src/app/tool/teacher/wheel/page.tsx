@@ -22,6 +22,9 @@ export default function Wheel() {
     const [confitiC, setConfitiC] = useState(0)
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
     const [tickPlay] = useSound("/assets/Sound/Tick.mp3");
+    const [tadaPlay] = useSound("/assets/Sound/Tada.mp3", { volume: 0.4 });
+    const [dingPlay] = useSound("/assets/Sound/Ding.mp3", { volume: 0.3 });
+    const [evilPlay] = useSound("/assets/Sound/Evil.mp3", { volume: 0.3 });
     const [conPlay] = useSound("/assets/Sound/Confetti.mp3", { volume: 0.5 });
     const [titlemessage, setTitleMessage] = useState("😲 สุ่มชื่อนักเรียน - Wheel of Names");
     const [toggleHellmode, settoggleHellmode] = useState(false);
@@ -52,6 +55,7 @@ export default function Wheel() {
             newMessage = "😈 สุ่มชื่อนักเรียน - Wheel of Hell";
             SetStudentDis("https://cdn.discordapp.com/attachments/1249685919267684406/1309129234182180917/1732191118690.jpg?ex=6740751b&is=673f239b&hm=209943a144f499c9cf3c367637c184b34a8d9f5487ae1545f5378a5ddd6a703a&");
             settoggleHellmode(true);
+            evilPlay();
         } else {
             newMessage = "😲 สุ่มชื่อนักเรียน - Wheel of Names";
             SetStudentDis("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
@@ -97,19 +101,24 @@ export default function Wheel() {
                     SetStudentData((prevData) => prevData.filter((_, index) => index !== finalIndex));
 
                     setIsAnimating(false);
-                }, delay + 100);
+                }, delay + 150);
 
                 setConfitiC(30);
-                conPlay();
+                if (toggleHellmode) {
+                    tadaPlay();
+                } else {
+                    conPlay();
+                }
                 return;
             }
 
             if (toggleHellmode) {
-                delay += 10;
+                delay += 8;
+                dingPlay();
             } else {
                 delay += 20;
+                tickPlay();
             }
-            tickPlay();
             setTimeout(selectRandomStudent, delay);
         };
 
@@ -165,7 +174,7 @@ export default function Wheel() {
                         >
                             <img
                                 style={{ width: "350px" }}
-                                className="object-cover object-center rounded"
+                                className="object-cover object-center rounded hover:scale-125 transition-all duration-300"
                                 alt={student ? student.name : "Student"}
                                 src={
                                     studentDis
