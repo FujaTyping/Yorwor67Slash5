@@ -174,7 +174,7 @@ export default function Wheel() {
                         >
                             <img
                                 style={{ width: "350px" }}
-                                className="object-cover object-center rounded hover:scale-125 transition-all duration-300"
+                                className="object-cover object-center rounded"
                                 alt={student ? student.name : "Student"}
                                 src={
                                     studentDis

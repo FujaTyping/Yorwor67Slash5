@@ -66,6 +66,20 @@ let ComlastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
 const TreefetchInterval = 3 * 60 * 1000;
 
+const thaiMonths = {
+  "มกราคม": 1, "กุมภาพันธ์": 2, "มีนาคม": 3, "เมษายน": 4,
+  "พฤษภาคม": 5, "มิถุนายน": 6, "กรกฎาคม": 7, "สิงหาคม": 8,
+  "กันยายน": 9, "ตุลาคม": 10, "พฤศจิกายน": 11, "ธันวาคม": 12
+};
+
+function thaiDateToJsDate(thaiDate) {
+  const [day, monthThai, yearThai] = thaiDate.split(" ");
+  const dayInt = parseInt(day, 10);
+  const month = thaiMonths[monthThai];
+  const year = parseInt(yearThai, 10) - 543;
+  return new Date(year, month - 1, dayInt);
+}
+
 const Authenticate = (req, res, next) => {
   const Auth = req.get("Auth");
   if (!userData.user.includes(Auth)) {
@@ -213,7 +227,10 @@ exapp.get("/homework", async (req, res) => {
     const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
     HRealData.Homework = [];
     querySnapshot.forEach((doc) => {
-      HRealData.Homework.push(doc.data());
+      const homework = doc.data();
+      const dueDate = thaiDateToJsDate(homework.Due);
+      homework.isDue = Date.now() > dueDate.getTime();
+      HRealData.Homework.push(homework);
     });
     lastFetchTime = Date.now();
   }
