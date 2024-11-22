@@ -53,7 +53,7 @@ export default function Wheel() {
         let newMessage;
         if (titlemessage === "😲 สุ่มชื่อนักเรียน - Wheel of Names") {
             newMessage = "😈 สุ่มชื่อนักเรียน - Wheel of Hell";
-            SetStudentDis("https://cdn.discordapp.com/attachments/1249685919267684406/1309129234182180917/1732191118690.jpg?ex=6740751b&is=673f239b&hm=209943a144f499c9cf3c367637c184b34a8d9f5487ae1545f5378a5ddd6a703a&");
+            SetStudentDis("https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Student%2FBanner%2F1732191118690.jpg?alt=media&token=39d89c5c-8727-4c74-87a8-9d30679281ef");
             settoggleHellmode(true);
             evilPlay();
         } else {
@@ -68,7 +68,7 @@ export default function Wheel() {
         setIsAnimating(true);
         setConfitiC(0);
         if (toggleHellmode) {
-            SetStudentDis("https://cdn.discordapp.com/attachments/1249685919267684406/1309129234182180917/1732191118690.jpg?ex=6740751b&is=673f239b&hm=209943a144f499c9cf3c367637c184b34a8d9f5487ae1545f5378a5ddd6a703a&");
+            SetStudentDis("https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Student%2FBanner%2F1732191118690.jpg?alt=media&token=39d89c5c-8727-4c74-87a8-9d30679281ef");
         } else {
             SetStudentDis("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
         }

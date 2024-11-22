@@ -12,6 +12,7 @@ interface Homework {
   Time: string;
   Decs: string;
   Due: string;
+  isDue: boolean;
 }
 
 const Chartsdata = [
@@ -25,6 +26,7 @@ export default function Homework() {
       Decs: "กำลังดึงข้อมูล",
       Time: "กำลังดึงข้อมูล",
       Subject: "กำลังดึงข้อมูล",
+      isDue: false
     },
   ]);
   const [title] = useState("Hatyaiwit - การบ้าน");
@@ -44,6 +46,7 @@ export default function Homework() {
             Decs: "ดึงข้อมูล",
             Time: "ได้",
             Subject: `${error}`,
+            isDue: false
           },
         ]);
       });
@@ -72,7 +75,7 @@ export default function Homework() {
         </h1>
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
-          กรุณาติดต่อฝ่ายการเรียน)<br />
+          กรุณาติดต่อฝ่ายการเรียน)<br />🔴 สีแดงคือ เลยกำหนดส่ง<br />
           <span
             className="flex"
             style={{ alignItems: "center" }}
@@ -95,19 +98,20 @@ export default function Homework() {
             <Table.Body className="divide-y">
               {currentData.map((Homework, index) => (
                 <Table.Row
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                  className="bg-white"
+                  style={{ color: Homework.isDue ? "red" : "black" }}
                   key={index}
                 >
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  <Table.Cell className="whitespace-nowrap font-medium dark:text-white">
                     {Homework.Time}
                   </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                  <Table.Cell className="whitespace-nowrap font-medium">
                     {Homework.Subject}
                   </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                  <Table.Cell className="whitespace-nowrap font-medium">
                     {Homework.Decs}
                   </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                  <Table.Cell className="whitespace-nowrap font-medium">
                     {Homework.Due}
                   </Table.Cell>
                 </Table.Row>
