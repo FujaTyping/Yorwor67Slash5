@@ -2,10 +2,27 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Pagination } from "flowbite-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Table, Pagination, Button } from "flowbite-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { FaHistory } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
+
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 interface Homework {
   Subject: string;
@@ -15,9 +32,41 @@ interface Homework {
   isDue: boolean;
 }
 
-const Chartsdata = [
-  { name: "เทอม 1", value: 0 },
-];
+type ThaiMonth =
+  | "มกราคม"
+  | "กุมภาพันธ์"
+  | "มีนาคม"
+  | "เมษายน"
+  | "พฤษภาคม"
+  | "มิถุนายน"
+  | "กรกฎาคม"
+  | "สิงหาคม"
+  | "กันยายน"
+  | "ตุลาคม"
+  | "พฤศจิกายน"
+  | "ธันวาคม";
+
+const monthMap: Record<ThaiMonth, string> = {
+  มกราคม: "01",
+  กุมภาพันธ์: "02",
+  มีนาคม: "03",
+  เมษายน: "04",
+  พฤษภาคม: "05",
+  มิถุนายน: "06",
+  กรกฎาคม: "07",
+  สิงหาคม: "08",
+  กันยายน: "09",
+  ตุลาคม: "10",
+  พฤศจิกายน: "11",
+  ธันวาคม: "12",
+};
+
+const localizer = momentLocalizer(moment);
+
+dayjs.extend(customParseFormat);
+dayjs.extend(buddhistEra);
+
+const Chartsdata = [{ name: "เทอม 1", value: 0 }];
 
 export default function Homework() {
   const [data, setData] = useState<Homework[]>([
@@ -26,12 +75,43 @@ export default function Homework() {
       Decs: "กำลังดึงข้อมูล",
       Time: "กำลังดึงข้อมูล",
       Subject: "กำลังดึงข้อมูล",
-      isDue: false
+      isDue: false,
     },
   ]);
   const [title] = useState("Hatyaiwit - การบ้าน");
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentDate, setCurrentDate] = useState(moment());
   const itemsPerPage = 15;
+  const currentMonthText = currentDate.format("MMMM YYYY");
+
+  const convertThaiDateToISO = (thaiDate: string): string => {
+    try {
+      const [day, monthThai, yearThai] = thaiDate.split(" ");
+
+      if (!day || !monthThai || !yearThai) {
+        throw new Error(`Invalid Fields: ${thaiDate}`);
+      }
+
+      const month = monthMap[monthThai as ThaiMonth];
+      if (!month) {
+        throw new Error(`Invalid month in Thai date: ${monthThai}`);
+      }
+
+      const year = parseInt(yearThai) - 543;
+
+      const formattedDate = `${year}-${month}-${day.padStart(2, "0")}`;
+      const isoDate = dayjs(formattedDate, "YYYY-MM-DD", true).toISOString();
+
+      if (!isoDate) {
+        throw new Error(`Failed to parse date: ${formattedDate}`);
+      }
+
+      return isoDate;
+    } catch (error) {
+      console.error("Error in convertThaiDateToISO:", error);
+      return "";
+    }
+  };
 
   useEffect(() => {
     axios
@@ -46,11 +126,37 @@ export default function Homework() {
             Decs: "ดึงข้อมูล",
             Time: "ได้",
             Subject: `${error}`,
-            isDue: false
+            isDue: false,
           },
         ]);
       });
   }, []);
+
+  const events = data.map((hw) => {
+    const dueDate = hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
+  
+    if (!dueDate) {
+      return null;
+    }
+  
+    return {
+      title: `${hw.Subject}: ${hw.Decs}`,
+      start: new Date(dueDate),
+      end: new Date(dueDate),
+    };
+  }).filter(event => event !== null);
+  
+  const goToToday = () => {
+    setCurrentDate(moment());
+  };
+
+  const goToNextMonth = () => {
+    setCurrentDate(currentDate.clone().add(1, "month"));
+  };
+
+  const goToPrevMonth = () => {
+    setCurrentDate(currentDate.clone().subtract(1, "month"));
+  };
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -75,14 +181,55 @@ export default function Homework() {
         </h1>
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (หากต้องการข้อมูลเพิ่ม
-          กรุณาติดต่อฝ่ายการเรียน)<br />🔴 สีแดงคือ เลยกำหนดส่ง<br />
-          <span
-            className="flex"
-            style={{ alignItems: "center" }}
-          >
+          กรุณาติดต่อฝ่ายการเรียน)
+          <br />
+          🔴 สีแดงคือ เลยกำหนดส่ง
+          <br />
+          <span className="flex" style={{ alignItems: "center" }}>
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
           </span>
         </h2>
+
+        <div className="pt-5">
+          <div className="flex justify-end gap-5">
+            <Button
+              onClick={goToPrevMonth}
+              style={{ backgroundColor: "#ff1616" }}
+            >
+              ก่อนหน้า
+            </Button>
+            <Button 
+              onClick={goToToday} 
+              style={{ backgroundColor: "#3ddb87" }}
+            >
+              วันนี้
+            </Button>
+            <Button
+              onClick={goToNextMonth}
+              style={{ backgroundColor: "#2d76ff" }}
+            >
+              ถัดไป
+            </Button>
+          </div>
+          <div className="overflow-x-auto">
+            <div>
+              <h2>{currentMonthText}</h2>
+            </div>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: "80vh" }}
+              className="tailwind-calendar text-sm sm:text-base"
+              toolbar={false}
+              showAllEvents={true}
+              popup={true}
+              date={currentDate.toDate()}
+            />
+          </div>
+        </div>
+
         <div
           id="DataFrame"
           style={{ marginTop: "20px" }}
@@ -118,10 +265,19 @@ export default function Homework() {
               ))}
             </Table.Body>
           </Table>
-          <div style={{ flexDirection: 'column', alignItems: 'center', marginTop: '17px' }} className="flex justify-center">
-            <p>แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ</p>
+          <div
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "17px",
+            }}
+            className="flex justify-center"
+          >
+            <p>
+              แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ
+            </p>
             <Pagination
-              style={{ marginTop: '-20px' }}
+              style={{ marginTop: "-20px" }}
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={handlePageChange}
@@ -138,14 +294,24 @@ export default function Homework() {
         <h2 style={{ fontSize: "18px" }}>
           สรุปจำนวนภาระงานทั้งหมด ของ ทุกภาคเรียน
         </h2>
-        <ResponsiveContainer style={{ marginTop: '25px' }} width="100%" height={300}>
+        <ResponsiveContainer
+          style={{ marginTop: "25px" }}
+          width="100%"
+          height={300}
+        >
           <LineChart data={Chartsdata}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="value" name="ภาระงาน" stroke="#ff1616" activeDot={{ r: 8 }} />
+            <Line
+              type="monotone"
+              dataKey="value"
+              name="ภาระงาน"
+              stroke="#ff1616"
+              activeDot={{ r: 8 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
