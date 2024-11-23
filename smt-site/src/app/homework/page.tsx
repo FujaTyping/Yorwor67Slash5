@@ -93,12 +93,12 @@ export default function Homework() {
       const [day, monthThai, yearThai] = thaiDate.split(" ");
 
       if (!day || !monthThai || !yearThai) {
-        throw new Error(`Invalid Fields: ${thaiDate}`);
+        throw new Error(`Invalid Field s: ${thaiDate}`);
       }
 
       const month = monthMap[monthThai as ThaiMonth];
       if (!month) {
-        throw new Error(`Invalid month in Thai date: ${monthThai}`);
+        throw new Error(`Invalid month in Thai date : ${monthThai}`);
       }
 
       const year = parseInt(yearThai) - 543;
@@ -107,12 +107,12 @@ export default function Homework() {
       const isoDate = dayjs(formattedDate, "YYYY-MM-DD", true).toISOString();
 
       if (!isoDate) {
-        throw new Error(`Failed to parse date: ${formattedDate}`);
+        throw new Error(`Failed to parse date : ${formattedDate}`);
       }
 
       return isoDate;
     } catch (error) {
-      console.error("Error in convertThaiDateToISO:", error);
+      console.log("Error in convertThaiDateToISO :", error);
       return "";
     }
   };
@@ -144,7 +144,7 @@ export default function Homework() {
     }
 
     return {
-      title: `${hw.Subject}: ${hw.Decs}`,
+      title: `${hw.Subject} : ${hw.Decs}`,
       start: new Date(dueDate),
       end: new Date(dueDate),
     };
