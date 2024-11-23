@@ -22,7 +22,10 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import 'moment/locale/th';
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
+moment.locale('th');
 
 interface Homework {
   Subject: string;
@@ -82,7 +85,8 @@ export default function Homework() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDate, setCurrentDate] = useState(moment());
   const itemsPerPage = 15;
-  const currentMonthText = currentDate.format("MMMM YYYY");
+  const currentMonthText = currentDate.format("MMMM");
+  const currentYearText = currentDate.format("YYYY");
 
   const convertThaiDateToISO = (thaiDate: string): string => {
     try {
@@ -134,18 +138,18 @@ export default function Homework() {
 
   const events = data.map((hw) => {
     const dueDate = hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
-  
+
     if (!dueDate) {
       return null;
     }
-  
+
     return {
       title: `${hw.Subject}: ${hw.Decs}`,
       start: new Date(dueDate),
       end: new Date(dueDate),
     };
   }).filter(event => event !== null);
-  
+
   const goToToday = () => {
     setCurrentDate(moment());
   };
@@ -189,47 +193,6 @@ export default function Homework() {
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
           </span>
         </h2>
-
-        <div className="pt-5">
-          <div className="flex justify-end gap-5">
-            <Button
-              onClick={goToPrevMonth}
-              style={{ backgroundColor: "#ff1616" }}
-            >
-              ก่อนหน้า
-            </Button>
-            <Button 
-              onClick={goToToday} 
-              style={{ backgroundColor: "#3ddb87" }}
-            >
-              วันนี้
-            </Button>
-            <Button
-              onClick={goToNextMonth}
-              style={{ backgroundColor: "#2d76ff" }}
-            >
-              ถัดไป
-            </Button>
-          </div>
-          <div className="overflow-x-auto">
-            <div>
-              <h2>{currentMonthText}</h2>
-            </div>
-            <Calendar
-              localizer={localizer}
-              events={events}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: "80vh" }}
-              className="tailwind-calendar text-sm sm:text-base"
-              toolbar={false}
-              showAllEvents={true}
-              popup={true}
-              date={currentDate.toDate()}
-            />
-          </div>
-        </div>
-
         <div
           id="DataFrame"
           style={{ marginTop: "20px" }}
@@ -284,6 +247,37 @@ export default function Homework() {
               previousLabel="ก่อนหน้า"
               nextLabel="ถัดไป"
             />
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <h1 style={{ marginBottom: "15px" }} className="border-b">
+          📅 ปฏิทินภาระงาน - {currentMonthText} {parseInt(currentYearText) + 543}
+        </h1>
+        <div style={{ marginTop: '30px' }} className="overflow-x-auto">
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: "80vh" }}
+            className="tailwind-calendar text-sm sm:text-base"
+            toolbar={false}
+            showAllEvents={true}
+            popup={true}
+            date={currentDate.toDate()}
+          />
+          <div
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            className="flex justify-center">
+            <Button.Group>
+              <Button onClick={goToPrevMonth} color="gray">ก่อนหน้า</Button>
+              <Button onClick={goToToday} color="gray">วันนี้</Button>
+              <Button onClick={goToNextMonth} color="gray">ถัดไป</Button>
+            </Button.Group>
           </div>
         </div>
       </div>
