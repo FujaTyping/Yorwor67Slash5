@@ -12,6 +12,7 @@ import {
   FaCode,
   FaKey,
   FaPowerOff,
+  FaTools,
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
@@ -123,6 +124,11 @@ export default function SideNavbar() {
                     <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/feedback" icon={BiSupport}>
                       ส่งความคิดเห็น
                     </Sidebar.Item>
+                    <Sidebar.Collapse icon={FaTools} label="เครื่องมือ">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/tool/teacher/wheel">
+                        สุ่มชื่อ
+                      </Sidebar.Item>
+                    </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item
