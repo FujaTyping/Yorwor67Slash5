@@ -175,6 +175,12 @@ ol span {
   background-color: #ff6767 !important;
 }
 
+input,
+input:focus {
+  outline: none;
+  border: none;
+}
+
 ol time {
   color: black !important;
   font-size: 18px !important;
