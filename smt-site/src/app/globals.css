@@ -151,6 +151,10 @@ li:hover,
   background-color: #2d76ff !important;
 }
 
+.rbc-event {
+  background-color: #6b9fff !important;
+}
+
 ol {
   transform: translateX(12%);
 }

@@ -11,6 +11,7 @@ import Banner4 from "../assets/Activities/Banner4.webp";
 import Banner5 from "../assets/Activities/Banner5.webp";
 import Banner6 from "../assets/Activities/Banner6.webp";
 import Banner7 from "../assets/Activities/Banner7.webp";
+import Banner8 from "../assets/Activities/Banner8.webp";
 
 export default function TimeLine() {
   const [title] = useState("Hatyaiwit - บันทึกกิจกรรม");
@@ -83,6 +84,17 @@ export default function TimeLine() {
             <Timeline.Item>
               <Timeline.Point icon={RiCalendarTodoFill} />
               <Timeline.Content>
+                <Timeline.Time>06-08 กันยายน 2567</Timeline.Time>
+                <img className="hover:saturate-150 transition-all duration-300" src={Banner8.src} alt="EventBanner" />
+                <Timeline.Title>กิจกรรมอบรมหุ่นยนต์</Timeline.Title>
+                <Timeline.Body id="TimeDecs">
+                  กิจกรรมอบรมหุ่นยนต์เชิงปฏิบัติการหุ่นยนต์ EV3
+                </Timeline.Body>
+              </Timeline.Content>
+            </Timeline.Item>
+            <Timeline.Item>
+              <Timeline.Point icon={RiCalendarTodoFill} />
+              <Timeline.Content>
                 <Timeline.Time>12 กันยายน 2567</Timeline.Time>
                 <img className="hover:saturate-150 transition-all duration-300" src={Banner6.src} alt="EventBanner" />
                 <Timeline.Title>กิจกรรมสาธารณประโยชน์</Timeline.Title>
@@ -98,7 +110,7 @@ export default function TimeLine() {
                 <img className="hover:saturate-150 transition-all duration-300" src={Banner7.src} alt="EventBanner" />
                 <Timeline.Title>ทัศนศึกษาต่างประเทศ (มาเลเชีย-สิงคโปร์)</Timeline.Title>
                 <Timeline.Body id="TimeDecs">
-                เปิดโอกาสเรียนรู้วัฒนธรรม สถานที่สำคัญ พัฒนาทักษะภาษาอังกฤษ และสร้างแรงบันดาลใจจากเทคโนโลยีล้ำสมัย พร้อมเสริมสร้างความสัมพันธ์และประสบการณ์ใหม่ๆ นอกห้องเรียน
+                  เปิดโอกาสเรียนรู้วัฒนธรรม สถานที่สำคัญ พัฒนาทักษะภาษาอังกฤษ และสร้างแรงบันดาลใจจากเทคโนโลยีล้ำสมัย พร้อมเสริมสร้างความสัมพันธ์และประสบการณ์ใหม่ๆ นอกห้องเรียน
                 </Timeline.Body>
               </Timeline.Content>
             </Timeline.Item>

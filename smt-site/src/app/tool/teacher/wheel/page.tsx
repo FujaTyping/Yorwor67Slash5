@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from "react"
-import { Button } from "flowbite-react";
+import { Button, Modal, Table } from "flowbite-react";
 import Confetti from 'react-confetti-boom';
 import useSound from 'use-sound';
 import axios from "axios";
 import smtConfig from "../../../smt-config.mjs";
 import { motion } from "motion/react"
+import { IoEyeSharp } from "react-icons/io5";
 
 interface Student {
     name: string;
@@ -21,12 +22,14 @@ export default function Wheel() {
     const [student, setStudent] = useState<Student | null>(null);
     const [confitiC, setConfitiC] = useState(0)
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [possiStu, setPosStu] = useState("100")
     const [tickPlay] = useSound("/assets/Sound/Tick.mp3");
     const [tadaPlay] = useSound("/assets/Sound/Tada.mp3", { volume: 0.4 });
     const [dingPlay] = useSound("/assets/Sound/Ding.mp3", { volume: 0.3 });
     const [evilPlay] = useSound("/assets/Sound/Evil.mp3", { volume: 0.3 });
     const [conPlay] = useSound("/assets/Sound/Confetti.mp3", { volume: 0.5 });
     const [titlemessage, setTitleMessage] = useState("😲 สุ่มชื่อนักเรียน - Wheel of Names");
+    const [openPosModal, setOpenPosModal] = useState(false);
     const [toggleHellmode, settoggleHellmode] = useState(false);
     const [studentData, SetStudentData] = useState<Student[]>([
         {
@@ -53,7 +56,7 @@ export default function Wheel() {
         let newMessage;
         if (titlemessage === "😲 สุ่มชื่อนักเรียน - Wheel of Names") {
             newMessage = "😈 สุ่มชื่อนักเรียน - Wheel of Hell";
-            SetStudentDis("https://cdn.discordapp.com/attachments/1249685919267684406/1309129234182180917/1732191118690.jpg?ex=6740751b&is=673f239b&hm=209943a144f499c9cf3c367637c184b34a8d9f5487ae1545f5378a5ddd6a703a&");
+            SetStudentDis("https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Student%2FBanner%2F1732191118690.jpg?alt=media&token=39d89c5c-8727-4c74-87a8-9d30679281ef");
             settoggleHellmode(true);
             evilPlay();
         } else {
@@ -68,7 +71,7 @@ export default function Wheel() {
         setIsAnimating(true);
         setConfitiC(0);
         if (toggleHellmode) {
-            SetStudentDis("https://cdn.discordapp.com/attachments/1249685919267684406/1309129234182180917/1732191118690.jpg?ex=6740751b&is=673f239b&hm=209943a144f499c9cf3c367637c184b34a8d9f5487ae1545f5378a5ddd6a703a&");
+            SetStudentDis("https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Student%2FBanner%2F1732191118690.jpg?alt=media&token=39d89c5c-8727-4c74-87a8-9d30679281ef");
         } else {
             SetStudentDis("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
         }
@@ -109,6 +112,8 @@ export default function Wheel() {
                 } else {
                     conPlay();
                 }
+                
+                setPosStu((100 / studentData.length).toFixed(3))
                 return;
             }
 
@@ -125,12 +130,20 @@ export default function Wheel() {
         selectRandomStudent();
     };
 
+    const handleShowClick = () => {
+        setOpenPosModal(true)
+    };
+
+    const onCloseModal = () => {
+        setOpenPosModal(false)
+    }
 
     useEffect(() => {
         axios
             .get(`${smtConfig.apiMain}wheel/data`)
             .then((response) => {
                 SetStudentData(response.data.StudentData);
+                setPosStu((100 / response.data.StudentData.length).toFixed(3))
             })
             .catch((error) => {
                 SetStudentData([
@@ -157,7 +170,14 @@ export default function Wheel() {
                     {titlemessage}
                 </h1>
                 <h2 style={{ fontSize: "18px" }}>
-                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5
+                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5<br />
+                    <span
+                        onClick={handleShowClick}
+                        className="flex"
+                        style={{ cursor: "pointer", alignItems: "center" }}
+                    >
+                        <IoEyeSharp style={{ marginRight: "6px" }} /> ดูโอกาสการสุ่ม
+                    </span>
                 </h2>
                 <motion.section
                     className="text-gray-600 body-font"
@@ -212,6 +232,45 @@ export default function Wheel() {
                     </div>
                 </motion.section>
             </div>
+            <Modal
+                className="animate__animated animate__fadeIn"
+                show={openPosModal}
+                onClose={onCloseModal}
+                size="md"
+                popup
+            >
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="space-y-6 mb-5">
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                            แสดงโอกาสการสุ่ม
+                        </h3>
+                    </div>
+                    <Table hoverable>
+                        <Table.Head>
+                            <Table.HeadCell>ชื่อ</Table.HeadCell>
+                            <Table.HeadCell>โอกาสการสุ่ม</Table.HeadCell>
+                        </Table.Head>
+                        <Table.Body className="divide-y">
+                            {studentData.map((data, index) => (
+                                <>
+                                    <Table.Row
+                                        key={index}
+                                        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                                    >
+                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                                            {data.name}
+                                        </Table.Cell>
+                                        <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                                            {possiStu} %
+                                        </Table.Cell>
+                                    </Table.Row>
+                                </>
+                            ))}
+                        </Table.Body>
+                    </Table>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }

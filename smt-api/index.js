@@ -59,10 +59,14 @@ let ARealData = {
 let ComRealData = {
   Completion: [],
 };
+let WheelRealData = {
+  StudentData: [],
+};
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
 let ComlastFetchTime = 0;
+let WheellastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
 const TreefetchInterval = 3 * 60 * 1000;
 
@@ -212,14 +216,14 @@ exapp.post("/completion", Authenticate, async (req, res) => {
 });
 
 exapp.get("/wheel/data", async (req, res) => {
-  const querySnapshot = await getDocs(collection(db, "Wheel"));
-  let RealData = {
-    StudentData: []
-  };
-  querySnapshot.forEach((doc) => {
-    RealData.StudentData.push(doc.data());
-  });
-  res.send(RealData);
+  if (Date.now() - WheellastFetchTime > fetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "Wheel"));
+    querySnapshot.forEach((doc) => {
+      WheelRealData.StudentData.push(doc.data());
+    });
+    WheellastFetchTime = Date.now();
+  }
+  res.send(WheelRealData);
 });
 
 exapp.get("/homework", async (req, res) => {
