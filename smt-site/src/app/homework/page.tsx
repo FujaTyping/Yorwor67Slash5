@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Pagination, Button } from "flowbite-react";
+import { Table, Pagination, Button, Modal, Label } from "flowbite-react";
 import {
   LineChart,
   Line,
@@ -22,10 +22,10 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import 'moment/locale/th';
+import "moment/locale/th";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-moment.locale('th');
+moment.locale("th");
 
 interface Homework {
   Subject: string;
@@ -84,6 +84,10 @@ export default function Homework() {
   const [title] = useState("Hatyaiwit - การบ้าน");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDate, setCurrentDate] = useState(moment());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hwTitle, setHwTitle] = useState("ไม่มีข้อมูล");
+  const [hwDetail, setHwDetail] = useState("ไม่มีข้อมูล");
+  const [hwDue, setHwDue] = useState("ไม่มีข้อมูล");
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");
@@ -136,19 +140,36 @@ export default function Homework() {
       });
   }, []);
 
-  const events = data.map((hw) => {
-    const dueDate = hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
+  const events = data
+    .map((hw) => {
+      const dueDate =
+        hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
 
-    if (!dueDate) {
-      return null;
+      if (!dueDate) {
+        return null;
+      }
+
+      return {
+        title: `${hw.Subject} : ${hw.Decs}`,
+        start: new Date(dueDate),
+        end: new Date(dueDate),
+        hwTitle: hw.Subject,
+        hwDecs: hw.Decs,
+        hwDue: hw.Due,
+      };
+    })
+    .filter((event) => event !== null);
+
+  const onSelectCalendarEvent = (event: any) => {
+    if (!event) {
+      return;
     }
 
-    return {
-      title: `${hw.Subject} : ${hw.Decs}`,
-      start: new Date(dueDate),
-      end: new Date(dueDate),
-    };
-  }).filter(event => event !== null);
+    setIsModalOpen(true);
+    setHwTitle(event.hwTitle);
+    setHwDetail(event.hwDecs);
+    setHwDue(event.hwDue);
+  };
 
   const goToToday = () => {
     setCurrentDate(moment());
@@ -252,9 +273,10 @@ export default function Homework() {
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📅 ปฏิทินภาระงาน - {currentMonthText} {parseInt(currentYearText) + 543}
+          📅 ปฏิทินภาระงาน - {currentMonthText}{" "}
+          {parseInt(currentYearText) + 543}
         </h1>
-        <div style={{ marginTop: '30px' }} className="overflow-x-auto">
+        <div style={{ marginTop: "30px" }} className="overflow-x-auto">
           <Calendar
             localizer={localizer}
             events={events}
@@ -266,17 +288,25 @@ export default function Homework() {
             showAllEvents={true}
             popup={true}
             date={currentDate.toDate()}
+            onSelectEvent={onSelectCalendarEvent}
           />
           <div
             style={{
               flexDirection: "column",
               alignItems: "center",
             }}
-            className="flex justify-center">
+            className="flex justify-center"
+          >
             <Button.Group>
-              <Button onClick={goToPrevMonth} color="gray">ก่อนหน้า</Button>
-              <Button onClick={goToToday} color="gray">วันนี้</Button>
-              <Button onClick={goToNextMonth} color="gray">ถัดไป</Button>
+              <Button onClick={goToPrevMonth} color="gray">
+                ก่อนหน้า
+              </Button>
+              <Button onClick={goToToday} color="gray">
+                วันนี้
+              </Button>
+              <Button onClick={goToNextMonth} color="gray">
+                ถัดไป
+              </Button>
             </Button.Group>
           </div>
         </div>
@@ -309,6 +339,49 @@ export default function Homework() {
           </LineChart>
         </ResponsiveContainer>
       </div>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              ข้อมูลการบ้าน
+            </h3>
+            <div>
+              <div className="flex-col mb-2">
+                <div className="mb-1">
+                  <h3 className="font-bold">ชื่อวิชา</h3>
+                  <Label htmlFor="text" value={hwTitle} />
+                </div>
+                <div className="mb-1">
+                  <h3 className="font-bold">รายละเอียด</h3>
+                  <Label htmlFor="text" value={hwDetail} />
+                </div>
+                <div className="mb-1">
+                  <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
+                  <Label htmlFor="text" value={hwDue} />
+                </div>
+              </div>
+            </div>
+            <div className="w-full">
+              <>
+                <Button
+                  style={{ backgroundColor: "#2d76ff" }}
+                  color="blue"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  เสร็จสิ้น
+                </Button>
+              </>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
