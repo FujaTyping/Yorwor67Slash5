@@ -175,10 +175,11 @@ ol span {
   background-color: #ff6767 !important;
 }
 
-input,
-input:focus {
+#ING,
+#ING:focus {
   outline: none;
   border: none;
+  border-width: 0;
 }
 
 ol time {

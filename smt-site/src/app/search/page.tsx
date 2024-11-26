@@ -43,7 +43,7 @@ export default function Search() {
                     <div className="pl-5">
                         <img className="h-6 w-7" src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google logo" />
                     </div>
-                    <input onKeyDown={handleKeyDown} onChange={(q) => { setQ(q.target.value) }} placeholder="ค้นหาด้วย Google" type="text" className="w-full bg-transparent rounded-full py-[14px] pl-4 outline-none" />
+                    <input id="ING" onKeyDown={handleKeyDown} onChange={(q) => { setQ(q.target.value) }} placeholder="ค้นหาด้วย Google" type="text" className="w-full bg-transparent rounded-full py-[14px] pl-4 outline-none" />
                     <FaArrowRight onClick={searchG} style={{ color: 'gray', cursor: 'pointer' }} className="h-4 w-4 mr-5" />
                 </div>
                 <div className="flex mt-10 items-center gap-10">
