@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Table, Pagination, Button, Modal, Label } from "flowbite-react";
+import { Table, Pagination, Button, Label } from "flowbite-react";
 import {
   LineChart,
   Line,
@@ -346,44 +346,45 @@ export default function Homework() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <Modal
-        className="animate__animated animate__fadeIn"
-        size="md"
-        show={isModalOpen}
-        onClose={() => { setIsModalOpen(false); DatadetailsRef.current?.scrollIntoView({ behavior: "smooth" }); }}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
-              ข้อมูลการบ้าน <span className="ml-2 font-bold" style={{ color: hwisDue ? "red" : "black", display: hwisDue ? "flex" : "none" }}>(เลยกำหนด)</span>
-            </h3>
-            <div style={{ marginTop: '10px' }}>
-              <div className="flex-col mb-2">
-                <div className="mb-1">
-                  <h3 className="font-bold">ชื่อวิชา</h3>
-                  <Label htmlFor="text" value={hwTitle} />
-                </div>
-                <div className="mb-1">
-                  <h3 className="font-bold">รายละเอียด</h3>
-                  <Label htmlFor="text" value={hwDetail} />
-                </div>
-                <div className="flex gap-5">
+      <div style={{ display: isModalOpen ? 'flex' : 'none', backgroundColor: '#3030308c' }} id="popup-modal" className="animate__animated animate__fadeIn hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div className="relative p-4 w-full max-w-md max-h-full">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button onClick={() => { setIsModalOpen(false) }} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+              <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div style={{ paddingTop: '3rem' }} className="space-y-6 p-5">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
+                ข้อมูลการบ้าน <span className="ml-2 font-bold" style={{ color: hwisDue ? "red" : "black", display: hwisDue ? "flex" : "none" }}>(เลยกำหนด)</span>
+              </h3>
+              <div style={{ marginTop: '10px' }}>
+                <div className="flex-col mb-2">
                   <div className="mb-1">
-                    <h3 className="font-bold">วันที่สั่ง</h3>
-                    <Label htmlFor="text" value={hwTime} />
+                    <h3 className="font-bold">ชื่อวิชา</h3>
+                    <Label htmlFor="text" value={hwTitle} />
                   </div>
-                  <div style={{ color: hwisDue ? "red" : "black" }} className="mb-1">
-                    <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
-                    <Label style={{ color: hwisDue ? "red" : "black" }} htmlFor="text" value={hwDue} />
+                  <div className="mb-1">
+                    <h3 className="font-bold">รายละเอียด</h3>
+                    <Label htmlFor="text" value={hwDetail} />
+                  </div>
+                  <div className="flex gap-5">
+                    <div className="mb-1">
+                      <h3 className="font-bold">วันที่สั่ง</h3>
+                      <Label htmlFor="text" value={hwTime} />
+                    </div>
+                    <div style={{ color: hwisDue ? "red" : "black" }} className="mb-1">
+                      <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
+                      <Label style={{ color: hwisDue ? "red" : "black" }} htmlFor="text" value={hwDue} />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </Modal.Body>
-      </Modal>
+        </div>
+      </div>
     </>
   );
 }
