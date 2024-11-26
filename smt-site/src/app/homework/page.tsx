@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Table, Pagination, Button, Modal, Label } from "flowbite-react";
 import {
@@ -88,6 +88,9 @@ export default function Homework() {
   const [hwTitle, setHwTitle] = useState("ไม่มีข้อมูล");
   const [hwDetail, setHwDetail] = useState("ไม่มีข้อมูล");
   const [hwDue, setHwDue] = useState("ไม่มีข้อมูล");
+  const [hwTime, setHwTime] = useState("ไม่มีข้อมูล");
+  const [hwisDue, setHwisDue] = useState(false);
+  const DatadetailsRef = useRef<null | HTMLDivElement>(null);
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");
@@ -156,6 +159,8 @@ export default function Homework() {
         hwTitle: hw.Subject,
         hwDecs: hw.Decs,
         hwDue: hw.Due,
+        hwTime: hw.Time,
+        hwisDue: hw.isDue
       };
     })
     .filter((event) => event !== null);
@@ -169,6 +174,8 @@ export default function Homework() {
     setHwTitle(event.hwTitle);
     setHwDetail(event.hwDecs);
     setHwDue(event.hwDue);
+    setHwTime(event.hwTime);
+    setHwisDue(event.hwisDue);
   };
 
   const goToToday = () => {
@@ -271,7 +278,7 @@ export default function Homework() {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div ref={DatadetailsRef} className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
           📅 ปฏิทินภาระงาน - {currentMonthText}{" "}
           {parseInt(currentYearText) + 543}
@@ -341,18 +348,18 @@ export default function Homework() {
       </div>
       <Modal
         className="animate__animated animate__fadeIn"
-        show={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
         size="md"
+        show={isModalOpen}
+        onClose={() => { setIsModalOpen(false); DatadetailsRef.current?.scrollIntoView({ behavior: "smooth" }); }}
         popup
       >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              ข้อมูลการบ้าน
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
+              ข้อมูลการบ้าน <span className="ml-2 font-bold" style={{ color: hwisDue ? "red" : "black", display: hwisDue ? "flex" : "none" }}>(เลยกำหนด)</span>
             </h3>
-            <div>
+            <div style={{ marginTop: '10px' }}>
               <div className="flex-col mb-2">
                 <div className="mb-1">
                   <h3 className="font-bold">ชื่อวิชา</h3>
@@ -362,22 +369,17 @@ export default function Homework() {
                   <h3 className="font-bold">รายละเอียด</h3>
                   <Label htmlFor="text" value={hwDetail} />
                 </div>
-                <div className="mb-1">
-                  <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
-                  <Label htmlFor="text" value={hwDue} />
+                <div className="flex gap-5">
+                  <div className="mb-1">
+                    <h3 className="font-bold">วันที่สั่ง</h3>
+                    <Label htmlFor="text" value={hwTime} />
+                  </div>
+                  <div style={{ color: hwisDue ? "red" : "black" }} className="mb-1">
+                    <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
+                    <Label style={{ color: hwisDue ? "red" : "black" }} htmlFor="text" value={hwDue} />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="w-full">
-              <>
-                <Button
-                  style={{ backgroundColor: "#2d76ff" }}
-                  color="blue"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  เสร็จสิ้น
-                </Button>
-              </>
             </div>
           </div>
         </Modal.Body>
