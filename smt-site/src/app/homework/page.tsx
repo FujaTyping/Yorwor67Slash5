@@ -170,12 +170,12 @@ export default function Homework() {
       return;
     }
 
-    setIsModalOpen(true);
     setHwTitle(event.hwTitle);
     setHwDetail(event.hwDecs);
     setHwDue(event.hwDue);
     setHwTime(event.hwTime);
     setHwisDue(event.hwisDue);
+    setIsModalOpen(true);
   };
 
   const goToToday = () => {
