@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react"
-import { Button, Modal, Table } from "flowbite-react";
+import { Button, Modal, Table, ToggleSwitch } from "flowbite-react";
 import Confetti from 'react-confetti-boom';
 import useSound from 'use-sound';
 import axios from "axios";
@@ -22,6 +22,7 @@ export default function Wheel() {
     const [student, setStudent] = useState<Student | null>(null);
     const [confitiC, setConfitiC] = useState(0)
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [switchH, setSwitchH] = useState(false);
     const [possiStu, setPosStu] = useState("100")
     const [tickPlay] = useSound("/assets/Sound/Tick.mp3");
     const [tadaPlay] = useSound("/assets/Sound/Tada.mp3", { volume: 0.4 });
@@ -48,6 +49,34 @@ export default function Wheel() {
             transition: {
                 duration: 0.6,
                 ease: "easeInOut",
+            },
+        },
+    };
+
+    const animationVariants = {
+        normal: {
+            initial: { y: -10 },
+            animate: { y: 0 },
+            transition: { duration: 0.3 },
+        },
+        hellMode: {
+            initial: { scale: 0.8, rotate: -15 },
+            animate: {
+                scale: [1, 1.1, 0.9, 1],
+                rotate: [0, 5, -5, 0],
+            },
+            transition: {
+                duration: 0.4,
+            },
+        },
+        hellModeImg: {
+            initial: { scale: 0.8, rotate: 15 },
+            animate: {
+                scale: [1, 1.1, 0.9, 1],
+                rotate: [0, -5, 5, 0],
+            },
+            transition: {
+                duration: 0.4,
             },
         },
     };
@@ -85,6 +114,15 @@ export default function Wheel() {
             delay = 50;
         }
 
+        if (switchH) {
+            totalFlashes = 8;
+            delay = 200;
+            if (toggleHellmode) {
+                totalFlashes = 10;
+                delay = 150;
+            }
+        }
+
         const selectRandomStudent = () => {
             const randomIndex = Math.floor(Math.random() * studentData.length);
             setStudent(studentData[randomIndex]);
@@ -112,7 +150,7 @@ export default function Wheel() {
                 } else {
                     conPlay();
                 }
-                
+
                 setPosStu((100 / studentData.length).toFixed(3))
                 return;
             }
@@ -188,9 +226,21 @@ export default function Wheel() {
                         <motion.div
                             className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
                             key={student ? student.avatar : "defaultImage"}
-                            initial={{ y: -10 }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 0.3 }}
+                            initial={
+                                toggleHellmode
+                                    ? animationVariants.hellModeImg.initial
+                                    : animationVariants.normal.initial
+                            }
+                            animate={
+                                toggleHellmode
+                                    ? animationVariants.hellModeImg.animate
+                                    : animationVariants.normal.animate
+                            }
+                            transition={
+                                toggleHellmode
+                                    ? animationVariants.hellModeImg.transition
+                                    : animationVariants.normal.transition
+                            }
                         >
                             <img
                                 style={{ width: "350px" }}
@@ -206,9 +256,21 @@ export default function Wheel() {
                         <motion.div
                             className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
                             key={student ? student.name : "defaultText"}
-                            initial={{ y: -10 }}
-                            animate={{ y: 0 }}
-                            transition={{ duration: 0.3 }}
+                            initial={
+                                toggleHellmode
+                                    ? animationVariants.hellMode.initial
+                                    : animationVariants.normal.initial
+                            }
+                            animate={
+                                toggleHellmode
+                                    ? animationVariants.hellMode.animate
+                                    : animationVariants.normal.animate
+                            }
+                            transition={
+                                toggleHellmode
+                                    ? animationVariants.hellMode.transition
+                                    : animationVariants.normal.transition
+                            }
                         >
                             <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
                                 {student ? student.name : "กดปุ่มด้านล่าง"}
@@ -218,7 +280,7 @@ export default function Wheel() {
                                     ? `${student.nickname} เลขที่ ${student.number}`
                                     : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
                             </p>
-                            <div className="flex justify-center">
+                            <div className="flex justify-center items-center gap-5">
                                 <Button
                                     onClick={randomStudent}
                                     style={{ backgroundColor: "#ff1616" }}
@@ -227,6 +289,7 @@ export default function Wheel() {
                                 >
                                     {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
                                 </Button>
+                                <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
                             </div>
                         </motion.div>
                     </div>

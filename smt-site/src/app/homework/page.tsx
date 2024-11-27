@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Table, Pagination, Button } from "flowbite-react";
+import { Table, Pagination, Button, Label } from "flowbite-react";
 import {
   LineChart,
   Line,
@@ -13,7 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaHandPointer } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 
 import dayjs from "dayjs";
@@ -22,10 +22,10 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import 'moment/locale/th';
+import "moment/locale/th";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-moment.locale('th');
+moment.locale("th");
 
 interface Homework {
   Subject: string;
@@ -84,6 +84,13 @@ export default function Homework() {
   const [title] = useState("Hatyaiwit - การบ้าน");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDate, setCurrentDate] = useState(moment());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hwTitle, setHwTitle] = useState("ไม่มีข้อมูล");
+  const [hwDetail, setHwDetail] = useState("ไม่มีข้อมูล");
+  const [hwDue, setHwDue] = useState("ไม่มีข้อมูล");
+  const [hwTime, setHwTime] = useState("ไม่มีข้อมูล");
+  const [hwisDue, setHwisDue] = useState(false);
+  const DatadetailsRef = useRef<null | HTMLDivElement>(null);
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");
@@ -136,19 +143,40 @@ export default function Homework() {
       });
   }, []);
 
-  const events = data.map((hw) => {
-    const dueDate = hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
+  const events = data
+    .map((hw) => {
+      const dueDate =
+        hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
 
-    if (!dueDate) {
-      return null;
+      if (!dueDate) {
+        return null;
+      }
+
+      return {
+        title: `${hw.Subject} : ${hw.Decs}`,
+        start: new Date(dueDate),
+        end: new Date(dueDate),
+        hwTitle: hw.Subject,
+        hwDecs: hw.Decs,
+        hwDue: hw.Due,
+        hwTime: hw.Time,
+        hwisDue: hw.isDue
+      };
+    })
+    .filter((event) => event !== null);
+
+  const onSelectCalendarEvent = (event: any) => {
+    if (!event) {
+      return;
     }
 
-    return {
-      title: `${hw.Subject} : ${hw.Decs}`,
-      start: new Date(dueDate),
-      end: new Date(dueDate),
-    };
-  }).filter(event => event !== null);
+    setHwTitle(event.hwTitle);
+    setHwDetail(event.hwDecs);
+    setHwDue(event.hwDue);
+    setHwTime(event.hwTime);
+    setHwisDue(event.hwisDue);
+    setIsModalOpen(true);
+  };
 
   const goToToday = () => {
     setCurrentDate(moment());
@@ -250,11 +278,15 @@ export default function Homework() {
           </div>
         </div>
       </div>
-      <div className="container">
+      <div ref={DatadetailsRef} className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📅 ปฏิทินภาระงาน - {currentMonthText} {parseInt(currentYearText) + 543}
+          📅 ปฏิทินภาระงาน - {currentMonthText}{" "}
+          {parseInt(currentYearText) + 543}
         </h1>
-        <div style={{ marginTop: '30px' }} className="overflow-x-auto">
+        <h2 className="flex items-center" style={{ fontSize: "18px" }}>
+          <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน เพื่อดูรายละเอียด
+        </h2>
+        <div style={{ marginTop: "30px" }} className="overflow-x-auto">
           <Calendar
             localizer={localizer}
             events={events}
@@ -266,17 +298,25 @@ export default function Homework() {
             showAllEvents={true}
             popup={true}
             date={currentDate.toDate()}
+            onSelectEvent={onSelectCalendarEvent}
           />
           <div
             style={{
               flexDirection: "column",
               alignItems: "center",
             }}
-            className="flex justify-center">
+            className="flex justify-center"
+          >
             <Button.Group>
-              <Button onClick={goToPrevMonth} color="gray">ก่อนหน้า</Button>
-              <Button onClick={goToToday} color="gray">วันนี้</Button>
-              <Button onClick={goToNextMonth} color="gray">ถัดไป</Button>
+              <Button onClick={goToPrevMonth} color="gray">
+                ก่อนหน้า
+              </Button>
+              <Button onClick={goToToday} color="gray">
+                วันนี้
+              </Button>
+              <Button onClick={goToNextMonth} color="gray">
+                ถัดไป
+              </Button>
             </Button.Group>
           </div>
         </div>
@@ -308,6 +348,45 @@ export default function Homework() {
             />
           </LineChart>
         </ResponsiveContainer>
+      </div>
+      <div style={{ display: isModalOpen ? 'flex' : 'none', backgroundColor: '#3030308c' }} id="popup-modal" className="animate__animated animate__fadeIn hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div className="relative p-4 w-full max-w-md max-h-full">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button onClick={() => { setIsModalOpen(false) }} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+              <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div style={{ paddingTop: '3rem' }} className="space-y-6 p-5">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
+                ข้อมูลการบ้าน <span className="ml-2 font-bold" style={{ color: hwisDue ? "red" : "black", display: hwisDue ? "flex" : "none" }}>(เลยกำหนด)</span>
+              </h3>
+              <div style={{ marginTop: '10px' }}>
+                <div className="flex-col mb-2">
+                  <div className="mb-1">
+                    <h3 className="font-bold">ชื่อวิชา</h3>
+                    <Label htmlFor="text" value={hwTitle} />
+                  </div>
+                  <div className="mb-1">
+                    <h3 className="font-bold">รายละเอียด</h3>
+                    <Label htmlFor="text" value={hwDetail} />
+                  </div>
+                  <div className="flex gap-5">
+                    <div className="mb-1">
+                      <h3 className="font-bold">วันที่สั่ง</h3>
+                      <Label htmlFor="text" value={hwTime} />
+                    </div>
+                    <div style={{ color: hwisDue ? "red" : "black" }} className="mb-1">
+                      <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
+                      <Label style={{ color: hwisDue ? "red" : "black" }} htmlFor="text" value={hwDue} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
