@@ -13,7 +13,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaHandPointer } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 
 import dayjs from "dayjs";
@@ -283,6 +283,9 @@ export default function Homework() {
           📅 ปฏิทินภาระงาน - {currentMonthText}{" "}
           {parseInt(currentYearText) + 543}
         </h1>
+        <h2 className="flex items-center" style={{ fontSize: "18px" }}>
+          <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน เพื่อดูรายละเอียด
+        </h2>
         <div style={{ marginTop: "30px" }} className="overflow-x-auto">
           <Calendar
             localizer={localizer}

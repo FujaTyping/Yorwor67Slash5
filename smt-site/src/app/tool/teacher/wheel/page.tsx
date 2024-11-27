@@ -117,6 +117,10 @@ export default function Wheel() {
         if (switchH) {
             totalFlashes = 8;
             delay = 200;
+            if (toggleHellmode) {
+                totalFlashes = 10;
+                delay = 150;
+            }
         }
 
         const selectRandomStudent = () => {
