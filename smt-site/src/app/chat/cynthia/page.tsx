@@ -51,7 +51,7 @@ export default function ChatCynthia() {
         setCynthiaPrompt(`${response.data}`);
         setLoading(false)
         setCooldown(true);
-        setSecondsLeft(10);
+        setSecondsLeft(20);
       })
       .catch((error) => {
         setCynthiaPrompt(`${error.response.data}`);
