@@ -926,7 +926,7 @@ export default function User() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="จำนวนนักเรียนทั้งหมด (ที่ขาด)" />
+                <Label htmlFor="text" value="จำนวนนักเรียนทั้งหมด (ที่ไม่มา)" />
               </div>
               <TextInput
                 type="number"
@@ -939,7 +939,7 @@ export default function User() {
             <div className="flex gap-5">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่ขาด)" />
+                  <Label htmlFor="text" value="จำนวนนักเรียนชาย (ที่ไม่มา)" />
                 </div>
                 <TextInput
                   type="number"
@@ -951,7 +951,7 @@ export default function User() {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่ขาด)" />
+                  <Label htmlFor="text" value="จำนวนนักเรียนหญิง (ที่ไม่มา)" />
                 </div>
                 <TextInput
                   type="number"
