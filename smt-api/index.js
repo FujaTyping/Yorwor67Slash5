@@ -225,7 +225,7 @@ exapp.post("/completion", Authenticate, async (req, res) => {
   }
 });
 
-exapp.post("/generative/cynthia", Authenticate, async (req, res) => {
+exapp.post("/generative/cynthia", async (req, res) => {
   const USRP = req.body.prompt;
   if (!USRP) {
     res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
