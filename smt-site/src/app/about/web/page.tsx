@@ -11,6 +11,8 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import smtConfig from "../../smt-config.mjs";
+import useSound from 'use-sound';
+import useLocalStorge from "../../lib/localstorage-db";
 
 import Cynthia from '../../assets/Cynthia.jpg'
 
@@ -18,6 +20,8 @@ export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
   const [api1down, setApi1down] = useState(true);
   const [api2down, setApi2down] = useState(true);
+  const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
+  const { isLogin } = useLocalStorge(false);
 
   useEffect(() => {
     axios
@@ -199,7 +203,7 @@ export default function AboutWeb() {
                         <h3 className="text-gray-500 mb-3">AI Assistant</h3>
                         <p className="mb-4">{"ทุกความพยายามคือก้าวเล็ก ๆ ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!"}</p>
                         <span style={{ cursor: 'pointer' }} className="inline-flex">
-                          <Link href="/chat/cynthia">
+                          <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia">
                             <IoChatboxEllipses
                               className="h-6 w-6"
                             />
