@@ -199,9 +199,11 @@ export default function AboutWeb() {
                         <h3 className="text-gray-500 mb-3">AI Assistant</h3>
                         <p className="mb-4">{"ทุกความพยายามคือก้าวเล็ก ๆ ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!"}</p>
                         <span style={{ cursor: 'pointer' }} className="inline-flex">
-                          <IoChatboxEllipses
-                            className="h-6 w-6"
-                          />
+                          <Link href="/chat/cynthia">
+                            <IoChatboxEllipses
+                              className="h-6 w-6"
+                            />
+                          </Link>
                         </span>
                       </div>
                     </div>

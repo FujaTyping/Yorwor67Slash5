@@ -1,51 +1,73 @@
 "use client";
 
 import { useState } from "react";
+import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card } from "flowbite-react";
 import CynthiaProfile from "../../assets/Cynthia.jpg";
 import ChatBubble from "@/app/components/chat";
+import { IoSend } from "react-icons/io5";
+import smtConfig from "../../smt-config.mjs";
 
 export default function ChatCynthia() {
-  const { email, username, photourl, showAlert } = useLocalStorge(true);
+  const { username, photourl, email } = useLocalStorge(false);
   const [userPrompt, setUserPrompt] = useState(
-    "Hello Cynthia Chan. Can you help me with something?"
+    "สวัสดี Cynthia คุณช่วยฉันหน่อยได้ไหม?"
   );
+
   const [cynthiaPrompt, setCynthiaPrompt] = useState(
-    `What can I help you? I would be really happy to assist!`
+    "ฉันยินดีที่จะช่วยนะคะ บอกมาเลยว่าคุณต้องการอะไร?"
   );
   const [input, setInput] = useState("");
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setUserPrompt(input);
+      AskCynthia(input);
     }
   };
+
+  function AskCynthia(prompt: string) {
+    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ")
+    axios
+      .post(
+        `${smtConfig.apiMain}generative/cynthia`,
+        {
+          prompt: `${prompt}`,
+        },
+        {
+          headers: {
+            Auth: email,
+          },
+        }
+      )
+      .then((response) => {
+        setCynthiaPrompt(`${response.data}`);
+      })
+      .catch((error) => {
+        setCynthiaPrompt(`${error.response.data}`);
+      });
+  }
 
   return (
     <>
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
-        <Card className="flex flex-row items-center p-4">
-          <div className="flex flex-row flex-shrink-0 w-16 h-16 mr-4">
+        <Card className="flex flex-row items-center">
+          <div className="flex flex-row flex-shrink-0 mr-4 items-center">
             <img
               src={CynthiaProfile.src}
               alt="Profile picture"
-              className="w-full h-full rounded-full object-cover"
+              className="w-20 h-20 rounded-full object-cover"
             />
-            <div className="ml-6 pt-0.5">
-              <span className="text-sm font-semibold text-green-500">
-                Status: Online 🟢
-              </span>
+            <div className="ml-8">
+              <h5 className="text-xl font-bold tracking-tight">
+                Cynthia (ซินเทีย)
+              </h5>
+              <p className="font-normal">
+                ทุกความพยายามคือก้าวเล็ก ๆ
+                ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
+              </p>
             </div>
-          </div>
-          <div className="flex-1">
-            <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Cynthia Novana
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              ทุกความพยายามคือก้าวเล็ก ๆ
-              ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
-            </p>
           </div>
         </Card>
 
@@ -61,7 +83,7 @@ export default function ChatCynthia() {
           <div>
             <ChatBubble
               isRtl={false}
-              name="Cynthia Chan"
+              name="Cynthia"
               img={CynthiaProfile.src}
               text={cynthiaPrompt}
             />
@@ -73,19 +95,19 @@ export default function ChatCynthia() {
             <FloatingLabel
               onKeyDown={handleKeyDown}
               onChange={(i) => setInput(i.target.value)}
-              variant="filled"
-              label="Chat With Cynthia"
-              helperText="Remember, Cynthia is an AI chatbot."
-              className="w-full"
+              variant="outlined"
+              label="พิมพ์อะไรสักอย่างสิ :D"
+              helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
             />
           </div>
 
           <div className="pb-10 flex-shrink-0">
             <Button
-              onClick={() => setUserPrompt(input)}
-              className="px-6 py-3 text-lg font-semibold text-white rounded-full bg-gradient-to-r from-red-600 to-red-400 hover:from-red-400 hover:to-red-600 transition-all duration-200 ease-in-out"
+              onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+              style={{ backgroundColor: "#ff1616" }}
+              color="blue"
             >
-              Send
+              <IoSend className="h-6 w-6" />
             </Button>
           </div>
         </div>
