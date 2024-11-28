@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card } from "flowbite-react";
@@ -8,8 +8,10 @@ import CynthiaProfile from "../../assets/Cynthia.jpg";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
+import { MdLockClock } from "react-icons/md";
 
 export default function ChatCynthia() {
+  const [title] = useState("Hatyaiwit - Cynthia");
   const { username, photourl, email, isLogin } = useLocalStorge(false);
   const [userPrompt, setUserPrompt] = useState(
     "สวัสดี Cynthia คุณช่วยฉันหน่อยได้ไหม?"
@@ -20,6 +22,8 @@ export default function ChatCynthia() {
   );
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false)
+  const [cooldown, setCooldown] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(0);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -46,6 +50,8 @@ export default function ChatCynthia() {
       .then((response) => {
         setCynthiaPrompt(`${response.data}`);
         setLoading(false)
+        setCooldown(true);
+        setSecondsLeft(10);
       })
       .catch((error) => {
         setCynthiaPrompt(`${error.response.data}`);
@@ -53,8 +59,22 @@ export default function ChatCynthia() {
       });
   }
 
+  useEffect(() => {
+    if (cooldown && secondsLeft > 0) {
+      const timer = setInterval(() => {
+        setSecondsLeft((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (secondsLeft === 0) {
+      setCooldown(false);
+    }
+  }, [cooldown, secondsLeft]);
+
   return (
     <>
+      <title>{title}</title>
+      <meta property="og:title" content={title} />
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
         <Card className="flex flex-row items-center">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
@@ -71,6 +91,11 @@ export default function ChatCynthia() {
                 ทุกความพยายามคือก้าวเล็ก ๆ
                 ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
               </p>
+              {cooldown ? (
+                <>
+                  <span style={{ color: 'red' }} className="flex mb-2 items-center animate__animated animate__shakeX"><MdLockClock className="w-5 h-5 mr-2" /> รออีก {secondsLeft} วินาทีถึงจะคุยต่อไปได้</span>
+                </>
+              ) : (<></>)}
             </div>
           </div>
         </Card>
@@ -98,19 +123,35 @@ export default function ChatCynthia() {
 
             <div className="flex flex-wrap items-center gap-4 w-full">
               <div className="flex-1 min-w-0">
-                <FloatingLabel
-                  onKeyDown={handleKeyDown}
-                  onChange={(i) => setInput(i.target.value)}
-                  variant="outlined"
-                  label="พิมพ์อะไรสักอย่างสิ :D"
-                  helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
-                />
+                {cooldown ? (
+                  <>
+                    <FloatingLabel
+                      disabled
+                      onKeyDown={handleKeyDown}
+                      onChange={(i) => setInput(i.target.value)}
+                      variant="outlined"
+                      label="พิมพ์อะไรสักอย่างสิ :D"
+                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FloatingLabel
+                      onKeyDown={handleKeyDown}
+                      onChange={(i) => setInput(i.target.value)}
+                      variant="outlined"
+                      label="พิมพ์อะไรสักอย่างสิ :D"
+                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
+                    />
+                  </>
+                )}
               </div>
 
               <div className="pb-10 flex-shrink-0">
                 {loading ? (
                   <>
                     <Button
+                      pill
                       isProcessing
                       style={{ backgroundColor: "#ff1616" }}
                       color="blue"
@@ -120,13 +161,30 @@ export default function ChatCynthia() {
                   </>
                 ) : (
                   <>
-                    <Button
-                      onClick={() => { setUserPrompt(input); AskCynthia(input); }}
-                      style={{ backgroundColor: "#ff1616" }}
-                      color="blue"
-                    >
-                      <IoSend className="h-6 w-6" />
-                    </Button>
+                    {cooldown ? (
+                      <>
+                        <Button
+                          onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                          style={{ backgroundColor: "#ff1616" }}
+                          color="blue"
+                          pill
+                          disabled
+                        >
+                          <IoSend className="h-6 w-6" />
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                          style={{ backgroundColor: "#ff1616" }}
+                          color="blue"
+                          pill
+                        >
+                          <IoSend className="h-6 w-6" />
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
               </div>

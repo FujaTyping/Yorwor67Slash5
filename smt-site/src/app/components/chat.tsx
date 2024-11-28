@@ -16,7 +16,7 @@ export default function ChatBubble({ isRtl, name, img, text }: ChatAtrib) {
               src={img}
               alt="Profile"
             />
-            <div className="flex flex-col w-full max-w-[380px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
+            <div className="flex flex-col w-full max-w-[400px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span dir="ltr" className="text-lg font-semibold">
                   {name}
