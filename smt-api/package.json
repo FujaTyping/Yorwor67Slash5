@@ -18,6 +18,7 @@
   "homepage": "https://github.com/FujaTyping/Yorwor67Slash5#readme",
   "dependencies": {
     "@firebase/firestore": "^4.7.2",
+    "@google/generative-ai": "^0.21.0",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

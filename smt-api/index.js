@@ -12,6 +12,7 @@ const {
   orderBy,
   deleteDoc,
 } = require("firebase/firestore");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -45,6 +46,15 @@ const webhookURL = process.env.DscWebhook;
 const LineAuth = process.env.LINEauth;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
+const GeminiModel = GeminiAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    maxOutputTokens: 100,
+    temperature: 0.7,
+  },
+});
 
 let HRealData = {
   Homework: [],
@@ -212,6 +222,32 @@ exapp.post("/completion", Authenticate, async (req, res) => {
       timestamp: serverTimestamp(),
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
+  }
+});
+
+exapp.post("/generative/cynthia", Authenticate, async (req, res) => {
+  const USRP = req.body.prompt;
+  if (!USRP) {
+    res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
+  } else {
+    try {
+      const SysChat = GeminiModel.startChat({
+        history: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked.",
+              },
+            ],
+          },
+        ],
+      });
+      const CResponse = await SysChat.sendMessage(`${USRP}`);
+      res.send(CResponse.response.text());
+    } catch (e) {
+      res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
+    }
   }
 });
 
