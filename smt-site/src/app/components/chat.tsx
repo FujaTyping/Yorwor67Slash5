@@ -1,6 +1,7 @@
 import { Badge } from "flowbite-react";
 import { SiGooglegemini } from "react-icons/si";
 import { motion } from "motion/react"
+import Markdown from 'react-markdown'
 
 interface ChatAtrib {
   isRtl: boolean;
@@ -32,9 +33,9 @@ export default function ChatBubble({ isRtl, name, img, text, isBot }: ChatAtrib)
                 {name}
               </span>
             </div>
-            <p dir="ltr" className="text-base font-normal py-2.5 break-words">
-              {text}
-            </p>
+            <div dir="ltr" className="text-base font-normal py-2.5 break-words">
+              <Markdown>{text}</Markdown>
+            </div>
             {isBot && (
               <Badge
                 className="mt-2"
