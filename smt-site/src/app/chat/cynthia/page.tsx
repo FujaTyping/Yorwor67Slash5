@@ -26,8 +26,8 @@ export default function ChatCynthia() {
   const [cooldown, setCooldown] = useState(false);
   const [isGEN, setIsGEN] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
-  const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.4 });
-  const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.4 });
+  const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
+  const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
