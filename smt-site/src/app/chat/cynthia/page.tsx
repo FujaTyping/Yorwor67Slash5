@@ -9,6 +9,7 @@ import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
 import { MdLockClock } from "react-icons/md";
+import useSound from 'use-sound';
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Cynthia");
@@ -23,7 +24,10 @@ export default function ChatCynthia() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false)
   const [cooldown, setCooldown] = useState(false);
+  const [isGEN, setIsGEN] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.4 });
+  const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.4 });
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -33,6 +37,8 @@ export default function ChatCynthia() {
   };
 
   function AskCynthia(prompt: string) {
+    TX();
+    setIsGEN(false)
     setCynthiaPrompt("Cynthia กำลังคิดคำตอบ")
     setLoading(true)
     axios
@@ -49,12 +55,15 @@ export default function ChatCynthia() {
       )
       .then((response) => {
         setCynthiaPrompt(`${response.data}`);
+        RX();
         setLoading(false)
         setCooldown(true);
-        setSecondsLeft(20);
+        setSecondsLeft(15);
+        setIsGEN(true)
       })
       .catch((error) => {
         setCynthiaPrompt(`${error.response.data}`);
+        RX();
         setLoading(false)
       });
   }
@@ -117,6 +126,7 @@ export default function ChatCynthia() {
                   name="Cynthia"
                   img={CynthiaProfile.src}
                   text={cynthiaPrompt}
+                  isBot={isGEN}
                 />
               </div>
             </div>
