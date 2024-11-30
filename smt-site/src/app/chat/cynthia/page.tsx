@@ -10,7 +10,6 @@ import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
 import { MdLockClock } from "react-icons/md";
 import useSound from 'use-sound';
-import { openDB } from "idb";
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Cynthia");
@@ -45,14 +44,12 @@ export default function ChatCynthia() {
     setLoading(true)
 
     try {
-      const db = await openDB("CynthiaDB", 1);
-      const allData = await db.getAll("PersonalData");
-
-      if (allData.length > 0) {
-        setPersonality(`${allData[0].personality}`);
+      const storedPersonality = localStorage.getItem("personality");
+      if (storedPersonality) {
+        setPersonality(storedPersonality);
       }
     } catch (error) {
-      console.error("Error reading data from IndexedDB:", error);
+      console.error("Error reading data from localStorage:", error);
     }
 
     axios
@@ -97,14 +94,12 @@ export default function ChatCynthia() {
 
   const loadPersonality = async () => {
     try {
-      const db = await openDB("CynthiaDB", 1);
-      const allData = await db.getAll("PersonalData");
-
-      if (allData.length > 0) {
-        setPersonality(`${allData[0].personality}`);
+      const storedPersonality = localStorage.getItem("personality");
+      if (storedPersonality) {
+        setPersonality(storedPersonality);
       }
     } catch (error) {
-      console.error("Error reading data from IndexedDB:", error);
+      console.error("Error reading data from localStorage:", error);
     }
   };
 

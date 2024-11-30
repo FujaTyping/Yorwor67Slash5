@@ -4,7 +4,6 @@ import { SiGooglegemini } from "react-icons/si";
 import { motion } from "motion/react"
 import Markdown from 'react-markdown'
 import { FaPencilAlt } from "react-icons/fa";
-import { openDB } from "idb";
 import useSound from 'use-sound';
 
 interface ChatAtrib {
@@ -32,46 +31,24 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser }: Ch
     }
 
     try {
-      const db = await openDB("CynthiaDB", 1, {
-        upgrade(database) {
-          if (!database.objectStoreNames.contains("PersonalData")) {
-            database.createObjectStore("PersonalData", { keyPath: "id", autoIncrement: true });
-          }
-        },
-      });
-
-      const allData = await db.getAll("PersonalData");
-
-      if (allData.length > 0) {
-        const recordToUpdate = allData[0];
-        recordToUpdate.personality = personality;
-
-        await db.put("PersonalData", recordToUpdate);
-        CynthiaData();
-        setIsError(false)
-        setOpenModal(false)
-      } else {
-        await db.add("PersonalData", { personality });
-        CynthiaData();
-        setIsError(false)
-        setOpenModal(false)
-      }
+      localStorage.setItem("personality", personality);
+      CynthiaData();
+      setIsError(false);
+      setOpenModal(false);
     } catch (error) {
-      console.error("Error saving to IndexedDB:", error);
-      setIsError(true)
+      console.error("Error saving to localStorage:", error);
+      setIsError(true);
     }
   };
 
   const loadPersonality = async () => {
     try {
-      const db = await openDB("CynthiaDB", 1);
-      const allData = await db.getAll("PersonalData");
-
-      if (allData.length > 0) {
-        setPersonality(`${allData[0].personality}`);
+      const storedPersonality = localStorage.getItem("personality");
+      if (storedPersonality) {
+        setPersonality(storedPersonality);
       }
     } catch (error) {
-      console.error("Error reading data from IndexedDB:", error);
+      console.error("Error reading data from localStorage:", error);
     }
   };
 
