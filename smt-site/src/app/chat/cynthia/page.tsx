@@ -10,6 +10,7 @@ import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
 import { MdLockClock } from "react-icons/md";
 import useSound from 'use-sound';
+import { openDB } from "idb";
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Cynthia");
@@ -26,6 +27,7 @@ export default function ChatCynthia() {
   const [cooldown, setCooldown] = useState(false);
   const [isGEN, setIsGEN] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const [personality, setPersonality] = useState("")
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
 
@@ -36,16 +38,29 @@ export default function ChatCynthia() {
     }
   };
 
-  function AskCynthia(prompt: string) {
+  async function AskCynthia(prompt: string) {
     TX();
     setIsGEN(false)
     setCynthiaPrompt("Cynthia กำลังคิดคำตอบ")
     setLoading(true)
+
+    try {
+      const db = await openDB("CynthiaDB", 1);
+      const allData = await db.getAll("PersonalData");
+
+      if (allData.length > 0) {
+        setPersonality(`${allData[0].personality}`);
+      }
+    } catch (error) {
+      console.error("Error reading data from IndexedDB:", error);
+    }
+
     axios
       .post(
         `${smtConfig.apiMain}generative/cynthia`,
         {
           prompt: `${prompt}`,
+          personality: `${personality}`,
         },
         {
           headers: {
@@ -79,6 +94,23 @@ export default function ChatCynthia() {
       setCooldown(false);
     }
   }, [cooldown, secondsLeft]);
+
+  const loadPersonality = async () => {
+    try {
+      const db = await openDB("CynthiaDB", 1);
+      const allData = await db.getAll("PersonalData");
+
+      if (allData.length > 0) {
+        setPersonality(`${allData[0].personality}`);
+      }
+    } catch (error) {
+      console.error("Error reading data from IndexedDB:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadPersonality();
+  }, []);
 
   return (
     <>
@@ -118,6 +150,7 @@ export default function ChatCynthia() {
                   name={username}
                   img={photourl}
                   text={userPrompt}
+                  isUser={true}
                 />
               </div>
               <div>
