@@ -5,6 +5,7 @@ import { motion } from "motion/react"
 import Markdown from 'react-markdown'
 import { FaPencilAlt } from "react-icons/fa";
 import useSound from 'use-sound';
+import { MdMemory } from "react-icons/md";
 
 interface ChatAtrib {
   isRtl: boolean;
@@ -75,7 +76,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser }: Ch
             <div className="flex flex-col w-full max-w-[450px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span dir="ltr" className="flex text-lg font-semibold items-center">
-                  {name} {isUser && (<><FaPencilAlt onClick={() => setOpenModal(true)} style={{ cursor: 'pointer' }} className="ml-3" /></>)}
+                  {name} {isUser && (<><FaPencilAlt onClick={() => setOpenModal(true)} style={{ cursor: 'pointer' }} className="ml-3 w-3.5 h-3.5" /></>)}
                 </span>
               </div>
               <div dir="ltr" className="text-base font-normal py-2.5 break-words">
@@ -121,6 +122,9 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser }: Ch
                 placeholder="ข้อมูลบุคลิก"
                 required
               />
+              <span className="flex mt-5 items-center">
+                <MdMemory className="w-5 h-5 mr-2" /> ข้อมูลบุคลิกจะอัพเดทในแชทครั้งถัดไป
+              </span>
             </div>
             <div className="w-full">
               <>
