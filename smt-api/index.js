@@ -231,20 +231,43 @@ exapp.post("/generative/cynthia", async (req, res) => {
     res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
   } else {
     try {
-      const SysChat = GeminiModel.startChat({
-        history: [
-          {
-            role: "user",
-            parts: [
-              {
-                text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
-              },
-            ],
-          },
-        ],
-      });
-      const CResponse = await SysChat.sendMessage(`${USRP}`);
-      res.send(CResponse.response.text());
+      if (req.body.personality && req.body.personality != "") {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `
+                    You are Cynthia, an AI advisor designed to help high school students, especially those in M.4/5. 
+                    You are talking with student that have have ${req.body.personality}. You provide guidance on academic topics, time management, and motivational support. 
+                    Your responses should primarily be in Thai, but you can switch to English if explicitly asked. 
+                    Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information. 
+                    Be sure to reflect the personality traits provided to create a personalized interaction.
+                  `,
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      } else {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      }
     } catch (e) {
       res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
     }
