@@ -40,7 +40,7 @@ export default function ChatCynthia() {
   async function AskCynthia(prompt: string) {
     TX();
     setIsGEN(false)
-    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ")
+    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...")
     setLoading(true)
 
     try {
