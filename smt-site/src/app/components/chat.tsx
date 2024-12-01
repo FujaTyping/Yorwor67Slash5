@@ -12,11 +12,12 @@ interface ChatAtrib {
   name: string;
   img: string;
   text: string;
+  cynthiaPrompt?: string;
   isBot?: boolean;
   isUser?: boolean;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynthiaPrompt }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -60,7 +61,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser }: Ch
   return (
     <>
       <motion.div
-        key={text}
+        key={cynthiaPrompt}
         initial={{ y: -10 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
