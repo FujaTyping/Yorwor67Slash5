@@ -21,6 +21,7 @@ export default function ChatCynthia() {
   const [cynthiaPrompt, setCynthiaPrompt] = useState(
     "ฉันยินดีที่จะช่วยนะคะ บอกมาเลยว่าคุณต้องการอะไร?"
   );
+  const [animatedCynthiaPrompt, setAnimatedCynthiaPrompt] = useState("");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false)
   const [cooldown, setCooldown] = useState(false);
@@ -29,6 +30,8 @@ export default function ChatCynthia() {
   const [personality, setPersonality] = useState("")
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
+  const [index, setIndex] = useState(0);
+  const typingSpeed = 5;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -107,6 +110,22 @@ export default function ChatCynthia() {
     loadPersonality();
   }, []);
 
+  useEffect(() => {
+    setAnimatedCynthiaPrompt("");
+    setIndex(0);
+  }, [cynthiaPrompt]);
+
+  useEffect(() => {
+    if (index < cynthiaPrompt.length) {
+      const timer = setTimeout(() => {
+        setAnimatedCynthiaPrompt((prev) => prev + cynthiaPrompt[index]);
+        setIndex((prev) => prev + 1);
+      }, typingSpeed);
+
+      return () => {clearTimeout(timer);}
+    }
+  }, [index, cynthiaPrompt]);
+
   return (
     <>
       <title>{title}</title>
@@ -153,8 +172,9 @@ export default function ChatCynthia() {
                   isRtl={false}
                   name="Cynthia"
                   img={CynthiaProfile.src}
-                  text={cynthiaPrompt}
+                  text={animatedCynthiaPrompt}
                   isBot={isGEN}
+                  cynthiaPrompt={cynthiaPrompt}
                 />
               </div>
             </div>
