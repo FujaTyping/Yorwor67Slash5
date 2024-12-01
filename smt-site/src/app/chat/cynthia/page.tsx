@@ -39,8 +39,10 @@ export default function ChatCynthia() {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       if (!pause) {
-        setUserPrompt(input);
-        AskCynthia(input);
+        if (input != "") {
+          setUserPrompt(input);
+          AskCynthia(input);
+        }
       }
     }
   };
