@@ -10,6 +10,7 @@ import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
 import { MdLockClock } from "react-icons/md";
 import useSound from 'use-sound';
+import Turnstile from "react-turnstile";
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Cynthia");
@@ -23,8 +24,10 @@ export default function ChatCynthia() {
   );
   const [animatedCynthiaPrompt, setAnimatedCynthiaPrompt] = useState("");
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(false);
+  const [pause, setPause] = useState(false);
+  const [isVerify, setIsVerify] = useState(false);
   const [isGEN, setIsGEN] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("")
@@ -35,12 +38,15 @@ export default function ChatCynthia() {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setUserPrompt(input);
-      AskCynthia(input);
+      if (!pause) {
+        setUserPrompt(input);
+        AskCynthia(input);
+      }
     }
   };
 
   async function AskCynthia(prompt: string) {
+    setPause(true);
     TX();
     setIsGEN(false)
     setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...")
@@ -92,6 +98,7 @@ export default function ChatCynthia() {
       return () => clearInterval(timer);
     } else if (secondsLeft === 0) {
       setCooldown(false);
+      setPause(false);
     }
   }, [cooldown, secondsLeft]);
 
@@ -122,7 +129,7 @@ export default function ChatCynthia() {
         setIndex((prev) => prev + 1);
       }, typingSpeed);
 
-      return () => {clearTimeout(timer);}
+      return () => { clearTimeout(timer); }
     }
   }, [index, cynthiaPrompt]);
 
@@ -157,43 +164,32 @@ export default function ChatCynthia() {
 
         {isLogin ? (
           <>
-            <div className="space-y-4">
-              <div>
-                <ChatBubble
-                  isRtl={true}
-                  name={username}
-                  img={photourl}
-                  text={userPrompt}
-                  isUser={true}
-                />
-              </div>
-              <div>
-                <ChatBubble
-                  isRtl={false}
-                  name="Cynthia"
-                  img={CynthiaProfile.src}
-                  text={animatedCynthiaPrompt}
-                  isBot={isGEN}
-                  cynthiaPrompt={cynthiaPrompt}
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4 w-full">
-              <div className="flex-1 min-w-0">
-                {cooldown ? (
-                  <>
-                    <FloatingLabel
-                      disabled
-                      onKeyDown={handleKeyDown}
-                      onChange={(i) => setInput(i.target.value)}
-                      variant="outlined"
-                      label="พิมพ์อะไรสักอย่างสิ :D"
-                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
+            {isVerify ? (
+              <>
+                <div className="space-y-4">
+                  <div>
+                    <ChatBubble
+                      isRtl={true}
+                      name={username}
+                      img={photourl}
+                      text={userPrompt}
+                      isUser={true}
                     />
-                  </>
-                ) : (
-                  <>
+                  </div>
+                  <div>
+                    <ChatBubble
+                      isRtl={false}
+                      name="Cynthia"
+                      img={CynthiaProfile.src}
+                      text={animatedCynthiaPrompt}
+                      isBot={isGEN}
+                      cynthiaPrompt={cynthiaPrompt}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 w-full">
+                  <div className="flex-1 min-w-0">
                     <FloatingLabel
                       onKeyDown={handleKeyDown}
                       onChange={(i) => setInput(i.target.value)}
@@ -201,52 +197,73 @@ export default function ChatCynthia() {
                       label="พิมพ์อะไรสักอย่างสิ :D"
                       helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
                     />
-                  </>
-                )}
-              </div>
-
-              <div className="pb-10 flex-shrink-0">
-                {loading ? (
-                  <>
-                    <Button
-                      pill
-                      isProcessing
-                      style={{ backgroundColor: "#ff1616" }}
-                      color="blue"
-                    >
-                      กำลังรอคำตอบ
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    {cooldown ? (
+                  </div>
+                  <div className="pb-10 flex-shrink-0">
+                    {loading ? (
                       <>
                         <Button
-                          onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                          pill
+                          isProcessing
                           style={{ backgroundColor: "#ff1616" }}
                           color="blue"
-                          pill
-                          disabled
                         >
-                          <IoSend className="h-6 w-6" />
+                          กำลังรอคำตอบ
                         </Button>
                       </>
                     ) : (
                       <>
-                        <Button
-                          onClick={() => { setUserPrompt(input); AskCynthia(input); }}
-                          style={{ backgroundColor: "#ff1616" }}
-                          color="blue"
-                          pill
-                        >
-                          <IoSend className="h-6 w-6" />
-                        </Button>
+                        {cooldown ? (
+                          <>
+                            <Button
+                              onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                              style={{ backgroundColor: "#ff1616" }}
+                              color="blue"
+                              pill
+                              disabled
+                            >
+                              <IoSend className="h-6 w-6" />
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                              style={{ backgroundColor: "#ff1616" }}
+                              color="blue"
+                              pill
+                            >
+                              <IoSend className="h-6 w-6" />
+                            </Button>
+                          </>
+                        )}
                       </>
                     )}
-                  </>
-                )}
-              </div>
-            </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <section className="text-gray-600 body-font">
+                  <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                    <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                      <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                    </div>
+                    <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณายืนยันตัวตน</h1>
+                      <p className="mb-4 leading-relaxed text-gray-900">เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA</p>
+                      <Turnstile
+                        sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                        theme="light"
+                        language={"th"}
+                        onVerify={() => {
+                          setIsVerify(true);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </section>
+              </>
+            )}
           </>
         ) : (
           <>
