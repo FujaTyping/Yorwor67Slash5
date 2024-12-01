@@ -217,7 +217,6 @@ export default function ChatCynthia() {
                         {cooldown ? (
                           <>
                             <Button
-                              onClick={() => { setUserPrompt(input); AskCynthia(input); }}
                               style={{ backgroundColor: "#ff1616" }}
                               color="blue"
                               pill
@@ -229,7 +228,7 @@ export default function ChatCynthia() {
                         ) : (
                           <>
                             <Button
-                              onClick={() => { setUserPrompt(input); AskCynthia(input); }}
+                              onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
                               style={{ backgroundColor: "#ff1616" }}
                               color="blue"
                               pill
