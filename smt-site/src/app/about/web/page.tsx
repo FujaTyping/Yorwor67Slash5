@@ -14,7 +14,7 @@ import smtConfig from "../../smt-config.mjs";
 import useSound from 'use-sound';
 import useLocalStorge from "../../lib/localstorage-db";
 
-import Cynthia from '../../assets/Cynthia.jpg'
+import Cynthia from '../../assets/chat/Cynthia.jpg'
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");

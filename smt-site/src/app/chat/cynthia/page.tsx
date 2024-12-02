@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card } from "flowbite-react";
-import CynthiaProfile from "../../assets/Cynthia.jpg";
+import CynthiaProfile from "../../assets/chat/ProfileCynthia.jpg";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
