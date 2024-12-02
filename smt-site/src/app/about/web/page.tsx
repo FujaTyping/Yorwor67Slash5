@@ -15,6 +15,7 @@ import useSound from 'use-sound';
 import useLocalStorge from "../../lib/localstorage-db";
 
 import Cynthia from '../../assets/chat/Cynthia.jpg'
+import Aether from '../../assets/chat/Aether.jpg'
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
@@ -204,6 +205,23 @@ export default function AboutWeb() {
                         <p className="mb-4">{"ทุกความพยายามคือก้าวเล็ก ๆ ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!"}</p>
                         <span style={{ cursor: 'pointer' }} className="inline-flex">
                           <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia">
+                            <IoChatboxEllipses
+                              className="h-6 w-6"
+                            />
+                          </Link>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 lg:w-1/2">
+                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                      <img alt="Siraphop Sukchu" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src={Aether.src}></img>
+                      <div className="flex-grow sm:pl-8">
+                        <h2 className="title-font font-medium text-lg text-gray-900">Aether</h2>
+                        <h3 className="text-gray-500 mb-3">AI Assistant</h3>
+                        <p className="mb-4">{"ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้!"}</p>
+                        <span style={{ cursor: 'pointer' }} className="inline-flex">
+                          <Link href="/chat/aether">
                             <IoChatboxEllipses
                               className="h-6 w-6"
                             />

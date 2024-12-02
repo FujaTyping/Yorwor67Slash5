@@ -16,9 +16,10 @@ interface ChatAtrib {
   isBot?: boolean;
   isUser?: boolean;
   history?: boolean;
+  botName: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynthiaPrompt, history }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynthiaPrompt, history, botName }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -35,7 +36,9 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynt
 
     try {
       localStorage.setItem("personality", personality);
-      CynthiaData();
+      if (botName == "Cynthia") {
+        CynthiaData();
+      }
       setIsError(false);
       setOpenModal(false);
     } catch (error) {
@@ -112,11 +115,11 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynt
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              ช่วยให้ Cynthia เข้าใจคุณมากขึ้น
+              ช่วยให้ {botName} เข้าใจคุณมากขึ้น
             </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="คุณอยากให้ Cynthia รู้ข้อมูลอะไรเกี่ยวกับคุณ เพื่อช่วยให้ตอบคำถามได้ดีขึ้น?" />
+                <Label htmlFor="text" value={`คุณอยากให้ ${botName} รู้ข้อมูลอะไรเกี่ยวกับคุณ เพื่อช่วยให้ตอบคำถามได้ดีขึ้น?`} />
               </div>
               <Textarea
                 value={personality}

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileCynthia.jpg";
+import CynthiaProfile from "../../assets/chat/ProfileAether.jpg";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
@@ -13,16 +13,15 @@ import useSound from 'use-sound';
 import Turnstile from "react-turnstile";
 
 export default function ChatCynthia() {
-  const [title] = useState("Hatyaiwit - Cynthia");
+  const [title] = useState("Hatyaiwit - Aether");
   const { username, photourl, email, isLogin } = useLocalStorge(false);
   const [userPrompt, setUserPrompt] = useState(
-    "สวัสดี Cynthia คุณช่วยฉันหน่อยได้ไหม?"
+    "สวัสดี Aether คุณช่วยฉันเรื่องการเรียนได้ไหม?"
   );
-
-  const [cynthiaPrompt, setCynthiaPrompt] = useState(
-    "ฉันยินดีที่จะช่วยนะคะ บอกมาเลยว่าคุณต้องการอะไร?"
+  const [aetherPrompt, setAetherPrompt] = useState(
+    "สวัสดีครับ! ผมคือ Aether ที่ปรึกษาด้านการเรียนรู้ของคุณ บอกมาได้เลยว่าคุณต้องการความช่วยเหลือในเรื่องใด ผมพร้อมเสมอครับ!"
   );
-  const [animatedCynthiaPrompt, setAnimatedCynthiaPrompt] = useState("");
+  const [animatedAetherPrompt, setAnimatedAetherPrompt] = useState("");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(false);
@@ -53,7 +52,7 @@ export default function ChatCynthia() {
     setPause(true);
     TX();
     setIsGEN(false)
-    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...")
+    setAetherPrompt("Aether กำลังคิดคำตอบ ...")
     setLoading(true)
 
     try {
@@ -67,7 +66,7 @@ export default function ChatCynthia() {
 
     axios
       .post(
-        `${smtConfig.apiMain}generative/cynthia`,
+        `${smtConfig.apiMain}generative/aether`,
         {
           prompt: `${prompt}`,
           personality: `${personality}`,
@@ -79,21 +78,21 @@ export default function ChatCynthia() {
         }
       )
       .then((response) => {
-        setCynthiaPrompt(`${response.data}`);
+        setAetherPrompt(`${response.data}`);
         RX();
         setLoading(false);
         setCooldown(true);
         setSecondsLeft(15);
         setIsGEN(true);
         try {
-          localStorage.setItem("historyCynthiaChat", response.data);
-          localStorage.setItem("historyCynthiaPrompt", prompt);
+          localStorage.setItem("historyAetherChat", response.data);
+          localStorage.setItem("historyAetherPrompt", prompt);
         } catch (error) {
           console.error("Error saving to localStorage:", error);
         }
       })
       .catch((error) => {
-        setCynthiaPrompt(`${error.response.data}`);
+        setAetherPrompt(`${error.response.data}`);
         RX();
         setLoading(false);
       });
@@ -115,13 +114,13 @@ export default function ChatCynthia() {
   const loadLocaldata = async () => {
     try {
       const storedPersonality = localStorage.getItem("personality");
-      const storedHisCynnthia = localStorage.getItem("historyCynthiaChat");
-      const storedHisPrompt = localStorage.getItem("historyCynthiaPrompt");
+      const storedHisAether = localStorage.getItem("historyAetherChat");
+      const storedHisPrompt = localStorage.getItem("historyAetherPrompt");
       if (storedPersonality) {
         setPersonality(storedPersonality);
       }
-      if (storedHisCynnthia && storedHisPrompt) {
-        setCynthiaPrompt(storedHisCynnthia);
+      if (storedHisAether && storedHisPrompt) {
+        setAetherPrompt(storedHisAether);
         setUserPrompt(storedHisPrompt);
         setIsHistory(true);
       }
@@ -135,20 +134,20 @@ export default function ChatCynthia() {
   }, []);
 
   useEffect(() => {
-    setAnimatedCynthiaPrompt("");
+    setAnimatedAetherPrompt("");
     setIndex(0);
-  }, [cynthiaPrompt]);
+  }, [aetherPrompt]);
 
   useEffect(() => {
-    if (index < cynthiaPrompt.length) {
+    if (index < aetherPrompt.length) {
       const timer = setTimeout(() => {
-        setAnimatedCynthiaPrompt((prev) => prev + cynthiaPrompt[index]);
+        setAnimatedAetherPrompt((prev) => prev + aetherPrompt[index]);
         setIndex((prev) => prev + 1);
       }, typingSpeed);
 
       return () => { clearTimeout(timer); }
     }
-  }, [index, cynthiaPrompt]);
+  }, [index, aetherPrompt]);
 
   return (
     <>
@@ -164,11 +163,10 @@ export default function ChatCynthia() {
             />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight">
-                Cynthia (ซินเทีย)
+                Aether (เอเธอร์)
               </h5>
               <p className="font-normal">
-                ทุกความพยายามคือก้าวเล็ก ๆ
-                ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
+                ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
               </p>
               {cooldown ? (
                 <>
@@ -192,18 +190,18 @@ export default function ChatCynthia() {
                       text={userPrompt}
                       isUser={true}
                       history={isHistory}
-                      botName="Cynthia"
+                      botName="Aether"
                     />
                   </div>
                   <div>
                     <ChatBubble
                       isRtl={false}
-                      name="Cynthia"
+                      name="Aether"
                       img={CynthiaProfile.src}
-                      text={animatedCynthiaPrompt}
+                      text={animatedAetherPrompt}
                       isBot={isGEN}
-                      cynthiaPrompt={cynthiaPrompt}
-                      botName="Cynthia"
+                      cynthiaPrompt={aetherPrompt}
+                      botName="Aether"
                     />
                   </div>
                 </div>
@@ -214,8 +212,9 @@ export default function ChatCynthia() {
                       onKeyDown={handleKeyDown}
                       onChange={(i) => setInput(i.target.value)}
                       variant="outlined"
-                      label="พิมพ์อะไรสักอย่างสิ :D"
-                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
+                      disabled
+                      label="ยังไม่เปิดให้ใช้งาน Aether"
+                      helperText="Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน"
                     />
                   </div>
                   <div className="pb-10 flex-shrink-0">
@@ -246,6 +245,7 @@ export default function ChatCynthia() {
                         ) : (
                           <>
                             <Button
+                              disabled
                               onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
                               style={{ backgroundColor: "#ff1616" }}
                               color="blue"
