@@ -259,7 +259,7 @@ exapp.post("/generative/cynthia", async (req, res) => {
               role: "user",
               parts: [
                 {
-                  text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
+                  text: "You are Cynthia (female), a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
                 },
               ],
             },
@@ -270,6 +270,49 @@ exapp.post("/generative/cynthia", async (req, res) => {
       }
     } catch (e) {
       res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
+    }
+  }
+});
+
+exapp.post("/generative/aether", async (req, res) => {
+  const USRP = req.body.prompt;
+  if (!USRP) {
+    res.status(400).send("ติดปัญหาตรงไหน? ถาม Aether ได้เลย เดี๋ยวจัดให้! 😎");
+  } else {
+    try {
+      if (req.body.personality && req.body.personality != "") {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `text: "You are Aether (male), a highly intelligent AI mentor designed to guide students in math, science, and learning strategies.You are talking with students who have ${req.body.personality}. You are approachable, supportive, inspiring, and like an older sibling offering advice and guidance. Your role is to explain complex concepts clearly, motivate students, and provide creative solutions to their problems. Always respond with wisdom, encouragement, and maintain a futuristic, intelligent persona. Communicate primarily in Thai, keeping responses friendly, clear, and concise, as if you are a sibling helping and advising your younger peers."`,
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      } else {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: "You are Aether (male), a highly intelligent AI mentor designed to guide students in math, science, and learning strategies. You are approachable, supportive, inspiring, and like an older sibling offering advice and guidance. Your role is to explain complex concepts clearly, motivate students, and provide creative solutions to their problems. Always respond with wisdom, encouragement, and maintain a futuristic, intelligent persona. Communicate primarily in Thai, keeping responses friendly, clear, and concise, as if you are a sibling helping and advising your younger peers."
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      }
+    } catch (e) {
+      res.status(400).send(`Aether ตอบกลับคุณไม่ได้ (${e})`);
     }
   }
 });
