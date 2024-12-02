@@ -8,6 +8,7 @@ import axios from "axios";
 import smtConfig from "../../../smt-config.mjs";
 import { motion } from "motion/react"
 import { IoEyeSharp } from "react-icons/io5";
+import useLocalStorge from "../../../lib/localstorage-db";
 
 interface Student {
     name: string;
@@ -25,12 +26,14 @@ export default function Wheel() {
     const [switchH, setSwitchH] = useState(false);
     const [possiStu, setPosStu] = useState("100")
     const [tickPlay] = useSound("/assets/Sound/Tick.mp3");
+    const { isLogin } = useLocalStorge(false);
     const [tadaPlay] = useSound("/assets/Sound/Tada.mp3", { volume: 0.4 });
     const [dingPlay] = useSound("/assets/Sound/Ding.mp3", { volume: 0.3 });
     const [evilPlay] = useSound("/assets/Sound/Evil.mp3", { volume: 0.3 });
     const [conPlay] = useSound("/assets/Sound/Confetti.mp3", { volume: 0.5 });
     const [titlemessage, setTitleMessage] = useState("😲 สุ่มชื่อนักเรียน - Wheel of Names");
     const [openPosModal, setOpenPosModal] = useState(false);
+    const [isSafeHell, setIsSafeHell] = useState(true);
     const [toggleHellmode, settoggleHellmode] = useState(false);
     const [studentData, SetStudentData] = useState<Student[]>([
         {
@@ -85,11 +88,17 @@ export default function Wheel() {
         let newMessage;
         if (titlemessage === "😲 สุ่มชื่อนักเรียน - Wheel of Names") {
             newMessage = "😈 สุ่มชื่อนักเรียน - Wheel of Hell";
+            if (!isLogin) {
+                setIsSafeHell(false)
+            }
             SetStudentDis("https://firebasestorage.googleapis.com/v0/b/yorwor67slash5.appspot.com/o/Student%2FBanner%2F1732191118690.jpg?alt=media&token=39d89c5c-8727-4c74-87a8-9d30679281ef");
             settoggleHellmode(true);
             evilPlay();
         } else {
             newMessage = "😲 สุ่มชื่อนักเรียน - Wheel of Names";
+            if (!isLogin) {
+                setIsSafeHell(true)
+            }
             SetStudentDis("https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI=");
             settoggleHellmode(false);
         }
@@ -217,83 +226,101 @@ export default function Wheel() {
                         <IoEyeSharp style={{ marginRight: "6px" }} /> ดูโอกาสการสุ่ม
                     </span>
                 </h2>
-                <motion.section
-                    className="text-gray-600 body-font"
-                    key={toggleHellmode ? "hellMode" : "normalMode"}
-                    {...(toggleHellmode ? shakeAnimation : {})}
-                >
-                    <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-                        <motion.div
-                            className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
-                            key={student ? student.avatar : "defaultImage"}
-                            initial={
-                                toggleHellmode
-                                    ? animationVariants.hellModeImg.initial
-                                    : animationVariants.normal.initial
-                            }
-                            animate={
-                                toggleHellmode
-                                    ? animationVariants.hellModeImg.animate
-                                    : animationVariants.normal.animate
-                            }
-                            transition={
-                                toggleHellmode
-                                    ? animationVariants.hellModeImg.transition
-                                    : animationVariants.normal.transition
-                            }
+                {isSafeHell ? (
+                    <>
+                        <motion.section
+                            className="text-gray-600 body-font"
+                            key={toggleHellmode ? "hellMode" : "normalMode"}
+                            {...(toggleHellmode ? shakeAnimation : {})}
                         >
-                            <img
-                                style={{ width: "350px" }}
-                                className="object-cover object-center rounded"
-                                alt={student ? student.name : "Student"}
-                                src={
-                                    studentDis
-                                        ? studentDis
-                                        : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
-                                }
-                            />
-                        </motion.div>
-                        <motion.div
-                            className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
-                            key={student ? student.name : "defaultText"}
-                            initial={
-                                toggleHellmode
-                                    ? animationVariants.hellMode.initial
-                                    : animationVariants.normal.initial
-                            }
-                            animate={
-                                toggleHellmode
-                                    ? animationVariants.hellMode.animate
-                                    : animationVariants.normal.animate
-                            }
-                            transition={
-                                toggleHellmode
-                                    ? animationVariants.hellMode.transition
-                                    : animationVariants.normal.transition
-                            }
-                        >
-                            <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                                {student ? student.name : "กดปุ่มด้านล่าง"}
-                            </h1>
-                            <p className="mb-4 leading-relaxed text-gray-900">
-                                {student
-                                    ? `${student.nickname} เลขที่ ${student.number}`
-                                    : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
-                            </p>
-                            <div className="flex justify-center items-center gap-5">
-                                <Button
-                                    onClick={randomStudent}
-                                    style={{ backgroundColor: "#ff1616" }}
-                                    color="failure"
-                                    disabled={isAnimating}
+                            <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                                <motion.div
+                                    className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
+                                    key={student ? student.avatar : "defaultImage"}
+                                    initial={
+                                        toggleHellmode
+                                            ? animationVariants.hellModeImg.initial
+                                            : animationVariants.normal.initial
+                                    }
+                                    animate={
+                                        toggleHellmode
+                                            ? animationVariants.hellModeImg.animate
+                                            : animationVariants.normal.animate
+                                    }
+                                    transition={
+                                        toggleHellmode
+                                            ? animationVariants.hellModeImg.transition
+                                            : animationVariants.normal.transition
+                                    }
                                 >
-                                    {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
-                                </Button>
-                                <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
+                                    <img
+                                        style={{ width: "350px" }}
+                                        className="object-cover object-center rounded"
+                                        alt={student ? student.name : "Student"}
+                                        src={
+                                            studentDis
+                                                ? studentDis
+                                                : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
+                                        }
+                                    />
+                                </motion.div>
+                                <motion.div
+                                    className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
+                                    key={student ? student.name : "defaultText"}
+                                    initial={
+                                        toggleHellmode
+                                            ? animationVariants.hellMode.initial
+                                            : animationVariants.normal.initial
+                                    }
+                                    animate={
+                                        toggleHellmode
+                                            ? animationVariants.hellMode.animate
+                                            : animationVariants.normal.animate
+                                    }
+                                    transition={
+                                        toggleHellmode
+                                            ? animationVariants.hellMode.transition
+                                            : animationVariants.normal.transition
+                                    }
+                                >
+                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                                        {student ? student.name : "กดปุ่มด้านล่าง"}
+                                    </h1>
+                                    <p className="mb-4 leading-relaxed text-gray-900">
+                                        {student
+                                            ? `${student.nickname} เลขที่ ${student.number}`
+                                            : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
+                                    </p>
+                                    <div className="flex justify-center items-center gap-5">
+                                        <Button
+                                            onClick={randomStudent}
+                                            style={{ backgroundColor: "#ff1616" }}
+                                            color="failure"
+                                            disabled={isAnimating}
+                                        >
+                                            {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
+                                        </Button>
+                                        <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
+                                    </div>
+                                </motion.div>
                             </div>
-                        </motion.div>
-                    </div>
-                </motion.section>
+                        </motion.section>
+                    </>
+                ) : (
+                    <>
+                        <section className="text-gray-600 body-font">
+                            <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                                <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                                    <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                                </div>
+                                <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
+                                    <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้</p>
+                                </div>
+                            </div>
+                        </section>
+                    </>
+                )}
             </div>
             <Modal
                 className="animate__animated animate__fadeIn"

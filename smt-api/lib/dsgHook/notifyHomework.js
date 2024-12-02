@@ -27,14 +27,15 @@ async function notifyHomework(Time, Subject, Decs, Due) {
         const Payload = {
             "embeds": [
                 {
-                    "color": 16711680,
+                    "color": 4892137,
                     "image": {
-                        "url": "https://smt.siraphop.me/assets/lineOA/NewHomework.png"
+                        "url": "https://smt.siraphop.me/assets/Discord/NewHomework.png"
                     }
                 },
                 {
-                    "title": "📣 แจ้งเตือนการบ้านใหม่ !! (New work)",
-                    "color": 16711680,
+                    "title": "📣  แจ้งเตือนการบ้านใหม่! (New Homework Assigned)",
+                    "description": "Cynthia ขอแจ้งให้ทราบว่ามีการบ้านใหม่ที่เพิ่งเพิ่มเข้ามาแล้วนะคะ 😊 หากต้องการความช่วยเหลือหรือคำแนะนำ สามารถถาม [Cynthia](https://smt.siraphop.me/chat/cynthia) ได้เสมอค่ะ!",
+                    "color": 4892137,
                     "fields": [
                         {
                             "name": "วันที่",
@@ -58,7 +59,10 @@ async function notifyHomework(Time, Subject, Decs, Due) {
                     "author": {
                         "name": "SMT Notify",
                         "url": "https://smt.siraphop.me/homework",
-                        "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                        "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
+                    },
+                    "footer": {
+                        "text": "อย่าลืมตรวจสอบรายละเอียดและส่งงานให้ตรงเวลานะคะ!"
                     }
                 }
             ]

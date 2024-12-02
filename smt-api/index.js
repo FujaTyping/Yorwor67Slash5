@@ -12,6 +12,7 @@ const {
   orderBy,
   deleteDoc,
 } = require("firebase/firestore");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -45,6 +46,15 @@ const webhookURL = process.env.DscWebhook;
 const LineAuth = process.env.LINEauth;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
+const GeminiModel = GeminiAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    maxOutputTokens: 200,
+    temperature: 1,
+  },
+});
 
 let HRealData = {
   Homework: [],
@@ -215,6 +225,55 @@ exapp.post("/completion", Authenticate, async (req, res) => {
   }
 });
 
+exapp.post("/generative/cynthia", async (req, res) => {
+  const USRP = req.body.prompt;
+  if (!USRP) {
+    res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
+  } else {
+    try {
+      if (req.body.personality && req.body.personality != "") {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `
+                    You are Cynthia (female), an AI advisor designed to help high school students, especially those in M.4/5. 
+                    You are talking with student that have have ${req.body.personality}. You provide guidance on academic topics, time management, and motivational support. 
+                    Your responses should primarily be in Thai, but you can switch to English if explicitly asked. 
+                    Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information. 
+                    Be sure to reflect the personality traits provided to create a personalized interaction.
+                  `,
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      } else {
+        const SysChat = GeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      }
+    } catch (e) {
+      res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
+    }
+  }
+});
+
 exapp.get("/wheel/data", async (req, res) => {
   if (Date.now() - WheellastFetchTime > fetchInterval) {
     const querySnapshot = await getDocs(collection(db, "Wheel"));
@@ -375,7 +434,7 @@ exapp.post("/feedback", async (req, res) => {
           "author": {
             "name": "SMT Notify",
             "url": "https://smt.siraphop.me/feedback",
-            "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+            "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
           }
         }
       ]
@@ -409,7 +468,7 @@ exapp.post("/discord/new", async (req, res) => {
               "author": {
                 "name": "SMT Notify",
                 "url": "https://smt.siraphop.me/notify",
-                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
               }
             }
           ]
@@ -435,7 +494,7 @@ exapp.post("/discord/new", async (req, res) => {
               "author": {
                 "name": "SMT Notify",
                 "url": "https://smt.siraphop.me/notify",
-                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
               }
             }
           ]
