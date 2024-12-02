@@ -29,12 +29,13 @@ export default function ChatCynthia() {
   const [pause, setPause] = useState(false);
   const [isVerify, setIsVerify] = useState(false);
   const [isGEN, setIsGEN] = useState(false);
+  const [isHistory, setIsHistory] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("")
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
-  const typingSpeed = 5;
+  const typingSpeed = 2;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -48,6 +49,7 @@ export default function ChatCynthia() {
   };
 
   async function AskCynthia(prompt: string) {
+    setIsHistory(false);
     setPause(true);
     TX();
     setIsGEN(false)
@@ -79,15 +81,21 @@ export default function ChatCynthia() {
       .then((response) => {
         setCynthiaPrompt(`${response.data}`);
         RX();
-        setLoading(false)
+        setLoading(false);
         setCooldown(true);
         setSecondsLeft(15);
-        setIsGEN(true)
+        setIsGEN(true);
+        try {
+          localStorage.setItem("historyCynthiaChat", response.data);
+          localStorage.setItem("historyCynthiaPrompt", prompt);
+        } catch (error) {
+          console.error("Error saving to localStorage:", error);
+        }
       })
       .catch((error) => {
         setCynthiaPrompt(`${error.response.data}`);
         RX();
-        setLoading(false)
+        setLoading(false);
       });
   }
 
@@ -104,11 +112,18 @@ export default function ChatCynthia() {
     }
   }, [cooldown, secondsLeft]);
 
-  const loadPersonality = async () => {
+  const loadLocaldata = async () => {
     try {
       const storedPersonality = localStorage.getItem("personality");
+      const storedHisCynnthia = localStorage.getItem("historyCynthiaChat");
+      const storedHisPrompt = localStorage.getItem("historyCynthiaPrompt");
       if (storedPersonality) {
         setPersonality(storedPersonality);
+      }
+      if (storedHisCynnthia && storedHisPrompt) {
+        setCynthiaPrompt(storedHisCynnthia);
+        setUserPrompt(storedHisPrompt);
+        setIsHistory(true);
       }
     } catch (error) {
       console.error("Error reading data from localStorage:", error);
@@ -116,7 +131,7 @@ export default function ChatCynthia() {
   };
 
   useEffect(() => {
-    loadPersonality();
+    loadLocaldata();
   }, []);
 
   useEffect(() => {
@@ -176,6 +191,7 @@ export default function ChatCynthia() {
                       img={photourl}
                       text={userPrompt}
                       isUser={true}
+                      history={isHistory}
                     />
                   </div>
                   <div>
@@ -275,7 +291,7 @@ export default function ChatCynthia() {
                 </div>
                 <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
                   <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
-                  <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้</p>
+                  <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้ {"(คลิก เมนู > ล็อกอิน)"}</p>
                 </div>
               </div>
             </section>
