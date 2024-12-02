@@ -434,7 +434,7 @@ exapp.post("/feedback", async (req, res) => {
           "author": {
             "name": "SMT Notify",
             "url": "https://smt.siraphop.me/feedback",
-            "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+            "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
           }
         }
       ]
@@ -468,7 +468,7 @@ exapp.post("/discord/new", async (req, res) => {
               "author": {
                 "name": "SMT Notify",
                 "url": "https://smt.siraphop.me/notify",
-                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
               }
             }
           ]
@@ -494,7 +494,7 @@ exapp.post("/discord/new", async (req, res) => {
               "author": {
                 "name": "SMT Notify",
                 "url": "https://smt.siraphop.me/notify",
-                "icon_url": "https://talent.siraphop.me/cdn/Yorwor.png"
+                "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
               }
             }
           ]
