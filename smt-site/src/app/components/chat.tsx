@@ -12,14 +12,14 @@ interface ChatAtrib {
   name: string;
   img: string;
   text: string;
-  cynthiaPrompt?: string;
+  AnimatedPrompt?: string;
   isBot?: boolean;
   isUser?: boolean;
   history?: boolean;
   botName: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynthiaPrompt, history, botName }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, AnimatedPrompt, history, botName }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -65,7 +65,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynt
   return (
     <>
       <motion.div
-        key={cynthiaPrompt}
+        key={AnimatedPrompt}
         initial={{ y: -10 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
@@ -85,7 +85,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, cynt
                 </span>
               </div>
               <div dir="ltr" className="flex items-center text-base font-normal py-2.5 break-words">
-                {history && (<Tooltip content="คืนค่าประวัติแชทครั้งล่าสุด" style="light"><FaHistory className="w-4 h-4 mr-2 cursor-help" /></Tooltip>)}<Markdown>{text}</Markdown>
+                {history && (<Tooltip content="คืนค่าประวัติแชทครั้งล่าสุด" style="light"><FaHistory className="w-4 h-4 mr-2 cursor-help" /></Tooltip>)}<div><Markdown>{text}</Markdown></div>
               </div>
               {isBot && (
                 <Badge

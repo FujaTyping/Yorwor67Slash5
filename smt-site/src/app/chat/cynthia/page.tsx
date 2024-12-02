@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileCynthia.jpg";
+import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
@@ -35,7 +35,7 @@ export default function ChatCynthia() {
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
-  const typingSpeed = 2;
+  const typingSpeed = 1;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -202,7 +202,7 @@ export default function ChatCynthia() {
                       img={CynthiaProfile.src}
                       text={animatedCynthiaPrompt}
                       isBot={isGEN}
-                      cynthiaPrompt={cynthiaPrompt}
+                      AnimatedPrompt={cynthiaPrompt}
                       botName="Cynthia"
                     />
                   </div>

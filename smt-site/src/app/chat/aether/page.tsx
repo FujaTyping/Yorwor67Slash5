@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileAether.jpg";
+import { FloatingLabel, Button, Card, Badge } from "flowbite-react";
+import CynthiaProfile from "../../assets/chat/ProfileAether.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
@@ -34,7 +34,7 @@ export default function ChatCynthia() {
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
-  const typingSpeed = 2;
+  const typingSpeed = 0.5;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -162,8 +162,8 @@ export default function ChatCynthia() {
               className="w-16 h-16 rounded-full object-cover"
             />
             <div className="ml-8">
-              <h5 className="text-xl font-bold tracking-tight">
-                Aether (เอเธอร์)
+              <h5 className="text-xl font-bold tracking-tight flex items-center">
+                Aether (เอเธอร์) <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-3" color="failure">Experimental</Badge>
               </h5>
               <p className="font-normal">
                 ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
@@ -200,7 +200,7 @@ export default function ChatCynthia() {
                       img={CynthiaProfile.src}
                       text={animatedAetherPrompt}
                       isBot={isGEN}
-                      cynthiaPrompt={aetherPrompt}
+                      AnimatedPrompt={aetherPrompt}
                       botName="Aether"
                     />
                   </div>
@@ -212,8 +212,7 @@ export default function ChatCynthia() {
                       onKeyDown={handleKeyDown}
                       onChange={(i) => setInput(i.target.value)}
                       variant="outlined"
-                      disabled
-                      label="ยังไม่เปิดให้ใช้งาน Aether"
+                      label="ลองพิมพ์อะไรสักอย่างสิครับ!"
                       helperText="Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน"
                     />
                   </div>
@@ -245,7 +244,6 @@ export default function ChatCynthia() {
                         ) : (
                           <>
                             <Button
-                              disabled
                               onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
                               style={{ backgroundColor: "#ff1616" }}
                               color="blue"
