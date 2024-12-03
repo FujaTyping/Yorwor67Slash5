@@ -330,7 +330,7 @@ export default function ChatCynthia() {
               <Link href="/chat/cynthia">
                 <div className="p-2 w-full cursor-pointer">
                   <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="team" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={CynthiaProfile.src} />
+                    <img alt="Cynthia" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={CynthiaProfile.src} />
                     <div className="flex-grow">
                       <h2 className="text-gray-900 text-xl font-bold">Cynthia</h2>
                       <p>ที่ปรึกษาส่วนตัว AI อบอุ่น ใส่ใจ พร้อมช่วยทุกปัญหาการเรียน</p>
@@ -341,7 +341,7 @@ export default function ChatCynthia() {
               <Link href="/chat/aether">
                 <div className="p-2 w-full cursor-pointer">
                   <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="team" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={AetherProfile.src} />
+                    <img alt="Aether" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={AetherProfile.src} />
                     <div className="flex-grow">
                       <div className='flex items-center'>
                         <h2 className="text-gray-900 text-xl font-bold">Aether</h2>
