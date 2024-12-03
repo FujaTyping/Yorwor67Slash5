@@ -81,7 +81,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, Anim
             <div className="flex flex-col w-full max-w-[500px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span dir="ltr" className="flex text-lg font-semibold items-center">
-                  {name} {isUser && (<><FaPencilAlt onClick={() => setOpenModal(true)} style={{ cursor: 'pointer' }} className="ml-3 w-3.5 h-3.5" /></>)}
+                  {name} {isUser && (<><Tooltip content="แก้ไขข้อมูลบุคลิค" style="light"><FaPencilAlt onClick={() => setOpenModal(true)} style={{ cursor: 'pointer' }} className="ml-3 w-3.5 h-3.5" /></Tooltip></>)}
                 </span>
               </div>
               <div dir="ltr" className="flex items-center text-base font-normal py-2.5 break-words">
