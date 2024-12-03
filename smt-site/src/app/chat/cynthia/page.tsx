@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Badge, Tooltip, Modal, Label } from "flowbite-react";
+import { FloatingLabel, Button, Card, Badge, Modal, Label } from "flowbite-react";
 import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
 import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
@@ -162,16 +162,13 @@ export default function ChatCynthia() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
-        <Card className="flex flex-row items-center">
+        <Card onClick={() => { setOpenModelSelect(true) }} className="flex flex-row items-center cursor-pointer">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
-            <Tooltip content="เปลื่ยนโมเดล" style="light">
-              <img
-                src={CynthiaProfile.src}
-                alt="Profile picture"
-                className="w-16 h-16 rounded-full object-cover cursor-pointer"
-                onClick={() => { setOpenModelSelect(true) }}
-              />
-            </Tooltip>
+            <img
+              src={CynthiaProfile.src}
+              alt="Profile picture"
+              className="w-16 h-16 rounded-full object-cover"
+            />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight">
                 Cynthia (ซินเทีย)
