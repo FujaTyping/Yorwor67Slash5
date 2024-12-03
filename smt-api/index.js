@@ -46,6 +46,7 @@ const webhookURL = process.env.DscWebhook;
 const LineAuth = process.env.LINEauth;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const OpenKEY = process.env.OTP_KEY
 
 const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
 const GeminiModel = GeminiAI.getGenerativeModel({
@@ -227,49 +228,140 @@ exapp.post("/completion", Authenticate, async (req, res) => {
 
 exapp.post("/generative/cynthia", async (req, res) => {
   const USRP = req.body.prompt;
+  const LLM = req.body.model;
   if (!USRP) {
     res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
   } else {
-    try {
-      if (req.body.personality && req.body.personality != "") {
-        const SysChat = GeminiModel.startChat({
-          history: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: `
-                    You are Cynthia (female), an AI advisor designed to help high school students, especially those in M.4/5. 
-                    You are talking with student that have have ${req.body.personality}. You provide guidance on academic topics, time management, and motivational support. 
-                    Your responses should primarily be in Thai, but you can switch to English if explicitly asked. 
-                    Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information. 
-                    Be sure to reflect the personality traits provided to create a personalized interaction.
-                  `,
-                },
-              ],
-            },
-          ],
-        });
-        const CResponse = await SysChat.sendMessage(`${USRP}`);
-        res.send(CResponse.response.text());
-      } else {
-        const SysChat = GeminiModel.startChat({
-          history: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: "You are Cynthia (female), a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
-                },
-              ],
-            },
-          ],
-        });
-        const CResponse = await SysChat.sendMessage(`${USRP}`);
-        res.send(CResponse.response.text());
+    if (LLM == "GMN") {
+      try {
+        if (req.body.personality && req.body.personality != "") {
+          const SysChat = GeminiModel.startChat({
+            history: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text: `
+                      You are Cynthia (female), an AI advisor designed to help high school students, especially those in M.4/5. 
+                      You are talking with student that have have ${req.body.personality}. You provide guidance on academic topics, time management, and motivational support. 
+                      Your responses should primarily be in Thai, but you can switch to English if explicitly asked. 
+                      Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information. 
+                      Be sure to reflect the personality traits provided to create a personalized interaction.
+                    `,
+                  },
+                ],
+              },
+            ],
+          });
+          const CResponse = await SysChat.sendMessage(`${USRP}`);
+          res.send(CResponse.response.text());
+        } else {
+          const SysChat = GeminiModel.startChat({
+            history: [
+              {
+                role: "user",
+                parts: [
+                  {
+                    text: "You are Cynthia (female), a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
+                  },
+                ],
+              },
+            ],
+          });
+          const CResponse = await SysChat.sendMessage(`${USRP}`);
+          res.send(CResponse.response.text());
+        }
+      } catch (e) {
+        res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
       }
-    } catch (e) {
-      res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
+    } else if (LLM == "OTP") {
+      if (req.body.personality && req.body.personality != "") {
+        const OpenPrompt = JSON.stringify({
+          model: `typhoon-v1.5-instruct`,
+          messages: [
+            {
+              role: "system",
+              content: `
+                You are Cynthia (female), an AI advisor designed to help high school students, especially those in M.4/5. 
+                You are talking with student that have have ${req.body.personality}. You provide guidance on academic topics, time management, and motivational support. 
+                Your responses should primarily be in Thai, but you can switch to English if explicitly asked. 
+                Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information. 
+                Be sure to reflect the personality traits provided to create a personalized interaction.
+              `,
+            },
+            {
+              role: "user",
+              content: `${USRP}`,
+            },
+          ],
+          max_tokens: 256,
+          temperature: 0.6,
+          top_p: 0.9,
+          top_k: 0,
+          repetition_penalty: 1.05,
+          min_p: 0.05
+        });
+        const OpenConfig = {
+          method: "post",
+          url: "https://api.opentyphoon.ai/v1/chat/completions",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OpenKEY}`,
+          },
+          data: OpenPrompt,
+        };
+        axios
+          .request(OpenConfig)
+          .then(async (response) => {
+            res.send(response.data.choices[0].message.content);
+          })
+          .catch(async (error) => {
+            res
+              .status(400)
+              .send(`Cynthia ตอบกลับคุณไม่ได้ (${error})`);
+          });
+      } else {
+        const OpenPrompt = JSON.stringify({
+          model: `typhoon-v1.5-instruct`,
+          messages: [
+            {
+              role: "system",
+              content: `You are Cynthia ชินเทีย (female), a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.`,
+            },
+            {
+              role: "user",
+              content: `${USRP}`,
+            },
+          ],
+          max_tokens: 256,
+          temperature: 0.6,
+          top_p: 0.9,
+          top_k: 0,
+          repetition_penalty: 1.05,
+          min_p: 0.05
+        });
+        const OpenConfig = {
+          method: "post",
+          url: "https://api.opentyphoon.ai/v1/chat/completions",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OpenKEY}`,
+          },
+          data: OpenPrompt,
+        };
+        axios
+          .request(OpenConfig)
+          .then(async (response) => {
+            res.send(response.data.choices[0].message.content);
+          })
+          .catch(async (error) => {
+            res
+              .status(400)
+              .send(`Cynthia ตอบกลับคุณไม่ได้ (${error})`);
+          });
+      }
+    } else {
+      res.status(400).send(`กรุณาเลือกโมเดล`);
     }
   }
 });
