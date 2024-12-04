@@ -17,7 +17,7 @@ import { CgGirl, CgBoy } from "react-icons/cg";
 import { PiStudentFill } from "react-icons/pi";
 import { FaRunning, FaHistory } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
-import smtConfig from "../smt-config.mjs"
+import smtConfig from "../smt-config.mjs";
 
 interface Absent {
   Date: string;
@@ -103,6 +103,14 @@ export default function Absent() {
           Date: "ไม่สามารถดึงข้อมูลได้",
         });
       });
+
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("history") == "all") {
+        setshowDetilsData(true);
+        DatadetailsRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   }, []);
 
   const totalPages = Math.ceil(data.length / itemsPerPage);
