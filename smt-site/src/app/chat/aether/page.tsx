@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select } from "flowbite-react";
+import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Badge } from "flowbite-react";
 import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
@@ -189,7 +189,7 @@ export default function ChatCynthia() {
             />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight flex items-center">
-                Aether (เอเธอร์) <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer' }} className='w-7 h-7 ml-2.5' /></Tooltip>
+                Aether (เอเธอร์) <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-3" color="failure">Experimental</Badge> <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer', display: 'none' }} className='w-7 h-7 ml-2.5' /></Tooltip>
               </h5>
               <p className="font-normal">
                 ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
@@ -347,7 +347,6 @@ export default function ChatCynthia() {
               </div>
               <Select onChange={(e) => setDefaultModel(e.target.value)} id="LLMs" required>
                 <option>gemini-1.5-flash</option>
-                <option>llama-3.1-70b-versatile</option>
               </Select>
             </div>
             <span className="flex mt-5 items-center">
