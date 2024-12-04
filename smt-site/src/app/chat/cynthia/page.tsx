@@ -4,9 +4,8 @@ import Link from 'next/link'
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Badge, Modal, Label } from "flowbite-react";
+import { FloatingLabel, Button, Card } from "flowbite-react";
 import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
-import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
