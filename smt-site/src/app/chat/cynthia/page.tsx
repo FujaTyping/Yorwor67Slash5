@@ -34,15 +34,10 @@ export default function ChatCynthia() {
   const [isHistory, setIsHistory] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("");
-  const [openModalSelect, setOpenModelSelect] = useState(false);
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
   const typingSpeed = 1;
-
-  function onCloseSelect() {
-    setOpenModelSelect(false)
-  }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -162,7 +157,7 @@ export default function ChatCynthia() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
-        <Card onClick={() => { setOpenModelSelect(true) }} className="flex flex-row items-center cursor-pointer">
+        <Card className="flex flex-row items-center">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
             <img
               src={CynthiaProfile.src}
@@ -211,6 +206,7 @@ export default function ChatCynthia() {
                       isBot={isGEN}
                       AnimatedPrompt={cynthiaPrompt}
                       botName="Cynthia"
+                      modelName='gemini-1.5-flash'
                     />
                   </div>
                 </div>
@@ -307,52 +303,6 @@ export default function ChatCynthia() {
           </>
         )}
       </div>
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openModalSelect}
-        onClose={onCloseSelect}
-        size="md"
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              เลือกผู้ช่วยที่คุณต้องการพูดคุย
-            </h3>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="พร้อมลุยไปกับ AI ที่ใช่สำหรับคุณ!" />
-              </div>
-              <Link href="/chat/cynthia">
-                <div className="p-2 w-full cursor-pointer">
-                  <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="Cynthia" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={CynthiaProfile.src} />
-                    <div className="flex-grow">
-                      <h2 className="text-gray-900 text-xl font-bold">Cynthia</h2>
-                      <p>ที่ปรึกษาส่วนตัว AI อบอุ่น ใส่ใจ พร้อมช่วยทุกปัญหาการเรียน</p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              <Link href="/chat/aether">
-                <div className="p-2 w-full cursor-pointer">
-                  <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="Aether" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={AetherProfile.src} />
-                    <div className="flex-grow">
-                      <div className='flex items-center'>
-                        <h2 className="text-gray-900 text-xl font-bold">Aether</h2>
-                        <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-2" color="failure">Experimental</Badge>
-                      </div>
-                      <p>ที่ปรึกษา AI อัจฉริยะ ผู้เชี่ยวชาญคณิต-วิทย์ คม เฉียบ และล้ำสมัย</p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 }

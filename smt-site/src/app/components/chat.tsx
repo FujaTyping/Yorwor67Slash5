@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Badge, Modal, Button, Label, Textarea, Tooltip } from "flowbite-react";
-import { SiGooglegemini } from "react-icons/si";
+import { TbMessageChatbotFilled } from "react-icons/tb";
 import { motion } from "motion/react"
 import Markdown from 'react-markdown'
 import { FaPencilAlt, FaHistory } from "react-icons/fa";
@@ -16,10 +16,11 @@ interface ChatAtrib {
   isBot?: boolean;
   isUser?: boolean;
   history?: boolean;
+  modelName?: string;
   botName: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, AnimatedPrompt, history, botName }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, AnimatedPrompt, history, botName, modelName }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -89,15 +90,15 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, Anim
               </div>
               {isBot && (
                 <Badge
-                  className="mt-2"
+                  className="mt-2 px-3"
                   style={{
-                    maxWidth: '130px',
+                    width: 'fit-content',
                     color: 'white',
-                    background: 'linear-gradient(to right, #4884f1, #d36678)'
+                    background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
                   }}
-                  icon={SiGooglegemini}
+                  icon={TbMessageChatbotFilled}
                 >
-                  gemini-1.5-flash
+                  {modelName}
                 </Badge>
               )}
               {history && (

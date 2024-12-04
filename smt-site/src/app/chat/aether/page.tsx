@@ -1,18 +1,18 @@
 "use client";
 
-import Link from 'next/link'
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Badge, Modal, Label } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
+import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select } from "flowbite-react";
 import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
-import { MdLockClock } from "react-icons/md";
+import { MdLockClock, MdOutlineSettingsSuggest } from "react-icons/md";
 import useSound from 'use-sound';
 import Turnstile from "react-turnstile";
+import { FaSave } from "react-icons/fa";
+import { MdMemory } from "react-icons/md";
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Aether");
@@ -33,14 +33,27 @@ export default function ChatCynthia() {
   const [isHistory, setIsHistory] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("");
-  const [openModalSelect, setOpenModelSelect] = useState(false);
+  const [defualtModel, setDefaultModel] = useState("gemini-1.5-flash");
+  const [displayModel, setDisplatModel] = useState("gemini-1.5-flash")
+  const [openModalSetting, setOpenModelSetting] = useState(false);
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
   const typingSpeed = 1;
 
-  function onCloseSelect() {
-    setOpenModelSelect(false)
+  function onCloseSetting() {
+    setOpenModelSetting(false)
+  }
+
+  function saveSetting() {
+    setIsGEN(false);
+    setDisplatModel(defualtModel);
+
+    try {
+      localStorage.setItem("AetherModel", defualtModel);
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -77,6 +90,7 @@ export default function ChatCynthia() {
         {
           prompt: `${prompt}`,
           personality: `${personality}`,
+          model: `${displayModel}`
         },
         {
           headers: {
@@ -123,6 +137,7 @@ export default function ChatCynthia() {
       const storedPersonality = localStorage.getItem("personality");
       const storedHisAether = localStorage.getItem("historyAetherChat");
       const storedHisPrompt = localStorage.getItem("historyAetherPrompt");
+      const AetherMODEL = localStorage.getItem('AetherModel')
       if (storedPersonality) {
         setPersonality(storedPersonality);
       }
@@ -130,6 +145,10 @@ export default function ChatCynthia() {
         setAetherPrompt(storedHisAether);
         setUserPrompt(storedHisPrompt);
         setIsHistory(true);
+      }
+      if (AetherMODEL) {
+        setDefaultModel(AetherMODEL);
+        setDisplatModel(AetherMODEL);
       }
     } catch (error) {
       console.error("Error reading data from localStorage:", error);
@@ -161,7 +180,7 @@ export default function ChatCynthia() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
-        <Card onClick={() => { setOpenModelSelect(true) }} className="flex flex-row items-center cursor-pointer">
+        <Card className="flex flex-row items-center">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
             <img
               src={AetherProfile.src}
@@ -170,7 +189,7 @@ export default function ChatCynthia() {
             />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight flex items-center">
-                Aether (เอเธอร์) <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-3" color="failure">Experimental</Badge>
+                Aether (เอเธอร์) <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer' }} className='w-7 h-7 ml-2.5' /></Tooltip>
               </h5>
               <p className="font-normal">
                 ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
@@ -209,6 +228,7 @@ export default function ChatCynthia() {
                       isBot={isGEN}
                       AnimatedPrompt={aetherPrompt}
                       botName="Aether"
+                      modelName={displayModel}
                     />
                   </div>
                 </div>
@@ -307,8 +327,8 @@ export default function ChatCynthia() {
       </div>
       <Modal
         className="animate__animated animate__fadeIn"
-        show={openModalSelect}
-        onClose={onCloseSelect}
+        show={openModalSetting}
+        onClose={onCloseSetting}
         size="md"
         popup
       >
@@ -316,37 +336,32 @@ export default function ChatCynthia() {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              เลือกผู้ช่วยที่คุณต้องการพูดคุย
+              การตั้งค่า Aether
             </h3>
             <div>
-              <div className="mb-2 block">
-                <Label htmlFor="text" value="พร้อมลุยไปกับ AI ที่ใช่สำหรับคุณ!" />
+              <div className="mb-4 block">
+                <Label htmlFor="text" value="ปรับแต่งการทำงานของ AI เพื่อให้ตรงกับสไตล์และความต้องการของคุณ" />
               </div>
-              <Link href="/chat/cynthia">
-                <div className="p-2 w-full cursor-pointer">
-                  <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="Cynthia" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={CynthiaProfile.src} />
-                    <div className="flex-grow">
-                      <h2 className="text-gray-900 text-xl font-bold">Cynthia</h2>
-                      <p>ที่ปรึกษาส่วนตัว AI อบอุ่น ใส่ใจ พร้อมช่วยทุกปัญหาการเรียน</p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              <Link href="/chat/aether">
-                <div className="p-2 w-full cursor-pointer">
-                  <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                    <img alt="Aether" className="w-14 h-14 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src={AetherProfile.src} />
-                    <div className="flex-grow">
-                      <div className='flex items-center'>
-                        <h2 className="text-gray-900 text-xl font-bold">Aether</h2>
-                        <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-2" color="failure">Experimental</Badge>
-                      </div>
-                      <p>ที่ปรึกษา AI อัจฉริยะ ผู้เชี่ยวชาญคณิต-วิทย์ คม เฉียบ และล้ำสมัย</p>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value={`เปลื่ยนโมเดลภาษา (${displayModel} ใช้งานอยู่)`} />
+              </div>
+              <Select onChange={(e) => setDefaultModel(e.target.value)} id="LLMs" required>
+                <option>gemini-1.5-flash</option>
+                <option>llama-3.1-70b-versatile</option>
+              </Select>
+            </div>
+            <span className="flex mt-5 items-center">
+              <MdMemory className="w-5 h-5 mr-2" /> ข้อมูลตั้งค่าจะอัพเดทในแชทครั้งถัดไป
+            </span>
+            <div className="w-full">
+              <Button
+                onClick={saveSetting}
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+              >
+                บันทึกการตั้งค่า
+                <FaSave className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </Modal.Body>
