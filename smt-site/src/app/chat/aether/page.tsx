@@ -39,7 +39,7 @@ export default function ChatAether() {
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
   const [index, setIndex] = useState(0);
-  const typingSpeed = 1;
+  const typingSpeed = 0.75;
 
   function onCloseSetting() {
     setOpenModelSetting(false)
