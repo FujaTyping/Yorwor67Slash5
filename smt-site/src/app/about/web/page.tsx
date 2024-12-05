@@ -21,6 +21,7 @@ export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
   const [api1down, setApi1down] = useState(true);
   const [api2down, setApi2down] = useState(true);
+  const [api3down, setApi3down] = useState(true);
   const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
   const { isLogin } = useLocalStorge(false);
 
@@ -40,6 +41,14 @@ export default function AboutWeb() {
       })
       .catch(() => {
         setApi2down(true);
+      });
+    axios
+      .get(`${smtConfig.apiBackup}ping`)
+      .then(() => {
+        setApi3down(false);
+      })
+      .catch(() => {
+        setApi3down(true);
       });
   }, []);
 
@@ -146,6 +155,23 @@ export default function AboutWeb() {
                         <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
                           <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
                           <span className="title-font font-medium">Api server {"(Railway)"}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="p-2 sm:w-1/2 w-full">
+                    {api3down ? (
+                      <>
+                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
+                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Render)"}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
+                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Render)"}</span>
                         </div>
                       </>
                     )}

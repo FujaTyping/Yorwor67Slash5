@@ -14,7 +14,7 @@ import Turnstile from "react-turnstile";
 import { FaSave } from "react-icons/fa";
 import { MdMemory } from "react-icons/md";
 
-export default function ChatCynthia() {
+export default function ChatAether() {
   const [title] = useState("Hatyaiwit - Aether");
   const { username, photourl, email, isLogin } = useLocalStorge(false);
   const [userPrompt, setUserPrompt] = useState(
