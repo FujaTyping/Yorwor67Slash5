@@ -13,6 +13,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "axios": "^1.7.7",
+    "better-react-mathjax": "^2.0.4-beta1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.1",

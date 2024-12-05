@@ -23,7 +23,6 @@ export default function ChatAether() {
   const [aetherPrompt, setAetherPrompt] = useState(
     "สวัสดีครับ! ผมคือ Aether ที่ปรึกษาด้านการเรียนรู้ของคุณ บอกมาได้เลยว่าคุณต้องการความช่วยเหลือในเรื่องใด ผมพร้อมเสมอครับ!"
   );
-  const [animatedAetherPrompt, setAnimatedAetherPrompt] = useState("");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(false);
@@ -38,8 +37,6 @@ export default function ChatAether() {
   const [openModalSetting, setOpenModelSetting] = useState(false);
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
-  const [index, setIndex] = useState(0);
-  const typingSpeed = 0.75;
 
   function onCloseSetting() {
     setOpenModelSetting(false)
@@ -159,22 +156,6 @@ export default function ChatAether() {
     loadLocaldata();
   }, []);
 
-  useEffect(() => {
-    setAnimatedAetherPrompt("");
-    setIndex(0);
-  }, [aetherPrompt]);
-
-  useEffect(() => {
-    if (index < aetherPrompt.length) {
-      const timer = setTimeout(() => {
-        setAnimatedAetherPrompt((prev) => prev + aetherPrompt[index]);
-        setIndex((prev) => prev + 1);
-      }, typingSpeed);
-
-      return () => { clearTimeout(timer); }
-    }
-  }, [index, aetherPrompt]);
-
   return (
     <>
       <title>{title}</title>
@@ -224,9 +205,8 @@ export default function ChatAether() {
                       isRtl={false}
                       name="Aether"
                       img={AetherProfile.src}
-                      text={animatedAetherPrompt}
+                      text={aetherPrompt}
                       isBot={isGEN}
-                      AnimatedPrompt={aetherPrompt}
                       botName="Aether"
                       modelName={displayModel}
                     />

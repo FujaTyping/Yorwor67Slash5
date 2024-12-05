@@ -6,13 +6,13 @@ import Markdown from 'react-markdown'
 import { FaPencilAlt, FaHistory } from "react-icons/fa";
 import useSound from 'use-sound';
 import { MdMemory } from "react-icons/md";
+import { MathJax, MathJaxContext } from "better-react-mathjax";
 
 interface ChatAtrib {
   isRtl: boolean;
   name: string;
   img: string;
   text: string;
-  AnimatedPrompt?: string;
   isBot?: boolean;
   isUser?: boolean;
   history?: boolean;
@@ -20,7 +20,7 @@ interface ChatAtrib {
   botName: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, AnimatedPrompt, history, botName, modelName }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, history, botName, modelName }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -66,7 +66,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, Anim
   return (
     <>
       <motion.div
-        key={AnimatedPrompt}
+        key={text}
         initial={{ y: -10 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
@@ -86,7 +86,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, Anim
                 </span>
               </div>
               <div dir="ltr" className="text-base font-normal py-2.5 break-words">
-                <Markdown>{text}</Markdown>
+                <MathJaxContext><MathJax><Markdown>{text}</Markdown></MathJax></MathJaxContext>
               </div>
               {isBot && (
                 <Badge
