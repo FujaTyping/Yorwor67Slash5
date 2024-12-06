@@ -26,6 +26,17 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
   const [isError, setIsError] = useState(false)
   const [CynthiaData] = useSound("/assets/Sound/CynthiaDataSaved.wav");
 
+  const config = {
+    loader: { load: ["input/asciimath"] },
+    asciimath: {
+      displaystyle: true,
+      delimiters: [
+        ["$", "$"],
+        ["`", "`"]
+      ]
+    }
+  };
+
   function onCloseModal() {
     setOpenModal(false)
   }
@@ -86,7 +97,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
                 </span>
               </div>
               <div dir="ltr" className="text-base font-normal py-2.5 break-words">
-                <MathJaxContext><MathJax><Markdown>{text}</Markdown></MathJax></MathJaxContext>
+                <MathJaxContext config={config}><MathJax><Markdown>{text}</Markdown></MathJax></MathJaxContext>
               </div>
               {isBot && (
                 <Badge
