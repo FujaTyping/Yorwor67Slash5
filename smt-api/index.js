@@ -23,7 +23,6 @@ const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
 const notifyHomework = require("./lib/dsgHook/notifyHomework");
-const userData = require("./data/user.json");
 const path = require('path');
 
 const config = require("./config.json");
@@ -79,6 +78,9 @@ let ComRealData = {
 let WheelRealData = {
   StudentData: [],
 };
+let UserRealData = {
+  user: [],
+};
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
@@ -101,9 +103,18 @@ function thaiDateToJsDate(thaiDate) {
   return new Date(year, month - 1, dayInt);
 }
 
-const Authenticate = (req, res, next) => {
+async function getUserData() {
+  const querySnapshot = await getDocs(collection(db, "Admin"));
+  UserRealData.user = [];
+  querySnapshot.forEach((doc) => {
+    UserRealData.user.push(doc.id);
+  });
+}
+
+const Authenticate = async (req, res, next) => {
   const Auth = req.get("Auth");
-  if (!userData.user.includes(Auth)) {
+  await getUserData();
+  if (!UserRealData.user.includes(Auth)) {
     return res
       .status(400)
       .send(
@@ -119,10 +130,11 @@ exapp.use('/document', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 exapp.get("/permission", async (req, res) => {
   const Auth = req.get("Auth");
+  await getUserData();
   if (!Auth) {
     res.status(400).send("ไม่พบอีเมลในการเข้าสู่ระบบ");
   } else {
-    if (userData.user.includes(Auth)) {
+    if (UserRealData.user.includes(Auth)) {
       return res
         .send(
           `อีเมล ${Auth} ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
@@ -587,6 +599,7 @@ exapp.use((req, res, next) => {
   res.status(404).send("There is no API here (404)");
 });
 
-exapp.listen(port, () => {
+exapp.listen(port, async () => {
   console.log(`smt-site API is running on port : ${port}`);
+  await getUserData();
 });
