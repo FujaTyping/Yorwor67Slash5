@@ -27,7 +27,7 @@ export default function smtAI() {
                 </h1>
                 <h2 style={{ fontSize: '18px' }}>ผู้ช่วย AI อัจฉริยะที่พร้อมตอบคำถาม ช่วยแก้ปัญหาการเรียน และให้คำแนะนำ ไม่ว่าจะเป็นด้านคณิตศาสตร์ วิทยาศาสตร์ หรือกลยุทธ์การเรียนรู้ ทุกอย่างเพื่อช่วยให้คุณก้าวสู่เป้าหมายได้ง่ายขึ้น</h2>
                 <div className="flex flex-col md:flex-row justify-center items-center rounded-lg mt-10 gap-10">
-                    <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black">
+                    <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn">
                         <img
                             alt="Cythia"
                             src={Cynthia.src}
@@ -47,7 +47,7 @@ export default function smtAI() {
                             </div>
                         </div>
                     </Link>
-                    <Link href="/chat/aether" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black">
+                    <Link href="/chat/aether" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn">
                         <img
                             alt="Aether"
                             src={Aether.src}

@@ -161,7 +161,7 @@ export default function ChatAether() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <div className="container mx-auto p-6 space-y-6 max-w-3xl">
-        <Card className="flex flex-row items-center">
+        <Card className="flex flex-row items-center animate__animated animate__fadeInDown">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
             <img
               src={AetherProfile.src}
