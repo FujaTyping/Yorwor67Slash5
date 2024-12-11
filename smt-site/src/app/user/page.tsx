@@ -5,7 +5,7 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook, FaEraser, FaBullhorn } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUserCheck } from "react-icons/fa";
 import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
@@ -21,6 +21,7 @@ import {
   Textarea,
   Datepicker,
   FileInput,
+  Badge,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import { AiFillPicture } from "react-icons/ai";
@@ -58,6 +59,7 @@ export default function User() {
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [showCaptcha, setshowCaptcha] = useState(true);
   const [message, setMessage] = useState("เตือน !");
+  const [permessage, setPerMessage] = useState("Guest");
   const [openAlert, setOpenAlert] = useState(false);
   const [openLineAlert, setOpenLineAlert] = useState(false);
   const [openAmModal, setOpenAmModal] = useState(false);
@@ -302,8 +304,11 @@ export default function User() {
             Auth: email,
           },
         })
-        .then(() => {
-          setIsPermission(true);
+        .then((response) => {
+          setPerMessage(response.data);
+          if (response.data == 'Admin') {
+            setIsPermission(true);
+          }
         })
         .catch(() => {
           setIsPermission(false);
@@ -326,7 +331,12 @@ export default function User() {
             ></img>
             <div className="flex-grow">
               <h2 className="title-font font-medium">{username}</h2>
-              <p>{email}</p>
+              <div className="flex md:items-center flex-col md:flex-row">
+                <p>{email}</p>
+                <Badge icon={FaUserCheck} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
+                  {permessage}
+                </Badge>
+              </div>
             </div>
           </div>
         </div>

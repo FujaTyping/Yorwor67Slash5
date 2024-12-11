@@ -81,6 +81,9 @@ let WheelRealData = {
 let UserRealData = {
   user: [],
 };
+let StuRealData = {
+  user: [],
+};
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
@@ -111,6 +114,14 @@ async function getUserData() {
   });
 }
 
+async function getStudentData() {
+  const querySnapshot = await getDocs(collection(db, "User"));
+  StuRealData.user = [];
+  querySnapshot.forEach((doc) => {
+    StuRealData.user.push(doc.id);
+  });
+}
+
 const Authenticate = async (req, res, next) => {
   const Auth = req.get("Auth");
   await getUserData();
@@ -131,14 +142,16 @@ exapp.use('/document', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 exapp.get("/permission", async (req, res) => {
   const Auth = req.get("Auth");
   await getUserData();
+  await getStudentData();
   if (!Auth) {
     res.status(400).send("ไม่พบอีเมลในการเข้าสู่ระบบ");
   } else {
     if (UserRealData.user.includes(Auth)) {
       return res
-        .send(
-          `อีเมล ${Auth} ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
-        );
+        .send(`Admin`);
+    } else if (StuRealData.user.includes(Auth)) {
+      return res
+        .send(`Student`);
     } else {
       return res
         .status(400)
@@ -602,4 +615,5 @@ exapp.use((req, res, next) => {
 exapp.listen(port, async () => {
   console.log(`smt-site API is running on port : ${port}`);
   await getUserData();
+  await getStudentData();
 });
