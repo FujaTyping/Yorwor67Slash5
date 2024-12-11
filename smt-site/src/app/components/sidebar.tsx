@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
+import { TbMessageChatbotFilled } from "react-icons/tb";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -125,6 +126,9 @@ export default function SideNavbar() {
                       ส่งความคิดเห็น
                     </Sidebar.Item>
                     <Sidebar.Collapse icon={FaTools} label="เครื่องมือ">
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/ai">
+                        ผู้ช่วยส่วนตัว AI
+                      </Sidebar.Item>
                       <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/tool/teacher/wheel">
                         สุ่มชื่อ
                       </Sidebar.Item>

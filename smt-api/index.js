@@ -23,7 +23,6 @@ const { generateID, randomSticker } = require("./lib/module");
 const pushNewHomework = require("./lib/lineOA/pushHomework");
 const pushNewAbsent = require("./lib/lineOA/pushAbsent");
 const notifyHomework = require("./lib/dsgHook/notifyHomework");
-const userData = require("./data/user.json");
 const path = require('path');
 
 const config = require("./config.json");
@@ -51,7 +50,14 @@ const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
 const GeminiModel = GeminiAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   generationConfig: {
-    maxOutputTokens: 200,
+    maxOutputTokens: 512,
+    temperature: 1,
+  },
+});
+const LGeminiModel = GeminiAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    maxOutputTokens: 1024,
     temperature: 1,
   },
 });
@@ -71,6 +77,12 @@ let ComRealData = {
 };
 let WheelRealData = {
   StudentData: [],
+};
+let UserRealData = {
+  user: [],
+};
+let StuRealData = {
+  user: [],
 };
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
@@ -94,9 +106,26 @@ function thaiDateToJsDate(thaiDate) {
   return new Date(year, month - 1, dayInt);
 }
 
-const Authenticate = (req, res, next) => {
+async function getUserData() {
+  const querySnapshot = await getDocs(collection(db, "Admin"));
+  UserRealData.user = [];
+  querySnapshot.forEach((doc) => {
+    UserRealData.user.push(doc.id);
+  });
+}
+
+async function getStudentData() {
+  const querySnapshot = await getDocs(collection(db, "User"));
+  StuRealData.user = [];
+  querySnapshot.forEach((doc) => {
+    StuRealData.user.push(doc.id);
+  });
+}
+
+const Authenticate = async (req, res, next) => {
   const Auth = req.get("Auth");
-  if (!userData.user.includes(Auth)) {
+  await getUserData();
+  if (!UserRealData.user.includes(Auth)) {
     return res
       .status(400)
       .send(
@@ -112,14 +141,17 @@ exapp.use('/document', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 exapp.get("/permission", async (req, res) => {
   const Auth = req.get("Auth");
+  await getUserData();
+  await getStudentData();
   if (!Auth) {
     res.status(400).send("ไม่พบอีเมลในการเข้าสู่ระบบ");
   } else {
-    if (userData.user.includes(Auth)) {
+    if (UserRealData.user.includes(Auth)) {
       return res
-        .send(
-          `อีเมล ${Auth} ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`,
-        );
+        .send(`Admin`);
+    } else if (StuRealData.user.includes(Auth)) {
+      return res
+        .send(`Student`);
     } else {
       return res
         .status(400)
@@ -259,7 +291,7 @@ exapp.post("/generative/cynthia", async (req, res) => {
               role: "user",
               parts: [
                 {
-                  text: "You are Cynthia, a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
+                  text: "You are Cynthia (female), a friendly and approachable AI advisor designed to help high school students, especially those in M.4/5. You provide guidance on academic topics, time management, and motivational support. Your responses should primarily be in Thai, but you can switch to English if explicitly asked. Respond concisely but not too briefly, ensuring your answers are clear, meaningful, and focused on providing valuable information.",
                 },
               ],
             },
@@ -270,6 +302,49 @@ exapp.post("/generative/cynthia", async (req, res) => {
       }
     } catch (e) {
       res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
+    }
+  }
+});
+
+exapp.post("/generative/aether", async (req, res) => {
+  const USRP = req.body.prompt;
+  if (!USRP) {
+    res.status(400).send("ติดปัญหาตรงไหน? ถาม Aether ได้เลย เดี๋ยวจัดให้! 😎");
+  } else {
+    try {
+      if (req.body.personality && req.body.personality != "") {
+        const SysChat = LGeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `text: "You are Aether (male), a highly intelligent AI mentor designed to guide students in math, science, and learning strategies.You are talking with students who have ${req.body.personality}. You are approachable, supportive, inspiring, and like an older sibling offering advice and guidance. Your role is to explain complex concepts clearly, motivate students, and provide creative solutions to their problems. Always respond with wisdom, encouragement, and maintain a futuristic, intelligent persona. Communicate primarily in Thai, keeping responses friendly, clear, and concise, as if you are a sibling helping and advising your younger peers."`,
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      } else {
+        const SysChat = LGeminiModel.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: "You are Aether (male), a highly intelligent AI mentor designed to guide students in math, science, and learning strategies. You are approachable, supportive, inspiring, and like an older sibling offering advice and guidance. Your role is to explain complex concepts clearly, motivate students, and provide creative solutions to their problems. Always respond with wisdom, encouragement, and maintain a futuristic, intelligent persona. Communicate primarily in Thai, keeping responses friendly, clear, and concise, as if you are a sibling helping and advising your younger peers."
+                },
+              ],
+            },
+          ],
+        });
+        const CResponse = await SysChat.sendMessage(`${USRP}`);
+        res.send(CResponse.response.text());
+      }
+    } catch (e) {
+      res.status(400).send(`Aether ตอบกลับคุณไม่ได้ (${e})`);
     }
   }
 });
@@ -537,6 +612,8 @@ exapp.use((req, res, next) => {
   res.status(404).send("There is no API here (404)");
 });
 
-exapp.listen(port, () => {
+exapp.listen(port, async () => {
   console.log(`smt-site API is running on port : ${port}`);
+  await getUserData();
+  await getStudentData();
 });

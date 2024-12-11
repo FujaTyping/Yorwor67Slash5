@@ -15,11 +15,13 @@ import useSound from 'use-sound';
 import useLocalStorge from "../../lib/localstorage-db";
 
 import Cynthia from '../../assets/chat/Cynthia.jpg'
+import Aether from '../../assets/chat/Aether.jpg'
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
   const [api1down, setApi1down] = useState(true);
   const [api2down, setApi2down] = useState(true);
+  const [api3down, setApi3down] = useState(true);
   const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
   const { isLogin } = useLocalStorge(false);
 
@@ -39,6 +41,14 @@ export default function AboutWeb() {
       })
       .catch(() => {
         setApi2down(true);
+      });
+    axios
+      .get(`${smtConfig.apiBackup}ping`)
+      .then(() => {
+        setApi3down(false);
+      })
+      .catch(() => {
+        setApi3down(true);
       });
   }, []);
 
@@ -149,6 +159,23 @@ export default function AboutWeb() {
                       </>
                     )}
                   </div>
+                  <div className="p-2 sm:w-1/2 w-full">
+                    {api3down ? (
+                      <>
+                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
+                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Render)"}</span>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
+                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <span className="title-font font-medium">Api server {"(Render)"}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </section>
@@ -204,6 +231,23 @@ export default function AboutWeb() {
                         <p className="mb-4">{"ทุกความพยายามคือก้าวเล็ก ๆ ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!"}</p>
                         <span style={{ cursor: 'pointer' }} className="inline-flex">
                           <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia">
+                            <IoChatboxEllipses
+                              className="h-6 w-6"
+                            />
+                          </Link>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 lg:w-1/2">
+                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                      <img alt="Siraphop Sukchu" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src={Aether.src}></img>
+                      <div className="flex-grow sm:pl-8">
+                        <h2 className="title-font font-medium text-lg text-gray-900">Aether</h2>
+                        <h3 className="text-gray-500 mb-3">AI Assistant</h3>
+                        <p className="mb-4">{"ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้!"}</p>
+                        <span style={{ cursor: 'pointer' }} className="inline-flex">
+                          <Link href="/chat/aether">
                             <IoChatboxEllipses
                               className="h-6 w-6"
                             />

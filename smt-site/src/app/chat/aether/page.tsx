@@ -3,24 +3,25 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
+import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Badge } from "flowbite-react";
+import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
-import { MdLockClock } from "react-icons/md";
+import { MdLockClock, MdOutlineSettingsSuggest } from "react-icons/md";
 import useSound from 'use-sound';
 import Turnstile from "react-turnstile";
+import { FaSave } from "react-icons/fa";
+import { MdMemory } from "react-icons/md";
 
-export default function ChatCynthia() {
-  const [title] = useState("Hatyaiwit - Cynthia");
+export default function ChatAether() {
+  const [title] = useState("Hatyaiwit - Aether");
   const { username, photourl, email, isLogin } = useLocalStorge(false);
   const [userPrompt, setUserPrompt] = useState(
-    "สวัสดี Cynthia คุณช่วยฉันหน่อยได้ไหม?"
+    "สวัสดี Aether คุณช่วยฉันเรื่องการเรียนได้ไหม?"
   );
-
-  const [cynthiaPrompt, setCynthiaPrompt] = useState(
-    "ฉันยินดีที่จะช่วยนะคะ บอกมาเลยว่าคุณต้องการอะไร?"
+  const [aetherPrompt, setAetherPrompt] = useState(
+    "สวัสดีครับ! ผมคือ Aether ที่ปรึกษาด้านการเรียนรู้ของคุณ บอกมาได้เลยว่าคุณต้องการความช่วยเหลือในเรื่องใด ผมพร้อมเสมอครับ!"
   );
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,8 +32,26 @@ export default function ChatCynthia() {
   const [isHistory, setIsHistory] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("");
+  const [defualtModel, setDefaultModel] = useState("gemini-1.5-flash");
+  const [displayModel, setDisplatModel] = useState("gemini-1.5-flash")
+  const [openModalSetting, setOpenModelSetting] = useState(false);
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
+
+  function onCloseSetting() {
+    setOpenModelSetting(false)
+  }
+
+  function saveSetting() {
+    setIsGEN(false);
+    setDisplatModel(defualtModel);
+
+    try {
+      localStorage.setItem("AetherModel", defualtModel);
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -50,7 +69,7 @@ export default function ChatCynthia() {
     setPause(true);
     TX();
     setIsGEN(false)
-    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...")
+    setAetherPrompt("Aether กำลังคิดคำตอบ ...")
     setLoading(true)
 
     try {
@@ -64,10 +83,11 @@ export default function ChatCynthia() {
 
     axios
       .post(
-        `${smtConfig.apiMain}generative/cynthia`,
+        `${smtConfig.apiMain}generative/aether`,
         {
           prompt: `${prompt}`,
           personality: `${personality}`,
+          model: `${displayModel}`
         },
         {
           headers: {
@@ -76,21 +96,21 @@ export default function ChatCynthia() {
         }
       )
       .then((response) => {
-        setCynthiaPrompt(`${response.data}`);
+        setAetherPrompt(`${response.data}`);
         RX();
         setLoading(false);
         setCooldown(true);
         setSecondsLeft(15);
         setIsGEN(true);
         try {
-          localStorage.setItem("historyCynthiaChat", response.data);
-          localStorage.setItem("historyCynthiaPrompt", prompt);
+          localStorage.setItem("historyAetherChat", response.data);
+          localStorage.setItem("historyAetherPrompt", prompt);
         } catch (error) {
           console.error("Error saving to localStorage:", error);
         }
       })
       .catch((error) => {
-        setCynthiaPrompt(`${error.response.data}`);
+        setAetherPrompt(`${error.response.data}`);
         RX();
         setLoading(false);
       });
@@ -112,15 +132,20 @@ export default function ChatCynthia() {
   const loadLocaldata = async () => {
     try {
       const storedPersonality = localStorage.getItem("personality");
-      const storedHisCynnthia = localStorage.getItem("historyCynthiaChat");
-      const storedHisPrompt = localStorage.getItem("historyCynthiaPrompt");
+      const storedHisAether = localStorage.getItem("historyAetherChat");
+      const storedHisPrompt = localStorage.getItem("historyAetherPrompt");
+      const AetherMODEL = localStorage.getItem('AetherModel')
       if (storedPersonality) {
         setPersonality(storedPersonality);
       }
-      if (storedHisCynnthia && storedHisPrompt) {
-        setCynthiaPrompt(storedHisCynnthia);
+      if (storedHisAether && storedHisPrompt) {
+        setAetherPrompt(storedHisAether);
         setUserPrompt(storedHisPrompt);
         setIsHistory(true);
+      }
+      if (AetherMODEL) {
+        setDefaultModel(AetherMODEL);
+        setDisplatModel(AetherMODEL);
       }
     } catch (error) {
       console.error("Error reading data from localStorage:", error);
@@ -139,17 +164,16 @@ export default function ChatCynthia() {
         <Card className="flex flex-row items-center animate__animated animate__fadeInDown">
           <div className="flex flex-row flex-shrink-0 mr-4 items-center">
             <img
-              src={CynthiaProfile.src}
+              src={AetherProfile.src}
               alt="Profile picture"
               className="w-16 h-16 rounded-full object-cover"
             />
             <div className="ml-8">
-              <h5 className="text-xl font-bold tracking-tight">
-                Cynthia (ซินเทีย)
+              <h5 className="text-xl font-bold tracking-tight flex items-center">
+                Aether (เอเธอร์) <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-3" color="failure">Experimental</Badge> <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer', display: 'none' }} className='w-7 h-7 ml-2.5' /></Tooltip>
               </h5>
               <p className="font-normal">
-                ทุกความพยายามคือก้าวเล็ก ๆ
-                ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
+                ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
               </p>
               {cooldown ? (
                 <>
@@ -173,18 +197,18 @@ export default function ChatCynthia() {
                       text={userPrompt}
                       isUser={true}
                       history={isHistory}
-                      botName="Cynthia"
+                      botName="Aether"
                     />
                   </div>
                   <div>
                     <ChatBubble
                       isRtl={false}
-                      name="Cynthia"
-                      img={CynthiaProfile.src}
-                      text={cynthiaPrompt}
+                      name="Aether"
+                      img={AetherProfile.src}
+                      text={aetherPrompt}
                       isBot={isGEN}
-                      botName="Cynthia"
-                      modelName='gemini-1.5-flash'
+                      botName="Aether"
+                      modelName={displayModel}
                     />
                   </div>
                 </div>
@@ -195,8 +219,8 @@ export default function ChatCynthia() {
                       onKeyDown={handleKeyDown}
                       onChange={(i) => setInput(i.target.value)}
                       variant="outlined"
-                      label="พิมพ์อะไรสักอย่างสิ :D"
-                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
+                      label="ลองพิมพ์อะไรสักอย่างสิครับ!"
+                      helperText="Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน"
                     />
                   </div>
                   <div className="pb-10 flex-shrink-0">
@@ -281,6 +305,46 @@ export default function ChatCynthia() {
           </>
         )}
       </div>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openModalSetting}
+        onClose={onCloseSetting}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              การตั้งค่า Aether
+            </h3>
+            <div>
+              <div className="mb-4 block">
+                <Label htmlFor="text" value="ปรับแต่งการทำงานของ AI เพื่อให้ตรงกับสไตล์และความต้องการของคุณ" />
+              </div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value={`เปลื่ยนโมเดลภาษา (${displayModel} ใช้งานอยู่)`} />
+              </div>
+              <Select onChange={(e) => setDefaultModel(e.target.value)} id="LLMs" required>
+                <option>gemini-1.5-flash</option>
+              </Select>
+            </div>
+            <span className="flex mt-5 items-center">
+              <MdMemory className="w-5 h-5 mr-2" /> ข้อมูลตั้งค่าจะอัพเดทในแชทครั้งถัดไป
+            </span>
+            <div className="w-full">
+              <Button
+                onClick={saveSetting}
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+              >
+                บันทึกการตั้งค่า
+                <FaSave className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
