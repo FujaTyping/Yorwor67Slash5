@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Clipboard, Pagination } from "flowbite-react";
+import { Table, Clipboard, Pagination, Spinner } from "flowbite-react";
 import { FaHistory } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 import useLocalStorge from "../lib/localstorage-db";
@@ -47,7 +47,7 @@ export default function Classroom() {
 
   useEffect(() => {
     if (email) {
-      setStudentMsg("กรุณารอสักครู");
+      setStudentMsg("กรุณารอสักครู่");
       axios
         .get(`${smtConfig.apiUser}permission`, {
           headers: {
@@ -95,7 +95,7 @@ export default function Classroom() {
                 <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 3 นาที
               </span>
             </h2>
-            <div style={{ marginTop: "20px" }} className="overflow-x-auto">
+            <div style={{ marginTop: "20px" }} className="overflow-x-auto animate__animated animate__fadeIn">
               <Table hoverable>
                 <Table.Head>
                   <Table.HeadCell>วิชา</Table.HeadCell>
@@ -157,8 +157,15 @@ export default function Classroom() {
                   <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
                 </div>
                 <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{studentMsg}</h1>
-                  <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"} <br /><span style={{ color: 'red', fontWeight: 'bold' }}>**ใช้อีเมล นักเรียน ม.4/5 เท่านั้น</span></p>
+                  <div className="flex items-center gap-4">
+                    {studentMsg == "กรุณารอสักครู่" ? (<><Spinner size="lg" /></>) : (<></>)}
+                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{studentMsg}</h1>
+                  </div>
+                  {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย</p></>) : (
+                    <>
+                      <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"} <br /><span style={{ color: 'red', fontWeight: 'bold' }}>**ใช้อีเมล นักเรียน ม.4/5 เท่านั้น</span></p>
+                    </>
+                  )}
                 </div>
               </div>
             </section>
