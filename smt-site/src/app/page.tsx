@@ -56,7 +56,7 @@ export default function Home() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <div className="hbanner animate__animated animate__tada">
+      <div className="hbanner">
         <h1 className="title text-3xl lg:text-5xl mb-3">ม.4/5 - โครงการ SMT</h1>
         <p className="text-base lg:text-2xl" style={{ maxWidth: "45rem" }}>
           เว็ปไซต์ ม.4/5 ของเราเป็นเว็ปไซต์สำหรับรวมรวบข้อมูลต่างๆ เพื่อนำมาช่วยเหลือนักเรียนภายในห้อง
