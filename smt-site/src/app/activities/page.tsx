@@ -1,20 +1,50 @@
 "use client";
 
-import { useState } from "react";
-import { Timeline } from "flowbite-react";
+import { useState, useEffect } from "react";
+import { Timeline, Spinner } from "flowbite-react";
 import { RiCalendarTodoFill } from "react-icons/ri";
+import axios from "axios";
+import smtConfig from "../smt-config.mjs";
 
-import Banner1 from "../assets/Activities/Banner1.webp";
-import Banner2 from "../assets/Activities/Banner2.webp";
-import Banner3 from "../assets/Activities/Banner3.webp";
-import Banner4 from "../assets/Activities/Banner4.webp";
-import Banner5 from "../assets/Activities/Banner5.webp";
-import Banner6 from "../assets/Activities/Banner6.webp";
-import Banner7 from "../assets/Activities/Banner7.webp";
-import Banner8 from "../assets/Activities/Banner8.webp";
+interface Activities {
+  title: string;
+  decs: string;
+  date: string;
+  url: string;
+}
+
 
 export default function TimeLine() {
   const [title] = useState("Hatyaiwit - บันทึกกิจกรรม");
+  const [loadingfin, setFinLoading] = useState(false);
+  const [data, setData] = useState<Activities[]>([
+    {
+      title: "กำลังดึงข้อมูล",
+      decs: "กำลังดึงข้อมูล",
+      date: "0 มกราคม 0000",
+      url: "กำลังดึงข้อมูล"
+    },
+  ]);
+
+  useEffect(() => {
+    setFinLoading(false);
+    axios
+      .get(`${smtConfig.apiMain}activities`)
+      .then((response) => {
+        setData(response.data.Activities);
+        setFinLoading(true);
+      })
+      .catch((error) => {
+        setData([
+          {
+            title: "ไม่สามารถดึงข้อมูลได้",
+            decs: `${error}`,
+            date: "0 มกราคม 0000",
+            url: "ไม่สามารถดึงข้อมูลได้"
+          },
+        ]);
+      });
+  }, []);
   return (
     <>
       <title>{title}</title>
@@ -23,99 +53,42 @@ export default function TimeLine() {
         <h1 style={{ marginBottom: "20px" }} className="border-b">
           🎉 บันทึกกิจกรรม - Activities
         </h1>
-        <div className="animate__animated animate__fadeInUp">
-          <Timeline>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>22-26 เมษายน 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner1.src} alt="EventBanner" />
-                <Timeline.Title>วันปรับพื้นฐาน</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  วันที่แรกที่เราได้เจอกันและได้ทำความรู้จักกัน
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>05 พฤษภาคม 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner2.src} alt="EventBanner" />
-                <Timeline.Title>วันไหว้ครู</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  ร่วมกันจัดทำพานไหว้ครูเพื่อแสดงความเคารพและสักการะต่อครูบาอาจารย์ผู้มีพระคุณ
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>20-23 มิถุนายน 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner3.src} alt="EventBanner" />
-                <Timeline.Title>กิจกรรมแข่งขันหุ่นยนต์</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  นักเรียนที่สนใจได้ไปแข่งขันหุ่นยนต์ กับ กิจกรรม PORNSIRIKUL
-                  INTERNATIONAL ROBOTIC COMPETITION
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>26 กรกฎาคม 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner4.src} alt="EventBanner" />
-                <Timeline.Title>กิจกรรมทัศนศึกษา</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  ได้ไปดูงานต่างๆที่คลองหอยโข่ง และทำกิจกรรมต่างๆ
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>09 สิงหาคม 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner5.src} alt="EventBanner" />
-                <Timeline.Title>วันสัปดาห์วิทยาศาสตร์</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  ได้ไปดูงานต่างๆ พร้อมทั้งได้รับความรู้บอร์ดต่างๆมากมาย
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>06-08 กันยายน 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner8.src} alt="EventBanner" />
-                <Timeline.Title>กิจกรรมอบรมหุ่นยนต์</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  กิจกรรมอบรมหุ่นยนต์เชิงปฏิบัติการหุ่นยนต์ EV3
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>12 กันยายน 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner6.src} alt="EventBanner" />
-                <Timeline.Title>กิจกรรมสาธารณประโยชน์</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  ไปช่วยเหลือ โดยการบริจาคสิ่งของให้แก่วัดโคกนาว
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-            <Timeline.Item>
-              <Timeline.Point icon={RiCalendarTodoFill} />
-              <Timeline.Content>
-                <Timeline.Time>12-16 พฤศจิกายน 2567</Timeline.Time>
-                <img className="hover:saturate-150 transition-all duration-300" src={Banner7.src} alt="EventBanner" />
-                <Timeline.Title>ทัศนศึกษาต่างประเทศ (มาเลเชีย-สิงคโปร์)</Timeline.Title>
-                <Timeline.Body id="TimeDecs">
-                  เปิดโอกาสเรียนรู้วัฒนธรรม สถานที่สำคัญ พัฒนาทักษะภาษาอังกฤษ และสร้างแรงบันดาลใจจากเทคโนโลยีล้ำสมัย พร้อมเสริมสร้างความสัมพันธ์และประสบการณ์ใหม่ๆ นอกห้องเรียน
-                </Timeline.Body>
-              </Timeline.Content>
-            </Timeline.Item>
-          </Timeline>
-        </div>
+        {loadingfin ? (<>
+          <div className="animate__animated animate__fadeInUp">
+            <Timeline>
+              {data.map((Activities, index) => (<>
+                <Timeline.Item key={index}>
+                  <Timeline.Point icon={RiCalendarTodoFill} />
+                  <Timeline.Content>
+                    <Timeline.Time>{Activities.date}</Timeline.Time>
+                    <img className="hover:saturate-150 transition-all duration-300" src={Activities.url} alt="EventBanner" />
+                    <Timeline.Title>{Activities.title}</Timeline.Title>
+                    <Timeline.Body id="TimeDecs">
+                      {Activities.decs}
+                    </Timeline.Body>
+                  </Timeline.Content>
+                </Timeline.Item>
+              </>))}
+            </Timeline>
+          </div>
+        </>) : (
+          <>
+            <section className="text-gray-600 body-font">
+              <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                  <img style={{ width: "250px" }} className="object-cover object-center rounded" alt="hero" src="https://cdn-icons-png.freepik.com/512/7069/7069551.png" />
+                </div>
+                <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                  <div className="flex items-center gap-4">
+                    <Spinner size="lg" />
+                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณารอสักครู่</h1>
+                  </div>
+                  <p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย กำลังดึงข้อมูล</p>
+                </div>
+              </div>
+            </section>
+          </>
+        )}
       </div>
     </>
   );

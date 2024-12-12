@@ -132,11 +132,10 @@ export default function Absent() {
       <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          🗳️ สถิตินักเรียน - Status
+          🗳️ สถิตินักเรียน วันที่ {Staticdata.Date} - Statistics
         </h1>
-        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน
-        </h2>
-        <h2 style={{ fontSize: "18px" }}>ข้อมูล ณ วันที่ {Staticdata.Date}<br />
+        <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
+        <h2 style={{ fontSize: "18px" }}>
           <span
             className="flex"
             style={{ alignItems: "center" }}

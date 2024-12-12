@@ -90,6 +90,7 @@ let StuRealData = {
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
+let ActlastFetchTime = 0;
 let ComlastFetchTime = 0;
 let WheellastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
@@ -364,11 +365,14 @@ exapp.get("/wheel/data", async (req, res) => {
 });
 
 exapp.get("/activities", async (req, res) => {
-  const querySnapshot = await getDocs(query(collection(db, "Activities"), orderBy("timestamp", "asc")));
-  ActData.Activities = [];
-  querySnapshot.forEach((doc) => {
-    ActData.Activities.push(doc.data());
-  });
+  if (Date.now() - ActlastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(query(collection(db, "Activities"), orderBy("timestamp", "asc")));
+    ActData.Activities = [];
+    querySnapshot.forEach((doc) => {
+      ActData.Activities.push(doc.data());
+    });
+    ActlastFetchTime = Date.now();
+  }
   res.send(ActData);
 });
 

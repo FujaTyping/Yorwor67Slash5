@@ -58,7 +58,7 @@ export default function Classroom() {
           setIsStudent(true);
         })
         .catch(() => {
-          setStudentMsg("กรุณาใช้อีเมล @hatyaiwit.ac.th");
+          setStudentMsg("กรุณาใช้อีเมลนักเรียน ม.4/5");
           setIsStudent(false);
         });
     }
