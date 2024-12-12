@@ -58,6 +58,7 @@ export default function Classroom() {
           setIsStudent(true);
         })
         .catch(() => {
+          setStudentMsg("กรุณาใช้อีเมล @hatyaiwit.ac.th");
           setIsStudent(false);
         });
     }
@@ -161,7 +162,7 @@ export default function Classroom() {
                     {studentMsg == "กรุณารอสักครู่" ? (<><Spinner size="lg" /></>) : (<></>)}
                     <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{studentMsg}</h1>
                   </div>
-                  {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย</p></>) : (
+                  {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย เรากำลังตรวจสอบว่าคุณเป็นนักเรียน ห้อง ม.4/5</p></>) : (
                     <>
                       <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"} <br /><span style={{ color: 'red', fontWeight: 'bold' }}>**ใช้อีเมล นักเรียน ม.4/5 เท่านั้น</span></p>
                     </>

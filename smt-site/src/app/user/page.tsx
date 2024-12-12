@@ -5,7 +5,8 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUserCheck } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUser } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
 import { FaClipboardUser } from "react-icons/fa6";
@@ -333,9 +334,19 @@ export default function User() {
               <h2 className="title-font font-medium">{username}</h2>
               <div className="flex md:items-center flex-col md:flex-row">
                 <p>{email}</p>
-                <Badge icon={FaUserCheck} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
-                  {permessage}
-                </Badge>
+                {permessage == "Admin" ? (
+                  <>
+                    <Badge icon={MdAdminPanelSettings} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
+                      {permessage}
+                    </Badge>
+                  </>
+                ) : (
+                  <>
+                    <Badge icon={FaUser} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
+                      {permessage}
+                    </Badge>
+                  </>
+                )}
               </div>
             </div>
           </div>
