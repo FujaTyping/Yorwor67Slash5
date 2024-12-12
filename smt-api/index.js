@@ -68,6 +68,9 @@ let HRealData = {
 let CRealData = {
   Classcode: [],
 };
+let ActData = {
+  Activities: [],
+};
 let ARealData = {
   Static: {},
   Absent: [],
@@ -358,6 +361,15 @@ exapp.get("/wheel/data", async (req, res) => {
     WheellastFetchTime = Date.now();
   }
   res.send(WheelRealData);
+});
+
+exapp.get("/activities", async (req, res) => {
+  const querySnapshot = await getDocs(query(collection(db, "Activities"), orderBy("timestamp", "asc")));
+  ActData.Activities = [];
+  querySnapshot.forEach((doc) => {
+    ActData.Activities.push(doc.data());
+  });
+  res.send(ActData);
 });
 
 exapp.get("/homework", async (req, res) => {
