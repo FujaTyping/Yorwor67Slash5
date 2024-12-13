@@ -22,9 +22,10 @@ import {
   Textarea,
   Datepicker,
   FileInput,
-  Badge,
+  Tooltip,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
+import { LuPartyPopper } from "react-icons/lu";
 import { AiFillPicture } from "react-icons/ai";
 import useLocalStorge from "../lib/localstorage-db";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -69,6 +70,7 @@ export default function User() {
   const [openCcModal, setOpenCcModal] = useState(false);
   const [openStuModal, setOpenStuModal] = useState(false);
   const [openComModal, setOpenComModal] = useState(false);
+  const [openActModal, setOpenActModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPermission, setIsPermission] = useState(false);
   const [text, setText] = useState("");
@@ -85,6 +87,8 @@ export default function User() {
   const [author, setAuthor] = useState("");
   const [titleCom, setTitleCom] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [titleAct, setTitleAct] = useState("");
+  const [dateAct, setDateAct] = useState("");
 
   function onCloseModal() {
     setOpenHwModal(false);
@@ -94,6 +98,7 @@ export default function User() {
     setOpenLoAAModal(false);
     setOpenCcModal(false);
     setOpenComModal(false);
+    setOpenActModal(false);
   }
 
   const submitAnnouncement = () => {
@@ -248,6 +253,55 @@ export default function User() {
       });
   };
 
+  const submitActivities = async () => {
+    if (file) {
+      setIsLoading(true);
+      const storageRef = ref(storage, `Activities/${file.name}`);
+      try {
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        console.log(titleAct, decs, dateAct, url);
+        axios
+          .post(
+            `${smtConfig.apiUser}activities`,
+            {
+              title: titleAct,
+              decs: decs,
+              date: dateAct,
+              url: url,
+            },
+            {
+              headers: {
+                Auth: email,
+              },
+            }
+          )
+          .then((response) => {
+            setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+            setOpenActModal(false);
+            setOpenAlert(true);
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
+            setOpenActModal(false);
+            setOpenAlert(true);
+            setIsLoading(false);
+          });
+      } catch (error) {
+        setMessage(`ไม่สามารถบันทึกไฟล์แล้ได้ ${error}`);
+        setOpenActModal(false);
+        setOpenAlert(true);
+        setIsLoading(false);
+      }
+    } else {
+      setMessage(`กรุณาเลือกไฟล์`);
+      setOpenActModal(false);
+      setOpenAlert(true);
+      setIsLoading(false);
+    }
+  }
+
   const submitCompetition = async () => {
     if (file) {
       setIsLoading(true);
@@ -255,7 +309,6 @@ export default function User() {
       try {
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
-        console.log(titleCom, decs, time, url);
         axios
           .post(
             `${smtConfig.apiUser}completion`,
@@ -333,20 +386,20 @@ export default function User() {
             <div className="flex-grow">
               <h2 className="title-font font-medium">{username}</h2>
               <div className="flex md:items-center flex-col md:flex-row">
-                <p>{email}</p>
                 {permessage == "Admin" ? (
                   <>
-                    <Badge icon={MdAdminPanelSettings} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
-                      {permessage}
-                    </Badge>
+                    <Tooltip content={permessage} style="light">
+                      <MdAdminPanelSettings className="w-5 h-5 mr-2" />
+                    </Tooltip>
                   </>
                 ) : (
                   <>
-                    <Badge icon={FaUser} style={{ backgroundColor: '#ff6767', color: 'white', width: 'fit-content' }} className="md:ml-2" color="gray">
-                      {permessage}
-                    </Badge>
+                    <Tooltip content={permessage} style="light">
+                      <FaUser className="w-4 h-4 mr-2" />
+                    </Tooltip>
                   </>
                 )}
+                <p>{email}</p>
               </div>
             </div>
           </div>
@@ -620,6 +673,48 @@ export default function User() {
                             <>
                               <Button disabled
                                 onClick={() => setOpenComModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      <div className="p-4 md:w-1/3 flex">
+                        <div
+                          style={{ backgroundColor: "#2d76ff" }}
+                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                        >
+                          <LuPartyPopper
+                            style={{ color: "white" }}
+                            className="h-7 w-7"
+                          />
+                        </div>
+                        <div className="flex-grow pl-6">
+                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                            เพิ่มข้อมูลกิจกรรม
+                          </h2>
+                          <p className="leading-relaxed text-base">
+                            บันทึกกิจกรรม โดยฝ่ายกิจกรรม
+                          </p>
+                          {isPermission ? (
+                            <>
+                              <Button
+                                onClick={() => setOpenActModal(true)}
+                                style={{ backgroundColor: "#2d76ff" }}
+                                color="blue"
+                              >
+                                <FaPencilRuler className="mr-2 h-5 w-5" />
+                                บันทึกข้อมูล
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button disabled
+                                onClick={() => setOpenActModal(true)}
                                 style={{ backgroundColor: "#2d76ff" }}
                                 color="blue"
                               >
@@ -1183,7 +1278,97 @@ export default function User() {
           </div>
         </Modal.Body>
       </Modal>
-
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={openActModal}
+        onClose={onCloseModal}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              แบบฟอร์มบันทึกข้อมูล กิจกรรม
+            </h3>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ใส่วันที่" />
+              </div>
+              <TextInput
+                onChange={(event) => setDateAct(event.target.value)}
+                type="text"
+                value={dateAct}
+                placeholder="00 มกราคม 2500"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="ชื่อกิจกรรม" />
+              </div>
+              <TextInput
+                onChange={(event) => setTitleAct(event.target.value)}
+                type="text"
+                value={titleAct}
+                placeholder="กิจกรรม"
+                required
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="text" value="รายละเอียดกิจกรรม" />
+              </div>
+              <TextInput
+                onChange={(event) => setDecs(event.target.value)}
+                type="text"
+                value={decs}
+                placeholder="รายละเอียด"
+                required
+              />
+            </div>
+            <div>
+              <Flowbite theme={{ theme: ywTheme }}>
+                <div className="mb-2 mt-6 block">
+                  <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ (ขนาดภาพที่แนะนำคือ **แนวนอน)" />
+                </div>
+                <FileInput
+                  id="file-upload"
+                  onChange={(event) => {
+                    if (event.target.files) {
+                      setFile(event.target.files[0]);
+                    }
+                  }}
+                />
+              </Flowbite>
+            </div>
+            <div className="w-full">
+              {isLoading ? (
+                <>
+                  <Button
+                    isProcessing
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={submitActivities}
+                    style={{ backgroundColor: "#2d76ff" }}
+                    color="blue"
+                  >
+                    ส่งข้อมูล
+                    <IoSend className="ml-2 h-5 w-5" />
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
       <Modal
         className="animate__animated animate__fadeIn"
         show={openAlert}

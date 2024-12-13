@@ -13,10 +13,10 @@ import {
   FaKey,
   FaPowerOff,
   FaTools,
+  FaUsers
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
-import { AiFillDashboard } from "react-icons/ai";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -139,8 +139,8 @@ export default function SideNavbar() {
                   <Sidebar.ItemGroup>
                     {isLogin ? (
                       <>
-                        <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/user" icon={AiFillDashboard}>
-                          แดชบอร์ด
+                        <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/user" icon={FaUsers}>
+                          ผู้ใช้งาน
                         </Sidebar.Item>
                         <Sidebar.Item
                           onClick={() => {
