@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button, Drawer, Sidebar, Navbar, Modal, Avatar } from "flowbite-react";
+import { Button, Drawer, Sidebar, Navbar, Modal, Avatar, Tooltip } from "flowbite-react";
 import { useState } from "react";
 import {
   FaHome,
@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
-import { TbMessageChatbotFilled } from "react-icons/tb";
+import { AiFillDashboard } from "react-icons/ai";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -47,13 +47,15 @@ export default function SideNavbar() {
         <div className="flex md:order-2">
           {isLogin ? (
             <>
-              <Avatar
-                onClick={() => { router.push("/user"); }}
-                style={{ marginRight: "10px", cursor: "pointer" }}
-                alt="User"
-                img={photourl}
-                rounded
-              />
+              <Tooltip content="โปรไฟล์" style="light" placement="bottom">
+                <Avatar
+                  onClick={() => { router.push("/user"); }}
+                  style={{ marginRight: "10px", cursor: "pointer" }}
+                  alt="User"
+                  img={photourl}
+                  rounded
+                />
+              </Tooltip>
             </>
           ) : (<></>)}
           <Button
@@ -135,35 +137,20 @@ export default function SideNavbar() {
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
-                    <Sidebar.Item
-                      onClick={() => {
-                        signInWithGoogle()
-                          .then(() => {
-                            window.location.reload();
-                            router.push("/user");
-                          })
-                          .catch((error) => {
-                            setMessage(error.message);
-                            setOpenModal(true);
-                          });
-                      }}
-                      icon={FaKey}
-                    >
-                      ล็อกอิน
-                    </Sidebar.Item>
-
                     {isLogin ? (
                       <>
+                        <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/user" icon={AiFillDashboard}>
+                          แดชบอร์ด
+                        </Sidebar.Item>
                         <Sidebar.Item
                           onClick={() => {
                             const auth = getAuth();
                             signOut(auth)
                               .then(() => {
                                 window.location.reload();
-                                router.push("/");
                               })
                               .catch((error) => {
-                                setMessage(error.message);
+                                setMessage(`เกิดข้อผิดผลาด ไม่สามารถออกจากระบบได้ ` + error.message);
                                 setOpenModal(true);
                               });
                           }}
@@ -173,7 +160,23 @@ export default function SideNavbar() {
                         </Sidebar.Item>
                       </>
                     ) : (
-                      <></>
+                      <>
+                        <Sidebar.Item
+                          onClick={() => {
+                            signInWithGoogle()
+                              .then(() => {
+                                window.location.reload();
+                              })
+                              .catch((error) => {
+                                setMessage(`เกิดข้อผิดผลาด ไม่สามารถล็อกอินได้ ` + +error.message);
+                                setOpenModal(true);
+                              });
+                          }}
+                          icon={FaKey}
+                        >
+                          ล็อกอิน
+                        </Sidebar.Item>
+                      </>
                     )}
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>
@@ -194,7 +197,7 @@ export default function SideNavbar() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
             <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              เกิดข้อผิดผลาด ไม่สามารถล็อกอินได้ {message}
+              {message}
             </h3>
             <div className="flex justify-center gap-4">
               <Button
@@ -202,7 +205,7 @@ export default function SideNavbar() {
                 color="blue"
                 onClick={() => setOpenModal(false)}
               >
-                ลองอีกครั้ง
+                ตกลง
               </Button>
             </div>
           </div>

@@ -68,6 +68,9 @@ let HRealData = {
 let CRealData = {
   Classcode: [],
 };
+let ActData = {
+  Activities: [],
+};
 let ARealData = {
   Static: {},
   Absent: [],
@@ -87,7 +90,10 @@ let StuRealData = {
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
+let ActlastFetchTime = 0;
 let ComlastFetchTime = 0;
+let UserlastFetchTime = 0;
+let AdminlastFetchTime = 0;
 let WheellastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
 const TreefetchInterval = 3 * 60 * 1000;
@@ -107,19 +113,25 @@ function thaiDateToJsDate(thaiDate) {
 }
 
 async function getUserData() {
-  const querySnapshot = await getDocs(collection(db, "Admin"));
-  UserRealData.user = [];
-  querySnapshot.forEach((doc) => {
-    UserRealData.user.push(doc.id);
-  });
+  if (Date.now() - AdminlastFetchTime > fetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "Admin"));
+    UserRealData.user = [];
+    querySnapshot.forEach((doc) => {
+      UserRealData.user.push(doc.id);
+    });
+    AdminlastFetchTime = Date.now();
+  }
 }
 
 async function getStudentData() {
-  const querySnapshot = await getDocs(collection(db, "User"));
-  StuRealData.user = [];
-  querySnapshot.forEach((doc) => {
-    StuRealData.user.push(doc.id);
-  });
+  if (Date.now() - UserlastFetchTime > fetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "User"));
+    StuRealData.user = [];
+    querySnapshot.forEach((doc) => {
+      StuRealData.user.push(doc.id);
+    });
+    UserlastFetchTime = Date.now();
+  }
 }
 
 const Authenticate = async (req, res, next) => {
@@ -257,6 +269,26 @@ exapp.post("/completion", Authenticate, async (req, res) => {
   }
 });
 
+exapp.post("/activities", Authenticate, async (req, res) => {
+  const title = req.body.title;
+  const decs = req.body.decs;
+  const url = req.body.url;
+  const date = req.body.date;
+  if (!title || !decs || !url || !date) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const UID = generateID();
+    await setDoc(doc(db, "Activities", `${UID}`), {
+      title: `${title}`,
+      decs: `${decs}`,
+      url: `${url}`,
+      date: `${date}`,
+      timestamp: serverTimestamp(),
+    });
+    res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
+  }
+});
+
 exapp.post("/generative/cynthia", async (req, res) => {
   const USRP = req.body.prompt;
   if (!USRP) {
@@ -358,6 +390,18 @@ exapp.get("/wheel/data", async (req, res) => {
     WheellastFetchTime = Date.now();
   }
   res.send(WheelRealData);
+});
+
+exapp.get("/activities", async (req, res) => {
+  if (Date.now() - ActlastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(query(collection(db, "Activities"), orderBy("timestamp", "asc")));
+    ActData.Activities = [];
+    querySnapshot.forEach((doc) => {
+      ActData.Activities.push(doc.data());
+    });
+    ActlastFetchTime = Date.now();
+  }
+  res.send(ActData);
 });
 
 exapp.get("/homework", async (req, res) => {
