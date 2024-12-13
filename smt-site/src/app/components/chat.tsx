@@ -7,6 +7,7 @@ import { FaPencilAlt, FaHistory } from "react-icons/fa";
 import useSound from 'use-sound';
 import { MdMemory } from "react-icons/md";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
+import { RiTranslate } from "react-icons/ri";
 
 interface ChatAtrib {
   isRtl: boolean;
@@ -18,9 +19,10 @@ interface ChatAtrib {
   history?: boolean;
   modelName?: string;
   botName: string;
+  tokencount?: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, history, botName, modelName }: ChatAtrib) {
+export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, history, botName, modelName, tokencount }: ChatAtrib) {
   const [openModal, setOpenModal] = useState(false)
   const [personality, setPersonality] = useState("")
   const [isError, setIsError] = useState(false)
@@ -100,17 +102,36 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
                 <MathJaxContext config={config}><MathJax><Markdown>{text}</Markdown></MathJax></MathJaxContext>
               </div>
               {isBot && (
-                <Badge
-                  className="mt-2 px-3"
-                  style={{
-                    width: 'fit-content',
-                    color: 'white',
-                    background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
-                  }}
-                  icon={TbMessageChatbotFilled}
-                >
-                  {modelName}
-                </Badge>
+                <>
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      className="mt-2 px-3"
+                      style={{
+                        width: 'fit-content',
+                        color: 'white',
+                        background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
+                      }}
+                      icon={TbMessageChatbotFilled}
+                    >
+                      {modelName}
+                    </Badge>
+                    {name == "Aether" ? (
+                      <>
+                        <Badge
+                          className="mt-2 px-3"
+                          style={{
+                            width: 'fit-content',
+                            color: 'white',
+                            background: '#363636'
+                          }}
+                          icon={RiTranslate}
+                        >
+                          Token : {tokencount}
+                        </Badge>
+                      </>
+                    ) : (<></>)}
+                  </div>
+                </>
               )}
               {history && (
                 <div dir="ltr">
