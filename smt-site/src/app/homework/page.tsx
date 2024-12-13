@@ -81,6 +81,24 @@ export default function Homework() {
       isDue: false,
     },
   ]);
+  const [duedData, setDuedData] = useState<Homework[]>([
+    {
+      Due: "กำลังดึงข้อมูล",
+      Decs: "กำลังดึงข้อมูล",
+      Time: "กำลังดึงข้อมูล",
+      Subject: "กำลังดึงข้อมูล",
+      isDue: true,
+    },
+  ]);
+  const [allData, setAllData] = useState<Homework[]>([
+    {
+      Due: "กำลังดึงข้อมูล",
+      Decs: "กำลังดึงข้อมูล",
+      Time: "กำลังดึงข้อมูล",
+      Subject: "กำลังดึงข้อมูล",
+      isDue: false,
+    },
+  ]);
   const [title] = useState("Hatyaiwit - การบ้าน");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDate, setCurrentDate] = useState(moment());
@@ -94,6 +112,7 @@ export default function Homework() {
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");
+  const [isDuedTableMode, setIsDuedTableMode] = useState(false);
 
   const convertThaiDateToISO = (thaiDate: string): string => {
     try {
@@ -128,7 +147,13 @@ export default function Homework() {
     axios
       .get(`${smtConfig.apiMain}homework`)
       .then((response) => {
-        setData(response.data.Homework);
+        const homeworkData = response.data.Homework;
+        const notDuedhomework = homeworkData.filter((item: any) => !item.isDue);
+        const duedhomework = homeworkData.filter((item: any) => item.isDue);
+
+        setData(notDuedhomework);
+        setDuedData(duedhomework);
+        setAllData(homeworkData)
       })
       .catch((error) => {
         setData([
@@ -143,7 +168,7 @@ export default function Homework() {
       });
   }, []);
 
-  const events = data
+  const events = allData
     .map((hw) => {
       const dueDate =
         hw.Due === "กำลังดึงข้อมูล" ? "" : convertThaiDateToISO(hw.Due);
@@ -160,7 +185,7 @@ export default function Homework() {
         hwDecs: hw.Decs,
         hwDue: hw.Due,
         hwTime: hw.Time,
-        hwisDue: hw.isDue
+        hwisDue: hw.isDue,
       };
     })
     .filter((event) => event !== null);
@@ -190,19 +215,30 @@ export default function Homework() {
     setCurrentDate(currentDate.clone().subtract(1, "month"));
   };
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(
+    (isDuedTableMode ? duedData : data).length / itemsPerPage
+  );
 
-  const currentData = data.slice(
+  const currentData = (isDuedTableMode ? duedData : data).slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(currentPage * itemsPerPage, data.length);
+  const endItem = Math.min(
+    currentPage * itemsPerPage,
+    isDuedTableMode ? duedData.length : data.length
+  );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  const toggleTableMode = () => {
+    setCurrentPage(1);
+    setIsDuedTableMode((prevMode) => !prevMode);
+  };
+
   return (
     <>
       <title>{title}</title>
@@ -214,6 +250,12 @@ export default function Homework() {
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
           <br />
+          <span className="font-bold">ตอนนี้เป็นตาราง:</span>{" "}
+          {isDuedTableMode ? (
+            <span style={{ color: "red" }}>การบ้านที่ครบกำหนดแล้ว</span>
+          ) : (
+            <span style={{ color: "black" }}>การบ้านที่ยังไม่ถึงกำหนดส่ง</span>
+          )}
           <span className="flex" style={{ alignItems: "center" }}>
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
           </span>
@@ -262,7 +304,8 @@ export default function Homework() {
             className="flex justify-center"
           >
             <p>
-              แสดง {startItem}-{endItem} รายการ ทั้งหมด {data.length} รายการ
+              แสดง {startItem}-{endItem} รายการ ทั้งหมด{" "}
+              {isDuedTableMode ? duedData.length : data.length} รายการ
             </p>
             <Pagination
               style={{ marginTop: "-20px" }}
@@ -272,6 +315,9 @@ export default function Homework() {
               previousLabel="ก่อนหน้า"
               nextLabel="ถัดไป"
             />
+            <Button style={{ marginTop: "12px", marginBottom: "7px" }} outline color="gray" onClick={toggleTableMode}>
+              เปลี่ยนตารางการบ้าน
+            </Button>
           </div>
         </div>
       </div>
@@ -281,7 +327,8 @@ export default function Homework() {
           {parseInt(currentYearText) + 543}
         </h1>
         <h2 className="flex items-center" style={{ fontSize: "18px" }}>
-          <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน เพื่อดูรายละเอียด
+          <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน
+          เพื่อดูรายละเอียด
         </h2>
         <div style={{ marginTop: "30px" }} className="overflow-x-auto">
           <Calendar
@@ -346,20 +393,55 @@ export default function Homework() {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div style={{ display: isModalOpen ? 'flex' : 'none', backgroundColor: '#3030308c' }} id="popup-modal" className="animate__animated animate__fadeIn hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div
+        style={{
+          display: isModalOpen ? "flex" : "none",
+          backgroundColor: "#3030308c",
+        }}
+        id="popup-modal"
+        className="animate__animated animate__fadeIn hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      >
         <div className="relative p-4 w-full max-w-md max-h-full">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button onClick={() => { setIsModalOpen(false) }} type="button" className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-              <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            <button
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+              type="button"
+              className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              data-modal-hide="popup-modal"
+            >
+              <svg
+                className="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
               </svg>
               <span className="sr-only">Close modal</span>
             </button>
-            <div style={{ paddingTop: '3rem' }} className="space-y-6 p-5">
+            <div style={{ paddingTop: "3rem" }} className="space-y-6 p-5">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
-                ข้อมูลการบ้าน <span className="ml-2 font-bold" style={{ color: hwisDue ? "red" : "black", display: hwisDue ? "flex" : "none" }}>(เลยกำหนด)</span>
+                ข้อมูลการบ้าน{" "}
+                <span
+                  className="ml-2 font-bold"
+                  style={{
+                    color: hwisDue ? "red" : "black",
+                    display: hwisDue ? "flex" : "none",
+                  }}
+                >
+                  (เลยกำหนด)
+                </span>
               </h3>
-              <div style={{ marginTop: '10px' }}>
+              <div style={{ marginTop: "10px" }}>
                 <div className="flex-col mb-2">
                   <div className="mb-1">
                     <h3 className="font-bold">ชื่อวิชา</h3>
@@ -374,9 +456,16 @@ export default function Homework() {
                       <h3 className="font-bold">วันที่สั่ง</h3>
                       <Label htmlFor="text" value={hwTime} />
                     </div>
-                    <div style={{ color: hwisDue ? "red" : "black" }} className="mb-1">
+                    <div
+                      style={{ color: hwisDue ? "red" : "black" }}
+                      className="mb-1"
+                    >
                       <h3 className="font-bold">วันที่ครบกำหนดส่ง</h3>
-                      <Label style={{ color: hwisDue ? "red" : "black" }} htmlFor="text" value={hwDue} />
+                      <Label
+                        style={{ color: hwisDue ? "red" : "black" }}
+                        htmlFor="text"
+                        value={hwDue}
+                      />
                     </div>
                   </div>
                 </div>
