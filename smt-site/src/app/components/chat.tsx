@@ -7,7 +7,6 @@ import { FaPencilAlt, FaHistory } from "react-icons/fa";
 import useSound from 'use-sound';
 import { MdMemory } from "react-icons/md";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
-import { RiTranslate } from "react-icons/ri";
 
 interface ChatAtrib {
   isRtl: boolean;
@@ -103,33 +102,38 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
               </div>
               {isBot && (
                 <>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      className="mt-2 px-3"
-                      style={{
-                        width: 'fit-content',
-                        color: 'white',
-                        background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
-                      }}
-                      icon={TbMessageChatbotFilled}
-                    >
-                      {modelName}
-                    </Badge>
+                  <div className="flex items-center gap-2 mt-2">
                     {name == "Aether" ? (
                       <>
+                        <Tooltip content={`Token : ${tokencount}`} style="light">
+                          <Badge
+                            className="px-3"
+                            style={{
+                              width: 'fit-content',
+                              color: 'white',
+                              background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
+                            }}
+                            icon={TbMessageChatbotFilled}
+                          >
+                            {modelName}
+                          </Badge>
+                        </Tooltip>
+                      </>
+                    ) : (
+                      <>
                         <Badge
-                          className="mt-2 px-3"
+                          className="px-3"
                           style={{
                             width: 'fit-content',
                             color: 'white',
-                            background: '#363636'
+                            background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
                           }}
-                          icon={RiTranslate}
+                          icon={TbMessageChatbotFilled}
                         >
-                          Token : {tokencount}
+                          {modelName}
                         </Badge>
                       </>
-                    ) : (<></>)}
+                    )}
                   </div>
                 </>
               )}

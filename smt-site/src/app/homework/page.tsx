@@ -2,18 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Table, Pagination, Button, Label, Dropdown } from "flowbite-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { FaHistory, FaHandPointer } from "react-icons/fa";
+import { Table, Pagination, Button, Label, Dropdown, Tooltip } from "flowbite-react";
+import { FaHistory, FaHandPointer, FaFilter } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 
 import dayjs from "dayjs";
@@ -68,8 +58,6 @@ const localizer = momentLocalizer(moment);
 
 dayjs.extend(customParseFormat);
 dayjs.extend(buddhistEra);
-
-const Chartsdata = [{ name: "เทอม 1", value: 0 }];
 
 export default function Homework() {
   const [data, setData] = useState<Homework[]>([
@@ -250,14 +238,6 @@ export default function Homework() {
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
           <br />
-          <span className="font-bold">ตอนนี้เป็นตาราง:</span>{" "}
-          {tableMode === 0 ? (
-            <span style={{ color: "black" }}>การบ้านทั้งหมด</span>
-          ) : tableMode === 1 ? (
-            <span style={{ color: "black" }}>การบ้านที่ยังไม่ถึงกำหนดส่ง</span>
-          ) : (
-            <span style={{ color: "red" }}>การบ้านที่ครบกำหนดส่งแล้ว</span>
-          )}
           <span className="flex" style={{ alignItems: "center" }}>
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
           </span>
@@ -317,11 +297,16 @@ export default function Homework() {
               previousLabel="ก่อนหน้า"
               nextLabel="ถัดไป"
             />
-            <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} outline color="gray" label="เปลี่ยนตารางการบ้าน">
-              <Dropdown.Item onClick={() => toggleTableMode(0)}>การบ้านทั้งหมด</Dropdown.Item>
-              <Dropdown.Item onClick={() => toggleTableMode(1)}>การบ้านที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
-              <Dropdown.Item onClick={() => toggleTableMode(2)}>การบ้านที่ครบกำหนดส่งแล้ว</Dropdown.Item>
-            </Dropdown>
+            <div className="flex items-center">
+              <Tooltip content={`${tableMode === 0 ? ("การบ้านทั้งหมด") : tableMode === 1 ? ("การบ้านที่ยังไม่ถึงกำหนดส่ง") : ("การบ้านที่ครบกำหนดส่งแล้ว")}`} style="light">
+                <FaFilter className="w-5 h-5 mr-3" />
+              </Tooltip>
+              <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} color="gray" label="เปลี่ยนตารางการบ้าน">
+                <Dropdown.Item onClick={() => toggleTableMode(0)}>การบ้านทั้งหมด</Dropdown.Item>
+                <Dropdown.Item onClick={() => toggleTableMode(1)}>การบ้านที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
+                <Dropdown.Item onClick={() => toggleTableMode(2)}>การบ้านที่ครบกำหนดส่งแล้ว</Dropdown.Item>
+              </Dropdown>
+            </div>
           </div>
         </div>
       </div>
@@ -368,34 +353,6 @@ export default function Homework() {
             </Button.Group>
           </div>
         </div>
-      </div>
-      <div className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📊 สถิติการบ้าน - Chart
-        </h1>
-        <h2 style={{ fontSize: "18px" }}>
-          สรุปจำนวนภาระงานทั้งหมด ของ ทุกภาคเรียน
-        </h2>
-        <ResponsiveContainer
-          style={{ marginTop: "25px" }}
-          width="100%"
-          height={300}
-        >
-          <LineChart data={Chartsdata}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis allowDecimals={false} />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="value"
-              name="ภาระงาน"
-              stroke="#ff1616"
-              activeDot={{ r: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
       </div>
       <div
         style={{

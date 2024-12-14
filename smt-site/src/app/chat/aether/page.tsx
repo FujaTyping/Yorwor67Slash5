@@ -103,7 +103,7 @@ export default function ChatAether() {
         RX();
         setLoading(false);
         setCooldown(true);
-        setSecondsLeft(20);
+        setSecondsLeft(25);
         setIsGEN(true);
         try {
           localStorage.setItem("historyAetherChat", response.data.response);
