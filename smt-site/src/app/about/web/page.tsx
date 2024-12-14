@@ -2,30 +2,37 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from "flowbite-react";
+import { Button, Modal, TextInput } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
-import { FaGithubAlt, FaChevronCircleUp } from "react-icons/fa";
+import { FaGithubAlt, FaChevronCircleUp, FaQrcode } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
-import { IoChatboxEllipses } from "react-icons/io5";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import smtConfig from "../../smt-config.mjs";
-import useSound from 'use-sound';
-import useLocalStorge from "../../lib/localstorage-db";
-
-import Cynthia from '../../assets/chat/Cynthia.jpg'
-import Aether from '../../assets/chat/Aether.jpg'
+import generatePayload from "promptpay-qr";
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
   const [api1down, setApi1down] = useState(true);
   const [api2down, setApi2down] = useState(true);
   const [api3down, setApi3down] = useState(true);
-  const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
-  const { isLogin } = useLocalStorge(false);
+  const [donateQr, setDonateQR] = useState<any>(null);
+  const [modelOpen, setModelOpen] = useState(false);
+  const [numberPAY, setNumberPay] = useState("0");
+  const [displayPAY, setDisplayPAY] = useState("0");
+
+  function makeqrPay(numPAY: string) {
+    if (parseInt(numPAY) >= 1) {
+      setDisplayPAY(numPAY);
+      const qrCodeData = generatePayload("098-040-6596", { amount: parseInt(numPAY) })
+      setDonateQR(qrCodeData);
+    }
+  }
 
   useEffect(() => {
+    makeqrPay("35");
     axios
       .get(`${smtConfig.apiMain}ping`)
       .then(() => {
@@ -108,7 +115,8 @@ export default function AboutWeb() {
               </Button>
               <Button
                 as={Link}
-                href="https://github.com/sponsors/FujaTyping/"
+                href="#"
+                onClick={() => setModelOpen(true)}
                 color="blue"
               >
                 <BiSolidDonateHeart
@@ -226,6 +234,40 @@ export default function AboutWeb() {
           </div>
         </div>
       </div>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={modelOpen}
+        onClose={() => setModelOpen(false)}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              บริจาคให้กับ Yorwor67Slash5
+            </h3>
+            <div className="flex flex-col items-center justify-center">
+              <QRCodeSVG size={200} value={donateQr} />
+              <p className="mt-2">จำนวนเงิน {displayPAY} บาท</p>
+            </div>
+            <div className="flex items-center gap-3">
+              <TextInput onChange={(i) => setNumberPay(i.target.value)} className="w-full" type="number" placeholder="35" required />
+              <Button
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+                className="mb-5"
+                onClick={() => makeqrPay(numberPAY)}
+              >
+                <FaQrcode className="w-4 h-4" />
+              </Button>
+            </div>
+            <p style={{ marginTop: '0px' }}>
+              สนับสนุน Yorwor67Slash5 เพื่อช่วยพัฒนาการเรียนรู้และการจัดการในห้องเรียนให้ดียิ่งขึ้น
+            </p>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
