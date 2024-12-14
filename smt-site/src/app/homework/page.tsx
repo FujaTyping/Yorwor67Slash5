@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Table, Pagination, Button, Label } from "flowbite-react";
+import { Table, Pagination, Button, Label, Dropdown } from "flowbite-react";
 import {
   LineChart,
   Line,
@@ -112,7 +112,7 @@ export default function Homework() {
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");
-  const [isDuedTableMode, setIsDuedTableMode] = useState(false);
+  const [tableMode, setTableMode] = useState(0);
 
   const convertThaiDateToISO = (thaiDate: string): string => {
     try {
@@ -153,7 +153,7 @@ export default function Homework() {
 
         setData(notDuedhomework);
         setDuedData(duedhomework);
-        setAllData(homeworkData)
+        setAllData(homeworkData);
       })
       .catch((error) => {
         setData([
@@ -216,10 +216,10 @@ export default function Homework() {
   };
 
   const totalPages = Math.ceil(
-    (isDuedTableMode ? duedData : data).length / itemsPerPage
+    (tableMode === 0 ? allData : tableMode === 1 ? data : duedData).length / itemsPerPage
   );
 
-  const currentData = (isDuedTableMode ? duedData : data).slice(
+  const currentData = (tableMode === 0 ? allData : tableMode === 1 ? data : duedData).slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -227,16 +227,16 @@ export default function Homework() {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(
     currentPage * itemsPerPage,
-    isDuedTableMode ? duedData.length : data.length
+    tableMode === 0 ? allData.length : tableMode === 1 ? data.length : duedData.length
   );
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const toggleTableMode = () => {
+  const toggleTableMode = (numMode: number) => {
     setCurrentPage(1);
-    setIsDuedTableMode((prevMode) => !prevMode);
+    setTableMode(numMode);
   };
 
   return (
@@ -251,10 +251,12 @@ export default function Homework() {
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
           <br />
           <span className="font-bold">ตอนนี้เป็นตาราง:</span>{" "}
-          {isDuedTableMode ? (
-            <span style={{ color: "red" }}>การบ้านที่ครบกำหนดแล้ว</span>
-          ) : (
+          {tableMode === 0 ? (
+            <span style={{ color: "black" }}>การบ้านทั้งหมด</span>
+          ) : tableMode === 1 ? (
             <span style={{ color: "black" }}>การบ้านที่ยังไม่ถึงกำหนดส่ง</span>
+          ) : (
+            <span style={{ color: "red" }}>การบ้านที่ครบกำหนดส่งแล้ว</span>
           )}
           <span className="flex" style={{ alignItems: "center" }}>
             <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
@@ -305,7 +307,7 @@ export default function Homework() {
           >
             <p>
               แสดง {startItem}-{endItem} รายการ ทั้งหมด{" "}
-              {isDuedTableMode ? duedData.length : data.length} รายการ
+              {tableMode === 0 ? allData.length : tableMode === 1 ? data.length : duedData.length} รายการ
             </p>
             <Pagination
               style={{ marginTop: "-20px" }}
@@ -315,9 +317,11 @@ export default function Homework() {
               previousLabel="ก่อนหน้า"
               nextLabel="ถัดไป"
             />
-            <Button style={{ marginTop: "12px", marginBottom: "7px" }} outline color="gray" onClick={toggleTableMode}>
-              เปลี่ยนตารางการบ้าน
-            </Button>
+            <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} outline color="gray" label="เปลี่ยนตารางการบ้าน">
+              <Dropdown.Item onClick={() => toggleTableMode(0)}>การบ้านทั้งหมด</Dropdown.Item>
+              <Dropdown.Item onClick={() => toggleTableMode(1)}>การบ้านที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
+              <Dropdown.Item onClick={() => toggleTableMode(2)}>การบ้านที่ครบกำหนดส่งแล้ว</Dropdown.Item>
+            </Dropdown>
           </div>
         </div>
       </div>
