@@ -121,6 +121,22 @@ li:hover,
   display: flex;
 }
 
+.rbc-month-header {
+  background-color: hsl(219, 100%, 71%);
+  color: white;
+  font-size: 20px;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+
+.rbc-header {
+  padding: 5px !important;
+}
+
+.rbc-month-view {
+  border: none !important;
+}
+
 .FOF-flex img {
   max-width: 240px;
 }
@@ -149,10 +165,6 @@ li:hover,
 
 .AboutBtn {
   background-color: #2d76ff !important;
-}
-
-.rbc-event {
-  background-color: #6b9fff !important;
 }
 
 ol {
@@ -294,5 +306,13 @@ ol h3 {
 
   .Def-flex div {
     margin-top: 10px;
+  }
+
+  .rbc-month-header {
+    font-size: 18px;
+  }
+
+  .rbc-header {
+    padding: 3px !important;
   }
 }

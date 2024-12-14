@@ -319,7 +319,7 @@ export default function Homework() {
           <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน
           เพื่อดูรายละเอียด
         </h2>
-        <div style={{ marginTop: "30px" }} className="overflow-x-auto">
+        <div style={{ marginTop: "20px" }} className="overflow-x-auto">
           <Calendar
             localizer={localizer}
             events={events}
@@ -332,6 +332,10 @@ export default function Homework() {
             popup={true}
             date={currentDate.toDate()}
             onSelectEvent={onSelectCalendarEvent}
+            eventPropGetter={(event) => {
+              const backgroundColor = event.hwisDue ? '#ff6767' : '#6b9fff';
+              return { style: { backgroundColor } }
+            }}
           />
           <div
             style={{
