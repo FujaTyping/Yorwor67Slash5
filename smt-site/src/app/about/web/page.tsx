@@ -111,6 +111,12 @@ export default function AboutWeb() {
 
   useEffect(() => {
     makeqrPay("35");
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("donate") == "promptpay") {
+        setModelOpen(true);
+      }
+    }
     axios
       .get(`${smtConfig.apiMain}ping`)
       .then(() => {
