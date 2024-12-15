@@ -79,7 +79,8 @@ export default function AboutWeb() {
               .get(`${smtConfig.apiMain}donate`, {
                 headers: {
                   sendbank: `${sendingBank}`,
-                  tranref: `${transRef}`
+                  tranref: `${transRef}`,
+                  name: `${userPAY}`
                 },
               })
               .then(() => {

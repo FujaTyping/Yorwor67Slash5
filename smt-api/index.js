@@ -203,6 +203,52 @@ exapp.patch("/announcement", Authenticate, async (req, res) => {
   }
 });
 
+exapp.post("/donate", async (req, res) => {
+  const Name = req.body.name;
+  const SB = req.body.sendbank;
+  const TR = req.body.tranref;
+  if (!Name || !SB || !TR) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const Payload = {
+      "embeds": [
+        {
+          "title": "💰 มีสนับสนุนโปรเจค Yorwor67Slash5",
+          "color": 36863,
+          "fields": [
+            {
+              "name": "ชื่อผู้บริจาค",
+              "value": `${Name}`,
+              "inline": true
+            },
+            {
+              "name": "ธนาคาร (ผู้ส่ง)",
+              "value": `${SB}`,
+              "inline": true
+            },
+            {
+              "name": "หมายเลขทำรายการ",
+              "value": `${TR}`
+            }
+          ],
+          "author": {
+            "name": "SMT Notify",
+            "url": "https://smt.siraphop.me/about/web",
+            "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
+          }
+        }
+      ]
+    };
+    axios.post(webhookURL, Payload)
+      .then(response => {
+        res.send(`ส่งหลักฐานแล้ว`);
+      })
+      .catch(error => {
+        res.send(error.message);
+      });
+  }
+});
+
 exapp.post("/line/announcement", Authenticate, async (req, res) => {
   const Date = req.body.date;
   const Author = req.body.author;
