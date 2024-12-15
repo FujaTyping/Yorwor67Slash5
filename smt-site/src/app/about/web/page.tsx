@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Modal, TextInput, FileInput, Label, Spinner } from "flowbite-react";
+import { Button, Modal, TextInput, FileInput, Label, Spinner, Tooltip, Avatar } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
 import { FaGithubAlt, FaChevronCircleUp, FaQrcode, FaCheck } from "react-icons/fa";
@@ -15,6 +15,11 @@ import generatePayload from "promptpay-qr";
 import { QRCodeSVG } from 'qrcode.react';
 import jsQR from 'jsqr';
 import { slipVerify } from 'promptparse/validate'
+
+interface DonorName {
+  name: string;
+  url: string;
+}
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
@@ -29,6 +34,12 @@ export default function AboutWeb() {
   const [displayPAY, setDisplayPAY] = useState("0");
   const [statusCOde, setSatusCode] = useState(1);
   const [qrCodeResult, setQrCodeResult] = useState("กรุณาอัพโหลด QR code");
+  const [data, setData] = useState<DonorName[]>([
+    {
+      name: "กำลังดึงข้อมูล",
+      url: "กำลังดึงข้อมูล",
+    },
+  ]);
 
   function makeqrPay(numPAY: string) {
     if (parseInt(numPAY) >= 1) {
@@ -108,6 +119,22 @@ export default function AboutWeb() {
 
     reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    axios
+      .get(`${smtConfig.apiMain}donate/list`)
+      .then((response) => {
+        setData(response.data.donor);
+      })
+      .catch((error) => {
+        setData([
+          {
+            name: `${error.response.data}`,
+            url: "ไม่สามารถดึงข้อมูลได้",
+          },
+        ]);
+      });
+  }, []);
 
   useEffect(() => {
     makeqrPay("35");
@@ -312,6 +339,26 @@ export default function AboutWeb() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </section>
+            <section className="body-font">
+              <div className="container px-5 py-24 mx-auto">
+                <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
+                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">SUPPORTERS</h1>
+                  <p className="lg:w-2/3 mx-auto">We would like to express our sincere gratitude to all the individuals and organizations who have supported the <b>Yorwor67Slash5</b> project</p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-5">
+                  {data.map((Donor, index) => (
+                    <Tooltip content={Donor.name} style="light" key={index}>
+                      <img
+                        id={`${index}`}
+                        src={Donor.url}
+                        className="h-20 w-20 md:h-36 md:w-36 rounded-full"
+                        alt={Donor.name}
+                      />
+                    </Tooltip>
+                  ))}
                 </div>
               </div>
             </section>
