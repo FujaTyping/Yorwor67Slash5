@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Modal, TextInput } from "flowbite-react";
+import { Button, Modal, TextInput, FileInput, Label, Spinner } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
-import { FaGithubAlt, FaChevronCircleUp, FaQrcode } from "react-icons/fa";
+import { FaGithubAlt, FaChevronCircleUp, FaQrcode, FaCheck } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import smtConfig from "../../smt-config.mjs";
 import generatePayload from "promptpay-qr";
 import { QRCodeSVG } from 'qrcode.react';
+import jsQR from 'jsqr';
+import { slipVerify } from 'promptparse/validate'
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
@@ -20,8 +22,12 @@ export default function AboutWeb() {
   const [api3down, setApi3down] = useState(true);
   const [donateQr, setDonateQR] = useState<any>(null);
   const [modelOpen, setModelOpen] = useState(false);
+  const [modelFinOpen, setModelFinOpen] = useState(false);
   const [numberPAY, setNumberPay] = useState("0");
+  const [userPAY, setUserPay] = useState("");
   const [displayPAY, setDisplayPAY] = useState("0");
+  const [statusCOde, setSatusCode] = useState(1);
+  const [qrCodeResult, setQrCodeResult] = useState("กรุณาอัพโหลด QR code");
 
   function makeqrPay(numPAY: string) {
     if (parseInt(numPAY) >= 1) {
@@ -30,6 +36,78 @@ export default function AboutWeb() {
       setDonateQR(qrCodeData);
     }
   }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQrCodeResult("กรุณารอสักครู่");
+    setSatusCode(0);
+    const file = event.target.files?.[0];
+    if (!userPAY) {
+      setQrCodeResult("กรุณาระบุชื่อ แล้ว อัพโหลดหลักฐานอีกครั้ง");
+      setSatusCode(1);
+      return;
+    }
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const image = new Image();
+      image.src = e.target?.result as string;
+
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        if (!context) {
+          setQrCodeResult("ไม่สามารถประมวลผลจากรูปภาพนี้ได้");
+          setSatusCode(1);
+          return;
+        }
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+        if (code) {
+          const data = slipVerify(code.data)
+          if (data) {
+            const { sendingBank, transRef } = data
+            axios
+              .get(`${smtConfig.apiMain}donate`, {
+                headers: {
+                  sendbank: `${sendingBank}`,
+                  tranref: `${transRef}`
+                },
+              })
+              .then(() => {
+                setQrCodeResult(`ส่งหลักฐานการบริจาคไปให้ผู้พัฒนาแล้ว ผู้พัฒนาจะทำการยืนยันและอัปเดตรายชื่อผู้สนับสนุนอีกครั้ง`);
+                setSatusCode(1);
+              })
+              .catch((error) => {
+                setQrCodeResult(`${error.response.data}`);
+                setSatusCode(1);
+              });
+          } else {
+            setQrCodeResult("ไม่พบหลักฐานการบริจาค");
+            setSatusCode(1);
+          }
+        } else {
+          setQrCodeResult('ไม่พบ QR code');
+          setSatusCode(1);
+        }
+      };
+
+      image.onerror = () => {
+        setQrCodeResult('ไม่สามารถโหลดรูปภาพได้');
+        setSatusCode(1);
+      };
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     makeqrPay("35");
@@ -252,7 +330,7 @@ export default function AboutWeb() {
               <p className="mt-2">จำนวนเงิน {displayPAY} บาท</p>
             </div>
             <div className="flex items-center gap-3">
-              <TextInput onChange={(i) => setNumberPay(i.target.value)} className="w-full" type="number" placeholder="35" required />
+              <TextInput onChange={(i) => setNumberPay(i.target.value)} className="w-full" type="number" placeholder="จำนวนเงิน" required />
               <Button
                 style={{ backgroundColor: "#2d76ff" }}
                 color="blue"
@@ -261,10 +339,54 @@ export default function AboutWeb() {
               >
                 <FaQrcode className="w-4 h-4" />
               </Button>
+              <Button
+                style={{ backgroundColor: "#2d76ff" }}
+                color="blue"
+                className="mb-5"
+                onClick={() => { setModelOpen(false); setModelFinOpen(true); }}
+              >
+                <FaCheck className="w-4 h-4" />
+              </Button>
             </div>
             <p style={{ marginTop: '0px' }}>
               สนับสนุน Yorwor67Slash5 เพื่อช่วยพัฒนาการเรียนรู้และการจัดการในห้องเรียนให้ดียิ่งขึ้น
             </p>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={modelFinOpen}
+        onClose={() => setModelFinOpen(false)}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              ♥ ขอบคุณจากใจผู้พัฒนา Yorwor67Slash5
+            </h3>
+            <div>
+              <p style={{ marginTop: '0px' }}>
+                ขอบคุณที่ร่วมผลักดันโปรเจค Yorwor67Slash5 หากคุณได้บริจาค สามารถอัปโหลดสลิปโอนเงินเพื่อจัดทำรายชื่อผู้สนับสนุนได้ที่นี่
+              </p>
+              <div className="mb-2 mt-6 block">
+                <Label htmlFor="file-upload" value="ชื่อผู้บริจาค" />
+              </div>
+              <TextInput onChange={(i) => setUserPay(i.target.value)} className="w-full" type="text" placeholder="ชื่อจริง-สกุล" required />
+              <div className="mb-2 mt-6 block">
+                <Label htmlFor="file-upload" value="อัพโหลดหลักฐานการบริจาค" />
+              </div>
+              <FileInput
+                id="file-upload"
+                onChange={handleFileChange}
+              />
+              <p className="flex items-center" style={{ marginTop: '20px' }}>
+                {statusCOde == 0 ? (<><Spinner size="md" className="mr-2" /></>) : (<></>)}
+                {qrCodeResult}
+              </p>
+            </div>
           </div>
         </Modal.Body>
       </Modal>
