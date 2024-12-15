@@ -86,12 +86,16 @@ let WheelRealData = {
 let UserRealData = {
   user: [],
 };
+let SupporterData = {
+  donor: [],
+};
 let StuRealData = {
   user: [],
 };
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
+let DONORlastFetchTime = 0;
 let ActlastFetchTime = 0;
 let ComlastFetchTime = 0;
 let UserlastFetchTime = 0;
@@ -201,6 +205,18 @@ exapp.patch("/announcement", Authenticate, async (req, res) => {
     });
     res.send(`เป็น ${message}`);
   }
+});
+
+exapp.get("/donate/list", async (req, res) => {
+  if (Date.now() - DONORlastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "Supporter"));
+    SupporterData.donor = [];
+    querySnapshot.forEach((doc) => {
+      SupporterData.donor.push(doc.data());
+    });
+    DONORlastFetchTime = Date.now();
+  }
+  res.send(SupporterData);
 });
 
 exapp.post("/donate", async (req, res) => {
