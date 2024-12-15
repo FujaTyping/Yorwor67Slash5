@@ -6,6 +6,7 @@ import { Button, Modal, TextInput, FileInput, Label, Spinner } from "flowbite-re
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
 import { FaGithubAlt, FaChevronCircleUp, FaQrcode, FaCheck } from "react-icons/fa";
+import { FaCheckToSlot } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import { PiWarningOctagonFill } from "react-icons/pi";
@@ -76,16 +77,14 @@ export default function AboutWeb() {
           if (data) {
             const { sendingBank, transRef } = data
             axios
-              .get(`${smtConfig.apiMain}donate`, {
-                headers: {
-                  sendbank: `${sendingBank}`,
-                  tranref: `${transRef}`,
-                  name: `${userPAY}`
-                },
+              .post(`${smtConfig.apiMain}donate`, {
+                sendbank: `${sendingBank}`,
+                tranref: `${transRef}`,
+                name: `${userPAY}`
               })
               .then(() => {
                 setQrCodeResult(`ส่งหลักฐานการบริจาคไปให้ผู้พัฒนาแล้ว ผู้พัฒนาจะทำการยืนยันและอัปเดตรายชื่อผู้สนับสนุนอีกครั้ง`);
-                setSatusCode(1);
+                setSatusCode(2);
               })
               .catch((error) => {
                 setQrCodeResult(`${error.response.data}`);
@@ -366,7 +365,7 @@ export default function AboutWeb() {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              ♥ ขอบคุณจากใจผู้พัฒนา Yorwor67Slash5
+              💖 ขอบคุณจากใจผู้พัฒนา Yorwor67Slash5
             </h3>
             <div>
               <p style={{ marginTop: '0px' }}>
@@ -385,6 +384,7 @@ export default function AboutWeb() {
               />
               <p className="flex items-center" style={{ marginTop: '20px' }}>
                 {statusCOde == 0 ? (<><Spinner size="md" className="mr-2" /></>) : (<></>)}
+                {statusCOde == 2 ? (<><FaCheckToSlot className="mr-4 w-10 h-10" /></>) : (<></>)}
                 {qrCodeResult}
               </p>
             </div>
