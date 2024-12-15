@@ -199,11 +199,21 @@ exapp.patch("/announcement", Authenticate, async (req, res) => {
   if (!message) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
-    const announcementRef = doc(db, "Announcement", "Main");
-    await updateDoc(announcementRef, {
-      Text: `${message}`,
-    });
-    res.send(`เป็น ${message}`);
+    if (req.body.isImg) {
+      const announcementRef = doc(db, "Announcement", "Main");
+      await updateDoc(announcementRef, {
+        Text: `${message}`,
+        IsImg: true,
+        Url: `${req.body.url}`,
+      });
+      res.send(`เป็น ${message} มีรูปภาพแนบด้วย`);
+    } else {
+      const announcementRef = doc(db, "Announcement", "Main");
+      await updateDoc(announcementRef, {
+        Text: `${message}`,
+      });
+      res.send(`เป็น ${message}`);
+    }
   }
 });
 
