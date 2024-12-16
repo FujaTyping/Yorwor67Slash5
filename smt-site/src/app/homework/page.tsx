@@ -154,6 +154,14 @@ export default function Homework() {
           },
         ]);
       });
+    try {
+      const storedMode = localStorage.getItem("HwTableMode");
+      if (storedMode) {
+        setTableMode(parseInt(storedMode));
+      }
+    } catch (error) {
+      console.error("Error reading data from localStorage:", error);
+    }
   }, []);
 
   const events = allData
@@ -225,6 +233,11 @@ export default function Homework() {
   const toggleTableMode = (numMode: number) => {
     setCurrentPage(1);
     setTableMode(numMode);
+    try {
+      localStorage.setItem("HwTableMode", numMode.toString());
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
   };
 
   return (
