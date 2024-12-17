@@ -381,6 +381,7 @@ export default function AboutWeb() {
             <div className="flex flex-col items-center justify-center">
               <QRCodeSVG size={200} value={donateQr} />
               <p className="mt-2">จำนวนเงิน {displayPAY} บาท</p>
+              <p>ผ่าน Prompt pay</p>
             </div>
             <div className="flex items-center gap-3">
               <TextInput onChange={(i) => setNumberPay(i.target.value)} className="w-full" type="number" placeholder="จำนวนเงิน" required />

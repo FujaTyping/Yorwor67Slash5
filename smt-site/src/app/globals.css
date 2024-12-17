@@ -59,6 +59,20 @@ a {
   font-family: Itim !important;
 }
 
+#AIACC p {
+  color: black !important;
+}
+
+#AIACC h2 {
+  font-size: 20px;
+  color: black !important;
+}
+
+#AIACC button {
+  margin: 0 !important;
+  padding: 1.5rem;
+}
+
 li:hover,
 #Navbranded:hover {
   cursor: pointer;
