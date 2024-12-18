@@ -5,7 +5,7 @@ import {
   HiInformationCircle,
   HiOutlineExclamationCircle,
 } from "react-icons/hi";
-import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUser } from "react-icons/fa";
+import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUser, FaClipboardList } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
 import { IoSend } from "react-icons/io5";
@@ -23,6 +23,7 @@ import {
   Datepicker,
   FileInput,
   Tooltip,
+  Tabs,
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import { LuPartyPopper } from "react-icons/lu";
@@ -54,6 +55,20 @@ const ywTheme: CustomFlowbiteTheme = {
       },
     },
   },
+  tabs: {
+    tablist: {
+      tabitem: {
+        variant: {
+          underline: {
+            active: {
+              on: "active rounded-t-lg border-b-2 border-blue-600 text-blue-600",
+              off: "border-b-2 border-transparent text-gray-500 hover:border-blue-300 hover:text-gray-600"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export default function User() {
@@ -404,19 +419,21 @@ export default function User() {
             </div>
           </div>
         </div>
-        <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
         {showAlert ? (
-          <Alert
-            style={{ marginTop: "30px" }}
-            additionalContent={
-              "หากต้องการเปลื่ยนแปลงข้อมูลในเว็ปไซต์ ต้องใช้อีเมล @hatyaiwit.ac.th เท่านั้น"
-            }
-            color="failure"
-            icon={HiInformationCircle}
-          >
-            <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล
-            @hatyaiwit.ac.th
-          </Alert>
+          <>
+            <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
+            <Alert
+              style={{ marginTop: "30px" }}
+              additionalContent={
+                "หากต้องการเปลื่ยนแปลงข้อมูลในเว็ปไซต์ ต้องใช้อีเมล @hatyaiwit.ac.th เท่านั้น"
+              }
+              color="failure"
+              icon={HiInformationCircle}
+            >
+              <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล
+              @hatyaiwit.ac.th
+            </Alert>
+          </>
         ) : (
           <>
             {isPermission ? (
@@ -432,6 +449,7 @@ export default function User() {
               </>
             ) : (
               <>
+                <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
                 <Alert
                   style={{ marginTop: "30px" }}
                   color="warning"
@@ -443,332 +461,364 @@ export default function User() {
             )}
             {showCaptcha ? (
               <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <p style={{ marginBottom: "15px", marginTop: "25px" }}>
-                    เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ ก่อนเข้าสู่หน้าผู้ใช้
-                    โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA
-                  </p>
-                  <Turnstile
-                    sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
-                    theme="light"
-                    language={"th"}
-                    onVerify={() => {
-                      setshowCaptcha(false);
-                    }}
-                  />
-                </div>
+                <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
+                <section className="text-gray-600 body-font">
+                  <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                    <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                      <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                    </div>
+                    <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณายืนยันตัวตน</h1>
+                      <p className="mb-4 leading-relaxed text-gray-900">เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA</p>
+                      <Turnstile
+                        sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                        theme="light"
+                        language={"th"}
+                        onVerify={() => {
+                          setshowCaptcha(false);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </section>
               </>
             ) : (
               <>
                 <section className="body-font animate__animated animate__fadeInUp">
-                  <div
-                    style={{ maxWidth: "100%" }}
-                    className="container px-5 py-24 mx-auto"
-                  >
-                    <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
-                      <div className="p-4 md:w-1/3 flex">
+                  <Flowbite theme={{ theme: ywTheme }}>
+                    <Tabs variant="underline">
+                      <Tabs.Item active title="ฝ่ายการเรียน" icon={FaBook}>
                         <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                          style={{ maxWidth: "100%", paddingTop: '20px' }}
+                          className="container px-5 py-24 mx-auto"
                         >
-                          <FaBullhorn
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            แก้ไขประกาศ
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            ข้อความประกาศของเว็ปไซต์
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenAmModal(true)}
+                          <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaEraser className="mr-2 h-5 w-5" />
-                                แก้ไขข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenAmModal(true)}
+                                <FaBook
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  เพิ่มข้อมูลการบ้าน
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  ข้อมูลการบ้านในแต่ละวัน โดยฝ่ายการเรียน
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenHwModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenHwModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaEraser className="mr-2 h-5 w-5" />
-                                แก้ไขข้อมูล
-                              </Button>
-                            </>
-                          )}
+                                <SiGoogleclassroom
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  เพิ่มข้อมูลรหัสห้องเรียน
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenCcModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenCcModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
+                      </Tabs.Item>
+                      <Tabs.Item title="ฝ่ายสารวัตร" icon={FaClipboardList}>
                         <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                          style={{ maxWidth: "100%", paddingTop: '20px' }}
+                          className="container px-5 py-24 mx-auto"
                         >
-                          <FaBook
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            เพิ่มข้อมูลการบ้าน
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            ข้อมูลการบ้านในแต่ละวัน โดยฝ่ายการเรียน
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenHwModal(true)}
+                          <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenHwModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          )}
+                                <FaClipboardUser
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  เช็คชื่อนักเรียน
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenStuModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenStuModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
+                      </Tabs.Item>
+                      <Tabs.Item title="ฝ่ายกิจกรรม" icon={LuPartyPopper}>
                         <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                          style={{ maxWidth: "100%", paddingTop: '20px' }}
+                          className="container px-5 py-24 mx-auto"
                         >
-                          <SiGoogleclassroom
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            เพิ่มข้อมูลรหัสห้องเรียน
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenCcModal(true)}
+                          <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenCcModal(true)}
+                                <AiFillPicture
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  เพิ่มข้อมูลการแข่งขัน
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  ข้อมูลการแข่งขันของนักเรียน
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenComModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenComModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          )}
+                                <LuPartyPopper
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  เพิ่มข้อมูลกิจกรรม
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  บันทึกกิจกรรม โดยฝ่ายกิจกรรม
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenActModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenActModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaPencilRuler className="mr-2 h-5 w-5" />
+                                      บันทึกข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
+                      </Tabs.Item>
+                      <Tabs.Item title="แก้ไขเว็ปไชต์" icon={BsPencilSquare}>
                         <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
+                          style={{ maxWidth: "100%", paddingTop: '20px' }}
+                          className="container px-5 py-24 mx-auto"
                         >
-                          <FaClipboardUser
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            เช็คชื่อนักเรียน
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenStuModal(true)}
+                          <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenStuModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
-                        <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
-                        >
-                          <AiFillPicture
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            เพิ่มข้อมูลการแข่งขัน
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            ข้อมูลการแข่งขันของนักเรียน
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenComModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenComModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
-                        <div
-                          style={{ backgroundColor: "#2d76ff" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
-                        >
-                          <LuPartyPopper
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            เพิ่มข้อมูลกิจกรรม
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            บันทึกกิจกรรม โดยฝ่ายกิจกรรม
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenActModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenActModal(true)}
-                                style={{ backgroundColor: "#2d76ff" }}
-                                color="blue"
-                              >
-                                <FaPencilRuler className="mr-2 h-5 w-5" />
-                                บันทึกข้อมูล
-                              </Button>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div className="p-4 md:w-1/3 flex">
-                        <div
-                          style={{ backgroundColor: "#00b900" }}
-                          className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
-                        >
-                          <FaBullhorn
-                            style={{ color: "white" }}
-                            className="h-7 w-7"
-                          />
-                        </div>
-                        <div className="flex-grow pl-6">
-                          <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                            ส่งข้อความประกาศ
-                          </h2>
-                          <p className="leading-relaxed text-base">
-                            ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical
-                          </p>
-                          {isPermission ? (
-                            <>
-                              <Button
-                                onClick={() => setOpenLoAAModal(true)}
+                                <FaBullhorn
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  แก้ไขประกาศ
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  ข้อความประกาศของเว็ปไซต์
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenAmModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaEraser className="mr-2 h-5 w-5" />
+                                      แก้ไขข้อมูล
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenAmModal(true)}
+                                      style={{ backgroundColor: "#2d76ff" }}
+                                      color="blue"
+                                    >
+                                      <FaEraser className="mr-2 h-5 w-5" />
+                                      แก้ไขข้อมูล
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div className="p-4 md:w-1/3 flex">
+                              <div
                                 style={{ backgroundColor: "#00b900" }}
-                                color="success"
+                                className="w-12 h-12 inline-flex items-center justify-center rounded-full text-indigo-500 mb-4 flex-shrink-0"
                               >
-                                <BsPencilSquare className="mr-2 h-5 w-5" />
-                                ร่างข้อความ
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button disabled
-                                onClick={() => setOpenLoAAModal(true)}
-                                style={{ backgroundColor: "#00b900" }}
-                                color="success"
-                              >
-                                <BsPencilSquare className="mr-2 h-5 w-5" />
-                                ร่างข้อความ
-                              </Button>
-                            </>
-                          )}
+                                <FaBullhorn
+                                  style={{ color: "white" }}
+                                  className="h-7 w-7"
+                                />
+                              </div>
+                              <div className="flex-grow pl-6">
+                                <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
+                                  ส่งข้อความประกาศ
+                                </h2>
+                                <p className="leading-relaxed text-base">
+                                  ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical
+                                </p>
+                                {isPermission ? (
+                                  <>
+                                    <Button
+                                      onClick={() => setOpenLoAAModal(true)}
+                                      style={{ backgroundColor: "#00b900" }}
+                                      color="success"
+                                    >
+                                      <BsPencilSquare className="mr-2 h-5 w-5" />
+                                      ร่างข้อความ
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Button disabled
+                                      onClick={() => setOpenLoAAModal(true)}
+                                      style={{ backgroundColor: "#00b900" }}
+                                      color="success"
+                                    >
+                                      <BsPencilSquare className="mr-2 h-5 w-5" />
+                                      ร่างข้อความ
+                                    </Button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                      </Tabs.Item>
+                    </Tabs>
+                  </Flowbite>
                 </section>
               </>
             )}
