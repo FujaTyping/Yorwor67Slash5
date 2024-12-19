@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Modal, TextInput, FileInput, Label, Spinner, Tooltip, Avatar } from "flowbite-react";
+import { Button, Modal, TextInput, FileInput, Label, Spinner, Tooltip } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
 import { FaGithubAlt, FaChevronCircleUp, FaQrcode, FaCheck } from "react-icons/fa";
 import { FaCheckToSlot } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
-import { PiWarningOctagonFill } from "react-icons/pi";
 import smtConfig from "../../smt-config.mjs";
 import generatePayload from "promptpay-qr";
 import { QRCodeSVG } from 'qrcode.react';
@@ -248,7 +247,7 @@ export default function AboutWeb() {
                     {api1down ? (
                       <>
                         <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <Spinner className="mr-4" size="md" />
                           <span className="title-font font-medium">Api server {"(Vercel)"}</span>
                         </div>
                       </>
@@ -265,7 +264,7 @@ export default function AboutWeb() {
                     {api2down ? (
                       <>
                         <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <Spinner className="mr-4" size="md" />
                           <span className="title-font font-medium">Api server {"(Railway)"}</span>
                         </div>
                       </>
@@ -282,7 +281,7 @@ export default function AboutWeb() {
                     {api3down ? (
                       <>
                         <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <PiWarningOctagonFill className="w-6 h-6 flex-shrink-0 mr-4" />
+                          <Spinner className="mr-4" size="md" />
                           <span className="title-font font-medium">Api server {"(Render)"}</span>
                         </div>
                       </>

@@ -101,6 +101,11 @@ li:hover,
   border-radius: 0;
 }
 
+#Footbar div,
+#Footbar h2 {
+  color: white;
+}
+
 #Footbar a,
 #CopyrightFootbar,
 #SideDrawer h5,
