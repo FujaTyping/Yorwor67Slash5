@@ -600,7 +600,13 @@ exapp.post("/feedback", async (req, res) => {
   const Name = req.body.name;
   const Email = req.body.email;
   const Decs = req.body.decs;
-  if (!Name || !Email || !Decs) {
+  const RatingUI = req.body.rating.UIrating;
+  const RatingUX = req.body.rating.UXrating;
+  const RatingI = req.body.rating.STrating;
+  const RatingII = req.body.rating.NDrating;
+  const RatingIII = req.body.rating.THrating;
+  const RatingIV = req.body.rating.FUrating;
+  if (!Name || !Email || !Decs || !RatingI || !RatingII || !RatingIII || !RatingIV || !RatingUI || !RatingUX) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const Payload = {
@@ -618,6 +624,10 @@ exapp.post("/feedback", async (req, res) => {
               "name": "อีเมล",
               "value": `${Email}`,
               "inline": true
+            },
+            {
+              "name": `คะแนนประเมิณ (⭐ ${req.body.ratingavg})`,
+              "value": `> **ประสบการณ์การใช้งานเว็ปไซต์ (UX)** : ⭐ **${RatingUX}**\n> **ความเรียบง่ายและสวยงามของเว็ปไซต์ (UI)** : ⭐ **${RatingUI}**\n> **เว็บไซต์ง่ายต่อการอ่านและการใช้งาน** : ⭐ **${RatingI}**\n> **ความสะดวกในการเชื่อมโยงข้อมูลภายในเว็บไซต์** : ⭐ **${RatingII}**\n> **มีการจัดหมวดหมู่ให้ง่ายต่อการค้นหา** : ⭐ **${RatingIII}**\n> **ระบบใช้งานสะดวกและไม่ซับซ้อน** : ⭐ **${RatingIV}**`
             },
             {
               "name": "ข้อความ",
