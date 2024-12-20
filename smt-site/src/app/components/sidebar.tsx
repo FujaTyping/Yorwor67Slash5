@@ -78,8 +78,8 @@ export default function SideNavbar() {
                       หน้าหลัก
                     </Sidebar.Item>
                     <Sidebar.Collapse icon={FaBook} label="ฝ่ายการเรียน">
-                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/homework">
-                        การบ้าน
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/assignment">
+                        ภาระงาน
                       </Sidebar.Item>
                       <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/classcode">
                         รหัสห้องเรียน

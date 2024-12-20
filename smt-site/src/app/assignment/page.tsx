@@ -87,7 +87,7 @@ export default function Homework() {
       isDue: false,
     },
   ]);
-  const [title] = useState("Hatyaiwit - การบ้าน");
+  const [title] = useState("Hatyaiwit - ภาระงาน");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDate, setCurrentDate] = useState(moment());
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -246,7 +246,7 @@ export default function Homework() {
       <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📚 การบ้าน - Homework
+          📚 ภาระงาน - Assignment
         </h1>
         <h2 style={{ fontSize: "18px" }}>
           ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
