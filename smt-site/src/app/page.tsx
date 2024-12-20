@@ -150,9 +150,6 @@ export default function Home() {
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              ไฟล์แนบประกาศ
-            </h3>
             <div>
               <img style={{ width: '100%', height: '100%' }} src={data.Url} />
             </div>

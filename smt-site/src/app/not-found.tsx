@@ -51,7 +51,7 @@ export default function NotFound() {
                   style={{ margin: "auto", marginRight: "5px" }}
                   className="mr-3 h-4 w-4"
                 />
-                ดูการบ้าน
+                ดูภาระงาน
               </Button>
             </Button.Group>
           </div>
