@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button, Drawer, Sidebar, Navbar, Modal, Avatar, Tooltip } from "flowbite-react";
+import { Button, Drawer, Sidebar, Navbar, Avatar, Tooltip } from "flowbite-react";
 import { useState } from "react";
 import {
   FaHome,
@@ -19,24 +19,23 @@ import { SiGoogledocs } from "react-icons/si";
 import { RiMenuFold4Fill } from "react-icons/ri";
 import { LuPartyPopper } from "react-icons/lu";
 import { BiSupport } from "react-icons/bi";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { IoMdNotifications } from "react-icons/io";
 import Yorwor from "../favicon.ico";
 import { signInWithGoogle } from "../lib/firebase-auth";
 import { getAuth, signOut } from "firebase/auth";
 import { MdWork } from "react-icons/md";
 import useLocalStorge from "../lib/localstorage-db";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
   const { photourl, isLogin } = useLocalStorge(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [message, setMessage] = useState("ERROR");
 
   return (
     <>
+      <ToastContainer position="bottom-right" newestOnTop closeOnClick hideProgressBar={false} />
       <Navbar id="TopBarNav" style={{ paddingBottom: '20px' }} className="border-solid border-b-8 border-rose-600 mb-8" fluid>
         <Navbar.Brand id="Navbranded" as={Link} href="/">
           <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
@@ -144,14 +143,17 @@ export default function SideNavbar() {
                         </Sidebar.Item>
                         <Sidebar.Item
                           onClick={() => {
+                            const id = toast.loading("กำลังออกจากระบบ...")
                             const auth = getAuth();
                             signOut(auth)
                               .then(() => {
-                                window.location.reload();
+                                toast.update(id, { render: `ออกจากระบบสำเร็จ`, type: "success", isLoading: false, autoClose: 3000 });
+                                setTimeout(() => {
+                                  window.location.reload();
+                                }, 1500);
                               })
                               .catch((error) => {
-                                setMessage(`เกิดข้อผิดผลาด ไม่สามารถออกจากระบบได้ ` + error.message);
-                                setOpenModal(true);
+                                toast.update(id, { render: `เกิดข้อผิดผลาด ไม่สามารถออกจากระบบได้ ${error.message}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
                               });
                           }}
                           icon={FaPowerOff}
@@ -163,13 +165,16 @@ export default function SideNavbar() {
                       <>
                         <Sidebar.Item
                           onClick={() => {
+                            const id = toast.loading("กำลังล็อกอิน...")
                             signInWithGoogle()
                               .then(() => {
-                                window.location.reload();
+                                toast.update(id, { render: `ล็อกอินสำเร็จ`, type: "success", isLoading: false, autoClose: 3000 });
+                                setTimeout(() => {
+                                  window.location.reload();
+                                }, 1500);
                               })
                               .catch((error) => {
-                                setMessage(`เกิดข้อผิดผลาด ไม่สามารถล็อกอินได้ ` + +error.message);
-                                setOpenModal(true);
+                                toast.update(id, { render: `เกิดข้อผิดผลาด ไม่สามารถล็อกอินได้ ${error.message}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
                               });
                           }}
                           icon={FaKey}
@@ -185,32 +190,6 @@ export default function SideNavbar() {
           </Sidebar>
         </Drawer.Items>
       </Drawer>
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openModal}
-        size="md"
-        onClose={() => setOpenModal(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-                onClick={() => setOpenModal(false)}
-              >
-                ตกลง
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 }

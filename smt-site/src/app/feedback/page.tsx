@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, TextInput, Textarea, Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Button, TextInput, Textarea } from "flowbite-react";
 import axios from "axios";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../smt-config.mjs";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Feedback() {
   const turnstile = useTurnstile();
@@ -16,12 +16,11 @@ export default function Feedback() {
   const [name, setName] = useState("");
   const [realEmail, setRealEmail] = useState("");
   const [decs, setDecs] = useState("");
-  const [message, setMessage] = useState("เตือน !");
-  const [openModal, setOpenModal] = useState(false);
   const [isVerify, setVerify] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const submitFeedback = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     if (isVerify) {
       setIsLoading(true);
       axios
@@ -31,20 +30,17 @@ export default function Feedback() {
           decs: decs,
         })
         .then((response) => {
-          setMessage(`ส่งข้อมูลแล้ว ${response.data}`);
-          setOpenModal(true);
+          toast.update(id, { render: `ส่งข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 8000 });
           setVerify(false);
           turnstile.reset();
           setIsLoading(false);
         })
         .catch((error) => {
-          setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-          setOpenModal(true);
+          toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
           setIsLoading(false);
         });
     } else {
-      setMessage(`ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`);
-      setOpenModal(true);
+      toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
     }
   };
 
@@ -58,6 +54,7 @@ export default function Feedback() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 style={{ marginBottom: "15px" }} className="border-b">
@@ -146,34 +143,6 @@ export default function Feedback() {
           </form>
         </div>
       </div>
-
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openModal}
-        size="md"
-        onClose={() => setOpenModal(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            <div className="flex justify-center">
-              <Button
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-                onClick={() => setOpenModal(false)}
-
-              >
-                ตกลง
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 }

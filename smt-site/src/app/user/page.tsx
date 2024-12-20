@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import {
   HiInformationCircle,
-  HiOutlineExclamationCircle,
 } from "react-icons/hi";
 import { FaPencilRuler, FaBook, FaEraser, FaBullhorn, FaUser, FaClipboardList } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
@@ -34,6 +33,7 @@ import storage from "../lib/firebase-storage";
 import Turnstile from "react-turnstile";
 import { BsPencilSquare } from "react-icons/bs";
 import smtConfig from "../smt-config.mjs"
+import { ToastContainer, toast } from 'react-toastify';
 
 const ywTheme: CustomFlowbiteTheme = {
   datepicker: {
@@ -75,10 +75,7 @@ export default function User() {
   const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [showCaptcha, setshowCaptcha] = useState(true);
-  const [message, setMessage] = useState("เตือน !");
   const [permessage, setPerMessage] = useState("Guest");
-  const [openAlert, setOpenAlert] = useState(false);
-  const [openLineAlert, setOpenLineAlert] = useState(false);
   const [openAmModal, setOpenAmModal] = useState(false);
   const [openLoAAModal, setOpenLoAAModal] = useState(false);
   const [openHwModal, setOpenHwModal] = useState(false);
@@ -117,6 +114,7 @@ export default function User() {
   }
 
   const submitAnnouncement = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .patch(
@@ -131,20 +129,17 @@ export default function User() {
         }
       )
       .then((response) => {
-        setMessage(`อัพเดทข้อความแล้ว ${response.data}`);
-        setOpenAmModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `อัพเดทข้อความแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถอัพเดทข้อความได้ ${error.response.data}`);
-        setOpenAmModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถอัพเดทข้อความได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       });
   };
 
   const submitAbsent = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .post(
@@ -164,20 +159,17 @@ export default function User() {
         }
       )
       .then((response) => {
-        setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-        setOpenStuModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-        setOpenStuModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       });
   };
 
   const submitHomework = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .post(
@@ -195,20 +187,17 @@ export default function User() {
         }
       )
       .then((response) => {
-        setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-        setOpenHwModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-        setOpenHwModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 8000 });
         setIsLoading(false);
       });
   };
 
   const submitClasscode = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .post(
@@ -225,20 +214,17 @@ export default function User() {
         }
       )
       .then((response) => {
-        setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-        setOpenCcModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-        setOpenCcModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 8000 });
         setIsLoading(false);
       });
   };
 
   const submitLineOAAnounment = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .post(
@@ -255,20 +241,17 @@ export default function User() {
         }
       )
       .then((response) => {
-        setMessage(`ส่งข้อความ ${response.data}`);
-        setOpenLoAAModal(false);
-        setOpenLineAlert(true);
+        toast.update(id, { render: `ส่งข้อความ ${response.data}`, type: "success", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถส่งข้อความได้ ${error.response.data}`);
-        setOpenLoAAModal(false);
-        setOpenLineAlert(true);
+        toast.update(id, { render: `ไม่สามารถส่งข้อความได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       });
   };
 
   const submitActivities = async () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     if (file) {
       setIsLoading(true);
       const storageRef = ref(storage, `Activities/${file.name}`);
@@ -292,32 +275,25 @@ export default function User() {
             }
           )
           .then((response) => {
-            setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-            setOpenActModal(false);
-            setOpenAlert(true);
+            toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
             setIsLoading(false);
           })
           .catch((error) => {
-            setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-            setOpenActModal(false);
-            setOpenAlert(true);
+            toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
             setIsLoading(false);
           });
       } catch (error) {
-        setMessage(`ไม่สามารถบันทึกไฟล์แล้ได้ ${error}`);
-        setOpenActModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       }
     } else {
-      setMessage(`กรุณาเลือกไฟล์`);
-      setOpenActModal(false);
-      setOpenAlert(true);
+      toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
       setIsLoading(false);
     }
   }
 
   const submitCompetition = async () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     if (file) {
       setIsLoading(true);
       const storageRef = ref(storage, `Reward/${file.name}`);
@@ -340,27 +316,19 @@ export default function User() {
             }
           )
           .then((response) => {
-            setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
-            setOpenComModal(false);
-            setOpenAlert(true);
+            toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
             setIsLoading(false);
           })
           .catch((error) => {
-            setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-            setOpenComModal(false);
-            setOpenAlert(true);
+            toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
             setIsLoading(false);
           });
       } catch (error) {
-        setMessage(`ไม่สามารถบันทึกไฟล์แล้ได้ ${error}`);
-        setOpenComModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       }
     } else {
-      setMessage(`กรุณาเลือกไฟล์`);
-      setOpenComModal(false);
-      setOpenAlert(true);
+      toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
       setIsLoading(false);
     }
   };
@@ -389,6 +357,7 @@ export default function User() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
       <div className="container">
         <h1 style={{ textAlign: "center" }}>ยินดีต้อนรับ !</h1>
         <div style={{ margin: "auto", maxWidth: "33rem" }} className="p-2">
@@ -433,6 +402,17 @@ export default function User() {
               <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล
               @hatyaiwit.ac.th
             </Alert>
+            <section className="text-gray-600 body-font">
+              <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                  <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                </div>
+                <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">บุคคลภายนอก @hatyaiwit.ac.th</h1>
+                  <p className="mb-4 leading-relaxed text-gray-900">กรุณาใช้อีเมล โรงเรียน @hatyaiwit.ac.th</p>
+                </div>
+              </div>
+            </section>
           </>
         ) : (
           <>
@@ -449,7 +429,7 @@ export default function User() {
               </>
             ) : (
               <>
-                <h1 style={{ marginTop: "25px" }} className="border-t"></h1>
+                {showCaptcha ? (<></>) : (<><h1 style={{ marginTop: "25px" }} className="border-t"></h1></>)}
                 <Alert
                   style={{ marginTop: "30px" }}
                   color="warning"
@@ -1415,59 +1395,6 @@ export default function User() {
                   </Button>
                 </>
               )}
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openAlert}
-        size="md"
-        onClose={() => setOpenAlert(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-                onClick={() => setOpenAlert(false)}
-              >
-                ตกลง
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openLineAlert}
-        size="md"
-        onClose={() => setOpenLineAlert(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            <div className="flex justify-center gap-4">
-              <Button
-                style={{ backgroundColor: "#00b900" }}
-                color="success"
-                onClick={() => setOpenLineAlert(false)}
-              >
-                ตกลง
-              </Button>
             </div>
           </div>
         </Modal.Body>
