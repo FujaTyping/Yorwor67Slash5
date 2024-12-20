@@ -252,84 +252,92 @@ export default function User() {
 
   const submitActivities = async () => {
     const id = toast.loading("กำลังส่งข้อมูล...")
-    if (file) {
-      setIsLoading(true);
-      const storageRef = ref(storage, `Activities/${file.name}`);
-      try {
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        console.log(titleAct, decs, dateAct, url);
-        axios
-          .post(
-            `${smtConfig.apiUser}activities`,
-            {
-              title: titleAct,
-              decs: decs,
-              date: dateAct,
-              url: url,
-            },
-            {
-              headers: {
-                Auth: email,
+    if (!titleAct || !decs || !dateAct) {
+      toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+    } else {
+      if (file) {
+        setIsLoading(true);
+        const storageRef = ref(storage, `Activities/${file.name}`);
+        try {
+          await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(storageRef);
+          console.log(titleAct, decs, dateAct, url);
+          axios
+            .post(
+              `${smtConfig.apiUser}activities`,
+              {
+                title: titleAct,
+                decs: decs,
+                date: dateAct,
+                url: url,
               },
-            }
-          )
-          .then((response) => {
-            toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
-            setIsLoading(false);
-          });
-      } catch (error) {
-        toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+              {
+                headers: {
+                  Auth: email,
+                },
+              }
+            )
+            .then((response) => {
+              toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+              setIsLoading(false);
+            });
+        } catch (error) {
+          toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+          setIsLoading(false);
+        }
+      } else {
+        toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       }
-    } else {
-      toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
-      setIsLoading(false);
     }
   }
 
   const submitCompetition = async () => {
     const id = toast.loading("กำลังส่งข้อมูล...")
-    if (file) {
-      setIsLoading(true);
-      const storageRef = ref(storage, `Reward/${file.name}`);
-      try {
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        axios
-          .post(
-            `${smtConfig.apiUser}completion`,
-            {
-              title: titleCom,
-              decs: decs,
-              time: time,
-              url: url,
-            },
-            {
-              headers: {
-                Auth: email,
+    if (!titleCom || !decs || !time) {
+      toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+    } else {
+      if (file) {
+        setIsLoading(true);
+        const storageRef = ref(storage, `Reward/${file.name}`);
+        try {
+          await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(storageRef);
+          axios
+            .post(
+              `${smtConfig.apiUser}completion`,
+              {
+                title: titleCom,
+                decs: decs,
+                time: time,
+                url: url,
               },
-            }
-          )
-          .then((response) => {
-            toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
-            setIsLoading(false);
-          });
-      } catch (error) {
-        toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+              {
+                headers: {
+                  Auth: email,
+                },
+              }
+            )
+            .then((response) => {
+              toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+              setIsLoading(false);
+            });
+        } catch (error) {
+          toast.update(id, { render: `ไม่สามารถบันทึกไฟล์ได้ ${error}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+          setIsLoading(false);
+        }
+      } else {
+        toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       }
-    } else {
-      toast.update(id, { render: `กรุณาเลือกไฟล์`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
-      setIsLoading(false);
     }
   };
 
@@ -351,6 +359,13 @@ export default function User() {
           setIsPermission(false);
         });
     }
+    const TToday = new Date();
+    const TThaiDate = new Intl.DateTimeFormat("th-TH", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(TToday);
+    setTime(TThaiDate)
   }, [email]);
 
   return (
@@ -485,10 +500,10 @@ export default function User() {
                               </div>
                               <div className="flex-grow pl-6">
                                 <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                                  เพิ่มข้อมูลการบ้าน
+                                  เพิ่มข้อมูลภาระงาน
                                 </h2>
                                 <p className="leading-relaxed text-base">
-                                  ข้อมูลการบ้านในแต่ละวัน โดยฝ่ายการเรียน
+                                  ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน
                                 </p>
                                 {isPermission ? (
                                   <>
@@ -866,11 +881,11 @@ export default function User() {
         <Modal.Body>
           <div className="space-y-6">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              แบบฟอร์มบันทึกข้อมูล การบ้าน
+              แบบฟอร์มบันทึกข้อมูล ภาระงาน
             </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value="ใส่วิชาการบ้าน" />
+                <Label htmlFor="text" value="ใส่วิชาภาระงาน" />
               </div>
               <TextInput
                 placeholder="วิชา"

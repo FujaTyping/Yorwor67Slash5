@@ -211,6 +211,12 @@ export default function AboutWeb() {
               to continuously improve and expand its functionality, making it a
               practical tool for students while sharpening our coding expertise.
             </h3>
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-4 sm:grid sm:grid-cols-2">
+              <img src="https://badgen.net/github/commits/FujaTyping/Yorwor67Slash5/dev?color=blue&icon=github" />
+              <img src="https://badgen.net/github/merged-prs/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+              <img src="https://badgen.net/github/contributors/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+              <img src="https://badgen.net/github/stars/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+            </div>
             <Button.Group id="AboutBtn" style={{ marginTop: "20px" }}>
               <Button
                 as={Link}
@@ -353,7 +359,7 @@ export default function AboutWeb() {
                       <img
                         id={`${index}`}
                         src={Donor.url}
-                        className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-110"
+                        className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-105"
                         alt={Donor.name}
                       />
                     </Tooltip>

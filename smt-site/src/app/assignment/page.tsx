@@ -311,13 +311,13 @@ export default function Homework() {
               nextLabel="ถัดไป"
             />
             <div className="flex items-center">
-              <Tooltip content={`${tableMode === 0 ? ("การบ้านทั้งหมด") : tableMode === 1 ? ("การบ้านที่ยังไม่ถึงกำหนดส่ง") : ("การบ้านที่ครบกำหนดส่งแล้ว")}`} style="light">
+              <Tooltip content={`${tableMode === 0 ? ("ภาระงานทั้งหมด") : tableMode === 1 ? ("ภาระงานที่ยังไม่ถึงกำหนดส่ง") : ("ภาระงานที่ครบกำหนดส่งแล้ว")}`} style="light">
                 <FaFilter className="w-5 h-5 mr-3" />
               </Tooltip>
-              <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} color="gray" label="เปลี่ยนตารางการบ้าน">
-                <Dropdown.Item onClick={() => toggleTableMode(0)}>การบ้านทั้งหมด</Dropdown.Item>
-                <Dropdown.Item onClick={() => toggleTableMode(1)}>การบ้านที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
-                <Dropdown.Item onClick={() => toggleTableMode(2)}>การบ้านที่ครบกำหนดส่งแล้ว</Dropdown.Item>
+              <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} color="gray" label="เปลี่ยนตารางภาระงาน">
+                <Dropdown.Item onClick={() => toggleTableMode(0)}>ภาระงานทั้งหมด</Dropdown.Item>
+                <Dropdown.Item onClick={() => toggleTableMode(1)}>ภาระงานที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
+                <Dropdown.Item onClick={() => toggleTableMode(2)}>ภาระงานที่ครบกำหนดส่งแล้ว</Dropdown.Item>
               </Dropdown>
             </div>
           </div>
@@ -408,7 +408,7 @@ export default function Homework() {
             </button>
             <div style={{ paddingTop: "3rem" }} className="space-y-6 p-5">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white flex">
-                ข้อมูลการบ้าน{" "}
+                ข้อมูลภาระงาน{" "}
                 <span
                   className="ml-2 font-bold"
                   style={{

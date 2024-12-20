@@ -18,6 +18,7 @@ import { PiStudentFill } from "react-icons/pi";
 import { FaRunning, FaHistory } from "react-icons/fa";
 import { IoEyeSharp } from "react-icons/io5";
 import smtConfig from "../smt-config.mjs";
+import CountUp from 'react-countup';
 
 interface Absent {
   Date: string;
@@ -149,7 +150,7 @@ export default function Absent() {
               <CgBoy className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">มา {Staticdata.Boy} คน</p>
+              <p className="text-2xl font-medium">มา <span><CountUp end={parseInt(Staticdata.Boy)} duration={2} /></span> คน</p>
               <p className="text-sm">นักเรียนชาย (ทั้งหมด 21 คน)</p>
             </div>
           </article>
@@ -158,7 +159,7 @@ export default function Absent() {
               <CgGirl className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">มา {Staticdata.Girl} คน</p>
+              <p className="text-2xl font-medium">มา <span><CountUp end={parseInt(Staticdata.Girl)} duration={2} /></span> คน</p>
               <p className="text-sm">นักเรียนหญิง (ทั้งหมด 15 คน)</p>
             </div>
           </article>
@@ -168,9 +169,9 @@ export default function Absent() {
             </span>
             <div>
               <p className="text-2xl font-medium">
-                ขาด / ลา {Staticdata.Absent} คน
+                ไม่มา <span><CountUp end={parseInt(Staticdata.Absent)} duration={2} /></span> คน
               </p>
-              <p className="text-sm">นักเรียนที่ขาด</p>
+              <p className="text-sm">นักเรียนที่ไม่มา</p>
             </div>
           </article>
           <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
@@ -178,7 +179,7 @@ export default function Absent() {
               <PiStudentFill className="size-8" />
             </span>
             <div>
-              <p className="text-2xl font-medium">มา {Staticdata.All} คน</p>
+              <p className="text-2xl font-medium">มา <span><CountUp end={parseInt(Staticdata.All)} duration={2} /></span> คน</p>
               <p className="text-sm">นักเรียนทั้งหมด (36 คน)</p>
             </div>
           </article>
@@ -189,7 +190,7 @@ export default function Absent() {
           📊 สถิตินักเรียนรายสัปดาห์ - Chart
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          สรุปจำนวนการขาด / ลา ของนักเรียนตลอด 7 วันที่ผ่านมา
+          สรุปจำนวนนักเรียนที่ไม่มา ตลอด 7 วันที่ผ่านมา
           <br />
           <span
             onClick={handleShowClick}
