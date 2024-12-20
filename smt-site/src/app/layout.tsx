@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: 'https://smt.siraphop.me/',
     description: 'ม.4/5 - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT',
     type: 'website',
-    images: 'https://smt.siraphop.me/Treechut.png',
+    images: 'https://smt.siraphop.me/assets/Treechut.png',
   },
 };
 
