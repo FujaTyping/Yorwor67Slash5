@@ -600,12 +600,12 @@ exapp.post("/feedback", async (req, res) => {
   const Name = req.body.name;
   const Email = req.body.email;
   const Decs = req.body.decs;
-  const RatingUI = req.body.rating.UIrating;
-  const RatingUX = req.body.rating.UXrating;
-  const RatingI = req.body.rating.STrating;
-  const RatingII = req.body.rating.NDrating;
-  const RatingIII = req.body.rating.THrating;
-  const RatingIV = req.body.rating.FUrating;
+  const RatingUI = req.body.rating.ui;
+  const RatingUX = req.body.rating.ux;
+  const RatingI = req.body.rating.st;
+  const RatingII = req.body.rating.nd;
+  const RatingIII = req.body.rating.th;
+  const RatingIV = req.body.rating.fu;
   if (!Name || !Email || !Decs || !RatingI || !RatingII || !RatingIII || !RatingIV || !RatingUI || !RatingUX) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
