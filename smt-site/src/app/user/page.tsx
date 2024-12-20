@@ -1064,7 +1064,7 @@ export default function User() {
               </div>
               <TextInput
                 value={number}
-                onChange={(event) => setNumber(event.target.value)}
+                onChange={(event) => { if (event.target.value == "-") { setNumber(event.target.value); setAbsent("0"); setBoy("0"); setGirl("0") } else { setNumber(event.target.value) } }}
                 type="text"
                 placeholder="1 , 2 , 3"
                 required
