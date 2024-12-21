@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react"
-import Link from "next/link";
 import { HiInformationCircle } from "react-icons/hi";
 import { Alert, List, Accordion, Modal, Button, Checkbox, Label } from "flowbite-react";
 import Cynthia from '../assets/chat/Cynthia.jpg'
+import { useRouter } from "next/navigation";
 import Aether from '../assets/chat/Aether.jpg'
 import { AiFillExperiment } from "react-icons/ai";
 import useLocalStorge from "../lib/localstorage-db";
@@ -14,6 +14,7 @@ import { FaCheckSquare } from "react-icons/fa";
 export default function smtAI() {
     const [title] = useState("Hatyaiwit - AI");
     const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
+    const router = useRouter();
     const { isLogin } = useLocalStorge(false);
     const [stTOS, setStTOS] = useState(false);
     const [checkTOS, setCheckTOS] = useState(false);
@@ -34,6 +35,7 @@ export default function smtAI() {
             const storedSTOS = localStorage.getItem("aiTOS");
             if (storedSTOS == "true") {
                 setStTOS(false);
+                setCheckTOS(true);
             } else {
                 setStTOS(true);
             }
@@ -55,7 +57,7 @@ export default function smtAI() {
                 </h1>
                 <h2 style={{ fontSize: '18px' }}>ผู้ช่วย AI อัจฉริยะที่พร้อมตอบคำถาม ช่วยแก้ปัญหาการเรียน และให้คำแนะนำ ไม่ว่าจะเป็นด้านคณิตศาสตร์ วิทยาศาสตร์ หรือกลยุทธ์การเรียนรู้ ทุกอย่างเพื่อช่วยให้คุณก้าวสู่เป้าหมายได้ง่ายขึ้น</h2>
                 <div className="flex flex-col md:flex-row justify-center items-center rounded-lg mt-10 gap-10">
-                    <Link onClick={() => { if (isLogin) { CynthiaV(); } }} href="/chat/cynthia" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn">
+                    <div onClick={() => { if (checkTOS) { if (isLogin) { CynthiaV(); } router.push("/chat/cynthia"); } else { setStTOS(true); } }} style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn cursor-pointer">
                         <img
                             alt="Cythia"
                             src={Cynthia.src}
@@ -74,8 +76,8 @@ export default function smtAI() {
                                 </div>
                             </div>
                         </div>
-                    </Link>
-                    <Link href="/chat/aether" style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn">
+                    </div>
+                    <div onClick={() => { if (checkTOS) { router.push("/chat/aether"); } else { setStTOS(true); } }} style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn cursor-pointer">
                         <img
                             alt="Aether"
                             src={Aether.src}
@@ -94,7 +96,7 @@ export default function smtAI() {
                                 </div>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>
             </div>
             <div className="container">
@@ -199,7 +201,7 @@ export default function smtAI() {
                         <div className="flex items-center gap-2">
                             <Checkbox onChange={(e) => setCheckTOS(e.target.checked)} style={{ color: '#2d76ff' }} id="accept" />
                             <Label htmlFor="accept" className="flex">
-                                ฉันยอมรับข้อกำหนดและเงื่อนไข
+                                ฉันยอมรับข้อตกลงและเงื่อนไขการใช้บริการ
                             </Label>
                         </div>
                         <div style={{ marginTop: '5px' }} className="w-full">
