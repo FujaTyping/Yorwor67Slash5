@@ -211,7 +211,7 @@ export default function AboutWeb() {
               to continuously improve and expand its functionality, making it a
               practical tool for students while sharpening our coding expertise.
             </h3>
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-4 sm:grid sm:grid-cols-2">
+            <div className="md:flex md:flex-wrap items-center justify-center gap-2 mt-4 grid grid-cols-2">
               <img src="https://badgen.net/github/commits/FujaTyping/Yorwor67Slash5/dev?color=blue&icon=github" />
               <img src="https://badgen.net/github/merged-prs/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
               <img src="https://badgen.net/github/contributors/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />

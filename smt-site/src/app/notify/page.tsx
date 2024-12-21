@@ -73,7 +73,7 @@ export default function AboutWeb() {
         setIsLoading(false);
       })
       .catch((error) => {
-        toast.update(id, { render: `ไม่สามารถยกเลิกการแจ้งเตือนได้ ${error.response.data} ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
+        toast.update(id, { render: `ไม่สามารถยกเลิกการแจ้งเตือนได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       });
   }
