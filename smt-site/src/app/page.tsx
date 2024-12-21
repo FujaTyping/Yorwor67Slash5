@@ -8,6 +8,9 @@ import Timetable from "./assets/Timetable.webp";
 import { FaPaperclip } from "react-icons/fa";
 import smtConfig from "./smt-config.mjs";
 
+import { analytics } from "./lib/firebase-analytic";
+import { logEvent } from "firebase/analytics";
+
 interface Completion {
   Title: string;
   Decs: string;
@@ -22,13 +25,11 @@ interface Announcement {
 }
 
 export default function Home() {
-  const [data, setData] = useState<Announcement>(
-    {
-      Title: "กำลังดึงข้อมูล",
-      IsImg: false,
-      Url: ""
-    },
-  );
+  const [data, setData] = useState<Announcement>({
+    Title: "กำลังดึงข้อมูล",
+    IsImg: false,
+    Url: "",
+  });
   const [title] = useState("Hatyaiwit - ม.4/5");
   const [modalOpen, setModalOpen] = useState(false);
   const [comData, setComData] = useState<Completion[]>([
@@ -36,30 +37,32 @@ export default function Home() {
       Title: "กำลังดึงข้อมูล",
       Decs: "กำลังดึงข้อมูล",
       Url: "",
-      Time: "กำลังดึงข้อมูล"
+      Time: "กำลังดึงข้อมูล",
     },
   ]);
+
+  useEffect(() => {
+    if (analytics) {
+      logEvent(analytics, "page_view");
+    }
+  }, []);
 
   useEffect(() => {
     axios
       .get(`${smtConfig.apiMain}announcement`)
       .then((response) => {
-        setData(
-          {
-            Title: `${response.data.Text}`,
-            IsImg: response.data.IsImg,
-            Url: `${response.data.Url}`
-          },
-        );
+        setData({
+          Title: `${response.data.Text}`,
+          IsImg: response.data.IsImg,
+          Url: `${response.data.Url}`,
+        });
       })
       .catch((error) => {
-        setData(
-          {
-            Title: `ไม่สามารถดึงข้อมูลได้`,
-            IsImg: false,
-            Url: `${error.response.data}`
-          },
-        );
+        setData({
+          Title: `ไม่สามารถดึงข้อมูลได้`,
+          IsImg: false,
+          Url: `${error.response.data}`,
+        });
       });
     axios
       .get(`${smtConfig.apiMain}completion`)
@@ -72,7 +75,7 @@ export default function Home() {
             Title: "ไม่สามารถ",
             Decs: "ดึงข้อมูลได้",
             Url: "",
-            Time: `${error}`
+            Time: `${error}`,
           },
         ]);
       });
@@ -85,17 +88,44 @@ export default function Home() {
       <div className="hbanner">
         <h1 className="title text-3xl lg:text-5xl mb-3">ม.4/5 - โครงการ SMT</h1>
         <p className="text-base lg:text-2xl" style={{ maxWidth: "45rem" }}>
-          เว็ปไซต์ ม.4/5 ของเราเป็นเว็ปไซต์สำหรับรวมรวบข้อมูลต่างๆ เพื่อนำมาช่วยเหลือนักเรียนภายในห้อง
-          เพื่อให้จัดการงานภายในห้องที่ได้รับมอบหมาย หรือตรวจสอบการขาดลาและอื่นๆอีกมากมาย
+          เว็ปไซต์ ม.4/5 ของเราเป็นเว็ปไซต์สำหรับรวมรวบข้อมูลต่างๆ
+          เพื่อนำมาช่วยเหลือนักเรียนภายในห้อง
+          เพื่อให้จัดการงานภายในห้องที่ได้รับมอบหมาย
+          หรือตรวจสอบการขาดลาและอื่นๆอีกมากมาย
         </p>
       </div>
       <div className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b flex items-center">
-          📢 ประกาศ - Announcement {data.IsImg ? (<><Tooltip content="ดูไฟล์แนบประกาศ" style="light"><FaPaperclip onClick={() => setModalOpen(true)} className="w-6 h-6 ml-3 cursor-pointer" /></Tooltip></>) : (<></>)}
+        <h1
+          style={{ marginBottom: "15px" }}
+          className="border-b flex items-center"
+        >
+          📢 ประกาศ - Announcement{" "}
+          {data.IsImg ? (
+            <>
+              <Tooltip content="ดูไฟล์แนบประกาศ" style="light">
+                <FaPaperclip
+                  onClick={() => setModalOpen(true)}
+                  className="w-6 h-6 ml-3 cursor-pointer"
+                />
+              </Tooltip>
+            </>
+          ) : (
+            <></>
+          )}
         </h1>
-        <p style={{ marginBottom: '10px', display: 'none' }}>ยินดีต้อนรับเข้าสู่เว็ปไซต์ ห้องเรียน โครงการพิเศษ SMT โรงเรียนหาดใหญ่วิทยาลัย (ม.4/5)</p>
+        <p style={{ marginBottom: "10px", display: "none" }}>
+          ยินดีต้อนรับเข้าสู่เว็ปไซต์ ห้องเรียน โครงการพิเศษ SMT
+          โรงเรียนหาดใหญ่วิทยาลัย (ม.4/5)
+        </p>
         <h2 className="gap-3 centered-text-h2">
-          <Marquee gradient={true} gradientColor="white" gradientWidth={25} pauseOnHover={true}>{data.Title}</Marquee>
+          <Marquee
+            gradient={true}
+            gradientColor="white"
+            gradientWidth={25}
+            pauseOnHover={true}
+          >
+            {data.Title}
+          </Marquee>
         </h2>
       </div>
       <div className="container">
@@ -105,7 +135,10 @@ export default function Home() {
         <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
           <Carousel slideInterval={5000}>
             {comData.map((Data, index) => (
-              <div key={index} className="relative h-full flex items-end justify-center">
+              <div
+                key={index}
+                className="relative h-full flex items-end justify-center"
+              >
                 <div className="absolute inset-0 z-[-1]">
                   <img
                     src={Data.Url || null}
@@ -127,7 +160,7 @@ export default function Home() {
           📅 ตารางเรียน - Timetable
         </h1>
         <h2 style={{ fontSize: "18px" }}>
-          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2{" "}<br />
+          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2 <br />
           <span style={{ color: "red" }}>
             เริ่มใช้ตั้งแต่วันจันทร์ที่ 4 พฤศจิกายน 2567 เป็นต้นไป
           </span>
@@ -151,7 +184,7 @@ export default function Home() {
         <Modal.Body>
           <div className="space-y-6">
             <div>
-              <img style={{ width: '100%', height: '100%' }} src={data.Url} />
+              <img style={{ width: "100%", height: "100%" }} src={data.Url} />
             </div>
           </div>
         </Modal.Body>
