@@ -72,6 +72,7 @@ let CRealData = {
 };
 let ActData = {
   Activities: [],
+  Static: {},
 };
 let ARealData = {
   Static: {},
@@ -348,16 +349,21 @@ exapp.post("/activities", Authenticate, async (req, res) => {
   const decs = req.body.decs;
   const url = req.body.url;
   const date = req.body.date;
+  const uupdate = req.body.updatee;
   if (!title || !decs || !url || !date) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const UID = generateID();
+    const statActRef = doc(db, "Status", "Activities");
     await setDoc(doc(db, "Activities", `${UID}`), {
       title: `${title}`,
       decs: `${decs}`,
       url: `${url}`,
       date: `${date}`,
       timestamp: serverTimestamp(),
+    });
+    await updateDoc(statActRef, {
+      UpdateTime: `${uupdate}`
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
@@ -473,6 +479,10 @@ exapp.get("/activities", async (req, res) => {
     querySnapshot.forEach((doc) => {
       ActData.Activities.push(doc.data());
     });
+    const statRef = doc(db, "Status", "Activities");
+    const statDocSnap = await getDoc(statRef);
+    const data = statDocSnap.data();
+    ActData.Static = data;
     ActlastFetchTime = Date.now();
   }
   res.send(ActData);
