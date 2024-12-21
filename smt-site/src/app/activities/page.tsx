@@ -5,6 +5,7 @@ import { Timeline, Spinner } from "flowbite-react";
 import { RiCalendarTodoFill } from "react-icons/ri";
 import axios from "axios";
 import smtConfig from "../smt-config.mjs";
+import { FaHistory } from "react-icons/fa";
 
 interface Activities {
   title: string;
@@ -25,6 +26,7 @@ export default function TimeLine() {
       url: "กำลังดึงข้อมูล"
     },
   ]);
+  const [updateTime, setUpdateTime] = useState("0 มกราคม 0000");
 
   useEffect(() => {
     setFinLoading(false);
@@ -32,6 +34,7 @@ export default function TimeLine() {
       .get(`${smtConfig.apiMain}activities`)
       .then((response) => {
         setData(response.data.Activities);
+        setUpdateTime(response.data.Static.update);
         setFinLoading(true);
       })
       .catch((error) => {
@@ -53,6 +56,11 @@ export default function TimeLine() {
         <h1 style={{ marginBottom: "20px" }} className="border-b">
           🎉 บันทึกกิจกรรม - Activities
         </h1>
+        <h2 className="mb-5" style={{ fontSize: "18px" }}>
+          <span className="flex" style={{ alignItems: "center" }}>
+            <FaHistory style={{ marginRight: "6px" }} /> อัพเดทข้อมูลล่าสุด ณ วันที่ {updateTime}
+          </span>
+        </h2>
         {loadingfin ? (<>
           <div className="animate__animated animate__fadeInUp">
             <Timeline>

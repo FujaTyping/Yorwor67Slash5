@@ -252,6 +252,12 @@ export default function User() {
 
   const submitActivities = async () => {
     const id = toast.loading("กำลังส่งข้อมูล...")
+    const TToday = new Date();
+    const TThaiDate = new Intl.DateTimeFormat("th-TH", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(TToday);
     if (!titleAct || !decs || !dateAct) {
       toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ กรุณากรอกข้อมูลให้ครบถ้วน`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
     } else {
@@ -270,6 +276,7 @@ export default function User() {
                 decs: decs,
                 date: dateAct,
                 url: url,
+                updatee: TThaiDate
               },
               {
                 headers: {

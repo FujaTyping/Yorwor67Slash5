@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Card, Modal, Label, TextInput, List } from "flowbite-react";
+import { Button, Modal, Label, TextInput, List } from "flowbite-react";
 import { FaDiscord, FaLine } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import useLocalStorge from "../lib/localstorage-db";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import axios from "axios";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 import smtConfig from "../smt-config.mjs";
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function AboutWeb() {
   const router = useRouter();
@@ -21,10 +21,10 @@ export default function AboutWeb() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDisModal, setOpenDisModal] = useState(false);
   const [openDellModal, setOpenDellModal] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
   const [hooksSucc, setHooksSucc] = useState(false);
 
   const submitDiswebhook = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     setHooksSucc(false);
     if (email) {
@@ -34,16 +34,13 @@ export default function AboutWeb() {
           email: `${email}`,
         })
         .then((response) => {
-          setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+          toast.update(id, { render: `ส่งข้อมูลแล้ว`, type: "success", isLoading: false, autoClose: 5000 });
+          setMessage(`${response.data}`)
           setHooksSucc(true);
-          setOpenDisModal(false);
-          setOpenAlert(true);
           setIsLoading(false);
         })
         .catch((error) => {
-          setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-          setOpenDisModal(false);
-          setOpenAlert(true);
+          toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
           setIsLoading(false);
         });
     } else {
@@ -52,37 +49,31 @@ export default function AboutWeb() {
           hooks: `${hooksUrl}`,
         })
         .then((response) => {
-          setMessage(`บันทึกข้อมูลแล้ว ${response.data}`);
+          toast.update(id, { render: `ส่งข้อมูลแล้ว`, type: "success", isLoading: false, autoClose: 5000 });
+          setMessage(`${response.data}`)
           setHooksSucc(true);
-          setOpenDisModal(false);
-          setOpenAlert(true);
           setIsLoading(false);
         })
         .catch((error) => {
-          setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-          setOpenDisModal(false);
-          setOpenAlert(true);
+          toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
           setIsLoading(false);
         });
     }
   };
 
   const revokeDiswebhook = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     setIsLoading(true);
     axios
       .delete(`${smtConfig.apiMain}discord/revoke`, {
         data: { hookid: hooksId }
       })
       .then((response) => {
-        setMessage(`ยกเลิกการแจ้งเตือนแล้ว ${response.data}`);
-        setOpenDellModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ยกเลิกการแจ้งเตือนแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 8000 });
         setIsLoading(false);
       })
       .catch((error) => {
-        setMessage(`ไม่สามารถยกเลิกการแจ้งเตือนได้ ${error.response.data}`);
-        setOpenDellModal(false);
-        setOpenAlert(true);
+        toast.update(id, { render: `ไม่สามารถยกเลิกการแจ้งเตือนได้ ${error.response.data} ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
         setIsLoading(false);
       });
   }
@@ -96,8 +87,9 @@ export default function AboutWeb() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <ToastContainer position="bottom-right" newestOnTop hideProgressBar={false} />
       <div className="container">
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 style={{ marginBottom: "15px" }} className="border-b">ℹ️ การแจ้งเตือน - Notification</h1>
           <p style={{ fontSize: "18px" }}>
             เว็บไซต์ห้องเรียนของเรามีฟีเจอร์พิเศษที่ช่วยให้การจัดการการบ้านและงานต่างๆ
@@ -109,54 +101,54 @@ export default function AboutWeb() {
             เพื่อให้การเรียนรู้มีประสิทธิภาพและเป็นระเบียบมากยิ่งขึ้น
           </p>
         </div>
-        <div className="flex flex-wrap justify-center sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6 ">
-          <div className="p-4 md:w-1/3 flex">
-            <Card className="max-w-sm">
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Discord Webhooks
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                ฟีเจอร์สำหรับการแจ้งเตือนภาระงานไปยัง Discord Server ของท่านผ่าน
-                Webhook
-              </p>
-              <div className="flex gap-3">
-                <Button
-                  onClick={() => setOpenDisModal(true)}
-                  style={{ backgroundColor: "#7289da", flex: 5 }}
-                >
-                  <FaDiscord className="mr-2 h-5 w-5" />
-                  รับการแจ้งเตือน
-                </Button>
-                <Button
-                  onClick={() => setOpenDellModal(true)}
-                  style={{ backgroundColor: "#FF0000", flex: 1 }}
-                >
-                  <MdDeleteForever className="mx-auto h-5 w-5" />
-                </Button>
+        <section className="body-font overflow-hidden">
+          <div className="container px-5 py-24 mx-auto">
+            <div className="-my-8 divide-y-2 divide-gray-100">
+              <div className="py-8 flex flex-wrap md:flex-nowrap">
+                <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col items-center justify-center">
+                  <img style={{ maxWidth: '130px' }} src="https://images.sftcdn.net/images/t_app-icon-m/p/9848e854-ffae-11e6-a59d-00163ed833e7/2949821524/discord-icon.png" alt="Discord" />
+                </div>
+                <div className="md:flex-grow">
+                  <h2 className="text-2xl font-medium text-gray-900 title-bold mb-2">Discord Webhooks</h2>
+                  <p className="leading-relaxed">ฟีเจอร์สำหรับการแจ้งเตือนภาระงานไปยัง Discord Server ของท่านผ่าน Webhook</p>
+                  <div style={{ maxWidth: '232px' }} className="flex gap-3">
+                    <Button
+                      onClick={() => setOpenDisModal(true)}
+                      style={{ backgroundColor: "#7289da", flex: 5 }}
+                    >
+                      <FaDiscord className="mr-2 h-5 w-5" />
+                      รับการแจ้งเตือน
+                    </Button>
+                    <Button
+                      onClick={() => setOpenDellModal(true)}
+                      style={{ backgroundColor: "#FF0000", flex: 1 }}
+                    >
+                      <MdDeleteForever className="mx-auto h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </Card>
+              <div className="py-8 flex flex-wrap md:flex-nowrap">
+                <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col items-center justify-center">
+                  <img style={{ maxWidth: '110px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/LINE_logo.svg/800px-LINE_logo.svg.png" alt="Line" />
+                </div>
+                <div className="md:flex-grow">
+                  <h2 className="text-2xl font-medium text-gray-900 title-bold mb-2">Line OA</h2>
+                  <p className="leading-relaxed">บริการส่งการแจ้งเตือน ภาระงาน ประกาศ และอื่นๆ โดยใช้ Line Messaging Api โดยอาจมีข้อจำกัด</p>
+                  <Button
+                    onClick={() => {
+                      router.push("https://lin.ee/L1apV3k");
+                    }}
+                    style={{ backgroundColor: "#00b900" }}
+                  >
+                    <FaLine className="mr-2 h-5 w-5" />
+                    รับการแจ้งเตือน
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="p-4 md:w-1/3 flex">
-            <Card className="max-w-sm">
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Line OA
-              </h5>
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                บริการส่งการแจ้งเตือน ภาระงาน ประกาศ และอื่นๆ โดยใช้ Line
-                Messaging Api โดยอาจมีข้อจำกัด
-              </p>
-              <Button
-                onClick={() => {
-                  router.push("https://lin.ee/L1apV3k");
-                }}
-                style={{ backgroundColor: "#00b900" }}
-              >
-                <FaLine className="mr-2 h-5 w-5" />
-                รับการแจ้งเตือน
-              </Button>
-            </Card>
-          </div>
-        </div>
+        </section>
       </div>
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
@@ -197,7 +189,7 @@ export default function AboutWeb() {
                 required
               />
             </div>
-            <div className="w-full">
+            <div style={{ marginTop: '5px' }} className="w-full flex items-center justify-center">
               {isLoading ? (
                 <>
                   <Button
@@ -218,6 +210,17 @@ export default function AboutWeb() {
                     <IoMdAddCircle className="mr-2 h-5 w-5" />
                     เพิ่ม Webhook
                   </Button>
+                </>
+              )}
+            </div>
+            <div>
+              {hooksSucc ? (
+                <>
+                  <p style={{ color: 'red', marginTop: '-5px', fontSize: '14px' }}>{message} (กรุณาจำไอดีเอาไว้ เพราะจะใช้ตอนที่ลบข้อมูลออกจากระบบ !)</p>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginTop: '-5px', fontSize: '14px' }}>{"กำลังรอ Webhooks ・・・ʕ ˵ ̿–ᴥ ̿– ˵ ʔ"}</p>
                 </>
               )}
             </div>
@@ -270,38 +273,6 @@ export default function AboutWeb() {
                   </Button>
                 </>
               )}
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openAlert}
-        size="md"
-        onClose={() => setOpenAlert(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            {hooksSucc ? (
-              <>
-                <p style={{ color: 'red', marginTop: '-15px', fontSize: '13px' }}>กรุณาจำไอดีเอาไว้ เพราะจะใช้ตอนที่ลบข้อมูลออกจากระบบ !</p>
-
-              </>
-            ) : (<></>)}
-            <div className="flex justify-center gap-4">
-              <Button
-                style={{ backgroundColor: "#7289da" }}
-                color="blue"
-                onClick={() => setOpenAlert(false)}
-              >
-                ตกลง
-              </Button>
             </div>
           </div>
         </Modal.Body>
