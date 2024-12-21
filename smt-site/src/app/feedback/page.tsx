@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, TextInput, Textarea, Badge } from "flowbite-react";
+import { Button, TextInput, Textarea, Badge, Select } from "flowbite-react";
 import axios from "axios";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile, { useTurnstile } from "react-turnstile";
@@ -15,7 +15,7 @@ export default function Feedback() {
   const turnstile = useTurnstile();
   const [title] = useState("Hatyaiwit - ข้อเสนอแนะ");
   const { email } = useLocalStorge(false);
-  const [name, setName] = useState("");
+  const [ycs, setYCS] = useState("นักเรียน");
   const [realEmail, setRealEmail] = useState("");
   const [decs, setDecs] = useState("");
   const [isVerify, setVerify] = useState(false);
@@ -58,7 +58,7 @@ export default function Feedback() {
       setIsLoading(true);
       axios
         .post(`${smtConfig.apiMain}feedback`, {
-          name: name,
+          ycs: ycs,
           email: realEmail,
           decs: decs,
           ratingavg: ((UIrating + UXrating + STrating + NDrating + THrating + FUrating) / 6).toFixed(2),
@@ -114,13 +114,15 @@ export default function Feedback() {
                   htmlFor="name"
                   className="leading-7 text-sm"
                 >
-                  ชื่อผู้ส่ง
+                  สถานภาพ
                 </label>
-                <TextInput
-                  placeholder="ชื่อ-สกุล"
-                  onChange={(event) => setName(event.target.value)}
-                  required
-                />
+                <Select onChange={(e) => setYCS(e.target.value)} required>
+                  <option>นักเรียน</option>
+                  <option>ผู้สนับสนุน</option>
+                  <option>อาจารย์ (คุณครู)</option>
+                  <option>บุคคลทั่วไป</option>
+                  <option>ผู้ปกครอง</option>
+                </Select>
               </div>
             </div>
             <div className="p-2 w-1/2">

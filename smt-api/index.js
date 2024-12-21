@@ -607,7 +607,7 @@ exapp.post("/absent", Authenticate, async (req, res) => {
 });
 
 exapp.post("/feedback", async (req, res) => {
-  const Name = req.body.name;
+  const YCS = req.body.ycs;
   const Email = req.body.email;
   const Decs = req.body.decs;
   const RatingUI = req.body.rating.ui;
@@ -616,7 +616,7 @@ exapp.post("/feedback", async (req, res) => {
   const RatingII = req.body.rating.nd;
   const RatingIII = req.body.rating.th;
   const RatingIV = req.body.rating.fu;
-  if (!Name || !Email || !Decs || !RatingI || !RatingII || !RatingIII || !RatingIV || !RatingUI || !RatingUX) {
+  if (!YCS || !Email || !Decs || !RatingI || !RatingII || !RatingIII || !RatingIV || !RatingUI || !RatingUX) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const Payload = {
@@ -626,8 +626,8 @@ exapp.post("/feedback", async (req, res) => {
           "color": 36863,
           "fields": [
             {
-              "name": "คำขอโดย",
-              "value": `${Name}`,
+              "name": "สถานภาพ",
+              "value": `${YCS}`,
               "inline": true
             },
             {
