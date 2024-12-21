@@ -34,7 +34,7 @@ export default function TimeLine() {
       .get(`${smtConfig.apiMain}activities`)
       .then((response) => {
         setData(response.data.Activities);
-        setUpdateTime(response.data.Static.update);
+        setUpdateTime(`${response.data.Static.UpdateTime}`);
         setFinLoading(true);
       })
       .catch((error) => {
