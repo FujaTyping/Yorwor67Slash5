@@ -46,12 +46,12 @@ export default function NotFound() {
                 />
                 กลับไปหน้าหลัก
               </Button>
-              <Button as={Link} href="/homework" color="blue">
+              <Button as={Link} href="/assignment" color="blue">
                 <FaBook
                   style={{ margin: "auto", marginRight: "5px" }}
                   className="mr-3 h-4 w-4"
                 />
-                ดูการบ้าน
+                ดูภาระงาน
               </Button>
             </Button.Group>
           </div>

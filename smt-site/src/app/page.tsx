@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Carousel } from "flowbite-react";
+import { Carousel, Tooltip, Modal } from "flowbite-react";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
+import { FaPaperclip } from "react-icons/fa";
 import smtConfig from "./smt-config.mjs";
 
 interface Completion {
@@ -14,9 +15,22 @@ interface Completion {
   Time: string;
 }
 
+interface Announcement {
+  Title: string;
+  IsImg: boolean;
+  Url: string;
+}
+
 export default function Home() {
-  const [data, setData] = useState("ยินดีต้อนรับเข้าสู่เว็ปไซต์");
+  const [data, setData] = useState<Announcement>(
+    {
+      Title: "กำลังดึงข้อมูล",
+      IsImg: false,
+      Url: ""
+    },
+  );
   const [title] = useState("Hatyaiwit - ม.4/5");
+  const [modalOpen, setModalOpen] = useState(false);
   const [comData, setComData] = useState<Completion[]>([
     {
       Title: "กำลังดึงข้อมูล",
@@ -30,10 +44,22 @@ export default function Home() {
     axios
       .get(`${smtConfig.apiMain}announcement`)
       .then((response) => {
-        setData(response.data.Text);
+        setData(
+          {
+            Title: `${response.data.Text}`,
+            IsImg: response.data.IsImg,
+            Url: `${response.data.Url}`
+          },
+        );
       })
       .catch((error) => {
-        setData(`${error}`);
+        setData(
+          {
+            Title: `ไม่สามารถดึงข้อมูลได้`,
+            IsImg: false,
+            Url: `${error.response.data}`
+          },
+        );
       });
     axios
       .get(`${smtConfig.apiMain}completion`)
@@ -64,12 +90,12 @@ export default function Home() {
         </p>
       </div>
       <div className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📢 ประกาศ - Announcement
+        <h1 style={{ marginBottom: "15px" }} className="border-b flex items-center">
+          📢 ประกาศ - Announcement {data.IsImg ? (<><Tooltip content="ดูไฟล์แนบประกาศ" style="light"><FaPaperclip onClick={() => setModalOpen(true)} className="w-6 h-6 ml-3 cursor-pointer" /></Tooltip></>) : (<></>)}
         </h1>
         <p style={{ marginBottom: '10px', display: 'none' }}>ยินดีต้อนรับเข้าสู่เว็ปไซต์ ห้องเรียน โครงการพิเศษ SMT โรงเรียนหาดใหญ่วิทยาลัย (ม.4/5)</p>
         <h2 className="gap-3 centered-text-h2">
-          <Marquee gradient={true} gradientColor="white" gradientWidth={25} pauseOnHover={true}>{data}</Marquee>
+          <Marquee gradient={true} gradientColor="white" gradientWidth={25} pauseOnHover={true}>{data.Title}</Marquee>
         </h2>
       </div>
       <div className="container">
@@ -114,6 +140,22 @@ export default function Home() {
           src={Timetable.src}
         ></img>
       </div>
+      <Modal
+        className="animate__animated animate__fadeIn"
+        show={modalOpen}
+        onClose={() => setModalOpen(false)}
+        size="md"
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="space-y-6">
+            <div>
+              <img style={{ width: '100%', height: '100%' }} src={data.Url} />
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Badge } from "flowbite-react";
+import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select } from "flowbite-react";
 import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
@@ -13,6 +13,7 @@ import useSound from 'use-sound';
 import Turnstile from "react-turnstile";
 import { FaSave } from "react-icons/fa";
 import { MdMemory } from "react-icons/md";
+import { AiFillExperiment } from "react-icons/ai";
 
 export default function ChatAether() {
   const [title] = useState("Hatyaiwit - Aether");
@@ -35,6 +36,7 @@ export default function ChatAether() {
   const [defualtModel, setDefaultModel] = useState("gemini-1.5-flash");
   const [displayModel, setDisplatModel] = useState("gemini-1.5-flash")
   const [openModalSetting, setOpenModelSetting] = useState(false);
+  const [displayToken, setDisplayToken] = useState("0");
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
 
@@ -86,8 +88,7 @@ export default function ChatAether() {
         `${smtConfig.apiMain}generative/aether`,
         {
           prompt: `${prompt}`,
-          personality: `${personality}`,
-          model: `${displayModel}`
+          personality: `${personality}`
         },
         {
           headers: {
@@ -96,14 +97,16 @@ export default function ChatAether() {
         }
       )
       .then((response) => {
-        setAetherPrompt(`${response.data}`);
+        setAetherPrompt(`${response.data.response}`);
+        setDisplatModel(`${response.data.model}`)
+        setDisplayToken(`${response.data.token}`)
         RX();
         setLoading(false);
         setCooldown(true);
-        setSecondsLeft(15);
+        setSecondsLeft(25);
         setIsGEN(true);
         try {
-          localStorage.setItem("historyAetherChat", response.data);
+          localStorage.setItem("historyAetherChat", response.data.response);
           localStorage.setItem("historyAetherPrompt", prompt);
         } catch (error) {
           console.error("Error saving to localStorage:", error);
@@ -170,7 +173,7 @@ export default function ChatAether() {
             />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight flex items-center">
-                Aether (เอเธอร์) <Badge style={{ color: 'white', backgroundColor: '#ff6767' }} className="ml-3" color="failure">Experimental</Badge> <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer', display: 'none' }} className='w-7 h-7 ml-2.5' /></Tooltip>
+                Aether (เอเธอร์) <Tooltip content="Experimental" style="light"><AiFillExperiment className="ml-2" /></Tooltip> <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer', display: 'none' }} className='w-7 h-7 ml-2.5' /></Tooltip>
               </h5>
               <p className="font-normal">
                 ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
@@ -209,6 +212,7 @@ export default function ChatAether() {
                       isBot={isGEN}
                       botName="Aether"
                       modelName={displayModel}
+                      tokencount={displayToken}
                     />
                   </div>
                 </div>

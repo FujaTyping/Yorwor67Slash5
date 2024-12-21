@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Clipboard, Pagination, Spinner } from "flowbite-react";
+import { Table, Clipboard, Pagination, Spinner, Tooltip } from "flowbite-react";
 import { FaHistory } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 import useLocalStorge from "../lib/localstorage-db";
@@ -116,17 +116,19 @@ export default function Classroom() {
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                           <span style={{ display: "flex", alignItems: "center" }}>
                             <p style={{ margin: 0 }}>{Classroom.Code}</p>
-                            <Clipboard.WithIcon
-                              style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginTop: "30px",
-                                marginLeft: "5px",
-                                position: "static",
-                              }}
-                              valueToCopy={Classroom.Code}
-                            />
+                            <Tooltip content="คัดลอกรหัสห้องเรียน" style="light">
+                              <Clipboard.WithIcon
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  marginTop: "30px",
+                                  marginLeft: "5px",
+                                  position: "static",
+                                }}
+                                valueToCopy={Classroom.Code}
+                              />
+                            </Tooltip>
                           </span>
                         </Table.Cell>
                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900">

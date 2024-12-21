@@ -13,6 +13,7 @@ const {
   deleteDoc,
 } = require("firebase/firestore");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const openaiTokenCounter = require('openai-gpt-token-counter');
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -47,6 +48,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
+const AetherModel = "gemini-2.0-flash-exp"
 const GeminiModel = GeminiAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   generationConfig: {
@@ -55,7 +57,7 @@ const GeminiModel = GeminiAI.getGenerativeModel({
   },
 });
 const LGeminiModel = GeminiAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: AetherModel,
   generationConfig: {
     maxOutputTokens: 1024,
     temperature: 1,
@@ -70,6 +72,7 @@ let CRealData = {
 };
 let ActData = {
   Activities: [],
+  Static: {},
 };
 let ARealData = {
   Static: {},
@@ -84,12 +87,16 @@ let WheelRealData = {
 let UserRealData = {
   user: [],
 };
+let SupporterData = {
+  donor: [],
+};
 let StuRealData = {
   user: [],
 };
 let lastFetchTime = 0;
 let TreelastFetchTime = 0;
 let AbslastFetchTime = 0;
+let DONORlastFetchTime = 0;
 let ActlastFetchTime = 0;
 let ComlastFetchTime = 0;
 let UserlastFetchTime = 0;
@@ -193,11 +200,79 @@ exapp.patch("/announcement", Authenticate, async (req, res) => {
   if (!message) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
-    const announcementRef = doc(db, "Announcement", "Main");
-    await updateDoc(announcementRef, {
-      Text: `${message}`,
+    if (req.body.isImg) {
+      const announcementRef = doc(db, "Announcement", "Main");
+      await updateDoc(announcementRef, {
+        Text: `${message}`,
+        IsImg: true,
+        Url: `${req.body.url}`,
+      });
+      res.send(`เป็น ${message} มีรูปภาพแนบด้วย`);
+    } else {
+      const announcementRef = doc(db, "Announcement", "Main");
+      await updateDoc(announcementRef, {
+        Text: `${message}`,
+      });
+      res.send(`เป็น ${message}`);
+    }
+  }
+});
+
+exapp.get("/donate/list", async (req, res) => {
+  if (Date.now() - DONORlastFetchTime > TreefetchInterval) {
+    const querySnapshot = await getDocs(collection(db, "Supporter"));
+    SupporterData.donor = [];
+    querySnapshot.forEach((doc) => {
+      SupporterData.donor.push(doc.data());
     });
-    res.send(`เป็น ${message}`);
+    DONORlastFetchTime = Date.now();
+  }
+  res.send(SupporterData);
+});
+
+exapp.post("/donate", async (req, res) => {
+  const Name = req.body.name;
+  const SB = req.body.sendbank;
+  const TR = req.body.tranref;
+  if (!Name || !SB || !TR) {
+    res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+  } else {
+    const Payload = {
+      "embeds": [
+        {
+          "title": "💰 มีสนับสนุนโปรเจค Yorwor67Slash5",
+          "color": 36863,
+          "fields": [
+            {
+              "name": "ชื่อผู้บริจาค",
+              "value": `${Name}`,
+              "inline": true
+            },
+            {
+              "name": "ธนาคาร (ผู้ส่ง)",
+              "value": `${SB}`,
+              "inline": true
+            },
+            {
+              "name": "หมายเลขทำรายการ",
+              "value": `${TR}`
+            }
+          ],
+          "author": {
+            "name": "SMT Notify",
+            "url": "https://smt.siraphop.me/about/web",
+            "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
+          }
+        }
+      ]
+    };
+    axios.post(webhookURL, Payload)
+      .then(response => {
+        res.send(`ส่งหลักฐานแล้ว`);
+      })
+      .catch(error => {
+        res.send(error.message);
+      });
   }
 });
 
@@ -274,16 +349,21 @@ exapp.post("/activities", Authenticate, async (req, res) => {
   const decs = req.body.decs;
   const url = req.body.url;
   const date = req.body.date;
+  const uupdate = req.body.updatee;
   if (!title || !decs || !url || !date) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const UID = generateID();
+    const statActRef = doc(db, "Status", "Activities");
     await setDoc(doc(db, "Activities", `${UID}`), {
       title: `${title}`,
       decs: `${decs}`,
       url: `${url}`,
       date: `${date}`,
       timestamp: serverTimestamp(),
+    });
+    await updateDoc(statActRef, {
+      UpdateTime: `${uupdate}`
     });
     res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
   }
@@ -358,7 +438,7 @@ exapp.post("/generative/aether", async (req, res) => {
           ],
         });
         const CResponse = await SysChat.sendMessage(`${USRP}`);
-        res.send(CResponse.response.text());
+        res.send({ response: `${CResponse.response.text()}`, model: `${AetherModel}`, token: `${openaiTokenCounter.text(CResponse.response.text(), "gpt-4")}` });
       } else {
         const SysChat = LGeminiModel.startChat({
           history: [
@@ -373,7 +453,7 @@ exapp.post("/generative/aether", async (req, res) => {
           ],
         });
         const CResponse = await SysChat.sendMessage(`${USRP}`);
-        res.send(CResponse.response.text());
+        res.send({ response: `${CResponse.response.text()}`, model: `${AetherModel}`, token: `${openaiTokenCounter.text(CResponse.response.text(), "gpt-4")}` });
       }
     } catch (e) {
       res.status(400).send(`Aether ตอบกลับคุณไม่ได้ (${e})`);
@@ -399,6 +479,10 @@ exapp.get("/activities", async (req, res) => {
     querySnapshot.forEach((doc) => {
       ActData.Activities.push(doc.data());
     });
+    const statRef = doc(db, "Status", "Activities");
+    const statDocSnap = await getDoc(statRef);
+    const data = statDocSnap.data();
+    ActData.Static = data;
     ActlastFetchTime = Date.now();
   }
   res.send(ActData);
@@ -526,7 +610,13 @@ exapp.post("/feedback", async (req, res) => {
   const Name = req.body.name;
   const Email = req.body.email;
   const Decs = req.body.decs;
-  if (!Name || !Email || !Decs) {
+  const RatingUI = req.body.rating.ui;
+  const RatingUX = req.body.rating.ux;
+  const RatingI = req.body.rating.st;
+  const RatingII = req.body.rating.nd;
+  const RatingIII = req.body.rating.th;
+  const RatingIV = req.body.rating.fu;
+  if (!Name || !Email || !Decs || !RatingI || !RatingII || !RatingIII || !RatingIV || !RatingUI || !RatingUX) {
     res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
   } else {
     const Payload = {
@@ -544,6 +634,10 @@ exapp.post("/feedback", async (req, res) => {
               "name": "อีเมล",
               "value": `${Email}`,
               "inline": true
+            },
+            {
+              "name": `คะแนนประเมิณ (⭐ ${req.body.ratingavg})`,
+              "value": `> **ประสบการณ์การใช้งานเว็ปไซต์ (UX)** : ⭐ **${RatingUX}**\n> **ความเรียบง่ายและสวยงามของเว็ปไซต์ (UI)** : ⭐ **${RatingUI}**\n> **เว็บไซต์ง่ายต่อการอ่านและการใช้งาน** : ⭐ **${RatingI}**\n> **ความสะดวกในการเชื่อมโยงข้อมูลภายในเว็บไซต์** : ⭐ **${RatingII}**\n> **มีการจัดหมวดหมู่ให้ง่ายต่อการค้นหา** : ⭐ **${RatingIII}**\n> **ระบบใช้งานสะดวกและไม่ซับซ้อน** : ⭐ **${RatingIV}**`
             },
             {
               "name": "ข้อความ",

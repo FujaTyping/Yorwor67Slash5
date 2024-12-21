@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button, TextInput, Textarea, Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Button, TextInput, Textarea, Badge } from "flowbite-react";
 import axios from "axios";
 import useLocalStorge from "../lib/localstorage-db";
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../smt-config.mjs";
+import { ToastContainer, toast } from 'react-toastify';
+import { Rating, Star } from '@smastrom/react-rating';
+import '@smastrom/react-rating/style.css';
 
 export default function Feedback() {
   const turnstile = useTurnstile();
@@ -16,12 +18,42 @@ export default function Feedback() {
   const [name, setName] = useState("");
   const [realEmail, setRealEmail] = useState("");
   const [decs, setDecs] = useState("");
-  const [message, setMessage] = useState("เตือน !");
-  const [openModal, setOpenModal] = useState(false);
   const [isVerify, setVerify] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [UXrating, setUXRating] = useState(0);
+  const [UIrating, setUIRating] = useState(0);
+  const [STrating, setSTRating] = useState(0);
+  const [NDrating, setNDRating] = useState(0);
+  const [THrating, setTHRating] = useState(0);
+  const [FUrating, setFURating] = useState(0);
+
+  const StarStyles = {
+    itemShapes: Star,
+    activeFillColor: '#2d76ff',
+    inactiveFillColor: '#85b0ff'
+  }
+
+  const RatingTOT = (rating: number): string => {
+    switch (rating) {
+      case 0:
+        return "กรุณาให้คะแนน!";
+      case 1:
+        return "ใช้ไม่ได้เลย 🙁";
+      case 2:
+        return "ไม่โอเค 😕";
+      case 3:
+        return "พอได้ 🙂";
+      case 4:
+        return "ดีมาก! 👍";
+      case 5:
+        return "สุดยอด!! 🎉";
+      default:
+        return "ให้คะแนนระหว่าง 0-5";
+    }
+  };
 
   const submitFeedback = () => {
+    const id = toast.loading("กำลังส่งข้อมูล...")
     if (isVerify) {
       setIsLoading(true);
       axios
@@ -29,22 +61,28 @@ export default function Feedback() {
           name: name,
           email: realEmail,
           decs: decs,
+          ratingavg: ((UIrating + UXrating + STrating + NDrating + THrating + FUrating) / 6).toFixed(2),
+          rating: {
+            ui: UIrating,
+            ux: UXrating,
+            st: STrating,
+            nd: NDrating,
+            th: THrating,
+            fu: FUrating
+          }
         })
         .then((response) => {
-          setMessage(`ส่งข้อมูลแล้ว ${response.data}`);
-          setOpenModal(true);
+          toast.update(id, { render: `ส่งข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 8000 });
           setVerify(false);
           turnstile.reset();
           setIsLoading(false);
         })
         .catch((error) => {
-          setMessage(`ไม่สามารถส่งข้อมูลได้ ${error.response.data}`);
-          setOpenModal(true);
+          toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ ${error.response.data}`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
           setIsLoading(false);
         });
     } else {
-      setMessage(`ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`);
-      setOpenModal(true);
+      toast.update(id, { render: `ไม่สามารถส่งข้อมูลได้ กรุณายืนยันตัวตนผ่าน CAPTCHA`, closeOnClick: true, type: "error", isLoading: false, autoClose: 10000 });
     }
   };
 
@@ -58,6 +96,7 @@ export default function Feedback() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 style={{ marginBottom: "15px" }} className="border-b">
@@ -100,13 +139,139 @@ export default function Feedback() {
                 />
               </div>
             </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  ประสบการณ์การใช้งานเว็ปไซต์ (UX)
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={UXrating} onChange={setUXRating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(UXrating)}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  ความเรียบง่ายและสวยงามของเว็ปไซต์ (UI)
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={UIrating} onChange={setUIRating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(UIrating)}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  เว็บไซต์ง่ายต่อการอ่านและการใช้งาน
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={STrating} onChange={setSTRating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(STrating)}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  ความสะดวกในการเชื่อมโยงข้อมูลภายในเว็บไซต์
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={NDrating} onChange={setNDRating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(NDrating)}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  มีการจัดหมวดหมู่ให้ง่ายต่อการค้นหา
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={THrating} onChange={setTHRating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(THrating)}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-2 w-full md:w-1/2">
+              <div className="relative flex flex-col items-center">
+                <label
+                  htmlFor="description"
+                  className="leading-7 text-sm"
+                >
+                  ระบบใช้งานสะดวกและไม่ซับซ้อน
+                </label>
+                <Rating style={{ maxWidth: 200 }} value={FUrating} onChange={setFURating} itemStyles={StarStyles} />
+                <Badge
+                  className="mt-2 rounded-full"
+                  style={{
+                    maxWidth: '175px',
+                    color: 'white',
+                    background: '#2d76ff'
+                  }}
+                >
+                  {RatingTOT(FUrating)}
+                </Badge>
+              </div>
+            </div>
             <div className="p-2 w-full">
               <div className="relative">
                 <label
                   htmlFor="description"
                   className="leading-7 text-sm"
                 >
-                  สิ่งที่ต้องการจะให้ปรับปรุง
+                  สิ่งที่ต้องการจะให้ปรับปรุง (หากไม่มีกรุณาใส่ -)
                 </label>
                 <Textarea
                   placeholder="ข้อความของคุณ"
@@ -115,7 +280,7 @@ export default function Feedback() {
                 />
               </div>
             </div>
-            <div className="flex justify-center items-center p-2 w-full">
+            <div className="flex mt-2 justify-center items-center p-2 w-full">
               <Turnstile
                 sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
                 theme="light"
@@ -146,34 +311,6 @@ export default function Feedback() {
           </form>
         </div>
       </div>
-
-      <Modal
-        className="animate__animated animate__fadeIn"
-        show={openModal}
-        size="md"
-        onClose={() => setOpenModal(false)}
-        popup
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              {message}
-            </h3>
-            <div className="flex justify-center">
-              <Button
-                style={{ backgroundColor: "#2d76ff" }}
-                color="blue"
-                onClick={() => setOpenModal(false)}
-
-              >
-                ตกลง
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
     </>
   );
 }
