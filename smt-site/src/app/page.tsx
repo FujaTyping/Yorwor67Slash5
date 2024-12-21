@@ -8,7 +8,7 @@ import Timetable from "./assets/Timetable.webp";
 import { FaPaperclip } from "react-icons/fa";
 import smtConfig from "./smt-config.mjs";
 
-import { analytics } from "./lib/firebase-analytic";
+import { analyticsPromise } from "./lib/firebase-analytic";
 import { logEvent } from "firebase/analytics";
 
 interface Completion {
@@ -42,9 +42,11 @@ export default function Home() {
   ]);
 
   useEffect(() => {
-    if (analytics) {
-      logEvent(analytics, "page_view");
-    }
+    analyticsPromise.then((analytics) => {
+      if (analytics) {
+        logEvent(analytics, "page_view");
+      }
+    });
   }, []);
 
   useEffect(() => {

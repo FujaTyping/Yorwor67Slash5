@@ -4,15 +4,19 @@ import firebaseConfig from "./firebase-config";
 
 const app = initializeApp(firebaseConfig);
 
-let analytics: Analytics | undefined;
+let analyticsPromise: Promise<Analytics | undefined>;
+
 if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
+  analyticsPromise = isSupported().then((supported) => {
     if (supported) {
-      analytics = getAnalytics(app);
+      return getAnalytics(app);
     } else {
       console.warn("Firebase Analytics is not supported in this environment.");
+      return undefined;
     }
   });
+} else {
+  analyticsPromise = Promise.resolve(undefined);
 }
 
-export { analytics };
+export { analyticsPromise };
