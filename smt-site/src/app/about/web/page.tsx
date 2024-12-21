@@ -353,7 +353,7 @@ export default function AboutWeb() {
                       <img
                         id={`${index}`}
                         src={Donor.url}
-                        className="h-20 w-20 md:h-36 md:w-36 rounded-full"
+                        className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-110"
                         alt={Donor.name}
                       />
                     </Tooltip>
