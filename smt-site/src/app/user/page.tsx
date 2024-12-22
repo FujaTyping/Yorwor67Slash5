@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   HiInformationCircle,
@@ -22,8 +23,7 @@ import {
   Datepicker,
   FileInput,
   Tooltip,
-  Tabs,
-  Avatar
+  Tabs
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import { LuPartyPopper } from "react-icons/lu";
@@ -385,19 +385,21 @@ export default function User() {
         <h1 style={{ textAlign: "center" }}>🎉 ยินดีต้อนรับ !</h1>
         <div style={{ margin: "auto", maxWidth: "33rem" }} className="p-2">
           <div className="h-full flex flex-col md:flex-row items-center border-gray-200 border p-4 rounded-lg">
-            <Avatar
+            <img
               alt="Profile"
               className="w-20 h-20 mb-2 md:mb-0 md:w-16 md:h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-              img={photourl}
+              src={photourl}
             />
             <div className="flex-grow">
               <h2 className="title-font font-medium">{username}</h2>
               <div className="flex items-center flex-row">
                 {permessage == "Admin" ? (
                   <>
-                    <Tooltip content={permessage} style="light">
-                      <MdAdminPanelSettings className="w-5 h-5 mr-2 " />
-                    </Tooltip>
+                    <Link href={"/user/dashboard"}>
+                      <Tooltip content={permessage} style="light">
+                        <MdAdminPanelSettings className="w-5 h-5 mr-2 " />
+                      </Tooltip>
+                    </Link>
                   </>
                 ) : (
                   <>
