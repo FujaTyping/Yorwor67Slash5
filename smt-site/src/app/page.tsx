@@ -8,9 +8,6 @@ import Timetable from "./assets/Timetable.webp";
 import { FaPaperclip } from "react-icons/fa";
 import smtConfig from "./smt-config.mjs";
 
-import { analyticsPromise } from "./lib/firebase-analytic";
-import { logEvent } from "firebase/analytics";
-
 interface Completion {
   Title: string;
   Decs: string;
@@ -40,14 +37,6 @@ export default function Home() {
       Time: "กำลังดึงข้อมูล",
     },
   ]);
-
-  useEffect(() => {
-    analyticsPromise.then((analytics) => {
-      if (analytics) {
-        logEvent(analytics, "page_view");
-      }
-    });
-  }, []);
 
   useEffect(() => {
     axios

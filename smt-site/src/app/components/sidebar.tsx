@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar, Avatar, Tooltip } from "flowbite-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaHome,
   FaAddressCard,
@@ -27,11 +27,22 @@ import { MdWork } from "react-icons/md";
 import useLocalStorge from "../lib/localstorage-db";
 import { ToastContainer, toast } from 'react-toastify';
 
+import { analyticsPromise } from "../lib/firebase-analytic";
+import { logEvent } from "firebase/analytics";
+
 export default function SideNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
   const { photourl, isLogin } = useLocalStorge(false);
+
+  useEffect(() => {
+    analyticsPromise.then((analytics) => {
+      if (analytics) {
+        logEvent(analytics, "page_view");
+      }
+    });
+  }, []);
 
   return (
     <>
