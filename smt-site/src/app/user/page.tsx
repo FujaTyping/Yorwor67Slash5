@@ -23,6 +23,7 @@ import {
   FileInput,
   Tooltip,
   Tabs,
+  Avatar
 } from "flowbite-react";
 import { SiGoogleclassroom } from "react-icons/si";
 import { LuPartyPopper } from "react-icons/lu";
@@ -381,21 +382,21 @@ export default function User() {
       <meta property="og:title" content={title} />
       <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
       <div className="container">
-        <h1 style={{ textAlign: "center" }}>ยินดีต้อนรับ !</h1>
+        <h1 style={{ textAlign: "center" }}>🎉 ยินดีต้อนรับ !</h1>
         <div style={{ margin: "auto", maxWidth: "33rem" }} className="p-2">
-          <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-            <img
+          <div className="h-full flex flex-col md:flex-row items-center border-gray-200 border p-4 rounded-lg">
+            <Avatar
               alt="Profile"
-              className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-              src={photourl}
-            ></img>
+              className="w-20 h-20 mb-2 md:mb-0 md:w-16 md:h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+              img={photourl}
+            />
             <div className="flex-grow">
               <h2 className="title-font font-medium">{username}</h2>
-              <div className="flex md:items-center flex-col md:flex-row">
+              <div className="flex items-center flex-row">
                 {permessage == "Admin" ? (
                   <>
                     <Tooltip content={permessage} style="light">
-                      <MdAdminPanelSettings className="w-5 h-5 mr-2" />
+                      <MdAdminPanelSettings className="w-5 h-5 mr-2 " />
                     </Tooltip>
                   </>
                 ) : (
