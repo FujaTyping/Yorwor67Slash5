@@ -387,7 +387,7 @@ export default function User() {
           <div className="h-full flex flex-col md:flex-row items-center border-gray-200 border p-4 rounded-lg">
             <img
               alt="Profile"
-              className="w-20 h-20 mb-2 md:mb-0 md:w-16 md:h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+              className="w-20 h-20 mb-2 md:mb-0 md:w-16 md:h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-0 md:mr-4"
               src={photourl}
             />
             <div className="flex-grow">

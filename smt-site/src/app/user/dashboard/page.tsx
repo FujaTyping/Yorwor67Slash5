@@ -53,8 +53,8 @@ export default function Dashboard() {
                                     <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
                                 </div>
                                 <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">คุณไม่มีสิทธ์เข้าถึง</h1>
-                                    <p className="mb-4 leading-relaxed text-gray-900">กรุณาใช้แอคเค้าท์ Admin เพื่อดูข้อมูล Dashboard หลังบ้าน</p>
+                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{fetching ? ("กรุณารอสักครู่") : ("คุณไม่มีสิทธ์เข้าถึง")}</h1>
+                                    <p className="mb-4 leading-relaxed text-gray-900">{fetching ? ("เรากำลังเช็คสิทธ์การเข้าถึงของคุณ อาจจะใช้เวลานิดหน่อย") : ("กรุณาใช้แอคเค้าท์ Admin เพื่อดูข้อมูล Dashboard หลังบ้าน")}</p>
                                     {fetching ? (
                                         <>
                                             <Button
