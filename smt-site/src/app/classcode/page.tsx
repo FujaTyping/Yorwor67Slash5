@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, Clipboard, Pagination, Spinner, Tooltip } from "flowbite-react";
+import { Table, Clipboard, Pagination, Spinner, Tooltip, Alert } from "flowbite-react";
 import { FaHistory } from "react-icons/fa";
 import smtConfig from "../smt-config.mjs";
 import useLocalStorge from "../lib/localstorage-db";
+import { HiInformationCircle } from "react-icons/hi";
 
 interface Classcode {
   Subject: string;
@@ -166,7 +167,14 @@ export default function Classroom() {
                   </div>
                   {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย เรากำลังตรวจสอบว่าคุณเป็นนักเรียน ห้อง ม.4/5</p></>) : (
                     <>
-                      <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"} <br /><span style={{ color: 'red', fontWeight: 'bold' }}>**ใช้อีเมล นักเรียน ม.4/5 เท่านั้น</span></p>
+                      <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"}</p>
+                      <Alert
+                        color="failure"
+                        icon={HiInformationCircle}
+                      >
+                        <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล
+                        @hatyaiwit.ac.th ของ ม.4/5
+                      </Alert>
                     </>
                   )}
                 </div>

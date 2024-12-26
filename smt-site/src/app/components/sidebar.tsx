@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button, Drawer, Sidebar, Navbar, Avatar, Tooltip } from "flowbite-react";
 import { useState, useEffect } from "react";
 import {
@@ -31,7 +30,6 @@ import { analyticsPromise } from "../lib/firebase-analytic";
 import { logEvent } from "firebase/analytics";
 
 export default function SideNavbar() {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
   const { photourl, isLogin } = useLocalStorge(false);
@@ -58,13 +56,14 @@ export default function SideNavbar() {
           {isLogin ? (
             <>
               <Tooltip content="โปรไฟล์" style="light" placement="bottom">
-                <Avatar
-                  onClick={() => { router.push("/user"); }}
-                  style={{ marginRight: "10px", cursor: "pointer" }}
-                  alt="User"
-                  img={photourl}
-                  rounded
-                />
+                <Link href={"/user"}>
+                  <Avatar
+                    style={{ marginRight: "10px", cursor: "pointer" }}
+                    alt="User"
+                    img={photourl}
+                    rounded
+                  />
+                </Link>
               </Tooltip>
             </>
           ) : (<></>)}
