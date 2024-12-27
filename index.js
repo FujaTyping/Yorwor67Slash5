@@ -44,10 +44,12 @@ fs.readdirSync(apiFolder).forEach((file) => {
     }
 });
 
-expressApp.get('/', (req, res) => {
-    res.send('Welcome to the API!');
+expressApp.use("/favicon.ico", express.static("./favicon.png"));
+
+expressApp.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, '/index.html'));
 });
 
 expressApp.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Smt-api is running on http://localhost:${PORT}`);
 });
