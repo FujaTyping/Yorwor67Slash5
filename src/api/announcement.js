@@ -1,23 +1,21 @@
 const express = require('express');
 const { doc, getDoc, updateDoc } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
+let AnnData = {};
+let AnnLastFetchtime = 0;
+const TreefetchInterval = 3 * 60 * 1000;
 
 module.exports = (db) => {
     const router = express.Router();
 
     router.get('/', async (req, res) => {
-        try {
+        if (Date.now() - AnnLastFetchtime > TreefetchInterval) {
             const docRef = doc(db, 'Announcement', 'Main');
             const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                res.send(docSnap.data());
-            } else {
-                res.status(404).send({ message: 'No announcement found' });
-            }
-        } catch (error) {
-            res.status(500).send({ message: 'Error fetching announcement', error: error.message });
+            AnnData.Text = docSnap.data().Text
+            AnnLastFetchtime = Date.now();
         }
+        res.send(AnnData);
     });
 
     router.patch('/', Authenticate(db), async (req, res) => {

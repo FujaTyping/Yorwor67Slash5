@@ -12,7 +12,6 @@ module.exports = (db) => {
 
     router.get('/list', async (req, res) => {
         try {
-
             if (Date.now() - DONORlastFetchTime > TreefetchInterval) {
                 const querySnapshot = await getDocs(collection(db, 'Supporter'));
                 SupporterData.donor = [];
