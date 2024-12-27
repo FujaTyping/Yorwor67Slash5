@@ -1,11 +1,12 @@
 const express = require('express');
-const { doc, updateDoc, setDoc } = require('firebase/firestore');
+const { doc, updateDoc, setDoc, serverTimestamp } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
+const { generateID } = require('../lib/module')
 
 module.exports = (db) => {
     const router = express.Router();
 
-    router.post("/activities", Authenticate, async (req, res) => {
+    router.post("/", Authenticate, async (req, res) => {
       const title = req.body.title;
       const decs = req.body.decs;
       const url = req.body.url;

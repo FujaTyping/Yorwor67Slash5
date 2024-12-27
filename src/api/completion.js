@@ -1,10 +1,14 @@
 const express = require('express');
-const { doc, getDocs, setDoc } = require('firebase/firestore');
+const { doc, getDocs, setDoc, collection, query, orderBy, serverTimestamp } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
+const { generateID } = require('../lib/module')
 
 let ComRealData = {
     Completion: [],
 };
+
+const fetchInterval = 5 * 60 * 1000;
+let ComlastFetchTime = 0;
 
 module.exports = (db) =>  {
     const router = express.Router();
