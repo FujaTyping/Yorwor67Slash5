@@ -10,5 +10,12 @@
             "src": "/(.*)",
             "dest": "index.js"
         }
-    ]
+    ],
+    "git": {
+        "deploymentEnabled": {
+            "main": false,
+            "dev": false,
+            "api": false
+        }
+    }
 }
