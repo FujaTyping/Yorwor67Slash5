@@ -6,7 +6,7 @@ const webhookURL = process.env.DscWebhook;
 module.exports = (db) => {
     const router = express.Router();
 
-    router.post("/feedback", async (req, res) => {
+    router.post("/", async (req, res) => {
       const YCS = req.body.ycs;
       const Email = req.body.email;
       const Decs = req.body.decs;
