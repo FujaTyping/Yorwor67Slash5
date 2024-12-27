@@ -1,7 +1,15 @@
 const express = require('express');
-const { doc, updateDoc, setDoc, serverTimestamp } = require('firebase/firestore');
+const { doc, updateDoc, getDocs, getDoc, setDoc, collection, query, orderBy, serverTimestamp } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
 const { generateID } = require('../lib/module')
+
+const TreefetchInterval = 3 * 60 * 1000;
+let ActlastFetchTime = 0;
+
+let ActData = {
+    Activities: [],
+    Static: {},
+  };
 
 module.exports = (db) => {
     const router = express.Router();
@@ -31,8 +39,24 @@ module.exports = (db) => {
       }
     });
 
+    router.get("/", async (req, res) => {
+      if (Date.now() - ActlastFetchTime > TreefetchInterval) {
+        const querySnapshot = await getDocs(query(collection(db, "Activities"), orderBy("timestamp", "asc")));
+        ActData.Activities = [];
+        querySnapshot.forEach((doc) => {
+          ActData.Activities.push(doc.data());
+        });
+        const statRef = doc(db, "Status", "Activities");
+        const statDocSnap = await getDoc(statRef);
+        const data = statDocSnap.data();
+        ActData.Static = data;
+        ActlastFetchTime = Date.now();
+      }
+      res.send(ActData);
+    });
+
     return {
-        baseRoute: '/activites',
+        baseRoute: '/activities',
         router,
     };
 };
