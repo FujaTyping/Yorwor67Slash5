@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require("axios");
 
-const webhookURL = "https://discord.com/api/webhooks/1297441080874373122/F1Mf1FUJM55yIDVKhSv0POCQrIfpfMpPygYHvwWK02krN7RfvUzjA4MdseQ4pKUNNLmS";
+const webhookURL = process.env.DscWebhook;
 
 module.exports = (db) => {
   const router = express.Router();
