@@ -6,6 +6,8 @@ require("dotenv").config();
 const { initializeApp } = require('firebase/app');
 const { getFirestore } = require('firebase/firestore');
 const config = require("./config.json");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const firebaseConfig = {
     apiKey: process.env.ApiKey,
@@ -46,8 +48,18 @@ fs.readdirSync(apiFolder).forEach((file) => {
 
 expressApp.use("/favicon.ico", express.static("./favicon.png"));
 
+expressApp.use('/document', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+expressApp.get("/ping", async (req, res) => {
+    res.send('Pong!');
+});
+
+expressApp.get("/swagger.json", async (req, res) => {
+    res.sendFile(path.join(__dirname, './swagger.json'));
+});
+
 expressApp.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, '/index.html'));
+    res.status(404).sendFile(path.join(__dirname, './index.html'));
 });
 
 expressApp.listen(PORT, () => {
