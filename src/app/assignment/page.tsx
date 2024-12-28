@@ -133,7 +133,7 @@ export default function Homework() {
 
   useEffect(() => {
     axios
-      .get(`${smtConfig.apiMain}homework`)
+      .get(`${smtConfig.apiMain}assignment`)
       .then((response) => {
         const homeworkData = response.data.Homework;
         const notDuedhomework = homeworkData.filter((item: any) => !item.isDue);

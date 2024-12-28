@@ -7,6 +7,7 @@ import Marquee from "react-fast-marquee";
 import Timetable from "./assets/Timetable.webp";
 import { FaPaperclip } from "react-icons/fa";
 import smtConfig from "./smt-config.mjs";
+import Examtable from './assets/Examtable.webp'
 
 interface Completion {
   Title: string;
@@ -162,6 +163,24 @@ export default function Home() {
           alt="Timetable"
           style={{ margin: "auto", marginTop: "10px" }}
           src={Timetable.src}
+        ></img>
+      </div>
+      <div className="container">
+        <h1 style={{ marginBottom: "10px" }} className="border-b">
+          📝 ตารางสอบ - Examtable
+        </h1>
+        <h2 style={{ fontSize: "18px" }}>
+          ตารางสอบ ตารางสอบนี้เป็นฉบับล่าสุด ม.4 เทอม 2 กลางภาค <br />
+          <span style={{ color: "red" }}>
+            เริ่มใช้ตั้งแต่วันพุธที่ 18 ธันวาคม 2567 - 27 ธันวาคม 2567 เป็นต้นไป
+          </span>
+        </h2>
+        <img
+          width={682}
+          height={999}
+          alt="EXamtable"
+          style={{ margin: "auto", marginTop: "30px" }}
+          src={Examtable.src}
         ></img>
       </div>
       <Modal
