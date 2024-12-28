@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "smt-site API",
   "main": "index.js",
+  "packageManager": "bun@1.1.42",
   "scripts": {
     "start": "bun run index.js",
     "test": "bun test"
