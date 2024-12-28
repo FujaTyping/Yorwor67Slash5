@@ -27,6 +27,7 @@ const PORT = config.port;
 
 expressApp.use(cors());
 expressApp.use(express.json());
+expressApp.use(express.urlencoded({ extended: true }));
 
 const apiFolder = path.join(__dirname, '/src/api');
 
