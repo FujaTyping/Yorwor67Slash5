@@ -574,16 +574,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful response from Cynthia",
-            "schema": {
-              "type": "string"
-            }
+            "description": "Successful response from Cynthia"
           },
           "400": {
-            "description": "Error response if the input is invalid",
-            "schema": {
-              "type": "string"
-            }
+            "description": "Error response if the input is invalid"
           }
         }
       }
@@ -612,16 +606,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful response from Aether",
-            "schema": {
-              "type": "string"
-            }
+            "description": "Successful response from Aether"
           },
           "400": {
-            "description": "Error response if the input is invalid",
-            "schema": {
-              "type": "string"
-            }
+            "description": "Error response if the input is invalid"
           }
         }
       }
