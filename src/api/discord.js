@@ -6,48 +6,68 @@ const { generateID } = require('../lib/module');
 module.exports = (db) => {
   const router = express.Router();
 
-  const sendWebhookNotification = async (webhookUrl, email = null) => {
-    const Payload = {
-      "embeds": [
-        {
-          "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash5 เรียบร้อยแล้ว",
-          "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
-          "color": 36863,
-          "author": {
-            "name": "SMT Notify",
-            "url": "https://smt.siraphop.me/notify",
-            "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
-          }
-        }
-      ]
-    };
-    
-    try {
-      await axios.post(webhookUrl, Payload);
-      const UID = generateID();
-      const webhookData = { WebhookUrl: webhookUrl };
-      if (email) webhookData.Email = email;
-
-      await setDoc(doc(db, "DiscordWebhooks", UID), webhookData);
-      return UID;
-    } catch (error) {
-      throw new Error(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
-    }
-  };
-
   router.post("/new", async (req, res) => {
     const webhookUrl = req.body.hooks;
-    if (!webhookUrl) return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
-
-    if (!(webhookUrl.includes('https://discordapp.com/api/webhooks') || webhookUrl.includes('https://discord.com/api/webhooks'))) {
-      return res.status(400).send("กรุณากรอกลิ้งค์ให้ถูกต้อง");
-    }
-
-    try {
-      const UID = await sendWebhookNotification(webhookUrl, req.body.email);
-      res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
-    } catch (error) {
-      res.status(400).send(error.message);
+    if (!webhookUrl) {
+      res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+    } else {
+      if (!(webhookUrl.includes('https://discordapp.com/api/webhooks') || webhookUrl.includes('https://discord.com/api/webhooks'))) {
+        res.status(400).send("กรุณากรอกลิ้งค์ให้ถูกต้อง");
+      } else {
+        const UID = generateID();
+        if (req.body.email) {
+          const Payload = {
+            "embeds": [
+              {
+                "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash5 เรียบร้อยแล้ว",
+                "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+                "color": 36863,
+                "author": {
+                  "name": "SMT Notify",
+                  "url": "https://smt.siraphop.me/notify",
+                  "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
+                }
+              }
+            ]
+          };
+          axios.post(webhookUrl, Payload)
+            .then(async response => {
+              await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+                WebhookUrl: `${webhookUrl}`,
+                Email: `${req.body.email}`
+              });
+              res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+            })
+            .catch(error => {
+              res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
+            });
+        } else {
+          const Payload = {
+            "embeds": [
+              {
+                "title": "🔗 เชื่อมการแจ้งเตือนกับ Yorwor67Slash5 เรียบร้อยแล้ว",
+                "description": "คุณจะได้รับการแจ้งเตือนผ่าน Webhook นี้ เมื่อมีการแจ้งเตอนเข้ามา",
+                "color": 36863,
+                "author": {
+                  "name": "SMT Notify",
+                  "url": "https://smt.siraphop.me/notify",
+                  "icon_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/ตรีจักร.png"
+                }
+              }
+            ]
+          };
+          axios.post(webhookUrl, Payload)
+            .then(async response => {
+              await setDoc(doc(db, "DiscordWebhooks", `${UID}`), {
+                WebhookUrl: `${webhookUrl}`,
+              });
+              res.send(`เพิ่มลิ้งค์ไปยังการแจ้งเตือนด้วยไอดี ${UID} แล้ว`);
+            })
+            .catch(error => {
+              res.status(400).send(`ไม่สามารถเพิ่มลิ้งค์นี้ไปยังการแจ้งเตือนได้ ${error}`);
+            });
+        }
+      }
     }
   });
 
