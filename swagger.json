@@ -10,10 +10,7 @@
   },
   "host": "api.smt.siraphop.me",
   "basePath": "/",
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "schemes": ["https", "http"],
   "paths": {
     "/permission": {
       "get": {
@@ -214,7 +211,7 @@
         }
       }
     },
-    "/homework": {
+    "/assignment": {
       "get": {
         "summary": "Get homework data",
         "responses": {
@@ -388,7 +385,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
+                "ycs": {
                   "type": "string"
                 },
                 "email": {
@@ -396,8 +393,33 @@
                 },
                 "decs": {
                   "type": "string"
+                },
+                "rating": {
+                  "type": "object",
+                  "properties": {
+                    "ui": {
+                      "type": "number"
+                    },
+                    "ux": {
+                      "type": "number"
+                    },
+                    "st": {
+                      "type": "number"
+                    },
+                    "nd": {
+                      "type": "number"
+                    },
+                    "th": {
+                      "type": "number"
+                    },
+                    "fu": {
+                      "type": "number"
+                    }
+                  },
+                  "required": ["ui", "ux", "st", "nd", "th", "fu"]
                 }
-              }
+              },
+              "required": ["ycs", "email", "decs", "rating"]
             }
           }
         ],
@@ -468,6 +490,138 @@
           },
           "400": {
             "description": "Invalid ID or incomplete information"
+          }
+        }
+      }
+    },
+    "/activities": {
+      "post": {
+        "summary": "Add new student attend school record",
+        "parameters": [
+          {
+            "name": "Auth",
+            "in": "header",
+            "description": "Authorization header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "studentrecord",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "decs": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "updatee": {
+                  "type": "string"
+                }
+              },
+              "required": ["title", "decs", "url", "date", "updatee"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Record added successfully"
+          },
+          "400": {
+            "description": "Missing required fields"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get Absent student record",
+        "responses": {
+          "200": {
+            "description": "Absent student record retrieved"
+          }
+        }
+      }
+    },
+    "/generative/cynthia": {
+      "post": {
+        "summary": "Interact with Cynthia AI",
+        "parameters": [
+          {
+            "name": "cynthiaChatRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "prompt": {
+                  "type": "string"
+                },
+                "personality": {
+                  "type": "string"
+                }
+              },
+              "required": ["prompt"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response from Cynthia",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Error response if the input is invalid",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/generative/aether": {
+      "post": {
+        "summary": "Interact with Aether AI",
+        "parameters": [
+          {
+            "name": "aetherChatRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "prompt": {
+                  "type": "string"
+                },
+                "personality": {
+                  "type": "string"
+                }
+              },
+              "required": ["prompt"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response from Aether",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Error response if the input is invalid",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }

@@ -5,6 +5,7 @@
             "use": "@now/node"
         }
     ],
+    "buildCommand": "bun install",
     "routes": [
         {
             "src": "/(.*)",
