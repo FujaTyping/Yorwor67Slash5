@@ -15,6 +15,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import jsQR from 'jsqr';
 import { slipVerify } from 'promptparse/validate'
 import { MdNotificationsNone } from "react-icons/md";
+import useSound from 'use-sound';
 
 interface DonorName {
   name: string;
@@ -24,6 +25,7 @@ interface DonorName {
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
   const [donateQr, setDonateQR] = useState<any>(null);
+  const [CynthiaV] = useSound("/assets/Sound/CynthiaDonate.wav");
   const [modelOpen, setModelOpen] = useState(false);
   const [modelFinOpen, setModelFinOpen] = useState(false);
   const [numberPAY, setNumberPay] = useState("0");
@@ -186,7 +188,7 @@ export default function AboutWeb() {
               <Button
                 as={Link}
                 href="#"
-                onClick={() => setModelOpen(true)}
+                onClick={() => { setModelOpen(true); CynthiaV(); }}
                 color="blue"
               >
                 <BiSolidDonateHeart
@@ -313,7 +315,7 @@ export default function AboutWeb() {
                   <Button
                     as={Link}
                     href="#"
-                    onClick={() => setModelOpen(true)}
+                    onClick={() => { setModelOpen(true); CynthiaV(); }}
                     color="blue"
                   >
                     <BiSolidDonateHeart
