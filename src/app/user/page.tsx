@@ -174,7 +174,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `${smtConfig.apiUser}homework`,
+        `${smtConfig.apiUser}assignment`,
         {
           subj: subj,
           time: time,

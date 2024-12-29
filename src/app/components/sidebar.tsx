@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Drawer, Sidebar, Navbar, Avatar, Tooltip } from "flowbite-react";
+import { Flowbite, Button, Drawer, Sidebar, Navbar, Avatar, Tooltip } from "flowbite-react";
 import { useState, useEffect } from "react";
 import {
   FaHome,
@@ -29,6 +29,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import { analyticsPromise } from "../lib/firebase-analytic";
 import { logEvent } from "firebase/analytics";
 
+import type { CustomFlowbiteTheme } from "flowbite-react";
+
+const ywTheme: CustomFlowbiteTheme = {
+  navbar: {
+    link: {
+      active: {
+        "off": "border-b text-white hover:bg-red-500 dark:border-gray-700 md:border-0 md:hover:bg-transparent md:dark:hover:bg-transparent md:dark:hover:text-white"
+      }
+    }
+  }
+};
+
 export default function SideNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
@@ -45,37 +57,48 @@ export default function SideNavbar() {
   return (
     <>
       <ToastContainer position="bottom-right" newestOnTop closeOnClick hideProgressBar={false} />
-      <Navbar id="TopBarNav" style={{ paddingBottom: '20px' }} className="border-solid border-b-8 border-rose-600 mb-8" fluid>
-        <Navbar.Brand id="Navbranded" as={Link} href="/">
-          <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            SMT - Yorwor
-          </span>
-        </Navbar.Brand>
-        <div className="flex md:order-2">
-          {isLogin ? (
-            <>
-              <Tooltip content="โปรไฟล์" style="light" placement="bottom">
-                <Link href={"/user"}>
-                  <Avatar
-                    style={{ marginRight: "10px", cursor: "pointer" }}
-                    alt="User"
-                    img={photourl}
-                    rounded
-                  />
-                </Link>
-              </Tooltip>
-            </>
-          ) : (<></>)}
-          <Button
-            style={{ margin: "auto", backgroundColor: "#ff1616" }}
-            onClick={() => setIsOpen(true)}
-          >
-            <RiMenuFold4Fill className="mr-2 h-5 w-5" />
-            เมนู
-          </Button>
-        </div>
-      </Navbar>
+      <Flowbite theme={{ theme: ywTheme }}>
+        <Navbar fluid id="TopBarNav" style={{ paddingBottom: '20px' }} className="border-solid border-b-8 border-rose-600 mb-8">
+          <Navbar.Brand as={Link} href="/">
+            <img src={Yorwor.src} className="mr-3 h-6 sm:h-9" alt="Yorwor Logo" />
+            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+              SMT - Yorwor
+            </span>
+          </Navbar.Brand>
+          <div className="flex md:order-2">
+            {isLogin ? (
+              <>
+                <Tooltip content="โปรไฟล์" style="light" placement="bottom">
+                  <Link href={"/user"}>
+                    <Avatar
+                      style={{ marginRight: "10px", cursor: "pointer" }}
+                      alt="User"
+                      img={photourl}
+                      rounded
+                    />
+                  </Link>
+                </Tooltip>
+              </>
+            ) : (<></>)}
+            <Button
+              style={{ margin: "auto", backgroundColor: "#ff1616" }}
+              onClick={() => setIsOpen(true)}
+            >
+              <RiMenuFold4Fill className="mr-2 h-5 w-5" />
+              เมนู
+            </Button>
+          </div>
+          <Navbar.Collapse>
+            <Navbar.Link as={Link} href="/">
+              หน้าหลัก
+            </Navbar.Link>
+            <Navbar.Link as={Link} href="/assignment">ดูภาระงาน</Navbar.Link>
+            <Navbar.Link as={Link} href="/classcode">ดูรหัสห้องเรียน</Navbar.Link>
+            <Navbar.Link as={Link} href="/activities">เช็คกิจกรรม</Navbar.Link>
+            <Navbar.Link as={Link} href="/feedback">รายงานปัญหา</Navbar.Link>
+          </Navbar.Collapse>
+        </Navbar>
+      </Flowbite>
       <Drawer id="SideDrawer" aria-labelledby="DrawerMenu" open={isOpen} onClose={handleClose}>
         <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
         <Drawer.Items>

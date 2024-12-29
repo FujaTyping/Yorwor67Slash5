@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Footer } from "flowbite-react";
 import SMT from "../assets/SMT.svg";
+import { version } from "../../../package.json"
 
 export default function Footbar() {
   return (
@@ -38,12 +39,15 @@ export default function Footbar() {
             by="ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)"
             year={2024}
           />
-          <p
-            style={{ cursor: "pointer", color: "white" }}
-            onClick={() => (document.location = "mailto:yorwor@siraphop.me")}
-          >
-            yorwor@siraphop.me
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            <p
+              style={{ cursor: "pointer", color: "white" }}
+              onClick={() => (document.location = "mailto:yorwor@siraphop.me")}
+            >
+              yorwor@siraphop.me
+            </p>
+            <p className="bg-red-600 rounded-lg px-1">V.{version}</p>
+          </div>
         </div>
       </Footer>
     </>
