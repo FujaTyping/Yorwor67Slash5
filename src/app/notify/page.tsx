@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Modal, Label, TextInput, List } from "flowbite-react";
-import { FaDiscord, FaLine } from "react-icons/fa";
+import { Button, Modal, Label, TextInput } from "flowbite-react";
+import { FaDiscord, FaLine, FaRegBell, FaRegCheckCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import useLocalStorge from "../lib/localstorage-db";
 import axios from "axios";
@@ -10,6 +10,11 @@ import { IoMdAddCircle } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 import smtConfig from "../smt-config.mjs";
 import { ToastContainer, toast } from 'react-toastify';
+import { MdOutlineCrisisAlert } from "react-icons/md";
+import { GiFlatPlatform } from "react-icons/gi";
+import { FaRegCircleXmark } from "react-icons/fa6";
+import { RiEyeCloseFill } from "react-icons/ri";
+import { RiInformationOffFill } from "react-icons/ri";
 
 export default function AboutWeb() {
   const router = useRouter();
@@ -88,84 +93,150 @@ export default function AboutWeb() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <ToastContainer position="bottom-right" newestOnTop hideProgressBar={false} />
-      <div className="container">
-        <div className="mb-6">
-          <h1 style={{ marginBottom: "15px" }} className="border-b">ℹ️ การแจ้งเตือน - Notification</h1>
-          <p style={{ fontSize: "18px" }}>
-            เว็บไซต์ห้องเรียนของเรามีฟีเจอร์พิเศษที่ช่วยให้การจัดการการบ้านและงานต่างๆ
-            เป็นเรื่องง่ายขึ้น โดยนักเรียนสามารถรับข้อมูลการบ้าน ประกาศ และอื่นๆ
-            ผ่านแพลตฟอร์มหลากหลายรูปแบบ ที่เชื่อมต่อกันได้อย่างสะดวกและรวดเร็ว
-            เช่น Line, Discord เป็นต้น และอาจมีเพิ่มขึ้นมาอีกในอนาคต
-            โดยข้อมูลจะได้รับทันทีหลังจากฝ่ายที่ได้รับมอบหมายได้โพสต์ข้อมูล
-            ได้ตามความต้องการ
-            เพื่อให้การเรียนรู้มีประสิทธิภาพและเป็นระเบียบมากยิ่งขึ้น
-          </p>
-        </div>
-        <section className="body-font overflow-hidden">
-          <div className="container px-5 py-24 mx-auto">
-            <div className="-my-8 divide-y-2 divide-gray-100">
-              <div className="py-8 flex flex-wrap md:flex-nowrap">
-                <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col items-center justify-center">
-                  <img style={{ maxWidth: '130px' }} src="https://images.sftcdn.net/images/t_app-icon-m/p/9848e854-ffae-11e6-a59d-00163ed833e7/2949821524/discord-icon.png" alt="Discord" />
+      <section style={{ marginBottom: '-3.25rem', marginTop: '-0.5rem' }} className="container">
+        <div className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="lg:text-center">
+              <p className="flex justify-center gap-3 items-center font-heading mt-2 text-3xl leading-8 font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                <FaRegBell /> ฟีเจอร์ <span className="font-bold bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">การแจ้งเตือน</span>
+              </p>
+              <p className="mt-4 max-w-2xl text-lg text-gray-800 lg:mx-auto">
+                เว็บไซต์ห้องเรียนช่วยจัดการการบ้านและงานต่างๆ ได้ง่ายขึ้น ด้วยการแจ้งข้อมูลผ่านแพลตฟอร์มหลากหลาย เช่น Line และ Discord ข้อมูลอัปเดตทันทีเมื่อโพสต์ ช่วยเพิ่มความสะดวกและประสิทธิภาพในการเรียนรู้
+              </p>
+            </div>
+            <div className="mt-10">
+              <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                <div className="relative">
+                  <dt>
+                    <div
+                      className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500">
+                      <MdOutlineCrisisAlert className="w-10 h-10" />
+                    </div>
+                    <p className="font-heading ml-16 text-lg leading-6 font-bold">แจ้งเตือนทันที</p>
+                  </dt>
+                  <dd className="mt-2 ml-16 text-base">
+                    ข้อมูลการบ้าน ประกาศ หรือกิจกรรมสำคัญ ถูกส่งถึงผู้ใช้งานในทันทีผ่านแพลตฟอร์มที่เชื่อมต่อ เช่น Line และ Discord
+                  </dd>
                 </div>
-                <div className="md:flex-grow">
-                  <h2 className="text-2xl font-medium text-gray-900 title-bold mb-2">Discord Webhooks</h2>
-                  <p className="leading-relaxed">ฟีเจอร์สำหรับการแจ้งเตือนภาระงานไปยัง Discord Server ของท่านผ่าน Webhook</p>
-                  <div style={{ maxWidth: '232px' }} className="flex gap-3">
-                    <Button
-                      onClick={() => setOpenDisModal(true)}
-                      style={{ backgroundColor: "#7289da", flex: 5 }}
-                    >
-                      <FaDiscord className="mr-2 h-5 w-5" />
-                      รับการแจ้งเตือน
-                    </Button>
-                    <Button
-                      onClick={() => setOpenDellModal(true)}
-                      style={{ backgroundColor: "#FF0000", flex: 1 }}
-                    >
-                      <MdDeleteForever className="mx-auto h-5 w-5" />
-                    </Button>
-                  </div>
+                <div className="relative">
+                  <dt>
+                    <div
+                      className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500">
+                      <GiFlatPlatform className="w-10 h-10" />
+                    </div>
+                    <p className="font-heading ml-16 text-lg leading-6 font-bold">รองรับหลายแพลตฟอร์ม</p>
+                  </dt>
+                  <dd className="mt-2 ml-16 text-base">เชื่อมต่อกับแพลตฟอร์มยอดนิยม และสามารถขยายการรองรับในอนาคต เช่น Telegram หรือ Email</dd>
                 </div>
-              </div>
-              <div className="py-8 flex flex-wrap md:flex-nowrap">
-                <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col items-center justify-center">
-                  <img style={{ maxWidth: '110px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/LINE_logo.svg/800px-LINE_logo.svg.png" alt="Line" />
+                <div className="relative">
+                  <dt>
+                    <div
+                      className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500">
+                      <RiEyeCloseFill className="w-10 h-10" />
+                    </div>
+                    <p className="font-heading ml-16 text-lg leading-6 font-bold">การแจ้งเตือนแบบไม่ระบุตัวตน</p>
+                  </dt>
+                  <dd className="mt-2 ml-16 text-base">ฟีเจอร์สำหรับการประกาศหรือแจ้งข้อมูลที่ไม่ต้องการเปิดเผยชื่อผู้แจ้ง เช่น ข้อเสนอแนะหรือคำติชม</dd>
                 </div>
-                <div className="md:flex-grow">
-                  <h2 className="text-2xl font-medium text-gray-900 title-bold mb-2">Line OA</h2>
-                  <p className="leading-relaxed">บริการส่งการแจ้งเตือน ภาระงาน ประกาศ และอื่นๆ โดยใช้ Line Messaging Api โดยอาจมีข้อจำกัด</p>
-                  <Button
-                    onClick={() => {
-                      router.push("https://lin.ee/L1apV3k");
-                    }}
-                    style={{ backgroundColor: "#00b900" }}
-                  >
-                    <FaLine className="mr-2 h-5 w-5" />
-                    รับการแจ้งเตือน
-                  </Button>
+                <div className="relative">
+                  <dt>
+                    <div
+                      className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500">
+                      <RiInformationOffFill className="w-10 h-10" />
+                    </div>
+                    <p className="font-heading ml-16 text-lg leading-6 font-bold">การไม่แชร์ข้อมูลกับบุคคลที่สาม</p>
+                  </dt>
+                  <dd className="mt-2 ml-16 text-base">ข้อมูลการแจ้งเตือนและข้อมูลส่วนบุคคลของผู้ใช้จะไม่ถูกส่งต่อหรือแชร์ให้กับบุคคลที่สามโดยไม่ได้รับอนุญาตจากผู้ใช้ ข้อมูลทั้งหมดจะถูกเก็บเป็นความลับและใช้งานเฉพาะในระบบภายในเท่านั้น</dd>
                 </div>
-              </div>
+              </dl>
             </div>
           </div>
+        </div>
+        <section className="flex items-center justify-center mt-10 pb-10">
+          <div className="p-4 sm:px-10 flex flex-col justify-center items-center text-base h-100vh mx-auto" id="pricing">
+            <div className="mb-10 text-center">
+              <h3 className="text-3xl font-semibold text-center flex gap-2 justify-center ">แพลตฟอร์มที่รองรับ</h3>
+              <p className="mt-4 max-w-2xl text-lg text-gray-800 lg:mx-auto">
+                ระบบแจ้งเตือนของเว็บไซต์ห้องเรียนออกแบบมาเพื่อเชื่อมต่อกับแพลตฟอร์มยอดนิยมที่นักเรียนและครูใช้งานในชีวิตประจำวัน เพื่อความสะดวก รวดเร็ว และการเข้าถึงข้อมูลได้ทุกที่ทุกเวลา โดยแพลตฟอร์มที่รองรับมีดังนี้
+              </p>
+            </div>
+            <div className="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+              <div className="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
+                <div className="flex items-center justify-between gap-x-4">
+                  <h3 id="tier-standard" className="text-gray-900 text-2xl font-semibold leading-8"></h3>
+                </div>
+                <p className="mt-4 text-base leading-6 text-gray-600">เพิ่มเพื่อน Line OA</p>
+                <img className="mt-5" style={{ maxWidth: '90px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/LINE_logo.svg/800px-LINE_logo.svg.png" />
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">Line</span>
+                </p>
+                <Button
+                  onClick={() => {
+                    router.push("https://lin.ee/L1apV3k");
+                  }}
+                  style={{ backgroundColor: "#00b900" }}
+                  className="w-full"
+                >
+                  <FaLine className="mr-2 h-5 w-5" />
+                  รับการแจ้งเตือน
+                </Button>
+                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600 xl:mt-10">
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCheckCircle style={{ color: '#00b900' }} className="h-5 w-5" />แจ้งเตือนทันที
+                  </li>
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCheckCircle style={{ color: '#00b900' }} className="h-5 w-5" />รองรับการแจ้งเตือนแบบกลุ่ม
+                  </li>
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCircleXmark className="h-5 w-5" />จำกัดการแจ้งเตือน 200 คน ต่อเดือน
+                  </li>
+                </ul>
+              </div>
+              <div className="ring-2 ring-indigo-500 rounded-3xl p-8 xl:p-10">
+                <div className="flex items-center justify-between gap-x-4">
+                  <h3 id="tier-extended" className="mt-4 text-base leading-6 text-gray-600">ผ่านเว็บฮุก ดิสคอร์ด</h3>
+                  <p style={{ backgroundColor: "#7289da" }} className="hidden md:block mt-3 rounded-full px-2.5 py-1 text-xs font-semibold leading-5 text-white">
+                    ใช้งานมากที่สุด</p>
+                </div>
+                <img className="mt-5" style={{ maxWidth: '100px' }} src="https://images.sftcdn.net/images/t_app-icon-m/p/9848e854-ffae-11e6-a59d-00163ed833e7/2949821524/discord-icon.png" />
+                <p className="mt-6 flex items-baseline gap-x-1">
+                  <span className="text-5xl font-bold tracking-tight text-gray-900">Discord</span>
+                </p>
+                <div className="flex flex-col md:flex-row md:gap-3">
+                  <Button
+                    onClick={() => setOpenDisModal(true)}
+                    style={{ backgroundColor: "#7289da", flex: 5 }}
+                  >
+                    <FaDiscord className="mr-2 h-5 w-5" />
+                    รับการแจ้งเตือน
+                  </Button>
+                  <Button
+                    onClick={() => setOpenDellModal(true)}
+                    style={{ backgroundColor: "#FF0000", flex: 1 }}
+                  >
+                    <MdDeleteForever className="mx-auto h-5 w-5" />
+                  </Button>
+                </div>
+                <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600 xl:mt-10">
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCheckCircle style={{ color: "#7289da" }} className="h-5 w-5" />แจ้งเตือนทันที
+                  </li>
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCheckCircle style={{ color: "#7289da" }} className="h-5 w-5" />รองรับการแจ้งเตือนแบบกลุ่ม
+                  </li>
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCheckCircle style={{ color: "#7289da" }} className="h-5 w-5" />แจ้งเตือนได้ไม่จำกัด
+                  </li>
+                  <li className="flex gap-x-3 text-base">
+                    <FaRegCircleXmark className="h-5 w-5" />อาจจะโดนดิสคอร์ด Rate limit
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p className="mt-6">** จะสนับสนุนแพลตฟอร์มอื่นๆ ในอนาคต</p>
+          </div>
         </section>
-      </div>
-      <div className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📰 Privacy Policy - นโยบายความเป็นส่วนตัวสำหรับ การแจ้งเตือน
-        </h1>
-        <h2 style={{ fontSize: '18px' }}>ที่ Yorwor67Slash5 เราให้ความสำคัญกับความเป็นส่วนตัวของคุณ นโยบายนี้อธิบายการเก็บรวบรวมและการใช้ข้อมูลที่เกี่ยวข้องกับระบบการแจ้งเตือนของเรา ซึ่งช่วยให้นักเรียนจัดการภาระงานและรับข้อมูลอัปเดตผ่านแพลตฟอร์มต่าง ๆ เช่น Line และ Discord</h2>
-        <List style={{ marginTop: '20px', fontSize: '18px' }}>
-          <List.Item style={{ color: 'black' }}>การเก็บข้อมูล :
-            เรารวบรวมข้อมูลพื้นฐาน เช่น ชื่อผู้ใช้ หรือ ID ของคุณบนแพลตฟอร์มที่เชื่อมต่อ เพื่อส่งการแจ้งเตือนเกี่ยวกับ ภาระงาน ประกาศ และอัปเดตอื่น ๆ ที่เกี่ยวข้องกับห้องเรียน</List.Item>
-          <List.Item style={{ color: 'black' }}>การใช้ข้อมูล :
-            <b> ข้อมูลของคุณจะถูกใช้เพื่อส่งการแจ้งเตือนที่เกี่ยวข้องกับโรงเรียนเท่านั้น เราจะไม่แบ่งปันข้อมูลของคุณกับบุคคลที่สาม</b> ยกเว้นเพื่อวัตถุประสงค์ในการส่งการแจ้งเตือนผ่าน Line, Discord และแพลตฟอร์มที่เชื่อมต่ออื่น ๆ</List.Item>
-          <List.Item style={{ color: 'black' }}>แพลตฟอร์มของบุคคลที่สาม :
-            การแจ้งเตือนจะถูกส่งผ่านแพลตฟอร์มของบุคคลที่สาม เช่น Line และ Discord โดยใช้ API หรือระบบ webhook ของแพลตฟอร์มเหล่านั้น เราใช้ข้อมูลเท่าที่จำเป็นในการส่งข้อความเท่านั้น</List.Item>
-          <List.Item style={{ color: 'black' }}>ความปลอดภัยของข้อมูล :
-            เราดำเนินการตามมาตรการที่เหมาะสมเพื่อปกป้องข้อมูลของคุณ และมั่นใจได้ว่าข้อมูลจะถูกใช้อย่างปลอดภัยในระบบ</List.Item>
-        </List>
-      </div>
+      </section>
       <Modal
         className="animate__animated animate__fadeIn"
         show={openDisModal}
