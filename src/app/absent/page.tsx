@@ -133,7 +133,7 @@ export default function Absent() {
       <meta property="og:title" content={title} />
       <div className="container">
         <h1 style={{ marginBottom: "15px" }} className="border-b">
-          🗳️ สถิตินักเรียน วันที่ {Staticdata.Date} - Statistics
+          🗳️ สถิตินักเรียน วันที่ <span className="font-bold">{Staticdata.Date}</span> - Statistics
         </h1>
         <h2 style={{ fontSize: "18px" }}>สถิตินักเรียนในแต่ละวัน</h2>
         <h2 style={{ fontSize: "18px" }}>

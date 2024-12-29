@@ -73,7 +73,7 @@ const ywTheme: CustomFlowbiteTheme = {
 };
 
 export default function User() {
-  const [title] = useState("Hatyaiwit - ผู้ใช้งาน");
+  const [title,setTitleWeb] = useState("Hatyaiwit - ผู้ใช้งาน");
   const { email, username, photourl, showAlert } = useLocalStorge(true);
   const [showCaptcha, setshowCaptcha] = useState(true);
   const [permessage, setPerMessage] = useState("Guest");
@@ -351,6 +351,7 @@ export default function User() {
 
   useEffect(() => {
     if (email) {
+      setTitleWeb(`Hatyaiwit - ผู้ใช้งาน ${email}`)
       axios
         .get(`${smtConfig.apiUser}permission`, {
           headers: {
