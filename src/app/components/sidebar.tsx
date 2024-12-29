@@ -94,8 +94,8 @@ export default function SideNavbar() {
             </Navbar.Link>
             <Navbar.Link as={Link} href="/assignment">ดูภาระงาน</Navbar.Link>
             <Navbar.Link as={Link} href="/classcode">ดูรหัสห้องเรียน</Navbar.Link>
+            <Navbar.Link as={Link} href="/absent">สถิตินักเรียน</Navbar.Link>
             <Navbar.Link as={Link} href="/activities">เช็คกิจกรรม</Navbar.Link>
-            <Navbar.Link as={Link} href="/feedback">รายงานปัญหา</Navbar.Link>
           </Navbar.Collapse>
         </Navbar>
       </Flowbite>
