@@ -185,14 +185,14 @@ export default function AboutWeb() {
                     <FaRegCheckCircle style={{ color: '#00b900' }} className="h-5 w-5" />แจ้งเตือนทันที
                   </li>
                   <li className="flex gap-x-3 text-base">
-                    <FaRegCheckCircle style={{ color: '#00b900' }} className="h-5 w-5" />รองรับการแจ้งเตือนแบบกลุ่ม
+                    <FaRegCircleXmark className="h-5 w-5" />รองรับการแจ้งเตือนแบบกลุ่ม
                   </li>
                   <li className="flex gap-x-3 text-base">
                     <FaRegCircleXmark className="h-5 w-5" />จำกัดการแจ้งเตือน 200 คน ต่อเดือน
                   </li>
                 </ul>
               </div>
-              <div className="ring-2 ring-indigo-500 rounded-3xl p-8 xl:p-10">
+              <div className="ring-1 ring-gray-200 md:ring-2 md:ring-indigo-500 rounded-3xl p-8 xl:p-10">
                 <div className="flex items-center justify-between gap-x-4">
                   <h3 id="tier-extended" className="mt-4 text-base leading-6 text-gray-600">ผ่านเว็บฮุก ดิสคอร์ด</h3>
                   <p style={{ backgroundColor: "#7289da" }} className="hidden md:block mt-3 rounded-full px-2.5 py-1 text-xs font-semibold leading-5 text-white">
