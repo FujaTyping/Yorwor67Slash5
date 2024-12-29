@@ -115,11 +115,9 @@ export default function Home() {
               เพื่อให้จัดการงานภายในห้องที่ได้รับมอบหมาย
               หรือตรวจสอบการขาดลาและอื่นๆ อีกมากมาย
             </h1>
-            <p className="mt-4 flex items-center justify-center font-bold gap-3">
-              <span className="flex items-center"><MdOutlineScience className="mr-1" /> SCIENCE</span>
-              •
-              <span className="flex items-center"><BiMath className="mr-1 ml-1" /> MATH</span>
-              •
+            <p className="mt-4 flex items-center justify-center font-bold gap-2 md:gap-3">
+              <span className="flex items-center"><MdOutlineScience className="mr-1" /> SCIENCE</span><span className="hidden md:block">•</span>
+              <span className="flex items-center"><BiMath className="mr-1 ml-1" /> MATH</span><span className="hidden md:block">•</span>
               <span className="flex items-center"><TbCpu className="mr-1 ml-1" /> TECHONOGY</span>
             </p>
           </div>
