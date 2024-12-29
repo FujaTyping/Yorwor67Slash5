@@ -80,7 +80,7 @@ export default function Home() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <section style={{ marginTop: '2rem' }} className="container">
+      <section style={{ marginTop: '-1rem' }} className="container">
         <div className="mb-8 flex justify-center">
           <div
             className="relative rounded-full px-4 py-1.5 text-sm leading-6 ring-1 ring-inset ring-gray-900/10 hover:ring-gray-900/20 flex gap-3 items-center">
