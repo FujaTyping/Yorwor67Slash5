@@ -304,7 +304,7 @@ export default function AboutWeb() {
               </div>
             </div>
           </section>
-          <section className="body-font">
+          <section style={{ marginTop: '-0.5rem' }} className="body-font">
             <div className="container px-5 py-24 mx-auto">
               <div style={{ marginBottom: '40px' }} className="flex flex-col text-center items-center justify-center w-full">
                 <h2 className="font-bold" style={{ fontSize: "35px" }}>

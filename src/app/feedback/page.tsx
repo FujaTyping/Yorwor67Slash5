@@ -337,6 +337,7 @@ export default function Feedback() {
             </div>
           </div>
         </div>
+        <p className="text-center mt-4">** เราจะทำการแก้ไขปัญหาให้เร็วที่สุด เท่าที่จะเป็นไปได้</p>
       </div>
     </>
   );
