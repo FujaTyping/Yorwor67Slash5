@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import SMT from "../assets/SMT.png"
 import { FaArrowRight } from "react-icons/fa";
 
@@ -11,13 +12,16 @@ export default function Search() {
     useEffect(() => {
         const footbarElement = document.getElementById("Footbar");
         const navbarElement = document.getElementById("TopBarNav");
+        const footbarTamMaaElement = document.getElementById("FooterTamMaa");
 
         if (footbarElement) footbarElement.style.display = "none";
         if (navbarElement) navbarElement.style.display = "none";
+        if (footbarTamMaaElement) footbarTamMaaElement.style.display = "none";
 
         return () => {
             if (footbarElement) footbarElement.style.display = "";
             if (navbarElement) navbarElement.style.display = "";
+            if (footbarTamMaaElement) footbarTamMaaElement.style.display = "";
         };
     }, []);
 
@@ -59,10 +63,12 @@ export default function Search() {
                         <img className="w-12 h-12" src="https://lh3.googleusercontent.com/0rpHlrX8IG77awQMuUZpQ0zGWT7HRYtpncsuRnFo6V3c8Lh2hPjXnEuhDDd-OsLz1vua4ld2rlUYFAaBYk-rZCODmi2eJlwUEVsZgg" alt="Mail Logo" />
                         <h1 style={{ fontSize: '13px' }}>Mail</h1>
                     </div>
-                    <div onClick={() => { window.location.href = `https://smt.siraphop.me/` }} style={{ cursor: 'pointer' }} className="flex flex-col items-center gap-2 hover:drop-shadow-2xl">
-                        <img className="w-10 h-12" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/%E0%B8%95%E0%B8%A3%E0%B8%B5%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B8%A3.png" alt="Yw Logo" />
-                        <h1 style={{ fontSize: '13px' }}>ม.4/5</h1>
-                    </div>
+                    <Link href={"/"}>
+                        <div style={{ cursor: 'pointer' }} className="flex flex-col items-center gap-2 hover:drop-shadow-2xl">
+                            <img className="w-10 h-12" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/%E0%B8%95%E0%B8%A3%E0%B8%B5%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B8%A3.png" alt="Yw Logo" />
+                            <h1 style={{ fontSize: '13px' }}>ม.4/5</h1>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </>

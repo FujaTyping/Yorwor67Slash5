@@ -136,7 +136,7 @@ export default function Home() {
                         src={Data.Url || null}
                         alt={Data.Title}
                         className="w-full h-full object-cover hover:scale-125 transition-all duration-300"
-                        loading="lazy"
+                        loading={index === 0 ? undefined : "lazy"}
                       />
                     </div>
                     <div className="z-10 bottom-0 text-2xl p-2 text-center bg-white bg-opacity-75 rounded-md">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Footer } from "flowbite-react";
 import SMT from "../assets/SMT.svg";
 import { version } from "../../../package.json"
-import LakTam from "../assets/Footer/FooterLakTam.png"
+import LakTam from "../assets/Footer/FooterLakTam.webp"
 
 export default function Footbar() {
   return (
