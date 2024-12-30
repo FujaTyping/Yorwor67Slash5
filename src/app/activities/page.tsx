@@ -33,7 +33,7 @@ export default function TimeLine() {
     axios
       .get(`${smtConfig.apiMain}activities`)
       .then((response) => {
-        setData(response.data.Activities);
+        setData(response.data.Activities.reverse());
         setUpdateTime(`${response.data.Static.UpdateTime}`);
         setFinLoading(true);
       })
