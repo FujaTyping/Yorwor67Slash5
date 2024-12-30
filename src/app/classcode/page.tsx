@@ -26,7 +26,7 @@ export default function Classroom() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isStudent, setIsStudent] = useState(false);
   const [studentMsg, setStudentMsg] = useState("กรุณาล็อกอิน");
-  const { email } = useLocalStorge(false);
+  const { email, showAlert, isLogin } = useLocalStorge(false);
   const itemsPerPage = 15;
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function Classroom() {
   }, []);
 
   useEffect(() => {
-    if (email) {
+    if (email && !showAlert) {
       setStudentMsg("กรุณารอสักครู่");
       axios
         .get(`${smtConfig.apiUser}permission`, {
@@ -62,6 +62,8 @@ export default function Classroom() {
           setStudentMsg("กรุณาใช้อีเมลนักเรียน ม.4/5");
           setIsStudent(false);
         });
+    } else if (showAlert && isLogin) {
+      setStudentMsg("บุคคลภายนอก @hatyaiwit.ac.th")
     }
   }, [email]);
 

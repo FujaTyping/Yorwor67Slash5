@@ -27,6 +27,11 @@ const useLocalStorge = (IsAdminpage: boolean) => {
             setIsLogin(true);
             setUsername(user.displayName);
             setEmail(user.email);
+            if (!user.email.includes("@hatyaiwit.ac.th")) {
+              setShowAlert(true);
+            } else {
+              setShowAlert(false);
+            }
           }
           if (IsAdminpage) {
             if (!user) {
@@ -34,11 +39,6 @@ const useLocalStorge = (IsAdminpage: boolean) => {
             }
             setEmail(user.email);
             setUsername(user.displayName);
-            if (!user.email.includes("@hatyaiwit.ac.th")) {
-              setShowAlert(true);
-            } else {
-              setShowAlert(false);
-            }
           }
         }
       } else {
@@ -49,6 +49,11 @@ const useLocalStorge = (IsAdminpage: boolean) => {
             setIsLogin(true);
             setUsername(user.displayName);
             setEmail(user.email);
+            if (!user.email.includes("@hatyaiwit.ac.th")) {
+              setShowAlert(true);
+            } else {
+              setShowAlert(false);
+            }
           }
           if (IsAdminpage) {
             if (!user) {
@@ -56,11 +61,6 @@ const useLocalStorge = (IsAdminpage: boolean) => {
             }
             setEmail(user.email);
             setUsername(user.displayName);
-            if (!user.email.includes("@hatyaiwit.ac.th")) {
-              setShowAlert(true);
-            } else {
-              setShowAlert(false);
-            }
           }
         }
       }
