@@ -150,42 +150,48 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <div className="container">
-        <h1 style={{ marginBottom: "10px" }} className="border-b">
-          📅 ตารางเรียน - Timetable
-        </h1>
-        <h2 style={{ fontSize: "18px" }}>
-          ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2 <br />
-          <span style={{ color: "red" }}>
-            เริ่มใช้ตั้งแต่วันจันทร์ที่ 4 พฤศจิกายน 2567 เป็นต้นไป
-          </span>
-        </h2>
-        <img
-          width={999}
-          height={682}
-          alt="Timetable"
-          style={{ margin: "auto", marginTop: "10px" }}
-          src={Timetable.src}
-        ></img>
-      </div>
-      <div className="container">
-        <h1 style={{ marginBottom: "10px" }} className="border-b">
-          📝 ตารางสอบ - Examtable
-        </h1>
-        <h2 style={{ fontSize: "18px" }}>
-          ตารางสอบ ตารางสอบนี้เป็นฉบับล่าสุด ม.4 เทอม 2 กลางภาค <br />
-          <span style={{ color: "red" }}>
-            เริ่มใช้ตั้งแต่วันพุธที่ 18 ธันวาคม 2567 - 27 ธันวาคม 2567 เป็นต้นไป
-          </span>
-        </h2>
-        <img
-          width={682}
-          height={999}
-          alt="EXamtable"
-          style={{ margin: "auto", marginTop: "30px" }}
-          src={Examtable.src}
-        ></img>
-      </div>
+      <section className="container">
+        <div>
+          <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center">
+              <h1 className="text-3xl md:text-4xl mb-2">ตารางเรียน</h1>
+              <div className="flex">
+                <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+              </div>
+              <p className="mt-4 text-base md:text-lg">ตารางเรียน ตารางสอนด้านล่างนี้เป็นฉบับปรับปรุง ครั้งที่ 2<br />
+                เริ่มใช้ตั้งแต่วันจันทร์ที่ 4 พฤศจิกายน 2567 เป็นต้นไป</p>
+            </div>
+          </div>
+          <img
+            width={999}
+            height={682}
+            alt="Timetable"
+            style={{ margin: "auto", marginTop: "10px" }}
+            src={Timetable.src}
+          />
+        </div>
+      </section>
+      <section className="container">
+        <div>
+          <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center">
+              <h1 className="text-3xl md:text-4xl mb-2">ตารางสอบ</h1>
+              <div className="flex">
+                <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+              </div>
+              <p className="mt-4 text-base md:text-lg">ตารางสอบ ตารางสอบนี้เป็นฉบับล่าสุด ม.4 เทอม 2 กลางภาค<br />
+                เริ่มใช้ตั้งแต่วันพุธที่ 18 ธันวาคม 2567 - 27 ธันวาคม 2567 เป็นต้นไป</p>
+            </div>
+          </div>
+          <img
+            width={682}
+            height={999}
+            alt="EXamtable"
+            style={{ margin: "auto", marginTop: "30px" }}
+            src={Examtable.src}
+          />
+        </div>
+      </section>
       <Modal
         className="animate__animated animate__fadeIn"
         show={modalOpen}

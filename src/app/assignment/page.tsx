@@ -244,133 +244,146 @@ export default function Homework() {
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <div className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📚 ภาระงาน - Assignment
-        </h1>
-        <h2 style={{ fontSize: "18px" }}>
-          ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
-          <br />
-          <span className="flex" style={{ alignItems: "center" }}>
-            <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
-          </span>
-        </h2>
-        <div
-          id="DataFrame"
-          style={{ marginTop: "20px" }}
-          className="overflow-x-auto"
-        >
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>วันที่</Table.HeadCell>
-              <Table.HeadCell>วิชา</Table.HeadCell>
-              <Table.HeadCell>รายละเอียดงาน</Table.HeadCell>
-              <Table.HeadCell>กำหมดส่ง</Table.HeadCell>
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {currentData.map((Homework, index) => (
-                <Table.Row
-                  className="bg-white"
-                  style={{ color: Homework.isDue ? "red" : "black" }}
-                  key={index}
-                >
-                  <Table.Cell className="whitespace-nowrap font-medium dark:text-white">
-                    {Homework.Time}
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium">
-                    {Homework.Subject}
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium">
-                    {Homework.Decs}
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium">
-                    {Homework.Due}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
+      <section className="container">
+        <div>
+          <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center">
+              <h1 className="text-3xl md:text-4xl mb-2">ภาระงาน</h1>
+              <div className="flex">
+                <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+              </div>
+              <p className="mt-4 text-base md:text-lg">
+                ข้อมูลอาจจะไม่เป็นปัจจุบัน (🔴 สีแดงคือ เลยกำหนดส่ง)
+                <br />
+                <span className="flex" style={{ alignItems: "center" }}>
+                  <FaHistory style={{ marginRight: "6px" }} /> ข้อมูลอัพเดททุกๆ 5 นาที
+                </span>
+              </p>
+            </div>
+          </div>
           <div
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "17px",
-            }}
-            className="flex justify-center"
+            id="DataFrame"
+            style={{ marginTop: "20px" }}
+            className="overflow-x-auto"
           >
-            <p>
-              แสดง {startItem}-{endItem} รายการ ทั้งหมด{" "}
-              {tableMode === 0 ? allData.length : tableMode === 1 ? data.length : duedData.length} รายการ
-            </p>
-            <Pagination
-              style={{ marginTop: "-20px" }}
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-              previousLabel="ก่อนหน้า"
-              nextLabel="ถัดไป"
-            />
-            <div className="flex items-center">
-              <Tooltip content={`${tableMode === 0 ? ("ภาระงานทั้งหมด") : tableMode === 1 ? ("ภาระงานที่ยังไม่ถึงกำหนดส่ง") : ("ภาระงานที่ครบกำหนดส่งแล้ว")}`} style="light">
-                <FaFilter className="w-5 h-5 mr-3" />
-              </Tooltip>
-              <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} color="gray" label="เปลี่ยนตารางภาระงาน">
-                <Dropdown.Item onClick={() => toggleTableMode(0)}>ภาระงานทั้งหมด</Dropdown.Item>
-                <Dropdown.Item onClick={() => toggleTableMode(1)}>ภาระงานที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
-                <Dropdown.Item onClick={() => toggleTableMode(2)}>ภาระงานที่ครบกำหนดส่งแล้ว</Dropdown.Item>
-              </Dropdown>
+            <Table hoverable>
+              <Table.Head>
+                <Table.HeadCell>วันที่</Table.HeadCell>
+                <Table.HeadCell>วิชา</Table.HeadCell>
+                <Table.HeadCell>รายละเอียดงาน</Table.HeadCell>
+                <Table.HeadCell>กำหมดส่ง</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {currentData.map((Homework, index) => (
+                  <Table.Row
+                    className="bg-white"
+                    style={{ color: Homework.isDue ? "red" : "black" }}
+                    key={index}
+                  >
+                    <Table.Cell className="whitespace-nowrap font-medium dark:text-white">
+                      {Homework.Time}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium">
+                      {Homework.Subject}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium">
+                      {Homework.Decs}
+                    </Table.Cell>
+                    <Table.Cell className="whitespace-nowrap font-medium">
+                      {Homework.Due}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+            <div
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: "17px",
+              }}
+              className="flex justify-center"
+            >
+              <p>
+                แสดง {startItem}-{endItem} รายการ ทั้งหมด{" "}
+                {tableMode === 0 ? allData.length : tableMode === 1 ? data.length : duedData.length} รายการ
+              </p>
+              <Pagination
+                style={{ marginTop: "-20px" }}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                previousLabel="ก่อนหน้า"
+                nextLabel="ถัดไป"
+              />
+              <div className="flex items-center">
+                <Tooltip content={`${tableMode === 0 ? ("ภาระงานทั้งหมด") : tableMode === 1 ? ("ภาระงานที่ยังไม่ถึงกำหนดส่ง") : ("ภาระงานที่ครบกำหนดส่งแล้ว")}`} style="light">
+                  <FaFilter className="w-5 h-5 mr-3" />
+                </Tooltip>
+                <Dropdown style={{ marginTop: "12px", marginBottom: "7px" }} color="gray" label="เปลี่ยนตารางภาระงาน">
+                  <Dropdown.Item onClick={() => toggleTableMode(0)}>ภาระงานทั้งหมด</Dropdown.Item>
+                  <Dropdown.Item onClick={() => toggleTableMode(1)}>ภาระงานที่ยังไม่ถึงกำหนดส่ง</Dropdown.Item>
+                  <Dropdown.Item onClick={() => toggleTableMode(2)}>ภาระงานที่ครบกำหนดส่งแล้ว</Dropdown.Item>
+                </Dropdown>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div ref={DatadetailsRef} className="container">
-        <h1 style={{ marginBottom: "15px" }} className="border-b">
-          📅 ปฏิทินภาระงาน - {currentMonthText}{" "}
-          {parseInt(currentYearText) + 543}
-        </h1>
-        <h2 className="flex items-center" style={{ fontSize: "18px" }}>
-          <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน
-          เพื่อดูรายละเอียด
-        </h2>
-        <div style={{ marginTop: "20px" }} className="overflow-x-auto">
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: "80vh" }}
-            className="tailwind-calendar text-sm sm:text-base"
-            toolbar={false}
-            showAllEvents={true}
-            popup={true}
-            date={currentDate.toDate()}
-            onSelectEvent={onSelectCalendarEvent}
-            eventPropGetter={(event) => {
-              const backgroundColor = event.hwisDue ? '#ff6767' : '#6b9fff';
-              return { style: { backgroundColor } }
-            }}
-          />
-          <div
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-            className="flex justify-center"
-          >
-            <Button.Group>
-              <Button onClick={goToPrevMonth} color="gray">
-                ก่อนหน้า
-              </Button>
-              <Button onClick={goToToday} color="gray">
-                วันนี้
-              </Button>
-              <Button onClick={goToNextMonth} color="gray">
-                ถัดไป
-              </Button>
-            </Button.Group>
+      </section>
+      <section className="container">
+        <div>
+          <div className="flex justify-center">
+            <div className="flex flex-col justify-center items-center">
+              <h1 className="text-3xl md:text-4xl mb-2">ปฏิทินภาระงาน {currentMonthText}{" "}{parseInt(currentYearText) + 543}</h1>
+              <div className="flex">
+                <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+              </div>
+              <p className="mt-4 text-base md:text-lg flex items-center">
+                <FaHandPointer style={{ marginRight: "6px" }} /> คลิกที่งาน
+                เพื่อดูรายละเอียด
+              </p>
+            </div>
+          </div>
+          <div style={{ marginTop: "20px" }} className="overflow-x-auto">
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: "80vh" }}
+              className="tailwind-calendar text-sm sm:text-base"
+              toolbar={false}
+              showAllEvents={true}
+              popup={true}
+              date={currentDate.toDate()}
+              onSelectEvent={onSelectCalendarEvent}
+              eventPropGetter={(event) => {
+                const backgroundColor = event.hwisDue ? '#ff6767' : '#6b9fff';
+                return { style: { backgroundColor } }
+              }}
+            />
+            <div
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+              className="flex justify-center"
+            >
+              <Button.Group>
+                <Button onClick={goToPrevMonth} color="gray">
+                  ก่อนหน้า
+                </Button>
+                <Button onClick={goToToday} color="gray">
+                  วันนี้
+                </Button>
+                <Button onClick={goToNextMonth} color="gray">
+                  ถัดไป
+                </Button>
+              </Button.Group>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
       <div
         style={{
           display: isModalOpen ? "flex" : "none",

@@ -31,7 +31,7 @@ export default function Wheel() {
     const [dingPlay] = useSound("/assets/Sound/Ding.mp3", { volume: 0.3 });
     const [evilPlay] = useSound("/assets/Sound/Evil.mp3", { volume: 0.3 });
     const [conPlay] = useSound("/assets/Sound/Confetti.mp3", { volume: 0.5 });
-    const [titlemessage, setTitleMessage] = useState("😲 สุ่มชื่อนักเรียน - Wheel of Names");
+    const [titlemessage, setTitleMessage] = useState("สุ่มชื่อนักเรียน");
     const [openPosModal, setOpenPosModal] = useState(false);
     const [isSafeHell, setIsSafeHell] = useState(true);
     const [toggleHellmode, settoggleHellmode] = useState(false);
@@ -86,8 +86,8 @@ export default function Wheel() {
 
     const toggleMessage = () => {
         let newMessage;
-        if (titlemessage === "😲 สุ่มชื่อนักเรียน - Wheel of Names") {
-            newMessage = "😈 สุ่มชื่อนักเรียน - Wheel of Hell";
+        if (titlemessage === "สุ่มชื่อนักเรียน") {
+            newMessage = "😈 สุ่มชื่อนักเรียน";
             if (!isLogin) {
                 setIsSafeHell(false)
             }
@@ -95,7 +95,7 @@ export default function Wheel() {
             settoggleHellmode(true);
             evilPlay();
         } else {
-            newMessage = "😲 สุ่มชื่อนักเรียน - Wheel of Names";
+            newMessage = "สุ่มชื่อนักเรียน";
             if (!isLogin) {
                 setIsSafeHell(true)
             }
@@ -208,120 +208,123 @@ export default function Wheel() {
             <title>{title}</title>
             <meta property="og:title" content={title} />
             <Confetti mode="fall" shapeSize={15} particleCount={confitiC} />
-            <div className="container">
-                <h1
-                    style={{ marginBottom: "15px", cursor: "pointer" }}
-                    className="border-b"
-                    onClick={toggleMessage}
-                >
-                    {titlemessage}
-                </h1>
-                <h2 style={{ fontSize: "18px" }}>
-                    สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5<br />
-                    <span
-                        onClick={handleShowClick}
-                        className="flex"
-                        style={{ cursor: "pointer", alignItems: "center" }}
-                    >
-                        <IoEyeSharp style={{ marginRight: "6px" }} /> ดูโอกาสการสุ่ม
-                    </span>
-                </h2>
-                {isSafeHell ? (
-                    <>
-                        <motion.section
-                            className="text-gray-600 body-font"
-                            key={toggleHellmode ? "hellMode" : "normalMode"}
-                            {...(toggleHellmode ? shakeAnimation : {})}
-                        >
-                            <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-                                <motion.div
-                                    className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
-                                    key={student ? student.avatar : "defaultImage"}
-                                    initial={
-                                        toggleHellmode
-                                            ? animationVariants.hellModeImg.initial
-                                            : animationVariants.normal.initial
-                                    }
-                                    animate={
-                                        toggleHellmode
-                                            ? animationVariants.hellModeImg.animate
-                                            : animationVariants.normal.animate
-                                    }
-                                    transition={
-                                        toggleHellmode
-                                            ? animationVariants.hellModeImg.transition
-                                            : animationVariants.normal.transition
-                                    }
+            <section className="container">
+                <div>
+                    <div className="flex justify-center">
+                        <div className="flex flex-col justify-center items-center">
+                            <h1 onClick={toggleMessage} className="text-3xl md:text-4xl mb-2 cursor-pointer">{titlemessage}</h1>
+                            <div className="flex">
+                                <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+                            </div>
+                            <p className="mt-4 text-base md:text-lg">
+                                สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5<br />
+                                <span
+                                    onClick={handleShowClick}
+                                    className="flex"
+                                    style={{ cursor: "pointer", alignItems: "center" }}
                                 >
-                                    <img
-                                        style={{ width: "350px" }}
-                                        className="object-cover object-center rounded"
-                                        alt={student ? student.name : "Student"}
-                                        src={
-                                            studentDis
-                                                ? studentDis
-                                                : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
+                                    <IoEyeSharp style={{ marginRight: "6px" }} /> ดูโอกาสการสุ่ม
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    {isSafeHell ? (
+                        <>
+                            <motion.section
+                                className="text-gray-600 body-font"
+                                key={toggleHellmode ? "hellMode" : "normalMode"}
+                                {...(toggleHellmode ? shakeAnimation : {})}
+                            >
+                                <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                                    <motion.div
+                                        className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"
+                                        key={student ? student.avatar : "defaultImage"}
+                                        initial={
+                                            toggleHellmode
+                                                ? animationVariants.hellModeImg.initial
+                                                : animationVariants.normal.initial
                                         }
-                                    />
-                                </motion.div>
-                                <motion.div
-                                    className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
-                                    key={student ? student.name : "defaultText"}
-                                    initial={
-                                        toggleHellmode
-                                            ? animationVariants.hellMode.initial
-                                            : animationVariants.normal.initial
-                                    }
-                                    animate={
-                                        toggleHellmode
-                                            ? animationVariants.hellMode.animate
-                                            : animationVariants.normal.animate
-                                    }
-                                    transition={
-                                        toggleHellmode
-                                            ? animationVariants.hellMode.transition
-                                            : animationVariants.normal.transition
-                                    }
-                                >
-                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                                        {student ? student.name : "กดปุ่มด้านล่าง"}
-                                    </h1>
-                                    <p className="mb-4 leading-relaxed text-gray-900">
-                                        {student
-                                            ? `${student.nickname} เลขที่ ${student.number}`
-                                            : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
-                                    </p>
-                                    <div className="flex justify-center items-center gap-5">
-                                        <Button
-                                            onClick={randomStudent}
-                                            style={{ backgroundColor: "#ff1616" }}
-                                            color="failure"
-                                            disabled={isAnimating}
-                                        >
-                                            {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
-                                        </Button>
-                                        <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
+                                        animate={
+                                            toggleHellmode
+                                                ? animationVariants.hellModeImg.animate
+                                                : animationVariants.normal.animate
+                                        }
+                                        transition={
+                                            toggleHellmode
+                                                ? animationVariants.hellModeImg.transition
+                                                : animationVariants.normal.transition
+                                        }
+                                    >
+                                        <img
+                                            style={{ width: "350px" }}
+                                            className="object-cover object-center rounded"
+                                            alt={student ? student.name : "Student"}
+                                            src={
+                                                studentDis
+                                                    ? studentDis
+                                                    : "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
+                                            }
+                                        />
+                                    </motion.div>
+                                    <motion.div
+                                        className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"
+                                        key={student ? student.name : "defaultText"}
+                                        initial={
+                                            toggleHellmode
+                                                ? animationVariants.hellMode.initial
+                                                : animationVariants.normal.initial
+                                        }
+                                        animate={
+                                            toggleHellmode
+                                                ? animationVariants.hellMode.animate
+                                                : animationVariants.normal.animate
+                                        }
+                                        transition={
+                                            toggleHellmode
+                                                ? animationVariants.hellMode.transition
+                                                : animationVariants.normal.transition
+                                        }
+                                    >
+                                        <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                                            {student ? student.name : "กดปุ่มด้านล่าง"}
+                                        </h1>
+                                        <p className="mb-4 leading-relaxed text-gray-900">
+                                            {student
+                                                ? `${student.nickname} เลขที่ ${student.number}`
+                                                : "เพื่อสุ่มชื่อนักเรียนในห้อง"}
+                                        </p>
+                                        <div className="flex justify-center items-center gap-5">
+                                            <Button
+                                                onClick={randomStudent}
+                                                style={{ backgroundColor: "#ff1616" }}
+                                                color="failure"
+                                                disabled={isAnimating}
+                                            >
+                                                {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
+                                            </Button>
+                                            <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
+                                        </div>
+                                    </motion.div>
+                                </div>
+                            </motion.section>
+                        </>
+                    ) : (
+                        <>
+                            <section className="text-gray-600 body-font">
+                                <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+                                    <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+                                        <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
                                     </div>
-                                </motion.div>
-                            </div>
-                        </motion.section>
-                    </>
-                ) : (
-                    <>
-                        <section className="text-gray-600 body-font">
-                            <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-                                <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                                    <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                                    <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
+                                        <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
+                                        <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้</p>
+                                    </div>
                                 </div>
-                                <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
-                                    <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้</p>
-                                </div>
-                            </div>
-                        </section>
-                    </>
-                )}
-            </div>
+                            </section>
+                        </>
+                    )}
+                </div>
+            </section>
             <Modal
                 className="animate__animated animate__fadeIn"
                 show={openPosModal}
