@@ -55,7 +55,7 @@ export default function smtAI() {
                         <span>ขับเคลื่อนโดย : Gemini</span>
                     </div>
                 </div>
-                <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-900 sm:text-6xl">การศึกษาไร้ขีดจำกัด : <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">AI</span> ที่พร้อมพาคุณสู่
+                <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-normal md:text-5xl">การศึกษาไร้ขีดจำกัด : <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">AI</span> ที่พร้อมพาคุณสู่
                     <span className="inline-block">
                         <span className="relative whitespace-nowrap">
                             <svg aria-hidden="true" viewBox="0 0 418 42" className="absolute top-2/3 left-0 h-[0.58em] w-full fill-blue-300/70" preserveAspectRatio="none"><path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"></path></svg>
@@ -65,29 +65,29 @@ export default function smtAI() {
                 <p className="mt-6 max-w-2xl text-lg lg:mx-auto">ในยุคที่เทคโนโลยีและการเรียนรู้เชื่อมโยงกันอย่างไร้ขีดจำกัด, AI ของเราเป็นผู้ช่วยที่คุณสามารถพึ่งพาได้ในทุกๆ ด้าน ทั้งการแก้ปัญหาทางคณิตศาสตร์, วิทยาศาสตร์, และการวางกลยุทธ์การเรียนรู้ เพื่อให้คุณก้าวข้ามอุปสรรคในการศึกษาได้อย่างง่ายดาย</p>
                 <div className="container mx-auto max-w-5xl flex gap-12 flex-wrap items-start justify-center md:justify-between">
                     <div className="grid gap-4 justify-items-center text-center md:flex-1">
-                        <div className=" rounded-full border-8 border-blue-600 p-4 ">
-                            <BiSolidCustomize className="w-10 h-10" />
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <BiSolidCustomize className="w-8 h-8" />
                         </div>
-                        <h3 className="text-3xl font-bold">การปรับแต่งให้เข้ากับผู้ใช้งาน</h3>
+                        <h3 className="text-2xl font-bold">การปรับแต่งให้เข้ากับผู้ใช้งาน</h3>
                         <p>เราเข้าใจว่าแต่ละคนมีวิธีการเรียนรู้ที่ไม่เหมือนกัน โมเดลนี้จึงสามารถปรับตัวเพื่อให้คำแนะนำที่เหมาะสมกับผู้ใช้งานแต่ละคน</p>
                     </div>
                     <div className="grid gap-4 justify-items-center text-center md:flex-1">
-                        <div className=" rounded-full border-8 border-blue-600 p-4 ">
-                            <FaBoltLightning className="w-10 h-10" />
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <FaBoltLightning className="w-8 h-8" />
                         </div>
-                        <h3 className="text-3xl font-bold">ใช้งานง่ายและรวดเร็ว</h3>
+                        <h3 className="text-2xl font-bold">ใช้งานง่ายและรวดเร็ว</h3>
                         <p>ด้วยระบบประมวลผลที่รวดเร็วและอินเทอร์เฟซที่ใช้งานง่าย คุณสามารถถามคำถามและได้รับคำตอบทันที</p>
                     </div>
                     <div className="grid gap-4 justify-items-center text-center md:flex-1">
-                        <div className=" rounded-full border-8 border-blue-600 p-4 ">
-                            <FaUserLock className="w-10 h-10" />
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <FaUserLock className="w-8 h-8" />
                         </div>
-                        <h3 className="text-3xl font-bold">ความปลอดภัยและความเป็นส่วนตัว</h3>
+                        <h3 className="text-2xl font-bold">ความปลอดภัยและความเป็นส่วนตัว</h3>
                         <p>ออกแบบให้ปกป้องข้อมูลของผู้ใช้งานอย่างเข้มงวด</p>
                     </div>
                 </div>
                 <div style={{ marginTop: '-1rem' }} className="text-center p-10">
-                    <h1 className="font-bold text-4xl mb-4">โมเดล AI ที่พร้อมให้บริการ</h1>
+                    <h1 className="font-bold text-3xl mb-4">โมเดล AI ที่พร้อมให้บริการ</h1>
                     <p className="mt-4 max-w-2xl text-lg text-gray-800 lg:mx-auto">ในขณะนี้ เรามีโมเดล AI หลากหลายที่ตอบโจทย์ทุกความต้องการ ตั้งแต่การแก้ปัญหาง่าย ๆ ไปจนถึงการจัดการข้อมูลซับซ้อน เพื่อสนับสนุนการเรียนรู้และพัฒนาทุกด้านของคุณ</p>
                 </div>
                 <section id="Projects" style={{ marginTop: '-10px' }}
@@ -124,7 +124,7 @@ export default function smtAI() {
                         <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
                             FAQ
                         </p>
-                        <h1 className="font-bold text-4xl mb-4">
+                        <h1 className="font-bold text-3xl mb-4">
                             คำถามที่พบบ่อย <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">เกี่ยวกับ AI</span>
                         </h1>
                     </div>
