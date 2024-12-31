@@ -36,6 +36,7 @@ import storage from "../lib/firebase-storage";
 import { BsPencilSquare } from "react-icons/bs";
 import smtConfig from "../smt-config.mjs"
 import { ToastContainer, toast } from 'react-toastify';
+import { MdOutlineUploadFile } from "react-icons/md";
 
 const ywTheme: CustomFlowbiteTheme = {
   datepicker: {
@@ -100,6 +101,7 @@ export default function User() {
   const [author, setAuthor] = useState("");
   const [titleCom, setTitleCom] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [filePrv, setFilePrv] = useState("");
   const [titleAct, setTitleAct] = useState("");
   const [dateAct, setDateAct] = useState("");
   const [api1down, setApi1down] = useState(true);
@@ -290,6 +292,7 @@ export default function User() {
             )
             .then((response) => {
               toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
+              setFile(null);
               setIsLoading(false);
             })
             .catch((error) => {
@@ -335,6 +338,7 @@ export default function User() {
             )
             .then((response) => {
               toast.update(id, { render: `บันทึกข้อมูลแล้ว ${response.data}`, type: "success", isLoading: false, autoClose: 5000 });
+              setFile(null);
               setIsLoading(false);
             })
             .catch((error) => {
@@ -352,9 +356,37 @@ export default function User() {
     }
   };
 
+  function checkAPIserver() {
+    axios
+      .get(`${smtConfig.apiMain}ping`)
+      .then(() => {
+        setApi1down(false);
+      })
+      .catch(() => {
+        setApi1down(true);
+      });
+    axios
+      .get(`${smtConfig.apiUser}ping`)
+      .then(() => {
+        setApi2down(false);
+      })
+      .catch(() => {
+        setApi2down(true);
+      });
+    axios
+      .get(`${smtConfig.apiBackup}ping`)
+      .then(() => {
+        setApi3down(false);
+      })
+      .catch(() => {
+        setApi3down(true);
+      });
+  }
+
   useEffect(() => {
     if (email) {
       setTitleWeb(`Hatyaiwit - ผู้ใช้งาน ${email}`)
+      checkAPIserver();
       axios
         .get(`${smtConfig.apiUser}permission`, {
           headers: {
@@ -380,40 +412,18 @@ export default function User() {
     setTime(TThaiDate)
   }, [email]);
 
-  useEffect(() => {
-    axios
-      .get(`${smtConfig.apiMain}ping`)
-      .then(() => {
-        setApi1down(false);
-      })
-      .catch(() => {
-        setApi1down(true);
-      });
-    axios
-      .get(`${smtConfig.apiUser}ping`)
-      .then(() => {
-        setApi2down(false);
-      })
-      .catch(() => {
-        setApi2down(true);
-      });
-    axios
-      .get(`${smtConfig.apiBackup}ping`)
-      .then(() => {
-        setApi3down(false);
-      })
-      .catch(() => {
-        setApi3down(true);
-      });
-  }, []);
-
   return (
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
       <div className="container">
-        <h1 style={{ textAlign: "center" }}>🎉 ยินดีต้อนรับ !</h1>
+        <div className="flex flex-col items-center justify-center mb-4">
+          <h1 className="text-3xl md:text-4xl mb-2">ยินดีต้อนรับ</h1>
+          <div className="flex">
+            <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+          </div>
+        </div>
         <div style={{ margin: "auto", maxWidth: "33rem" }} className="p-2">
           <div className="h-full flex flex-col md:flex-row items-center border-gray-200 border p-4 rounded-lg">
             <img
@@ -820,22 +830,22 @@ export default function User() {
                 </Tabs>
               </Flowbite>
               <div className="mt-5">
-                <h1 className="border-b text-2xl text-gray-600 flex items-center">
+                <h1 className="border-b text-2xl text-gray-600 flex items-center pb-">
                   <FaServer className="mr-3" /> สถานะเชิฟเวอร์ API
                 </h1>
-                <div className="flex items-center justify-center mt-5">
-                  <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 w-full max-w-6xl">
+                <div className="flex items-center justify-center mt-3">
+                  <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10 w-full px-5">
                     {api1down ? (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-red-500 h-16 w-16 rounded-lg">
-                            <FaArrowTrendDown className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#ff1616" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <FaArrowTrendDown className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Vercel</span>
+                            <span className="text-xl">Vercel</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-red-500 text-sm font-semibold ml-2">ล่ม</span>
+                              <span style={{ color: "#ff1616" }} className="text-sm font-semibold ml-2">ล่ม</span>
                             </div>
                           </div>
                         </div>
@@ -843,14 +853,14 @@ export default function User() {
                     ) : (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-green-500 h-16 w-16 rounded-lg">
-                            <HiOutlineStatusOnline className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#2d76ff" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <HiOutlineStatusOnline className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Vercel</span>
+                            <span className="text-xl">Vercel</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-green-500 text-sm font-semibold ml-2">กำลังทำงาน</span>
+                              <span style={{ color: "#2d76ff" }} className="text-sm font-semibold ml-2">กำลังทำงาน</span>
                             </div>
                           </div>
                         </div>
@@ -859,14 +869,14 @@ export default function User() {
                     {api2down ? (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-red-500 h-16 w-16 rounded-lg">
-                            <FaArrowTrendDown className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#ff1616" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <FaArrowTrendDown className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Railway</span>
+                            <span className="text-xl">Railway</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-red-500 text-sm font-semibold ml-2">ล่ม</span>
+                              <span style={{ color: "#ff1616" }} className="text-sm font-semibold ml-2">ล่ม</span>
                             </div>
                           </div>
                         </div>
@@ -874,14 +884,14 @@ export default function User() {
                     ) : (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-green-500 h-16 w-16 rounded-lg">
-                            <HiOutlineStatusOnline className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#2d76ff" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <HiOutlineStatusOnline className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Railway</span>
+                            <span className="text-xl">Railway</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-green-500 text-sm font-semibold ml-2">กำลังทำงาน</span>
+                              <span style={{ color: "#2d76ff" }} className="text-sm font-semibold ml-2">กำลังทำงาน</span>
                             </div>
                           </div>
                         </div>
@@ -890,14 +900,14 @@ export default function User() {
                     {api3down ? (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-red-500 h-16 w-16 rounded-lg">
-                            <FaArrowTrendDown className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#ff1616" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <FaArrowTrendDown className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Render</span>
+                            <span className="text-xl">Render</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-red-500 text-sm font-semibold ml-2">ล่ม</span>
+                              <span style={{ color: "#ff1616" }} className="text-sm font-semibold ml-2">ล่ม</span>
                             </div>
                           </div>
                         </div>
@@ -905,14 +915,14 @@ export default function User() {
                     ) : (
                       <>
                         <div className="flex items-center p-4 bg-white rounded">
-                          <div className="flex flex-shrink-0 items-center justify-center bg-green-500 h-16 w-16 rounded-lg">
-                            <HiOutlineStatusOnline className="w-7 h-7 text-white" />
+                          <div style={{ backgroundColor: "#2d76ff" }} className="flex flex-shrink-0 items-center justify-center h-12 w-12 rounded-full">
+                            <HiOutlineStatusOnline className="w-8 h-8 text-white" />
                           </div>
                           <div className="flex-grow flex flex-col ml-4">
-                            <span className="text-xl font-bold">Render</span>
+                            <span className="text-xl">Render</span>
                             <div className="flex items-center justify-between">
                               <span className="text-gray-500">สถานะ ณ ตอนนี้</span>
-                              <span className="text-green-500 text-sm font-semibold ml-2">กำลังทำงาน</span>
+                              <span style={{ color: "#2d76ff" }} className="text-sm font-semibold ml-2">กำลังทำงาน</span>
                             </div>
                           </div>
                         </div>
@@ -1391,14 +1401,31 @@ export default function User() {
                 <div className="mb-2 mt-6 block">
                   <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ (ขนาดภาพที่แนะนำคือ **แนวนอน)" />
                 </div>
-                <FileInput
-                  id="file-upload"
-                  onChange={(event) => {
-                    if (event.target.files) {
-                      setFile(event.target.files[0]);
-                    }
-                  }}
-                />
+                <div className="flex w-full items-center justify-center">
+                  <Label
+                    htmlFor="dropzone-file"
+                    className="flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  >
+                    <div className="flex flex-col gap-3 items-center justify-center p-6">
+                      {file == null ? (
+                        <>
+                          <MdOutlineUploadFile className="h-8 w-8 text-gray-500 dark:text-gray-400" />
+                        </>
+                      ) : (<><img style={{ maxHeight: '10rem' }} className="rounded-lg" src={filePrv} /></>)}
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">{file == null ? ("คลิกเพื่ออัพโหลด") : (`${file.name}`)}</span>
+                      </p>
+                    </div>
+                    <FileInput id="dropzone-file" className="hidden"
+                      onChange={(event) => {
+                        if (event.target.files) {
+                          setFile(event.target.files[0]);
+                          setFilePrv(URL.createObjectURL(event.target.files[0]));
+                        }
+                      }}
+                    />
+                  </Label>
+                </div>
               </Flowbite>
             </div>
             <div className="w-full">
@@ -1482,14 +1509,31 @@ export default function User() {
                 <div className="mb-2 mt-6 block">
                   <Label htmlFor="file-upload" value="อัพโหลดรูปภาพ (ขนาดภาพที่แนะนำคือ **แนวนอน)" />
                 </div>
-                <FileInput
-                  id="file-upload"
-                  onChange={(event) => {
-                    if (event.target.files) {
-                      setFile(event.target.files[0]);
-                    }
-                  }}
-                />
+                <div className="flex w-full items-center justify-center">
+                  <Label
+                    htmlFor="dropzone-file"
+                    className="flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                  >
+                    <div className="flex flex-col gap-3 items-center justify-center p-6">
+                      {file == null ? (
+                        <>
+                          <MdOutlineUploadFile className="h-8 w-8 text-gray-500 dark:text-gray-400" />
+                        </>
+                      ) : (<><img style={{ maxHeight: '10rem' }} className="rounded-lg" src={filePrv} /></>)}
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">{file == null ? ("คลิกเพื่ออัพโหลด") : (`${file.name}`)}</span>
+                      </p>
+                    </div>
+                    <FileInput id="dropzone-file" className="hidden"
+                      onChange={(event) => {
+                        if (event.target.files) {
+                          setFile(event.target.files[0]);
+                          setFilePrv(URL.createObjectURL(event.target.files[0]));
+                        }
+                      }}
+                    />
+                  </Label>
+                </div>
               </Flowbite>
             </div>
             <div className="w-full">
