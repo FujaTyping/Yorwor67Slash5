@@ -829,8 +829,8 @@ export default function User() {
                   </Tabs.Item>
                 </Tabs>
               </Flowbite>
-              <div className="mt-5">
-                <h1 className="border-b text-2xl text-gray-600 flex items-center pb-">
+              <div className="mt-8 md:mt-5">
+                <h1 className="border-b text-2xl text-gray-600 flex items-center pb-3">
                   <FaServer className="mr-3" /> สถานะเชิฟเวอร์ API
                 </h1>
                 <div className="flex items-center justify-center mt-3">
