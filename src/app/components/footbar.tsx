@@ -45,8 +45,8 @@ export default function Footbar() {
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
-          <p>2567 - {currentYear + 543} ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)</p>
-          <div className="flex items-center justify-center gap-2">
+          <p className="text-sm md:text-base">2567 - {currentYear + 543} ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)</p>
+          <div className="flex items-center justify-center text-sm md:text-base gap-2">
             <p
               style={{ cursor: "pointer", color: "white" }}
               onClick={() => (document.location = "mailto:yorwor@siraphop.me")}
