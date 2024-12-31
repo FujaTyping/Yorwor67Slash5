@@ -7,6 +7,8 @@ import { version } from "../../../package.json"
 import LakTam from "../assets/Footer/FooterLakTam.webp"
 
 export default function Footbar() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <>
       <div id="FooterTamMaa" style={{ backgroundColor: '#357cff' }} className="px-7 relative w-full text-white border-solid border-t-8 border-rose-600 mt-12 md:mt-14 flex md:items-center md:justify-center py-5">
@@ -17,7 +19,7 @@ export default function Footbar() {
         </div>
         <img style={{ height: '13rem' }} src={LakTam.src} className="absolute bottom-0 ml-96 hidden md:block" />
       </div>
-      <Footer id="Footbar" className="border-solid border-t-8 border-blue-600" container>
+      <Footer id="Footbar" className="border-solid border-t-8 border-blue-500" container>
         <div className="w-full text-center">
           <div className="w-full justify-between sm:flex sm:items-center sm:justify-between">
             <Footer.Brand src={SMT.src} alt="Yorwor Logo" name="Hatyaiwit" />
@@ -43,11 +45,7 @@ export default function Footbar() {
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
-          <Footer.Copyright
-            style={{ color: "white" }}
-            by="ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)"
-            year={2024}
-          />
+          <p>2567 - {currentYear + 543} ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)</p>
           <div className="flex items-center justify-center gap-2">
             <p
               style={{ cursor: "pointer", color: "white" }}

@@ -144,6 +144,9 @@ export default function SideNavbar() {
                       <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/whiteroom">
                         ห้องเรียนสีขาว
                       </Sidebar.Item>
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/terms">
+                        ข้อตกลงและเงื่อนไขการใช้บริการ
+                      </Sidebar.Item>
                     </Sidebar.Collapse>
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>

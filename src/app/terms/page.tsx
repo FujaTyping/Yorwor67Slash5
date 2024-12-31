@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from "react"
+import { Alert } from "flowbite-react";
+import { HiInformationCircle } from "react-icons/hi";
 import { IoIosMail } from "react-icons/io";
 import { TiWarning } from "react-icons/ti";
 import { MdMiscellaneousServices } from "react-icons/md";
@@ -33,18 +35,9 @@ export default function Terms() {
                         </section>
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">3. การแก้ไข</h2>
-                            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                                <div className="flex">
-                                    <div className="flex-shrink-0">
-                                        <TiWarning className="h-5 w-5 text-yellow-400" />
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="text-yellow-700">
-                                            เราอาจมีการปรับปรุงหรือเปลี่ยนแปลงเว็บไซต์หรือบริการใดๆ บนเว็บไซต์นี้ได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า ข้อกำหนดนี้อาจได้รับการปรับปรุง และการปรับปรุงเหล่านี้จะถูกโพสต์ในหน้านี้ คุณมีหน้าที่ในการตรวจสอบหน้านี้เป็นระยะๆ เพื่อให้แน่ใจว่าคุณได้ทราบถึงการเปลี่ยนแปลง หากคุณยังคงใช้งานเว็บไซต์หลังจากมีการปรับปรุงข้อกำหนดนี้ ถือว่าคุณยอมรับข้อกำหนดที่ได้อัปเดตแล้ว
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <Alert color="warning" icon={TiWarning}>
+                                เราอาจมีการปรับปรุงหรือเปลี่ยนแปลงเว็บไซต์หรือบริการใดๆ บนเว็บไซต์นี้ได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า ข้อกำหนดนี้อาจได้รับการปรับปรุง และการปรับปรุงเหล่านี้จะถูกโพสต์ในหน้านี้ คุณมีหน้าที่ในการตรวจสอบหน้านี้เป็นระยะๆ เพื่อให้แน่ใจว่าคุณได้ทราบถึงการเปลี่ยนแปลง หากคุณยังคงใช้งานเว็บไซต์หลังจากมีการปรับปรุงข้อกำหนดนี้ ถือว่าคุณยอมรับข้อกำหนดที่ได้อัปเดตแล้ว
+                            </Alert>
                         </section>
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. ความเป็นส่วนตัวและการใช้ข้อมูล</h2>
