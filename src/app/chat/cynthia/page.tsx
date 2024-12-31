@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card } from "flowbite-react";
+import { FloatingLabel, Button, Card, Spinner } from "flowbite-react";
 import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
@@ -164,7 +164,7 @@ export default function ChatCynthia() {
           <>
             {isVerify ? (
               <>
-                <div className="space-y-4">
+                <div className="py-4">
                   <div>
                     <ChatBubble
                       isRtl={true}
@@ -188,57 +188,57 @@ export default function ChatCynthia() {
                     />
                   </div>
                 </div>
-
-                <div className="flex flex-wrap items-center gap-4 w-full">
-                  <div className="flex-1 min-w-0">
-                    <FloatingLabel
-                      onKeyDown={handleKeyDown}
-                      onChange={(i) => setInput(i.target.value)}
-                      variant="outlined"
-                      label="พิมพ์อะไรสักอย่างสิ :D"
-                      helperText="Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ"
-                    />
+                <div>
+                  <div className="flex flex-col md:flex-row items-center md:gap-4 w-full mt-12 md:-mt-4">
+                    <div className="flex-1 -m-4 md:m-0 w-full md:min-w-0">
+                      <FloatingLabel
+                        onKeyDown={handleKeyDown}
+                        onChange={(i) => setInput(i.target.value)}
+                        variant="outlined"
+                        label="พิมพ์อะไรสักอย่างสิ :D"
+                      />
+                    </div>
+                    <div className="pb-6 w-full md:w-16 flex-shrink-0">
+                      {loading ? (
+                        <>
+                          <Button
+                            style={{ backgroundColor: "#ff1616" }}
+                            color="blue"
+                            className="w-full"
+                          >
+                            <Spinner />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          {cooldown ? (
+                            <>
+                              <Button
+                                style={{ backgroundColor: "#ff1616" }}
+                                color="blue"
+                                disabled
+                                className="w-full"
+                              >
+                                <IoSend className="h-6 w-6" />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
+                                style={{ backgroundColor: "#ff1616" }}
+                                color="blue"
+                                className="w-full"
+                              >
+                                <IoSend className="h-6 w-6" />
+                              </Button>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="pb-10 flex-shrink-0">
-                    {loading ? (
-                      <>
-                        <Button
-                          pill
-                          isProcessing
-                          style={{ backgroundColor: "#ff1616" }}
-                          color="blue"
-                        >
-                          กำลังรอคำตอบ
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        {cooldown ? (
-                          <>
-                            <Button
-                              style={{ backgroundColor: "#ff1616" }}
-                              color="blue"
-                              pill
-                              disabled
-                            >
-                              <IoSend className="h-6 w-6" />
-                            </Button>
-                          </>
-                        ) : (
-                          <>
-                            <Button
-                              onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
-                              style={{ backgroundColor: "#ff1616" }}
-                              color="blue"
-                              pill
-                            >
-                              <IoSend className="h-6 w-6" />
-                            </Button>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </div>
+                  <p className="text-sm text-gray-500 md:-mt-2">Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ</p>
                 </div>
               </>
             ) : (

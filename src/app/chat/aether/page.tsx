@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select } from "flowbite-react";
+import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Spinner } from "flowbite-react";
 import AetherProfile from "../../assets/chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
@@ -191,7 +191,7 @@ export default function ChatAether() {
           <>
             {isVerify ? (
               <>
-                <div className="space-y-4">
+                <div className="py-4">
                   <div>
                     <ChatBubble
                       isRtl={true}
@@ -216,57 +216,57 @@ export default function ChatAether() {
                     />
                   </div>
                 </div>
-
-                <div className="flex flex-wrap items-center gap-4 w-full">
-                  <div className="flex-1 min-w-0">
-                    <FloatingLabel
-                      onKeyDown={handleKeyDown}
-                      onChange={(i) => setInput(i.target.value)}
-                      variant="outlined"
-                      label="ลองพิมพ์อะไรสักอย่างสิครับ!"
-                      helperText="Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน"
-                    />
+                <div>
+                  <div className="flex flex-col md:flex-row items-center md:gap-4 w-full mt-12 md:-mt-4">
+                    <div className="flex-1 -m-4 md:m-0 w-full md:min-w-0">
+                      <FloatingLabel
+                        onKeyDown={handleKeyDown}
+                        onChange={(i) => setInput(i.target.value)}
+                        variant="outlined"
+                        label="ลองพิมพ์อะไรสักอย่างสิครับ!"
+                      />
+                    </div>
+                    <div className="pb-6 w-full md:w-16 flex-shrink-0">
+                      {loading ? (
+                        <>
+                          <Button
+                            style={{ backgroundColor: "#ff1616" }}
+                            color="blue"
+                            className="w-full"
+                          >
+                            <Spinner />
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          {cooldown ? (
+                            <>
+                              <Button
+                                style={{ backgroundColor: "#ff1616" }}
+                                color="blue"
+                                disabled
+                                className="w-full"
+                              >
+                                <IoSend className="h-6 w-6" />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
+                                style={{ backgroundColor: "#ff1616" }}
+                                color="blue"
+                                className="w-full"
+                              >
+                                <IoSend className="h-6 w-6" />
+                              </Button>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="pb-10 flex-shrink-0">
-                    {loading ? (
-                      <>
-                        <Button
-                          pill
-                          isProcessing
-                          style={{ backgroundColor: "#ff1616" }}
-                          color="blue"
-                        >
-                          กำลังรอคำตอบ
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        {cooldown ? (
-                          <>
-                            <Button
-                              style={{ backgroundColor: "#ff1616" }}
-                              color="blue"
-                              pill
-                              disabled
-                            >
-                              <IoSend className="h-6 w-6" />
-                            </Button>
-                          </>
-                        ) : (
-                          <>
-                            <Button
-                              onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
-                              style={{ backgroundColor: "#ff1616" }}
-                              color="blue"
-                              pill
-                            >
-                              <IoSend className="h-6 w-6" />
-                            </Button>
-                          </>
-                        )}
-                      </>
-                    )}
-                  </div>
+                  <p className="text-sm text-gray-500 md:-mt-2">Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน</p>
                 </div>
               </>
             ) : (
