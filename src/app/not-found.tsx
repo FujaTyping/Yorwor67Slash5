@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaHome, FaBook } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { GrFormNextLink } from "react-icons/gr";
+import smtConfig from "./smt-config.mjs";
 
 export default function NotFound() {
   const [title] = useState("Hatyaiwit - 404");
@@ -32,7 +33,7 @@ export default function NotFound() {
               โอ๊ะ! ดูเหมือนคุณจะหลงทางในโลกของวิทยาศาสตร์ คณิตศาสตร์
               และเทคโนโลยี! น่าเสียดายที่หน้าเว็บที่คุณกำลังมองหาไม่มีอยู่ตรงนี้
               หรืออาจถูกย้ายไปที่อื่น แต่ไม่ต้องกังวล! เพราะแม้แต่นักเรียนหัวกะทิ
-              ในห้อง ม.4/5 ก็อาจจะหลงทางในเส้นทางแห่งการเรียนรู้ได้บ้างเป็นบางครั้ง
+              ในห้อง ม.{smtConfig.mattayom} ก็อาจจะหลงทางในเส้นทางแห่งการเรียนรู้ได้บ้างเป็นบางครั้ง
               อย่าลืมว่าเส้นทางแห่งความสำเร็จเริ่มต้นด้วยการสำรวจและเรียนรู้!
               <br /><br />
               คุณสามารถกลับไปสำรวจสิ่งที่น่าสนใจเพิ่มเติมได้ที่นี้ เพื่อดูสิ่งใหม่ ๆ ที่เรามีให้คุณ! ขอบคุณที่แวะเข้ามา และหวังว่า คุณจะสนุกกับการเดินทางครั้งนี้!
@@ -53,7 +54,7 @@ export default function NotFound() {
                 </div>
                 <div className="flex-grow">
                   <p className="leading-relaxed text-base">สำรวจข้อมูลสำคัญเกี่ยวกับเว็บไซต์ Yorwor64Slash5 ได้ที่หน้านี้
-                    รวมถึงฟีเจอร์เด่นและสิ่งที่น่าสนใจสำหรับนักเรียน ม.4/5</p>
+                    รวมถึงฟีเจอร์เด่นและสิ่งที่น่าสนใจสำหรับนักเรียน ม.{smtConfig.mattayom}</p>
                   <Link href="/">
                     <Button
                       style={{ backgroundColor: 'red' }}

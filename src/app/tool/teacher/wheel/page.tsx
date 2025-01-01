@@ -160,7 +160,6 @@ export default function Wheel() {
                     conPlay();
                 }
 
-                setPosStu((100 / studentData.length).toFixed(3))
                 return;
             }
 
@@ -176,6 +175,14 @@ export default function Wheel() {
 
         selectRandomStudent();
     };
+
+    useEffect(() => {
+        if (studentData.length > 0) {
+            setPosStu((100 / studentData.length).toFixed(3));
+        } else {
+            setPosStu("0");
+        }
+    }, [studentData]);
 
     const handleShowClick = () => {
         setOpenPosModal(true)
@@ -217,7 +224,7 @@ export default function Wheel() {
                                 <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div><div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
                             </div>
                             <p className="mt-4 text-base md:text-lg">
-                                สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.4/5<br />
+                                สุ่มชื่อนักเรียนทั้งหมด 1 คน จาก {studentData.length} คนของห้อง ม.{smtConfig.mattayom}<br />
                                 <span
                                     onClick={handleShowClick}
                                     className="flex"

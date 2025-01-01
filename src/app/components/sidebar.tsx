@@ -25,6 +25,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { MdWork } from "react-icons/md";
 import useLocalStorge from "../lib/localstorage-db";
 import { ToastContainer, toast } from 'react-toastify';
+import smtConfig from "../smt-config.mjs";
 
 import { analyticsPromise } from "../lib/firebase-analytic";
 import { logEvent } from "firebase/analytics";
@@ -100,7 +101,7 @@ export default function SideNavbar() {
         </Navbar>
       </Flowbite>
       <Drawer id="SideDrawer" aria-labelledby="DrawerMenu" open={isOpen} onClose={handleClose}>
-        <Drawer.Header title="ม.4/5 เมนู" titleIcon={() => <></>} />
+        <Drawer.Header title={`ม.${smtConfig.mattayom} เมนู`} titleIcon={() => <></>} />
         <Drawer.Items>
           <Sidebar className="[&>div]:bg-transparent [&>div]:p-0">
             <div className="flex h-full flex-col justify-between py-2">

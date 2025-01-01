@@ -6,13 +6,14 @@ import 'animate.css';
 import SideNavbar from "./components/sidebar";
 import Footbar from "./components/footbar";
 import ToTopButton from "./components/totop"
+import smtConfig from "./smt-config.mjs"
 
 export const metadata: Metadata = {
-  description: "ม.4/5 - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT",
-  keywords: "ม.4/5 โรงเรียนหาดใหญ่วิทยาลัย (ญ.ว.),4/5 โรงเรียนหาดใหญ่วิทยาลัย,หาดใหญ่วิทยาลัย,4/5 ญ.ว.,ญ.ว. 4/5,4/5 ญ.ว,ญ.ว 4/5,4/5 ญว,hatyaiwit 4/5,4/5,ม.4/5,SMT,smt,โครงการ SMT,โครงการ smt,yorwor smt,Yorwor SMT,yorwor m.4/5,Yorwor M.4/5",
+  description: `ม.${smtConfig.mattayom} - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT`,
+  keywords: `ม.${smtConfig.mattayom} โรงเรียนหาดใหญ่วิทยาลัย (ญ.ว.),ม.${smtConfig.mattayom} โรงเรียนหาดใหญ่วิทยาลัย,หาดใหญ่วิทยาลัย,${smtConfig.mattayom} ญ.ว.,ญ.ว. ${smtConfig.mattayom},${smtConfig.mattayom} ญ.ว,ญ.ว ${smtConfig.mattayom},${smtConfig.mattayom} ญว,hatyaiwit ${smtConfig.mattayom},${smtConfig.mattayom},ม.${smtConfig.mattayom},SMT,smt,โครงการ SMT,โครงการ smt,yorwor smt,Yorwor SMT,yorwor m.${smtConfig.mattayom},Yorwor M.${smtConfig.mattayom}`,
   openGraph: {
     url: 'https://smt.siraphop.me/',
-    description: 'ม.4/5 - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT',
+    description: `ม.${smtConfig.mattayom} - โรงเรียนหาดใหญวิทยาลัย โครงการ SMT`,
     type: 'website',
     images: 'https://smt.siraphop.me/assets/oSMT.png',
   },

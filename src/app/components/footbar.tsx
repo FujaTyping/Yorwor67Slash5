@@ -5,6 +5,7 @@ import { Footer } from "flowbite-react";
 import SMT from "../assets/SMT.svg";
 import { version } from "../../../package.json"
 import LakTam from "../assets/Footer/FooterLakTam.webp"
+import smtConfig from "../smt-config.mjs";
 
 export default function Footbar() {
   const currentYear = new Date().getFullYear();
@@ -45,7 +46,7 @@ export default function Footbar() {
             </Footer.LinkGroup>
           </div>
           <Footer.Divider />
-          <p className="text-sm md:text-base">2567 - {currentYear + 543} ม.4/5 Dev Team (สงวนลิขสิทธิ์ทั้งหมด)</p>
+          <p className="text-sm md:text-base">2567 - {currentYear + 543} ม.{smtConfig.mattayom} Dev Team (สงวนลิขสิทธิ์ทั้งหมด)</p>
           <div className="flex items-center justify-center text-sm md:text-base gap-2">
             <p
               style={{ cursor: "pointer", color: "white" }}

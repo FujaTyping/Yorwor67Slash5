@@ -59,7 +59,7 @@ export default function Classroom() {
           setIsStudent(true);
         })
         .catch(() => {
-          setStudentMsg("กรุณาใช้อีเมลนักเรียน ม.4/5");
+          setStudentMsg(`กรุณาใช้อีเมลนักเรียน ม.${smtConfig.mattayom}`);
           setIsStudent(false);
         });
     } else if (showAlert && isLogin) {
@@ -173,7 +173,7 @@ export default function Classroom() {
                       {studentMsg == "กรุณารอสักครู่" ? (<><Spinner size="lg" /></>) : (<></>)}
                       <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">{studentMsg}</h1>
                     </div>
-                    {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย เรากำลังตรวจสอบว่าคุณเป็นนักเรียน ห้อง ม.4/5</p></>) : (
+                    {studentMsg == "กรุณารอสักครู่" ? (<><p className="mb-4 leading-relaxed text-gray-900">อาจจะใช้เวลาเล็กน้อย เรากำลังตรวจสอบว่าคุณเป็นนักเรียน ห้อง ม.{smtConfig.mattayom}</p></>) : (
                       <>
                         <p className="mb-4 leading-relaxed text-gray-900">{"ก่อนใช้งานฟีเจอร์นี้ (คลิก เมนู > ล็อกอิน)"}</p>
                         <Alert
@@ -181,7 +181,7 @@ export default function Classroom() {
                           icon={HiInformationCircle}
                         >
                           <span className="font-medium">แจ้งเตือน !</span> กรุณาใช้อีเมล
-                          @hatyaiwit.ac.th ของ ม.4/5
+                          @hatyaiwit.ac.th ของ ม.{smtConfig.mattayom}
                         </Alert>
                       </>
                     )}

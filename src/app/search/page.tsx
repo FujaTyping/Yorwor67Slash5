@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import SMT from "../assets/SMT.png"
 import { FaArrowRight } from "react-icons/fa";
+import smtConfig from "../smt-config.mjs";
 
 export default function Search() {
     const [title] = useState("Hatyaiwit - ค้นหา");
@@ -66,7 +67,7 @@ export default function Search() {
                     <Link href={"/"}>
                         <div style={{ cursor: 'pointer' }} className="flex flex-col items-center gap-2 hover:drop-shadow-2xl">
                             <img className="w-10 h-12" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/%E0%B8%95%E0%B8%A3%E0%B8%B5%E0%B8%88%E0%B8%B1%E0%B8%81%E0%B8%A3.png" alt="Yw Logo" />
-                            <h1 style={{ fontSize: '13px' }}>ม.4/5</h1>
+                            <h1 style={{ fontSize: '13px' }}>ม.{smtConfig.mattayom}</h1>
                         </div>
                     </Link>
                 </div>
