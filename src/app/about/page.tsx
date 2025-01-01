@@ -10,6 +10,7 @@ import Bento1 from "../assets/Carousel/Bento1.jpg"
 import Bento2 from "../assets/Carousel/Bento2.jpg"
 import Bento3 from "../assets/Carousel/Bento3.jpg"
 import Bento4 from "../assets/Carousel/Bento4.jpg"
+import Bento5 from "../assets/Carousel/Bento5.jpg"
 
 export default function About() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับห้องเรา");
@@ -18,7 +19,7 @@ export default function About() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <div className="container">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center -mt-5 md:-mt-0">
           <div className="flex flex-col gap-6 md:flex-row items-center">
             <div className="w-full md:w-1/2 md:pr-10">
               <div className="flex items-center flex-col md:flex-row gap-3">
@@ -42,7 +43,7 @@ export default function About() {
         </div>
       </div>
       <div className="container">
-        <div className="-mt-3 md:-mt-0 md:mb-2">
+        <div className="-mt-3 md:-mt-0 md:mb-3">
           <div className="mb-5 flex items-center justify-between gap-8 md:mb-6">
             <div className="flex flex-col md:flex-row items-center gap-3 md:gap-10">
               <span className="relative whitespace-nowrap">
@@ -56,42 +57,49 @@ export default function About() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
-            <div
-              className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
-              <img src={Bento1.src} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
-              </div>
-              <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Science</span>
-            </div>
-            <div
-              className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
-              <img src={Bento2.src} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
-              </div>
-              <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Technology</span>
-            </div>
-            <div
-              className="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:col-span-2 md:h-80">
-              <img src={Bento3.src} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
-              </div>
-              <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Math</span>
-            </div>
-            <Link href="/activities">
-              <div
-                className="cursor-pointer group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80">
-                <img src={Bento4.src} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
+          <section className="bg-white">
+            <div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 h-full">
+                <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-gray-50 h-auto md:h-full flex flex-col">
+                  <div className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 flex-grow">
+                    <img src={Bento2.src} className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
+                    <h3 className="z-10 text-xl md:text-2xl text-white absolute top-0 left-0 p-4">เทคโนโลยี</h3>
+                  </div>
                 </div>
-                <span className="relative ml-4 mb-3 inline-block text-sm text-white md:ml-5 md:text-lg">Activities</span>
+                <div className="col-span-2 sm:col-span-1 md:col-span-2 bg-stone-50">
+                  <div className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 mb-4">
+                    <img src={Bento3.src} className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
+                    <h3 className="z-10 text-xl md:text-2xl text-white absolute top-0 left-0 p-4">คณิตศาสตร์</h3>
+                  </div>
+                  <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-2">
+                    <Link href="/activities">
+                      <div className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 cursor-pointer">
+                        <img src={Bento4.src} className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
+                        <h3 className="z-10 text-xl md:text-2xl text-white absolute top-0 left-0 p-4">กิจกรรม</h3>
+                      </div>
+                    </Link>
+                    <Link href="/">
+                      <div className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 cursor-pointer">
+                        <img src={Bento5.src} className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
+                        <h3 className="z-10 text-xl md:text-2xl text-white absolute top-0 left-0 p-4">การแข่งขัน</h3>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-2 sm:col-span-1 md:col-span-1 bg-sky-50 h-auto md:h-full flex flex-col">
+                  <div className="group relative flex flex-col overflow-hidden rounded-lg px-4 pb-4 pt-40 flex-grow">
+                    <img src={Bento1.src} className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-gray-900/25 to-gray-900/5"></div>
+                    <h3 className="z-10 text-xl md:text-2xl text-white absolute top-0 left-0 p-4">วิทยาศาสตร์</h3>
+                  </div>
+                </div>
               </div>
-            </Link>
-          </div>
+            </div>
+          </section>
         </div>
       </div>
     </>

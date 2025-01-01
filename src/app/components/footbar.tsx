@@ -13,7 +13,7 @@ export default function Footbar() {
   return (
     <>
       <div id="FooterTamMaa" style={{ backgroundColor: '#357cff' }} className="px-7 relative w-full text-white border-solid border-t-8 border-rose-600 mt-12 md:mt-14 flex md:items-center md:justify-center py-5">
-        <div className="md:mr-96">
+        <div className="md:mr-96 cursor-text">
           <p className="title text-lg mb-1">พุทธศาสนสุภาษิต ประจำห้อง</p>
           <h1 className="title text-2xl md:text-4xl">" โยคา เว ชายเต ภูริ "</h1>
           <h2 className="title text-lg md:text-2xl my-1">ปัญญา ย่อมเกิดขึ้น เพราะการฝึกฝน</h2>
