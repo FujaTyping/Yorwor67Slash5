@@ -17,6 +17,11 @@
   src: url("./fonts/Itim.ttf");
 }
 
+@font-face {
+  font-family: "BoonTook";
+  src: url("./fonts/BoonTook.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -49,6 +54,10 @@ th {
   font-size: 18px;
   background-color: hsl(219, 100%, 71%) !important;
   color: white;
+}
+
+.NaaMakMak {
+  font-family: "BoonTook" !important;
 }
 
 td {
