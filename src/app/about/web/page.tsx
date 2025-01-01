@@ -290,7 +290,7 @@ export default function AboutWeb() {
                     <div className="flex-grow sm:pl-8">
                       <h2 className="title-font font-medium text-lg text-gray-900">นาย ธีธัช นพคุณ</h2>
                       <h3 className="text-gray-500 mb-3">Database &  Authentication & Frontend</h3>
-                      <p className="mb-4">{"Rose are red ,Violet are blue. Unknown Error on line 32"}</p>
+                      <p className="mb-4">{"การเขียนโค้ดก็เหมือนการเล่าเรื่อง... หลายครั้งก็เละเทะไปหมด"}</p>
                       <span className="inline-flex">
                         <a href="https://github.com/kunzaka001">
                           <FaGithub
