@@ -115,6 +115,9 @@ export default function SideNavbar() {
                       <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/assignment">
                         ภาระงาน
                       </Sidebar.Item>
+                      <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/studyfile">
+                        ไฟล์สำหรับการเรียนการสอน
+                      </Sidebar.Item>
                       <Sidebar.Item onClick={() => setIsOpen(false)} as={Link} href="/classcode">
                         รหัสห้องเรียน
                       </Sidebar.Item>
