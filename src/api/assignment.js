@@ -53,7 +53,7 @@ module.exports = (db) => {
 
         try {
             const UID = generateID();
-            await setDoc(doc(req.db, "Homework", `${UID}`), {
+            await setDoc(doc(db, "Homework", `${UID}`), {
                 Decs: `${Decs}`,
                 Due: `${Due}`,
                 Subject: `${Subject}`,
