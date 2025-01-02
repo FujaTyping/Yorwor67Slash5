@@ -123,16 +123,16 @@ export default function Sheet() {
                             </p>
                         </div>
                     </div>
-                    <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-7">
+                    <main className="grid h-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-7">
                         {isStudent ? (<>
-                            <div onClick={() => setPopUpOP(true)} className="flex flex-col gap-5 items-center justify-center bg-white p-6 border-2 border-dashed rounded-lg border-black hover:border-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer ease-in-out duration-300">
+                            <div onClick={() => setPopUpOP(true)} className="flex flex-col gap-5 items-center justify-center bg-white p-6 border-2 border-dashed rounded-lg border-black hover:border-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer ease-in-out duration-300 h-full">
                                 <IoMdAddCircle className="w-8 h-8" />
                                 <h2 className="text-lg font-bold">เพิ่มไฟล์</h2>
                             </div>
                         </>) : (<></>)}
                         {data.map((Data, index) => (<>
                             <Link href={Data.Url}>
-                                <div key={index} className="flex flex-col gap-5 items-center justify-center bg-white p-6 border-2 border-dashed rounded-lg border-black hover:border-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer ease-in-out duration-300">
+                                <div key={index} className="flex flex-col gap-5 items-center justify-center bg-white p-6 border-2 border-dashed rounded-lg border-black hover:border-blue-500 hover:bg-blue-500 hover:text-white cursor-pointer ease-in-out duration-300 h-full">
                                     <FaFileArchive className="w-8 h-8" />
                                     <h2 className="text-lg font-bold">{Data.Title}</h2>
                                 </div>
