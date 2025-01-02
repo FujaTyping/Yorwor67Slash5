@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react"
 import { Button, Modal, Table, ToggleSwitch } from "flowbite-react";
+import Marquee from "react-fast-marquee";
 import Confetti from 'react-confetti-boom';
 import useSound from 'use-sound';
 import axios from "axios";
 import smtConfig from "../../../smt-config.mjs";
 import { motion } from "motion/react"
 import { IoEyeSharp } from "react-icons/io5";
+import { FaCircle } from "react-icons/fa";
 import useLocalStorge from "../../../lib/localstorage-db";
 
 interface Student {
@@ -22,7 +24,7 @@ export default function Wheel() {
     const [title] = useState("Hatyaiwit - สุ่มชื่อนักเรียน");
     const [student, setStudent] = useState<Student | null>(null);
     const [confitiC, setConfitiC] = useState(0)
-    const [isAnimating, setIsAnimating] = useState<boolean>(false);
+    const [isAnimating, setIsAnimating] = useState<boolean>(true);
     const [switchH, setSwitchH] = useState(false);
     const [possiStu, setPosStu] = useState("100")
     const [tickPlay] = useSound("/assets/Sound/Tick.mp3");
@@ -36,6 +38,14 @@ export default function Wheel() {
     const [isSafeHell, setIsSafeHell] = useState(true);
     const [toggleHellmode, settoggleHellmode] = useState(false);
     const [studentData, SetStudentData] = useState<Student[]>([
+        {
+            name: "กำลังดึงข้อมูล",
+            nickname: "กำลังดึงข้อมูล",
+            number: "0",
+            avatar: "https://media.istockphoto.com/id/1410224257/vector/group-of-students-stand-together-flat-vector-illustration-young-girls-and-boys-holding-books.jpg?s=612x612&w=0&k=20&c=ih5WHSOcCRnySxpRxc259pWq8v0RacFjsaGheDTAiWI="
+        }
+    ]);
+    const [carStudentData, SetCarStudentData] = useState<Student[]>([
         {
             name: "กำลังดึงข้อมูล",
             nickname: "กำลังดึงข้อมูล",
@@ -193,10 +203,13 @@ export default function Wheel() {
     }
 
     useEffect(() => {
+        setIsAnimating(true);
         axios
             .get(`${smtConfig.apiMain}wheel/data`)
             .then((response) => {
                 SetStudentData(response.data.StudentData);
+                SetCarStudentData(response.data.StudentData);
+                setIsAnimating(false);
                 setPosStu((100 / response.data.StudentData.length).toFixed(3))
             })
             .catch((error) => {
@@ -307,7 +320,7 @@ export default function Wheel() {
                                                 color="failure"
                                                 disabled={isAnimating}
                                             >
-                                                {isAnimating ? "กำลังสุ่ม กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
+                                                {isAnimating ? "กรุณารอสักครู่" : "สุ่มชื่อ คลิกเลย"}
                                             </Button>
                                             <ToggleSwitch color="failure" checked={switchH} label="สุ่มแบบเร็ว" onChange={setSwitchH} />
                                         </div>
@@ -330,6 +343,17 @@ export default function Wheel() {
                             </section>
                         </>
                     )}
+                    <div className="mt-4">
+                        <Marquee
+                            gradient={true}
+                            gradientColor="white"
+                            gradientWidth={25}
+                        >
+                            {carStudentData.map((Data, index) => (
+                                <p key={index} className="flex font-semibold items-center gap-5">{Data.name} <FaCircle className="w-2 h-2" /></p>
+                            ))}
+                        </Marquee>
+                    </div>
                 </div>
             </section>
             <Modal
