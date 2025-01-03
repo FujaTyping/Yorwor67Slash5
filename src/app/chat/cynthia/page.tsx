@@ -150,7 +150,7 @@ export default function ChatCynthia() {
                   Cynthia (ซินเทีย)
                 </h5>
                 <Link href="/chat/aether">
-                  <MdOutlineChangeCircle className="ml-2" size={20} />
+                  <MdOutlineChangeCircle className="ml-1" size={20} />
                 </Link>
               </div>
               <p className="font-normal">
@@ -172,11 +172,8 @@ export default function ChatCynthia() {
               )}
             </div>
           </div>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 via-purple-600 to-red-500 h-1 w-full"></div>
         </Card>
-        <div className="flex justify-center">
-          <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div>
-          <div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
-        </div>
 
         {isLogin ? (
           <>
@@ -206,62 +203,58 @@ export default function ChatCynthia() {
                     />
                   </div>
                 </div>
-                <div>
-                  <div className="flex flex-col md:flex-row items-center md:gap-4 w-full mt-12 md:-mt-4">
-                    <div className="flex-1 -m-4 md:m-0 w-full md:min-w-0">
-                      <FloatingLabel
-                        onKeyDown={handleKeyDown}
-                        onChange={(i) => setInput(i.target.value)}
-                        variant="outlined"
-                        label="พิมพ์อะไรสักอย่างสิ :D"
-                      />
-                    </div>
-                    <div className="pb-6 w-full md:w-16 flex-shrink-0">
+                <div className="w-full max-w-3xl mx-auto mt-8">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder="พิมพ์อะไรสักอย่างสิ :D"
+                      className="w-full px-4 py-3 pr-12 text-gray-700 bg-white border rounded-lg focus:outline-none focus:border-blue-500 transition-colors duration-200"
+                      disabled={loading || cooldown}
+                    />
+                    <button
+                      onClick={() => {
+                        if (input != "") {
+                          setUserPrompt(input);
+                          AskCynthia(input);
+                        }
+                      }}
+                      disabled={loading || cooldown || input.trim() === ""}
+                      className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-colors duration-200 ${
+                        loading || cooldown || input.trim() === ""
+                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                          : "bg-red-500 text-white hover:bg-red-600"
+                      }`}
+                    >
                       {loading ? (
-                        <>
-                          <Button
-                            style={{ backgroundColor: "#ff1616" }}
-                            color="blue"
-                            className="w-full"
-                          >
-                            <Spinner />
-                          </Button>
-                        </>
+                        <svg
+                          className="animate-spin h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
                       ) : (
-                        <>
-                          {cooldown ? (
-                            <>
-                              <Button
-                                style={{ backgroundColor: "#ff1616" }}
-                                color="blue"
-                                disabled
-                                className="w-full"
-                              >
-                                <IoSend className="h-6 w-6" />
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button
-                                onClick={() => {
-                                  if (input != "") {
-                                    setUserPrompt(input);
-                                    AskCynthia(input);
-                                  }
-                                }}
-                                style={{ backgroundColor: "#ff1616" }}
-                                color="blue"
-                                className="w-full"
-                              >
-                                <IoSend className="h-6 w-6" />
-                              </Button>
-                            </>
-                          )}
-                        </>
+                        <IoSend className="h-5 w-5" />
                       )}
-                    </div>
+                    </button>
                   </div>
-                  <p className="text-sm text-gray-500 md:-mt-2">
+                  <p className="mt-3 text-sm text-gray-500">
                     Cynthia เป็นผู้ช่วย AI
                     ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ
                     โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป

@@ -104,7 +104,11 @@ export default function ChatBubble({
               src={img}
               alt="Profile"
             />
-            <div className="flex flex-col w-full max-w-[550px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
+            <div
+              className={`flex flex-col w-full max-w-[750px] leading-1.5 p-4 ${
+                isRtl ? "bg-red-300" : "bg-blue-300"
+              } rounded-e-xl rounded-es-xl`}
+            >
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span
                   dir="ltr"
@@ -183,7 +187,7 @@ export default function ChatBubble({
                     style={{
                       maxWidth: "175px",
                       color: "white",
-                      background: "#ff6767",
+                      background: "#363636",
                     }}
                     icon={FaHistory}
                   >
