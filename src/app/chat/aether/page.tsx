@@ -3,17 +3,31 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
-import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Spinner } from "flowbite-react";
-import AetherProfile from "../../assets/chat/ProfileAether.png"
+import {
+  FloatingLabel,
+  Button,
+  Card,
+  Modal,
+  Label,
+  Tooltip,
+  Select,
+  Spinner,
+} from "flowbite-react";
+import AetherProfile from "../../assets/chat/ProfileAether.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
-import { MdLockClock, MdOutlineSettingsSuggest } from "react-icons/md";
-import useSound from 'use-sound';
+import {
+  MdLockClock,
+  MdOutlineSettingsSuggest,
+  MdOutlineChangeCircle,
+} from "react-icons/md";
+import useSound from "use-sound";
 import Turnstile from "react-turnstile";
 import { FaSave } from "react-icons/fa";
 import { MdMemory } from "react-icons/md";
 import { AiFillExperiment } from "react-icons/ai";
+import Link from "next/link";
 
 export default function ChatAether() {
   const [title] = useState("Hatyaiwit - Aether");
@@ -34,14 +48,14 @@ export default function ChatAether() {
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [personality, setPersonality] = useState("");
   const [defualtModel, setDefaultModel] = useState("gemini-1.5-flash");
-  const [displayModel, setDisplatModel] = useState("gemini-1.5-flash")
+  const [displayModel, setDisplatModel] = useState("gemini-1.5-flash");
   const [openModalSetting, setOpenModelSetting] = useState(false);
   const [displayToken, setDisplayToken] = useState("0");
   const [TX] = useSound("/assets/Sound/TX.mp3", { volume: 0.7 });
   const [RX] = useSound("/assets/Sound/RX.mp3", { volume: 0.7 });
 
   function onCloseSetting() {
-    setOpenModelSetting(false)
+    setOpenModelSetting(false);
   }
 
   function saveSetting() {
@@ -70,9 +84,9 @@ export default function ChatAether() {
     setIsHistory(false);
     setPause(true);
     TX();
-    setIsGEN(false)
-    setAetherPrompt("Aether กำลังคิดคำตอบ ...")
-    setLoading(true)
+    setIsGEN(false);
+    setAetherPrompt("Aether กำลังคิดคำตอบ ...");
+    setLoading(true);
 
     try {
       const storedPersonality = localStorage.getItem("personality");
@@ -88,7 +102,7 @@ export default function ChatAether() {
         `${smtConfig.apiMain}generative/aether`,
         {
           prompt: `${prompt}`,
-          personality: `${personality}`
+          personality: `${personality}`,
         },
         {
           headers: {
@@ -98,8 +112,8 @@ export default function ChatAether() {
       )
       .then((response) => {
         setAetherPrompt(`${response.data.response}`);
-        setDisplatModel(`${response.data.model}`)
-        setDisplayToken(`${response.data.token}`)
+        setDisplatModel(`${response.data.model}`);
+        setDisplayToken(`${response.data.token}`);
         RX();
         setLoading(false);
         setCooldown(true);
@@ -137,7 +151,7 @@ export default function ChatAether() {
       const storedPersonality = localStorage.getItem("personality");
       const storedHisAether = localStorage.getItem("historyAetherChat");
       const storedHisPrompt = localStorage.getItem("historyAetherPrompt");
-      const AetherMODEL = localStorage.getItem('AetherModel')
+      const AetherMODEL = localStorage.getItem("AetherModel");
       if (storedPersonality) {
         setPersonality(storedPersonality);
       }
@@ -173,19 +187,51 @@ export default function ChatAether() {
             />
             <div className="ml-8">
               <h5 className="text-xl font-bold tracking-tight flex items-center">
-                Aether (เอเธอร์) <Tooltip content="Experimental" style="light"><AiFillExperiment className="ml-2" /></Tooltip> <Tooltip content="ตั้งค่าโมเดล" style="light"><MdOutlineSettingsSuggest onClick={() => { setOpenModelSetting(true) }} style={{ cursor: 'pointer', display: 'none' }} className='w-7 h-7 ml-2.5' /></Tooltip>
+                <div className="flex items-center">
+                  <span className="relative bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">
+                    Aether (เอเธอร์){" "}
+                  </span>
+                  <Tooltip content="Experimental" style="light">
+                    <AiFillExperiment className="ml-2" />
+                  </Tooltip>{" "}
+                  <Link href="/chat/cynthia">
+                    <MdOutlineChangeCircle className="ml-1" size={20} />
+                  </Link>
+                </div>
+                <Tooltip content="ตั้งค่าโมเดล" style="light">
+                  <MdOutlineSettingsSuggest
+                    onClick={() => {
+                      setOpenModelSetting(true);
+                    }}
+                    style={{ cursor: "pointer", display: "none" }}
+                    className="w-7 h-7 ml-2.5"
+                  />
+                </Tooltip>
               </h5>
               <p className="font-normal">
-                ความรู้คืออาวุธ เวลาเรียนคือสนามรบ และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
+                ความรู้คืออาวุธ เวลาเรียนคือสนามรบ
+                และความพยายามคือชัยชนะที่ไม่มีใครแย่งไปได้
               </p>
               {cooldown ? (
                 <>
-                  <span style={{ color: 'red' }} className="flex mb-2 items-center animate__animated animate__shakeX"><MdLockClock className="w-5 h-5 mr-2" /> รออีก {secondsLeft} วินาทีถึงจะคุยต่อไปได้</span>
+                  <span
+                    style={{ color: "red" }}
+                    className="flex mb-2 items-center animate__animated animate__shakeX"
+                  >
+                    <MdLockClock className="w-5 h-5 mr-2" /> รออีก {secondsLeft}{" "}
+                    วินาทีถึงจะคุยต่อไปได้
+                  </span>
                 </>
-              ) : (<></>)}
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </Card>
+        <div className="flex justify-center">
+          <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div>
+          <div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+        </div>
 
         {isLogin ? (
           <>
@@ -253,7 +299,12 @@ export default function ChatAether() {
                           ) : (
                             <>
                               <Button
-                                onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
+                                onClick={() => {
+                                  if (input != "") {
+                                    setUserPrompt(input);
+                                    AskCynthia(input);
+                                  }
+                                }}
                                 style={{ backgroundColor: "#ff1616" }}
                                 color="blue"
                                 className="w-full"
@@ -266,7 +317,12 @@ export default function ChatAether() {
                       )}
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 md:-mt-2">Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้ แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน</p>
+                  <p className="text-sm text-gray-500 md:-mt-2">
+                    Aether เป็น AI ที่ออกแบบมาเพื่อช่วยในการเรียนรู้
+                    แม้จะพยายามให้ข้อมูลที่ถูกต้องที่สุด
+                    แต่คำตอบอาจไม่สมบูรณ์หรือถูกต้องเสมอ
+                    แนะนำให้ตรวจสอบข้อมูลเพิ่มเติมจากแหล่งที่เชื่อถือได้ก่อนนำไปใช้งาน
+                  </p>
                 </div>
               </>
             ) : (
@@ -274,11 +330,21 @@ export default function ChatAether() {
                 <section className="text-gray-600 body-font">
                   <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
                     <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                      <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                      <img
+                        style={{ width: "350px" }}
+                        className="object-cover object-center rounded"
+                        alt="hero"
+                        src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg"
+                      />
                     </div>
                     <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณายืนยันตัวตน</h1>
-                      <p className="mb-4 leading-relaxed text-gray-900">เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA</p>
+                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                        กรุณายืนยันตัวตน
+                      </h1>
+                      <p className="mb-4 leading-relaxed text-gray-900">
+                        เรากำลังตรวจสอบว่าคุณเป็นมนุษย์
+                        โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA
+                      </p>
                       <Turnstile
                         sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
                         theme="light"
@@ -298,11 +364,20 @@ export default function ChatAether() {
             <section className="text-gray-600 body-font">
               <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
                 <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                  <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                  <img
+                    style={{ width: "350px" }}
+                    className="object-cover object-center rounded"
+                    alt="hero"
+                    src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg"
+                  />
                 </div>
                 <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
-                  <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้ {"(คลิก เมนู > ล็อกอิน)"}</p>
+                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                    กรุณาล็อกอิน
+                  </h1>
+                  <p className="mb-4 leading-relaxed text-gray-900">
+                    ก่อนใช้งานฟีเจอร์นี้ {"(คลิก เมนู > ล็อกอิน)"}
+                  </p>
                 </div>
               </div>
             </section>
@@ -324,17 +399,28 @@ export default function ChatAether() {
             </h3>
             <div>
               <div className="mb-4 block">
-                <Label htmlFor="text" value="ปรับแต่งการทำงานของ AI เพื่อให้ตรงกับสไตล์และความต้องการของคุณ" />
+                <Label
+                  htmlFor="text"
+                  value="ปรับแต่งการทำงานของ AI เพื่อให้ตรงกับสไตล์และความต้องการของคุณ"
+                />
               </div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value={`เปลื่ยนโมเดลภาษา (${displayModel} ใช้งานอยู่)`} />
+                <Label
+                  htmlFor="text"
+                  value={`เปลื่ยนโมเดลภาษา (${displayModel} ใช้งานอยู่)`}
+                />
               </div>
-              <Select onChange={(e) => setDefaultModel(e.target.value)} id="LLMs" required>
+              <Select
+                onChange={(e) => setDefaultModel(e.target.value)}
+                id="LLMs"
+                required
+              >
                 <option>gemini-1.5-flash</option>
               </Select>
             </div>
             <span className="flex mt-5 items-center">
-              <MdMemory className="w-5 h-5 mr-2" /> ข้อมูลตั้งค่าจะอัพเดทในแชทครั้งถัดไป
+              <MdMemory className="w-5 h-5 mr-2" />{" "}
+              ข้อมูลตั้งค่าจะอัพเดทในแชทครั้งถัดไป
             </span>
             <div className="w-full">
               <Button

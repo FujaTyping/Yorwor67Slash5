@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Badge, Modal, Button, Label, Textarea, Tooltip } from "flowbite-react";
 import { TbMessageChatbotFilled } from "react-icons/tb";
-import { motion } from "motion/react"
-import Markdown from 'react-markdown'
+import { motion } from "motion/react";
+import Markdown from "react-markdown";
 import { FaPencilAlt, FaHistory } from "react-icons/fa";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 import { MdMemory } from "react-icons/md";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 
@@ -21,10 +21,21 @@ interface ChatAtrib {
   tokencount?: string;
 }
 
-export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, history, botName, modelName, tokencount }: ChatAtrib) {
-  const [openModal, setOpenModal] = useState(false)
-  const [personality, setPersonality] = useState("")
-  const [isError, setIsError] = useState(false)
+export default function ChatBubble({
+  isRtl,
+  name,
+  img,
+  text,
+  isBot,
+  isUser,
+  history,
+  botName,
+  modelName,
+  tokencount,
+}: ChatAtrib) {
+  const [openModal, setOpenModal] = useState(false);
+  const [personality, setPersonality] = useState("");
+  const [isError, setIsError] = useState(false);
   const [CynthiaData] = useSound("/assets/Sound/CynthiaDataSaved.wav");
 
   const config = {
@@ -33,13 +44,13 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
       displaystyle: true,
       delimiters: [
         ["$", "$"],
-        ["`", "`"]
-      ]
-    }
+        ["`", "`"],
+      ],
+    },
   };
 
   function onCloseModal() {
-    setOpenModal(false)
+    setOpenModal(false);
   }
 
   const changePersonal = async () => {
@@ -84,34 +95,61 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
         transition={{ duration: 0.3 }}
         dir={isRtl ? "rtl" : "ltr"}
       >
-        <div style={{ paddingLeft: '0', paddingRight: '0' }} className="py-6">
+        <div style={{ paddingLeft: "0", paddingRight: "0" }} className="py-6">
           <div className="flex items-start gap-2.5 flex-wrap">
             <img
-              className="w-10 h-10 rounded-full"
+              className={`w-10 h-10 border-solid border-2 rounded-full ${
+                isRtl ? "border-red-600" : "border-blue-600"
+              }`}
               src={img}
               alt="Profile"
             />
             <div className="flex flex-col w-full max-w-[550px] leading-1.5 p-4 border border-gray-300 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-600">
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                <span dir="ltr" className="flex text-lg font-semibold items-center">
-                  {name} {isUser && (<><Tooltip content="แก้ไขข้อมูลบุคลิค" style="light"><FaPencilAlt onClick={() => setOpenModal(true)} style={{ cursor: 'pointer' }} className="ml-3 w-3.5 h-3.5" /></Tooltip></>)}
+                <span
+                  dir="ltr"
+                  className="flex text-lg font-semibold items-center"
+                >
+                  {name}{" "}
+                  {isUser && (
+                    <>
+                      <Tooltip content="แก้ไขข้อมูลบุคลิค" style="light">
+                        <FaPencilAlt
+                          onClick={() => setOpenModal(true)}
+                          style={{ cursor: "pointer" }}
+                          className="ml-3 w-3.5 h-3.5"
+                        />
+                      </Tooltip>
+                    </>
+                  )}
                 </span>
               </div>
-              <div dir="ltr" className="text-base font-normal py-2.5 break-words">
-                <MathJaxContext config={config}><MathJax><Markdown>{text}</Markdown></MathJax></MathJaxContext>
+              <div
+                dir="ltr"
+                className="text-base font-normal py-2.5 break-words"
+              >
+                <MathJaxContext config={config}>
+                  <MathJax>
+                    <Markdown>{text}</Markdown>
+                  </MathJax>
+                </MathJaxContext>
               </div>
               {isBot && (
                 <>
                   <div className="flex items-center gap-2 mt-2">
                     {name == "Aether" ? (
                       <>
-                        <Tooltip content={`Token : ${tokencount}`} style="light">
+                        <Tooltip
+                          content={`Token : ${tokencount}`}
+                          style="light"
+                        >
                           <Badge
                             className="px-3"
                             style={{
-                              width: 'fit-content',
-                              color: 'white',
-                              background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
+                              width: "fit-content",
+                              color: "white",
+                              background:
+                                "linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)",
                             }}
                             icon={TbMessageChatbotFilled}
                           >
@@ -124,9 +162,10 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
                         <Badge
                           className="px-3"
                           style={{
-                            width: 'fit-content',
-                            color: 'white',
-                            background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)'
+                            width: "fit-content",
+                            color: "white",
+                            background:
+                              "linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)",
                           }}
                           icon={TbMessageChatbotFilled}
                         >
@@ -142,9 +181,9 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
                   <Badge
                     className="mt-2"
                     style={{
-                      maxWidth: '175px',
-                      color: 'white',
-                      background: '#363636'
+                      maxWidth: "175px",
+                      color: "white",
+                      background: "#ff6767",
                     }}
                     icon={FaHistory}
                   >
@@ -171,7 +210,10 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
             </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="text" value={`คุณอยากให้ ${botName} รู้ข้อมูลอะไรเกี่ยวกับคุณ เพื่อช่วยให้ตอบคำถามได้ดีขึ้น?`} />
+                <Label
+                  htmlFor="text"
+                  value={`คุณอยากให้ ${botName} รู้ข้อมูลอะไรเกี่ยวกับคุณ เพื่อช่วยให้ตอบคำถามได้ดีขึ้น?`}
+                />
               </div>
               <Textarea
                 value={personality}
@@ -180,7 +222,8 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
                 required
               />
               <span className="flex mt-5 items-center">
-                <MdMemory className="w-5 h-5 mr-2" /> ข้อมูลบุคลิกจะอัพเดทในแชทครั้งถัดไป
+                <MdMemory className="w-5 h-5 mr-2" />{" "}
+                ข้อมูลบุคลิกจะอัพเดทในแชทครั้งถัดไป
               </span>
             </div>
             <div className="w-full">

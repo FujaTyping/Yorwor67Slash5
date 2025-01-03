@@ -8,9 +8,10 @@ import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
-import { MdLockClock } from "react-icons/md";
-import useSound from 'use-sound';
+import { MdLockClock, MdOutlineChangeCircle } from "react-icons/md";
+import useSound from "use-sound";
 import Turnstile from "react-turnstile";
+import Link from "next/link";
 
 export default function ChatCynthia() {
   const [title] = useState("Hatyaiwit - Cynthia");
@@ -49,9 +50,9 @@ export default function ChatCynthia() {
     setIsHistory(false);
     setPause(true);
     TX();
-    setIsGEN(false)
-    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...")
-    setLoading(true)
+    setIsGEN(false);
+    setCynthiaPrompt("Cynthia กำลังคิดคำตอบ ...");
+    setLoading(true);
 
     try {
       const storedPersonality = localStorage.getItem("personality");
@@ -144,21 +145,38 @@ export default function ChatCynthia() {
               className="w-16 h-16 rounded-full object-cover"
             />
             <div className="ml-8">
-              <h5 className="text-xl font-bold tracking-tight">
-                Cynthia (ซินเทีย)
-              </h5>
+              <div className="flex items-center">
+                <h5 className="text-xl font-bold tracking-tight relative bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">
+                  Cynthia (ซินเทีย)
+                </h5>
+                <Link href="/chat/aether">
+                  <MdOutlineChangeCircle className="ml-2" size={20} />
+                </Link>
+              </div>
               <p className="font-normal">
                 ทุกความพยายามคือก้าวเล็ก ๆ
                 ที่พาเธอไปถึงความฝัน—อย่าลืมยิ้มให้ตัวเองในทุกก้าวนะ!
               </p>
               {cooldown ? (
                 <>
-                  <span style={{ color: 'red' }} className="flex mb-2 items-center animate__animated animate__shakeX"><MdLockClock className="w-5 h-5 mr-2" /> รออีก {secondsLeft} วินาทีถึงจะคุยต่อไปได้</span>
+                  <span
+                    style={{ color: "red" }}
+                    className="flex mb-2 items-center animate__animated animate__shakeX"
+                  >
+                    <MdLockClock className="w-5 h-5 mr-2" /> รออีก {secondsLeft}{" "}
+                    วินาทีถึงจะคุยต่อไปได้
+                  </span>
                 </>
-              ) : (<></>)}
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </Card>
+        <div className="flex justify-center">
+          <div className="h-1 w-20 bg-blue-500 rounded-l-lg"></div>
+          <div className="h-1 w-20 bg-red-500 rounded-r-lg"></div>
+        </div>
 
         {isLogin ? (
           <>
@@ -184,7 +202,7 @@ export default function ChatCynthia() {
                       text={cynthiaPrompt}
                       isBot={isGEN}
                       botName="Cynthia"
-                      modelName='gemini-1.5-flash'
+                      modelName="gemini-1.5-flash"
                     />
                   </div>
                 </div>
@@ -225,7 +243,12 @@ export default function ChatCynthia() {
                           ) : (
                             <>
                               <Button
-                                onClick={() => { if (input != "") { setUserPrompt(input); AskCynthia(input); } }}
+                                onClick={() => {
+                                  if (input != "") {
+                                    setUserPrompt(input);
+                                    AskCynthia(input);
+                                  }
+                                }}
                                 style={{ backgroundColor: "#ff1616" }}
                                 color="blue"
                                 className="w-full"
@@ -238,7 +261,12 @@ export default function ChatCynthia() {
                       )}
                     </div>
                   </div>
-                  <p className="text-sm text-gray-500 md:-mt-2">Cynthia เป็นผู้ช่วย AI ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ</p>
+                  <p className="text-sm text-gray-500 md:-mt-2">
+                    Cynthia เป็นผู้ช่วย AI
+                    ที่ออกแบบมาเพื่อให้คำแนะนำทางการศึกษาและสร้างแรงบันดาลใจ
+                    โปรดทราบว่าข้อมูลที่ Cynthia ให้มาอาจไม่ถูกต้องเสมอไป
+                    ควรตรวจสอบข้อมูลที่สำคัญจากแหล่งข้อมูลที่น่าเชื่อถือเสมอ
+                  </p>
                 </div>
               </>
             ) : (
@@ -246,11 +274,21 @@ export default function ChatCynthia() {
                 <section className="text-gray-600 body-font">
                   <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
                     <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                      <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                      <img
+                        style={{ width: "350px" }}
+                        className="object-cover object-center rounded"
+                        alt="hero"
+                        src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg"
+                      />
                     </div>
                     <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณายืนยันตัวตน</h1>
-                      <p className="mb-4 leading-relaxed text-gray-900">เรากำลังตรวจสอบว่าคุณเป็นมนุษย์ โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA</p>
+                      <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                        กรุณายืนยันตัวตน
+                      </h1>
+                      <p className="mb-4 leading-relaxed text-gray-900">
+                        เรากำลังตรวจสอบว่าคุณเป็นมนุษย์
+                        โปรดยืนยันตัวตนของคุณผ่าน CAPTCHA
+                      </p>
                       <Turnstile
                         sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
                         theme="light"
@@ -270,11 +308,20 @@ export default function ChatCynthia() {
             <section className="text-gray-600 body-font">
               <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
                 <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-                  <img style={{ width: "350px" }} className="object-cover object-center rounded" alt="hero" src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg" />
+                  <img
+                    style={{ width: "350px" }}
+                    className="object-cover object-center rounded"
+                    alt="hero"
+                    src="https://png.pngtree.com/png-vector/20221121/ourmid/pngtree-flat-login-icon-with-password-access-and-padlock-concept-vector-png-image_41882582.jpg"
+                  />
                 </div>
                 <div className="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">กรุณาล็อกอิน</h1>
-                  <p className="mb-4 leading-relaxed text-gray-900">ก่อนใช้งานฟีเจอร์นี้ {"(คลิก เมนู > ล็อกอิน)"}</p>
+                  <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                    กรุณาล็อกอิน
+                  </h1>
+                  <p className="mb-4 leading-relaxed text-gray-900">
+                    ก่อนใช้งานฟีเจอร์นี้ {"(คลิก เมนู > ล็อกอิน)"}
+                  </p>
                 </div>
               </div>
             </section>
