@@ -105,9 +105,7 @@ export default function ChatBubble({
               alt="Profile"
             />
             <div
-              className={`flex flex-col w-full max-w-[750px] leading-1.5 p-4 ${
-                isRtl ? "bg-red-300" : "bg-blue-300"
-              } rounded-e-xl rounded-es-xl`}
+              className="flex flex-col w-full max-w-[750px] leading-1.5 p-4 bg-neutral-100 rounded-xl"
             >
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span

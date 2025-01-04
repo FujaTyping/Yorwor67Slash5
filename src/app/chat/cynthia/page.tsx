@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card, Spinner } from "flowbite-react";
-import CynthiaProfile from "../../assets/chat/ProfileCynthia.png";
+import CynthiaProfile from "../../assets/Chat/ProfileCynthia.png";
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";
@@ -172,7 +172,7 @@ export default function ChatCynthia() {
               )}
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-blue-600 via-purple-600 to-red-500 h-1 w-full"></div>
+          <div className="absolute bottom-0 left-0 right-0 bg-blue-500 h-1 w-full opacity-80 filter drop-shadow-md"></div>
         </Card>
 
         {isLogin ? (
