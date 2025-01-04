@@ -13,6 +13,16 @@
 }
 
 @font-face {
+  font-family: "Anakotmai";
+  src: url("./fonts/Prachachon/Anakotmai.ttf");
+}
+
+@font-face {
+  font-family: "Anakotmai-Light";
+  src: url("./fonts/Prachachon/Anakotmai-Light.ttf");
+}
+
+@font-face {
   font-family: "Itim";
   src: url("./fonts/Itim.ttf");
 }
@@ -25,10 +35,14 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: NotoSansThai !important;
+  font-family: "NotoSansThai" !important;
   scroll-behavior: smooth;
   scrollbar-color: hsl(219, 100%, 71%) white !important;
   scrollbar-width: thin !important;
+}
+
+.FPrachachonSmall {
+  font-family: "Anakotmai-Light" !important;
 }
 
 body::-webkit-scrollbar {
@@ -301,30 +315,6 @@ ol h3 {
 
 .rfm-child p {
   font-size: 19px;
-}
-
-.hbanner {
-  background-image: url('./assets/Herobanner.webp');
-  padding: 10px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 90%;
-  height: 280px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer {
-  background-image: url('./assets/FootDivider.webp');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100%;
-  height: 300px;
 }
 
 @media only screen and (max-width: 600px) {
