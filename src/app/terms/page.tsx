@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from "react"
-import { HiInformationCircle } from "react-icons/hi";
-import { Alert, List } from "flowbite-react";
+import { Alert } from "flowbite-react";
+import { IoIosMail } from "react-icons/io";
+import { TiWarning } from "react-icons/ti";
+import { MdMiscellaneousServices } from "react-icons/md";
 
 export default function Terms() {
     const [title] = useState("Hatyaiwit - ข้อตกลงและเงื่อนไขการใช้บริการ");
@@ -10,19 +12,52 @@ export default function Terms() {
         <>
             <title>{title}</title>
             <meta property="og:title" content={title} />
-            <Alert style={{ width: '80%', margin: 'auto', marginTop: '20px' }} color="failure" icon={HiInformationCircle}>
-                <span className="font-medium">แจ้งเตือน !</span> โปรดอ่านข้อกำหนดการให้บริการด้านล่างนี้อย่างละเอียดก่อนใช้เว็บไซต์
-            </Alert>
-            <div className="container">
-                <h1 style={{ marginBottom: "15px" }} className="border-b">
-                    📰 Terms of Service - ข้อตกลงและเงื่อนไขการใช้บริการ
-                </h1>
-                <h2 style={{ fontSize: '18px' }}>By using Yorwor67Slash5, an open-source project developed by the M.4/5 class at Hatyaiwittayalai School, you agree to the following terms. The website is designed to help students track their attendance and manage homework assignments, but please note that the accuracy of the information relies on input from both school staff and students. We cannot be held responsible for any errors or discrepancies in the data provided. Your privacy is important to us, and any personal information collected through the website will only be used for its intended functions, such as tracking attendance and homework. We assure you that your personal data will not be shared with any third parties</h2>
-                <List style={{ marginTop: '20px', fontSize: '18px' }}>
-                    <List.Item style={{ color: 'black' }}>Student Information: The accuracy of attendance and homework data depends on input from students and staff, and we are not responsible for errors</List.Item>
-                    <List.Item style={{ color: 'black' }}>Privacy: Your personal data will only be used for the intended functions and will not be shared with third parties</List.Item>
-                    <List.Item style={{ color: 'black' }}>Contact Information: If you have any questions or concerns, please contact us at yorwor@siraphop.me</List.Item>
-                </List>
+            <div style={{ marginTop: '-1.5rem', marginBottom: '-0.5rem' }} className="container">
+                <div className="mx-auto">
+                    <div className="bg-white rounded-2xl md:shadow-xl md:p-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center"><MdMiscellaneousServices className="mr-3" /> ข้อตกลงและเงื่อนไขการใช้บริการ</h1>
+                        <section className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">1. การยอมรับข้อกำหนด</h2>
+                            <div className="text-gray-600">
+                                <p>
+                                    โดยการใช้งาน Yorwor67Slash5 คุณยืนยันว่าคุณได้อ่าน เข้าใจ และตกลงตามข้อกำหนดที่ระบุไว้ในเอกสารนี้ ข้อกำหนดเหล่านี้จะใช้กับการใช้งานเว็บไซต์และบริการใดๆ ที่มีการให้บริการผ่านเว็บไซต์นี้ เราขอสงวนสิทธิ์ในการแก้ไขหรือปรับปรุงข้อกำหนดเหล่านี้ได้ตลอดเวลา การใช้งานเว็บไซต์ต่อไปหลังจากการแก้ไขหรือปรับปรุงข้อกำหนดถือเป็นการยอมรับข้อกำหนดที่มีการอัปเดต
+                                </p>
+                            </div>
+                        </section>
+                        <section className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">2. การปฏิเสธความรับผิด</h2>
+                            <div className="text-gray-600">
+                                <p>
+                                    Yorwor67Slash5 ถูกออกแบบมาเพื่อช่วยนักเรียนในการติดตามการเข้าเรียนและการจัดการการบ้าน อย่างไรก็ตาม ความถูกต้องของข้อมูลขึ้นอยู่กับข้อมูลที่ได้รับจากทั้งนักเรียนและบุคลากรของโรงเรียน เราไม่สามารถรับประกันความถูกต้องหรือความแม่นยำของข้อมูลที่ให้มา และจะไม่รับผิดชอบต่อข้อผิดพลาดหรือความคลาดเคลื่อนใดๆ ที่เกิดขึ้นจากการใช้งานเว็บไซต์
+                                </p>
+                            </div>
+                        </section>
+                        <section className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">3. การแก้ไข</h2>
+                            <Alert color="warning" icon={TiWarning}>
+                                เราอาจมีการปรับปรุงหรือเปลี่ยนแปลงเว็บไซต์หรือบริการใดๆ บนเว็บไซต์นี้ได้ตลอดเวลาโดยไม่ต้องแจ้งให้ทราบล่วงหน้า ข้อกำหนดนี้อาจได้รับการปรับปรุง และการปรับปรุงเหล่านี้จะถูกโพสต์ในหน้านี้ คุณมีหน้าที่ในการตรวจสอบหน้านี้เป็นระยะๆ เพื่อให้แน่ใจว่าคุณได้ทราบถึงการเปลี่ยนแปลง หากคุณยังคงใช้งานเว็บไซต์หลังจากมีการปรับปรุงข้อกำหนดนี้ ถือว่าคุณยอมรับข้อกำหนดที่ได้อัปเดตแล้ว
+                            </Alert>
+                        </section>
+                        <section className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. ความเป็นส่วนตัวและการใช้ข้อมูล</h2>
+                            <div className="text-gray-600">
+                                <p>
+                                    ความเป็นส่วนตัวของคุณมีความสำคัญกับเรา ข้อมูลส่วนบุคคลใดๆ ที่ถูกเก็บรวบรวมผ่านเว็บไซต์จะถูกใช้งานเฉพาะเพื่อวัตถุประสงค์ที่ตั้งไว้ เช่น การติดตามการเข้าเรียนและการจัดการการบ้าน ข้อมูลส่วนบุคคลของคุณจะไม่ถูกแบ่งปันกับบุคคลภายนอก
+                                </p>
+                            </div>
+                        </section>
+                        <section>
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-4">5. ข้อมูลติดต่อ</h2>
+                            <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-between">
+                                <p className="text-gray-600">หากคุณมีคำถาม ข้อกังวล หรือข้อเสนอแนะเกี่ยวกับข้อกำหนดนี้หรือเว็บไซต์ กรุณาติดต่อเราที่</p>
+                                <a href="mailto:yorwor@siraphop.me" className="inline-flex items-center text-blue-600 hover:text-blue-500">
+                                    <IoIosMail className="w-5 h-5 mr-2" />
+                                    อีเมล
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
             </div>
         </>
     )

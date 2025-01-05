@@ -13,17 +13,36 @@
 }
 
 @font-face {
+  font-family: "Anakotmai";
+  src: url("./fonts/Prachachon/Anakotmai.ttf");
+}
+
+@font-face {
+  font-family: "Anakotmai-Light";
+  src: url("./fonts/Prachachon/Anakotmai-Light.ttf");
+}
+
+@font-face {
   font-family: "Itim";
   src: url("./fonts/Itim.ttf");
+}
+
+@font-face {
+  font-family: "BoonTook";
+  src: url("./fonts/BoonTook.ttf");
 }
 
 * {
   margin: 0;
   padding: 0;
-  font-family: Prompt !important;
+  font-family: "NotoSansThai" !important;
   scroll-behavior: smooth;
   scrollbar-color: hsl(219, 100%, 71%) white !important;
   scrollbar-width: thin !important;
+}
+
+.FPrachachonSmall {
+  font-family: "Anakotmai-Light" !important;
 }
 
 body::-webkit-scrollbar {
@@ -51,6 +70,10 @@ th {
   color: white;
 }
 
+.NaaMakMak {
+  font-family: "BoonTook" !important;
+}
+
 td {
   font-size: 17px;
 }
@@ -61,6 +84,26 @@ h1 {
 
 h2 {
   font-size: 25px;
+}
+
+#FooterTamMaa {
+  position: relative;
+  z-index: 0;
+}
+
+#FooterTamMaa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/assets/oSMT.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.4;
+  z-index: -1;
 }
 
 Button {
@@ -96,7 +139,7 @@ li:hover,
 
 #TopBarNav {
   background-color: #2d76ff;
-  color: white;
+  color: white !important;
   padding: 15px;
 }
 
@@ -138,13 +181,6 @@ li:hover,
 }
 
 #SideDrawer button {
-  margin: auto;
-}
-
-.ccard {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 30px;
   margin: auto;
 }
 
@@ -274,30 +310,6 @@ ol h3 {
   font-size: 19px;
 }
 
-.hbanner {
-  background-image: url('./assets/Herobanner.webp');
-  padding: 10px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 90%;
-  height: 280px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer {
-  background-image: url('./assets/FootDivider.webp');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 100%;
-  height: 300px;
-}
-
 @media only screen and (max-width: 600px) {
   #Footbar img {
     margin-bottom: 15px;
@@ -317,10 +329,6 @@ ol h3 {
 
   h2 {
     font-size: 20px;
-  }
-
-  .ccard {
-    grid-template-columns: repeat(1, auto);
   }
 
   .FOF-flex {

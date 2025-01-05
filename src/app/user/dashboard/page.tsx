@@ -42,7 +42,8 @@ export default function Dashboard() {
             <ToastContainer position="bottom-right" newestOnTop closeOnClick hideProgressBar={false} />
             {permessage == "Admin" ? (
                 <>
-                    <iframe style={{ width: '100%', height: '100vh', marginTop: '-32px', marginBottom: '-45px' }} src="https://lookerstudio.google.com/embed/reporting/59725f81-99af-4954-a750-2900e8888d82/page/kIV1C" frameBorder="0"></iframe>
+                    <iframe style={{ width: '100%', height: '100vh', marginTop: '-32px' }} src="https://lookerstudio.google.com/embed/reporting/59725f81-99af-4954-a750-2900e8888d82/page/kIV1C" frameBorder="0"></iframe>
+                    <p className="text-center text-base mt-4">** ข้อมูลจาก Google Analytics 4</p>
                 </>
             ) : (
                 <>

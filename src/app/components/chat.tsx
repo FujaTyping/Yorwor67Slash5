@@ -84,7 +84,7 @@ export default function ChatBubble({ isRtl, name, img, text, isBot, isUser, hist
         transition={{ duration: 0.3 }}
         dir={isRtl ? "rtl" : "ltr"}
       >
-        <div style={{ paddingLeft: '0', paddingRight: '0' }} className="container">
+        <div style={{ paddingLeft: '0', paddingRight: '0' }} className="py-6">
           <div className="flex items-start gap-2.5 flex-wrap">
             <img
               className="w-10 h-10 rounded-full"

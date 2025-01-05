@@ -1,17 +1,19 @@
 'use client';
 
 import { useState, useEffect } from "react"
-import { HiInformationCircle } from "react-icons/hi";
-import { Alert, List, Accordion, Modal, Button, Checkbox, Label } from "flowbite-react";
-import Cynthia from '../assets/chat/Cynthia.jpg'
+import { List, Accordion, Modal, Button, Checkbox, Label } from "flowbite-react";
+import Cynthia from '../assets/Chat/Cynthia.jpg'
 import { useRouter } from "next/navigation";
-import Aether from '../assets/chat/Aether.jpg'
+import Aether from '../assets/Chat/Aether.jpg'
 import { AiFillExperiment } from "react-icons/ai";
 import useLocalStorge from "../lib/localstorage-db";
 import useSound from 'use-sound';
-import { FaCheckSquare } from "react-icons/fa";
+import { FaCheckSquare, FaUserLock } from "react-icons/fa";
+import { SiGooglegemini } from "react-icons/si";
+import { FaBoltLightning } from "react-icons/fa6";
+import { BiSolidCustomize } from "react-icons/bi";
 
-export default function smtAI() {
+export default function SmtAI() {
     const [title] = useState("Hatyaiwit - AI");
     const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
     const router = useRouter();
@@ -34,10 +36,7 @@ export default function smtAI() {
         try {
             const storedSTOS = localStorage.getItem("aiTOS");
             if (storedSTOS == "true") {
-                setStTOS(false);
                 setCheckTOS(true);
-            } else {
-                setStTOS(true);
             }
         } catch (error) {
             console.error("Error reading data from localStorage:", error);
@@ -48,104 +47,131 @@ export default function smtAI() {
         <>
             <title>{title}</title>
             <meta property="og:title" content={title} />
-            <Alert style={{ width: '80%', margin: 'auto', marginTop: '20px' }} color="failure" icon={HiInformationCircle}>
-                <span className="font-medium">แจ้งเตือน !</span> AI ทั้งหมดนี้กำลังอยู่ในช่วงการพัฒนา คำตอบหรือคำแนะนำที่ให้มานั้นอาจไม่ถูกต้องหรือครอบคลุมทุกกรณี ขอแนะนำให้ใช้อย่างระมัดระวังและตรวจสอบข้อมูลเพิ่มเติมเมื่อจำเป็น
-            </Alert>
-            <div className="container">
-                <h1 style={{ marginBottom: "15px" }} className="border-b">
-                    🤖 เลือกผู้ช่วยที่ใช่สำหรับคุณ - AI
-                </h1>
-                <h2 style={{ fontSize: '18px' }}>ผู้ช่วย AI อัจฉริยะที่พร้อมตอบคำถาม ช่วยแก้ปัญหาการเรียน และให้คำแนะนำ ไม่ว่าจะเป็นด้านคณิตศาสตร์ วิทยาศาสตร์ หรือกลยุทธ์การเรียนรู้ ทุกอย่างเพื่อช่วยให้คุณก้าวสู่เป้าหมายได้ง่ายขึ้น</h2>
-                <div className="flex flex-col md:flex-row justify-center items-center rounded-lg mt-10 gap-10">
-                    <div onClick={() => { if (checkTOS) { if (isLogin) { CynthiaV(); } router.push("/chat/cynthia"); } else { setStTOS(true); } }} style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn cursor-pointer">
-                        <img
-                            alt="Cythia"
-                            src={Cynthia.src}
-                            className="rounded-lg absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-50"
-                        />
-                        <div className="relative p-4 sm:p-6 lg:p-8 rounded-lg">
-                            <p className="text-white text-sm font-medium uppercase tracking-widest">AI Assistant</p>
-                            <p className="text-xl font-bold text-white sm:text-2xl">Cynthia</p>
-                            <div style={{ marginTop: '17.5rem' }}>
-                                <div
-                                    className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-                                >
-                                    <p className="text-sm text-white">
-                                        ที่ปรึกษาส่วนตัว AI อบอุ่น ใส่ใจ พร้อมช่วยทุกปัญหาการเรียน
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div onClick={() => { if (checkTOS) { router.push("/chat/aether"); } else { setStTOS(true); } }} style={{ maxWidth: '20rem', height: '27rem' }} className="rounded-lg group relative block bg-black animate__animated animate__bounceIn cursor-pointer">
-                        <img
-                            alt="Aether"
-                            src={Aether.src}
-                            className="rounded-lg absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-50"
-                        />
-                        <div className="relative p-4 sm:p-6 lg:p-8 rounded-lg">
-                            <p className="text-white text-sm font-medium uppercase tracking-widest">AI Assistant</p>
-                            <p className="text-xl font-bold text-white sm:text-2xl flex items-center">Aether <AiFillExperiment className="ml-1" /></p>
-                            <div style={{ marginTop: '17.5rem' }}>
-                                <div
-                                    className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
-                                >
-                                    <p className="text-sm text-white">
-                                        ที่ปรึกษา AI อัจฉริยะ ผู้เชี่ยวชาญคณิต-วิทย์ คม เฉียบ และล้ำสมัย
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+            <main style={{ marginBottom: '-1rem' }} className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 container">
+                <div className="mb-8 flex justify-center">
+                    <div style={{ background: 'linear-gradient(to right, hsl(219, 100%, 71%), #ff6767)' }}
+                        className="relative rounded-full text-white px-4 py-1.5 text-sm leading-6 ring-1 ring-inset ring-gray-900/10 hover:ring-gray-900/20 flex gap-3 items-center">
+                        <SiGooglegemini />
+                        <span>ขับเคลื่อนโดย : Gemini</span>
                     </div>
                 </div>
-            </div>
-            <div className="container">
-                <h1 style={{ marginBottom: "25px" }} className="border-b">
-                    📡 FAQ - คำถามที่พบบ่อยเกี่ยวกับ AI
+                <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-normal md:text-5xl">การศึกษาไร้ขีดจำกัด : <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">AI</span> ที่พร้อมพาคุณสู่
+                    <span className="inline-block">
+                        <span className="relative whitespace-nowrap">
+                            <svg aria-hidden="true" viewBox="0 0 418 42" className="absolute top-2/3 left-0 h-[0.58em] w-full fill-blue-300/70" preserveAspectRatio="none"><path d="M203.371.916c-26.013-2.078-76.686 1.963-124.73 9.946L67.3 12.749C35.421 18.062 18.2 21.766 6.004 25.934 1.244 27.561.828 27.778.874 28.61c.07 1.214.828 1.121 9.595-1.176 9.072-2.377 17.15-3.92 39.246-7.496C123.565 7.986 157.869 4.492 195.942 5.046c7.461.108 19.25 1.696 19.17 2.582-.107 1.183-7.874 4.31-25.75 10.366-21.992 7.45-35.43 12.534-36.701 13.884-2.173 2.308-.202 4.407 4.442 4.734 2.654.187 3.263.157 15.593-.78 35.401-2.686 57.944-3.488 88.365-3.143 46.327.526 75.721 2.23 130.788 7.584 19.787 1.924 20.814 1.98 24.557 1.332l.066-.011c1.201-.203 1.53-1.825.399-2.335-2.911-1.31-4.893-1.604-22.048-3.261-57.509-5.556-87.871-7.36-132.059-7.842-23.239-.254-33.617-.116-50.627.674-11.629.54-42.371 2.494-46.696 2.967-2.359.259 8.133-3.625 26.504-9.81 23.239-7.825 27.934-10.149 28.304-14.005.417-4.348-3.529-6-16.878-7.066Z"></path></svg>
+                            <span className="relative">ความสำเร็จ</span></span>
+                    </span>
                 </h1>
-                <Accordion id="AIACC">
-                    <Accordion.Panel>
-                        <Accordion.Title>AI สามารถทำอะไรได้บ้าง?</Accordion.Title>
-                        <Accordion.Content>
-                            <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                AI สามารถช่วยในการเรียนรู้ แก้ปัญหาทางคณิตศาสตร์และวิทยาศาสตร์ ตอบคำถามทั่วไป ให้คำแนะนำเกี่ยวกับการเรียนอย่างมีประสิทธิภาพ และมอบคำปรึกษาที่สร้างแรงบันดาลใจ รวมถึงวิธีแก้ปัญหาแบบสร้างสรรค์
-                            </p>
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                    <Accordion.Panel>
-                        <Accordion.Title>AI มีความแม่นยำเสมอหรือไม่?</Accordion.Title>
-                        <Accordion.Content>
-                            <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                แม้ AI จะถูกออกแบบมาให้ให้ข้อมูลที่แม่นยำ แต่บางครั้งอาจเกิดข้อผิดพลาดหรือให้คำตอบที่ไม่สมบูรณ์ แนะนำให้ตรวจสอบข้อมูลสำคัญจากแหล่งข้อมูลอื่นเพิ่มเติม
-                            </p>
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                    <Accordion.Panel>
-                        <Accordion.Title>ข้อมูลส่วนตัวของฉันปลอดภัยหรือไม่?</Accordion.Title>
-                        <Accordion.Content>
-                            <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                ข้อมูลของคุณจะถูกเก็บรักษาเป็นความลับสูงสุด และใช้เพื่อพัฒนาประสิทธิภาพของ AI เท่านั้น โดยไม่มีการแชร์ข้อมูลให้กับบุคคลภายนอก
-                            </p>
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                    <Accordion.Panel>
-                        <Accordion.Title>AI รองรับภาษาอื่นนอกจากภาษาไทยหรือไม่?</Accordion.Title>
-                        <Accordion.Content>
-                            <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                AI รองรับการใช้งานภาษาไทยและภาษาอังกฤษเป็นหลัก โดยสามารถตอบกลับตามภาษาที่ผู้ใช้เลือกใช้งานได้
-                            </p>
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                    <Accordion.Panel>
-                        <Accordion.Title>AI ใช้งานฟรีหรือไม่?</Accordion.Title>
-                        <Accordion.Content>
-                            <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                ในปัจจุบัน AI เปิดให้ใช้งานฟรีในช่วงทดลอง อาจมีการเพิ่มฟีเจอร์พิเศษหรือบริการแบบเสียค่าใช้จ่ายในอนาคต
-                            </p>
-                        </Accordion.Content>
-                    </Accordion.Panel>
-                </Accordion>
-            </div>
+                <p className="mt-6 max-w-2xl text-lg lg:mx-auto">ในยุคที่เทคโนโลยีและการเรียนรู้เชื่อมโยงกันอย่างไร้ขีดจำกัด, AI ของเราเป็นผู้ช่วยที่คุณสามารถพึ่งพาได้ในทุกๆ ด้าน ทั้งการแก้ปัญหาทางคณิตศาสตร์, วิทยาศาสตร์, และการวางกลยุทธ์การเรียนรู้ เพื่อให้คุณก้าวข้ามอุปสรรคในการศึกษาได้อย่างง่ายดาย</p>
+                <div className="container mx-auto max-w-5xl flex gap-12 flex-wrap items-start justify-center md:justify-between">
+                    <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <BiSolidCustomize className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-2xl font-bold">การปรับแต่งให้เข้ากับผู้ใช้งาน</h3>
+                        <p>เราเข้าใจว่าแต่ละคนมีวิธีการเรียนรู้ที่ไม่เหมือนกัน โมเดลนี้จึงสามารถปรับตัวเพื่อให้คำแนะนำที่เหมาะสมกับผู้ใช้งานแต่ละคน</p>
+                    </div>
+                    <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <FaBoltLightning className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-2xl font-bold">ใช้งานง่ายและรวดเร็ว</h3>
+                        <p>ด้วยระบบประมวลผลที่รวดเร็วและอินเทอร์เฟซที่ใช้งานง่าย คุณสามารถถามคำถามและได้รับคำตอบทันที</p>
+                    </div>
+                    <div className="grid gap-4 justify-items-center text-center md:flex-1">
+                        <div style={{ borderWidth: '5px' }} className="rounded-full border-blue-600 p-4 ">
+                            <FaUserLock className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-2xl font-bold">ความปลอดภัยและความเป็นส่วนตัว</h3>
+                        <p>ออกแบบให้ปกป้องข้อมูลของผู้ใช้งานอย่างเข้มงวด</p>
+                    </div>
+                </div>
+                <div style={{ marginTop: '-1rem' }} className="text-center p-10">
+                    <h1 className="font-bold text-3xl mb-4">โมเดล AI ที่พร้อมให้บริการ</h1>
+                    <p className="mt-4 max-w-2xl text-lg text-gray-800 lg:mx-auto">ในขณะนี้ เรามีโมเดล AI หลากหลายที่ตอบโจทย์ทุกความต้องการ ตั้งแต่การแก้ปัญหาง่าย ๆ ไปจนถึงการจัดการข้อมูลซับซ้อน เพื่อสนับสนุนการเรียนรู้และพัฒนาทุกด้านของคุณ</p>
+                </div>
+                <section id="Projects" style={{ marginTop: '-10px' }}
+                    className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 justify-items-center justify-center gap-y-14 gap-x-12 mb-5">
+                    <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl cursor-pointer">
+                        <div onClick={() => { if (checkTOS) { if (isLogin) { CynthiaV(); } router.push("/chat/cynthia"); } else { setStTOS(true); } }} >
+                            <img src={Cynthia.src}
+                                alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
+                            <div className="px-4 py-3 w-72">
+                                <span className="text-gray-400 uppercase text-xs">AI Assistant</span>
+                                <p className="text-lg font-bold text-black truncate block capitalize">Cynthia</p>
+                                <div className="flex items-center">
+                                    <p className="text-lg text-black cursor-auto my-3">ที่ปรึกษาส่วนตัว AI อบอุ่น ใส่ใจ พร้อมช่วยทุกปัญหาการเรียน</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl cursor-pointer">
+                        <div onClick={() => { if (checkTOS) { router.push("/chat/aether"); } else { setStTOS(true); } }}>
+                            <img src={Aether.src}
+                                alt="Product" className="h-80 w-72 object-cover rounded-t-xl" />
+                            <div className="px-4 py-3 w-72">
+                                <span className="text-gray-400 uppercase text-xs">AI Assistant</span>
+                                <p className="text-lg font-bold text-black truncate block capitalize flex items-center justify-center">Aether <AiFillExperiment className="ml-1" /></p>
+                                <div className="flex items-center">
+                                    <p className="text-lg text-black cursor-auto my-3">ที่ปรึกษา AI อัจฉริยะ ผู้เชี่ยวชาญคณิต-วิทย์ และ ล้ำสมัย</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div className="py-4 max-w-4xl w-full mt-2">
+                    <div className="mb-6">
+                        <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
+                            FAQ
+                        </p>
+                        <h1 className="font-bold text-3xl mb-4">
+                            คำถามที่พบบ่อย <span className="whitespace-nowrap bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">เกี่ยวกับ AI</span>
+                        </h1>
+                    </div>
+                    <Accordion className="text-center md:text-left" id="AIACC">
+                        <Accordion.Panel>
+                            <Accordion.Title>AI สามารถทำอะไรได้บ้าง?</Accordion.Title>
+                            <Accordion.Content>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    AI สามารถช่วยในการเรียนรู้ แก้ปัญหาทางคณิตศาสตร์และวิทยาศาสตร์ ตอบคำถามทั่วไป ให้คำแนะนำเกี่ยวกับการเรียนอย่างมีประสิทธิภาพ และมอบคำปรึกษาที่สร้างแรงบันดาลใจ รวมถึงวิธีแก้ปัญหาแบบสร้างสรรค์
+                                </p>
+                            </Accordion.Content>
+                        </Accordion.Panel>
+                        <Accordion.Panel>
+                            <Accordion.Title>AI มีความแม่นยำเสมอหรือไม่?</Accordion.Title>
+                            <Accordion.Content>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    แม้ AI จะถูกออกแบบมาให้ให้ข้อมูลที่แม่นยำ แต่บางครั้งอาจเกิดข้อผิดพลาดหรือให้คำตอบที่ไม่สมบูรณ์ แนะนำให้ตรวจสอบข้อมูลสำคัญจากแหล่งข้อมูลอื่นเพิ่มเติม
+                                </p>
+                            </Accordion.Content>
+                        </Accordion.Panel>
+                        <Accordion.Panel>
+                            <Accordion.Title>ข้อมูลส่วนตัวของฉันปลอดภัยหรือไม่?</Accordion.Title>
+                            <Accordion.Content>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    ข้อมูลของคุณจะถูกเก็บรักษาเป็นความลับสูงสุด และใช้เพื่อพัฒนาประสิทธิภาพของ AI เท่านั้น โดยไม่มีการแชร์ข้อมูลให้กับบุคคลภายนอก
+                                </p>
+                            </Accordion.Content>
+                        </Accordion.Panel>
+                        <Accordion.Panel>
+                            <Accordion.Title>AI รองรับภาษาอื่นนอกจากภาษาไทยหรือไม่?</Accordion.Title>
+                            <Accordion.Content>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    AI รองรับการใช้งานภาษาไทยและภาษาอังกฤษเป็นหลัก โดยสามารถตอบกลับตามภาษาที่ผู้ใช้เลือกใช้งานได้
+                                </p>
+                            </Accordion.Content>
+                        </Accordion.Panel>
+                        <Accordion.Panel>
+                            <Accordion.Title>AI ใช้งานฟรีหรือไม่?</Accordion.Title>
+                            <Accordion.Content>
+                                <p className="mb-2 text-gray-500 dark:text-gray-400">
+                                    ในปัจจุบัน AI เปิดให้ใช้งานฟรีในช่วงทดลอง อาจมีการเพิ่มฟีเจอร์พิเศษหรือบริการแบบเสียค่าใช้จ่ายในอนาคต
+                                </p>
+                            </Accordion.Content>
+                        </Accordion.Panel>
+                    </Accordion>
+                </div>
+            </main>
             <Modal
                 className="animate__animated animate__fadeIn"
                 show={stTOS}

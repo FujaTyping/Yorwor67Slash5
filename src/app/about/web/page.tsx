@@ -5,7 +5,7 @@ import axios from "axios";
 import { Button, Modal, TextInput, FileInput, Label, Spinner, Tooltip } from "flowbite-react";
 import GitHubImg from "../../assets/github.webp";
 import Link from "next/link";
-import { FaGithubAlt, FaChevronCircleUp, FaQrcode, FaCheck } from "react-icons/fa";
+import { FaGithubAlt, FaQrcode, FaCheck, FaBook, FaCode } from "react-icons/fa";
 import { FaCheckToSlot } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
 import { BiSolidDonateHeart } from "react-icons/bi";
@@ -14,6 +14,8 @@ import generatePayload from "promptpay-qr";
 import { QRCodeSVG } from 'qrcode.react';
 import jsQR from 'jsqr';
 import { slipVerify } from 'promptparse/validate'
+import { MdNotificationsNone } from "react-icons/md";
+import useSound from 'use-sound';
 
 interface DonorName {
   name: string;
@@ -22,10 +24,8 @@ interface DonorName {
 
 export default function AboutWeb() {
   const [title] = useState("Hatyaiwit - เกี่ยวกับเว็บไซต์");
-  const [api1down, setApi1down] = useState(true);
-  const [api2down, setApi2down] = useState(true);
-  const [api3down, setApi3down] = useState(true);
   const [donateQr, setDonateQR] = useState<any>(null);
+  const [CynthiaV] = useSound("/assets/Sound/CynthiaDonate.wav");
   const [modelOpen, setModelOpen] = useState(false);
   const [modelFinOpen, setModelFinOpen] = useState(false);
   const [numberPAY, setNumberPay] = useState("0");
@@ -143,80 +143,36 @@ export default function AboutWeb() {
         setModelOpen(true);
       }
     }
-    axios
-      .get(`${smtConfig.apiMain}ping`)
-      .then(() => {
-        setApi1down(false);
-      })
-      .catch(() => {
-        setApi1down(true);
-      });
-    axios
-      .get(`${smtConfig.apiUser}ping`)
-      .then(() => {
-        setApi2down(false);
-      })
-      .catch(() => {
-        setApi2down(true);
-      });
-    axios
-      .get(`${smtConfig.apiBackup}ping`)
-      .then(() => {
-        setApi3down(false);
-      })
-      .catch(() => {
-        setApi3down(true);
-      });
   }, []);
 
   return (
     <>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <div className="container">
-        <div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+      <section className="container">
+        <div className="max-w-xl mx-auto space-y-12 lg:px-8 lg:max-w-7xl">
+          <div className="flex flex-col items-center justify-center">
             <img
               style={{ maxWidth: "70px", marginBottom: "10px" }}
               src={GitHubImg.src}
               alt="GitHubLogo"
             />
             <h2 className="font-bold" style={{ fontSize: "35px" }}>
-              Project Name : Yorwor67Slash5
+              โปรเจค์ : Yorwor67Slash5
             </h2>
             <h2
-              className="font-bold"
+              className="font-bold bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text"
               style={{
                 fontSize: "30px",
                 marginTop: "-5px",
                 marginBottom: "10px",
               }}
             >
-              Open-source project
+              โปรเจค์ โอเพน-ซอร์ซ
             </h2>
             <h3 className="lg:w-2/3 mx-auto">
-              M.4/5 className website aimed at improving the student experience by
-              providing essential tools such as attendance tracking and homework
-              management. The website allows students to easily check if theyve
-              been marked absent for the day and view current homework
-              assignments. In this project we designed not only to assist
-              students but also to enhance our skills in web development. We aim
-              to continuously improve and expand its functionality, making it a
-              practical tool for students while sharpening our coding expertise.
+              เว็บไซต์ห้องเรียน ม.{smtConfig.mattayom} ออกแบบมาเพื่อยกระดับประสบการณ์ของนักเรียน ด้วยโปรแกรมจัดบริหารห้องเรียนที่รวมเครื่องมือต่าง ๆ เช่น การติดตามการเข้าเรียนและการจัดการการบ้าน ช่วยให้นักเรียนตรวจสอบสถานะการขาดเรียนและดูการบ้านได้ง่าย นอกจากนี้ยังเป็นโครงการที่ช่วยพัฒนาทักษะการพัฒนาเว็บไซต์ของทีมเราอย่างต่อเนื่อง เพื่อสร้างเครื่องมือที่มีประโยชน์และตอบโจทย์การใช้งานจริงสำหรับนักเรียนทุกคน
             </h3>
-            <div className="md:flex md:flex-wrap items-center justify-center gap-2 mt-4 grid grid-cols-2">
-              <img src="https://badgen.net/github/commits/FujaTyping/Yorwor67Slash5/dev?color=blue&icon=github" />
-              <img src="https://badgen.net/github/merged-prs/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
-              <img src="https://badgen.net/github/contributors/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
-              <img src="https://badgen.net/github/stars/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
-            </div>
             <Button.Group id="AboutBtn" style={{ marginTop: "20px" }}>
               <Button
                 as={Link}
@@ -227,147 +183,171 @@ export default function AboutWeb() {
                   style={{ margin: "auto", marginRight: "5px" }}
                   className="mr-3 h-4 w-4"
                 />
-                View on Github
+                ดูบน Github
               </Button>
               <Button
                 as={Link}
                 href="#"
-                onClick={() => setModelOpen(true)}
+                onClick={() => { setModelOpen(true); CynthiaV(); }}
                 color="blue"
               >
                 <BiSolidDonateHeart
                   style={{ margin: "auto", marginRight: "5px" }}
                   className="mr-3 h-4 w-4"
                 />
-                Donate
+                บริจาค
               </Button>
             </Button.Group>
-            <section style={{ marginTop: '60px' }} className="body-font">
-              <div className="mx-auto">
-                <div className="text-center mb-5">
-                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">STATUS</h1>
-                  <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Live updates on the Yorwor67Slash5 API server health, including uptime and any current issues affecting attendance and homework tools</p>
-                </div>
-                <div className="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2">
-                  <div className="p-2 sm:w-1/2 w-full">
-                    {api1down ? (
-                      <>
-                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <Spinner className="mr-4" size="md" />
-                          <span className="title-font font-medium">Api server {"(Vercel)"}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
-                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
-                          <span className="title-font font-medium">Api server {"(Vercel)"}</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <div className="p-2 sm:w-1/2 w-full">
-                    {api2down ? (
-                      <>
-                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <Spinner className="mr-4" size="md" />
-                          <span className="title-font font-medium">Api server {"(Railway)"}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
-                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
-                          <span className="title-font font-medium">Api server {"(Railway)"}</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <div className="p-2 sm:w-1/2 w-full">
-                    {api3down ? (
-                      <>
-                        <div className="bg-red-500 rounded flex p-4 h-full items-center text-white">
-                          <Spinner className="mr-4" size="md" />
-                          <span className="title-font font-medium">Api server {"(Render)"}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-green-500 rounded flex p-4 h-full items-center text-white">
-                          <FaChevronCircleUp className="w-6 h-6 flex-shrink-0 mr-4" />
-                          <span className="title-font font-medium">Api server {"(Render)"}</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section className="body-font">
-              <div className="container px-5 py-24 mx-auto">
-                <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
-                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">OUR TEAM</h1>
-                  <p className="lg:w-2/3 mx-auto">We are a team of dedicated SMT students from Hatyaiwittayalai School, combining our coding and design skills to create innovative solutions for our school and community</p>
-                </div>
-                <div className="flex flex-wrap -m-4">
-                  <div className="p-4 lg:w-1/2">
-                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                      <img alt="Siraphop Sukchu" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/86290693?v=4"></img>
-                      <div className="flex-grow sm:pl-8">
-                        <h2 className="title-font font-medium text-lg text-gray-900">Siraphop Sukchu</h2>
-                        <h3 className="text-gray-500 mb-3">Frontend & API</h3>
-                        <p className="mb-4">{"JavaScript — the king of the coding kingdom"}</p>
-                        <span className="inline-flex">
-                          <a href="https://github.com/FujaTyping">
-                            <FaGithub
-                              className="h-6 w-6"
-                            />
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-4 lg:w-1/2">
-                    <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                      <img alt="TeetouchNoppakun" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/137798282?v=4"></img>
-                      <div className="flex-grow sm:pl-8">
-                        <h2 className="title-font font-medium text-lg text-gray-900">Teetouch Noppakun</h2>
-                        <h3 className="text-gray-500 mb-3">Database &  Authentication & Frontend</h3>
-                        <p className="mb-4">{"Rose are red ,Violet are blue. Unknown Error on line 32"}</p>
-                        <span className="inline-flex">
-                          <a href="https://github.com/kunzaka001">
-                            <FaGithub
-                              className="h-6 w-6"
-                            />
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section className="body-font">
-              <div className="container px-5 py-24 mx-auto">
-                <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
-                  <h1 style={{ fontSize: "30px" }} className="text-2xl title-font mb-4 tracking-widest font-bold">SUPPORTERS</h1>
-                  <p className="lg:w-2/3 mx-auto">We would like to express our sincere gratitude to all the individuals and organizations who have supported the <b>Yorwor67Slash5</b> project</p>
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-5">
-                  {data.map((Donor, index) => (
-                    <Tooltip content={Donor.name} style="light" key={index}>
-                      <img
-                        id={`${index}`}
-                        src={Donor.url}
-                        className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-105"
-                        alt={Donor.name}
-                      />
-                    </Tooltip>
-                  ))}
-                </div>
-              </div>
-            </section>
           </div>
+          <div className="grid lg:gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <div className="mt-4 space-y-12">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-md">
+                      <FaBook className="w-5 h-5" />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-lg font-medium leadi ">การจัดการภาระงาน</h4>
+                    <p className="mt-2 ">ระบบจะรวบรวมและแสดงรายการงานที่ได้รับมอบหมายให้นักเรียนสามารถตรวจสอบและจัดการได้อย่างสะดวก</p>
+                  </div>
+                </div>
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-md">
+                      <FaCode className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-lg font-medium leadi ">โปรแกรมจัดบริหารห้องเรียน</h4>
+                    <p className="mt-2 ">เว็บไซต์มีเครื่องมือในการจัดการข้อมูลต่าง ๆ ของห้องเรียน เช่น การติดตามการเข้าชั้นเรียน, การจัดการการบ้าน และอื่น ๆ เพื่ออำนวยความสะดวกในการบริหารห้องเรียน</p>
+                  </div>
+                </div>
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-md">
+                      <MdNotificationsNone className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h4 className="text-lg font-medium leadi ">การจัดการการแจ้งเตือน</h4>
+                    <p className="mt-2 ">ระบบสามารถส่งการแจ้งเตือนให้ผู้ใช้ผ่านอีเมลหรือแอปพลิเคชันเมื่อมีการอัปเดตข้อมูลสำคัญ เช่น การขาดเรียนหรือการบ้านที่ต้องส่ง</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div aria-hidden="true" className="mt-10 lg:mt-0">
+              <img className="rounded-lg" width="600" height="600" src="/assets/oSMT.png" />
+              <div className="mt-5 md:flex md:flex-wrap items-center justify-center gap-2 mt-4 grid grid-cols-2">
+                <img src="https://badgen.net/github/commits/FujaTyping/Yorwor67Slash5/dev?color=blue&icon=github" />
+                <img src="https://badgen.net/github/merged-prs/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+                <img src="https://badgen.net/github/contributors/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+                <img src="https://badgen.net/github/stars/FujaTyping/Yorwor67Slash5?color=blue&icon=github" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div style={{ marginTop: '-3rem' }} className="container">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <section className="body-font">
+            <div className="container px-5 py-24 mx-auto">
+              <div style={{ marginBottom: '40px' }} className="flex flex-col text-center w-full">
+                <h2 className="font-bold" style={{ fontSize: "35px" }}>
+                  ทีมของเรา
+                </h2>
+                <p className="lg:w-2/3 mx-auto">พวกเราเป็นทีมของนักเรียน SMT จากโรงเรียนหาดใหญ่วิทยาลัย ที่รวมทักษะการเขียนโค้ดและการออกแบบเพื่อสร้างสรรค์นวัตกรรมที่เป็นประโยชน์ต่อโรงเรียนและชุมชนของเรา</p>
+              </div>
+              <div className="flex flex-wrap -m-4">
+                <div className="p-4 lg:w-1/2">
+                  <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                    <img alt="Siraphop Sukchu" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/86290693?v=4"></img>
+                    <div className="flex-grow sm:pl-8 ">
+                      <h2 className="title-font font-medium text-lg">นาย สิรภพ สุขชู</h2>
+                      <h3 className="text-gray-500 mb-3">Frontend & API</h3>
+                      <p className="mb-4">{"สติมา โปรแกรมเกิด สติเตลิด Error กระจาย"}</p>
+                      <span className="inline-flex">
+                        <a href="https://github.com/FujaTyping">
+                          <FaGithub
+                            className="h-6 w-6"
+                          />
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 lg:w-1/2">
+                  <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                    <img alt="TeetouchNoppakun" className="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://avatars.githubusercontent.com/u/137798282?v=4"></img>
+                    <div className="flex-grow sm:pl-8">
+                      <h2 className="title-font font-medium text-lg text-gray-900">นาย ธีธัช นพคุณ</h2>
+                      <h3 className="text-gray-500 mb-3">Database &  Authentication & Frontend</h3>
+                      <p className="mb-4">{"การเขียนโค้ดก็เหมือนการเล่าเรื่อง... หลายครั้งก็เละเทะไปหมด"}</p>
+                      <span className="inline-flex">
+                        <a href="https://github.com/kunzaka001">
+                          <FaGithub
+                            className="h-6 w-6"
+                          />
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section style={{ marginTop: '-0.5rem' }} className="body-font">
+            <div className="container px-5 py-24 mx-auto">
+              <div style={{ marginBottom: '40px' }} className="flex flex-col text-center items-center justify-center w-full">
+                <h2 className="font-bold" style={{ fontSize: "35px" }}>
+                  ทำให้เป็นไปได้โดย<span className="font-bold bg-gradient-to-r from-blue-600 via-blue-400 to-red-600 inline-block text-transparent bg-clip-text">คุณ</span>
+                </h2>
+                <p className="lg:w-2/3 mx-auto">Yorwor67Slash5 ไม่ได้เป็นเจ้าของโดยองค์กรใด แต่เป็นโครงการที่ขับเคลื่อนโดยชุมชน - การพัฒนา Yorwor67Slash5 เป็นไปได้เพียงเพราะการสนับสนุนของคุณ</p>
+                <div className="mt-3" style={{ maxWidth: '22rem' }}>
+                  <Button
+                    as={Link}
+                    href="#"
+                    onClick={() => { setModelOpen(true); CynthiaV(); }}
+                    color="blue"
+                  >
+                    <BiSolidDonateHeart
+                      style={{ margin: "auto", marginRight: "5px" }}
+                      className="mr-3 h-4 w-4"
+                    />
+                    บริจาค (สนับสนุน)
+                  </Button>
+                </div>
+                <p className="lg:w-2/3 mx-auto mt-3">ขอขอบคุณที่ทำให้ Yorwor67Slash5 เป็นไปได้</p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                {data.map((Donor, index) => (
+                  <Tooltip content={Donor.name} style="light" key={index}>
+                    <img
+                      id={`${index}`}
+                      src={Donor.url}
+                      className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-105"
+                      alt={Donor.name}
+                    />
+                  </Tooltip>
+                ))}
+                <Tooltip content="คุณ (You)" style="light">
+                  <img
+                    src="https://avatar.iran.liara.run/public?username=You"
+                    className="h-20 w-20 md:h-36 md:w-36 rounded-full object-cover transition-transform duration-300 hover:scale-105"
+                    alt="You"
+                  />
+                </Tooltip>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       <Modal

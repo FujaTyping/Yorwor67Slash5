@@ -10,6 +10,10 @@ import smtConfig from "../smt-config.mjs";
 import { ToastContainer, toast } from 'react-toastify';
 import { Rating, Star } from '@smastrom/react-rating';
 import '@smastrom/react-rating/style.css';
+import { IoIosMail } from "react-icons/io";
+import { MdLocationPin, MdBugReport } from "react-icons/md";
+
+import PUN from "../assets/Feedback/Pun-Thanks.png"
 
 export default function Feedback() {
   const turnstile = useTurnstile();
@@ -97,221 +101,243 @@ export default function Feedback() {
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <ToastContainer position="bottom-right" newestOnTop draggable hideProgressBar={false} />
-      <div className="container px-5 py-24 mx-auto">
-        <div className="flex flex-col text-center w-full mb-12">
-          <h1 style={{ marginBottom: "15px" }} className="border-b">
-            📥 ส่งความคิดเห็น - Feedback
-          </h1>
-          <h2 style={{ fontSize: "18px" }}>
-            กรุณาแบ่งปันความคิดเห็นหรือข้อเสนอแนะของคุณเพื่อช่วยให้เราปรับปรุงบริการ เราจะพยามพัฒนาเว็บของเราตามความคิดเห็นทุกๆท่าน
-          </h2>
+      <div className="max-w-screen-lg mx-auto p-5 container">
+        <div className="grid grid-cols-1 md:grid-cols-12 border rounded-lg">
+          <div style={{ backgroundColor: '#2d76ff', position: 'relative' }} className="md:col-span-4 p-10 text-white rounded-lg">
+            <p className="mt-4 text-sm leading-7 font-regular uppercase">
+              ติดต่อ
+            </p>
+            <h3 className="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight flex items-center gap-2">
+              รายงานปัญหา <MdBugReport />
+            </h3>
+            <p className="mt-4 leading-7">
+              หากพบปัญหาหรือมีข้อเสนอแนะ โปรดแจ้งให้เราทราบ ทีมงานพร้อมปรับปรุงเพื่อประสบการณ์ที่ดียิ่งขึ้น
+            </p>
+            <div className="flex items-center mt-5 gap-3">
+              <IoIosMail className="w-6 h-6 text-white" />
+              <span className="text-sm">yorwor@siraphop.me</span>
+            </div>
+            <div className="flex items-center mt-5 gap-3">
+              <MdLocationPin className="w-6 h-6 text-white" />
+              <span className="text-sm">468 ถ.เพชรเกษม ต.หาดใหญ่ อ.หาดใหญ่ จ.สงขลา 90110</span>
+            </div>
+            <img
+              src={PUN.src}
+              alt="Pun"
+              className="absolute h-96 hidden md:block bottom-0 left-1/2 transform -translate-x-1/2 z-50"
+              style={{ zIndex: 0 }}
+            />
+          </div>
+          <div className="md:col-span-8 p-10">
+            <div className=" mx-auto">
+              <form className="flex flex-wrap -m-2">
+                <div className="p-2 w-1/2">
+                  <div className="relative">
+                    <label
+                      htmlFor="name"
+                      className="leading-7 text-sm"
+                    >
+                      สถานภาพ
+                    </label>
+                    <Select onChange={(e) => setYCS(e.target.value)} required>
+                      <option>นักเรียน</option>
+                      <option>ผู้สนับสนุน</option>
+                      <option>อาจารย์ (คุณครู)</option>
+                      <option>บุคคลทั่วไป</option>
+                      <option>ผู้ปกครอง</option>
+                    </Select>
+                  </div>
+                </div>
+                <div className="p-2 w-1/2">
+                  <div className="relative">
+                    <label
+                      htmlFor="email"
+                      className="leading-7 text-sm"
+                    >
+                      อีเมล
+                    </label>
+                    <TextInput
+                      placeholder="อีเมล"
+                      value={realEmail}
+                      onChange={(event) => setRealEmail(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      ประสบการณ์การใช้งานเว็ปไซต์ (UX)
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={UXrating} onChange={setUXRating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(UXrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      ความเรียบง่ายและสวยงามของเว็ปไซต์ (UI)
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={UIrating} onChange={setUIRating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(UIrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      เว็บไซต์ง่ายต่อการอ่านและการใช้งาน
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={STrating} onChange={setSTRating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(STrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      ความสะดวกในการเชื่อมโยงข้อมูลภายในเว็บไซต์
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={NDrating} onChange={setNDRating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(NDrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      มีการจัดหมวดหมู่ให้ง่ายต่อการค้นหา
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={THrating} onChange={setTHRating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(THrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full md:w-1/2">
+                  <div className="relative flex flex-col items-center">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      ระบบใช้งานสะดวกและไม่ซับซ้อน
+                    </label>
+                    <Rating style={{ maxWidth: 200 }} value={FUrating} onChange={setFURating} itemStyles={StarStyles} />
+                    <Badge
+                      className="mt-2 rounded-full"
+                      style={{
+                        maxWidth: '175px',
+                        color: 'white',
+                        background: '#2d76ff'
+                      }}
+                    >
+                      {RatingTOT(FUrating)}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="p-2 w-full">
+                  <div className="relative">
+                    <label
+                      htmlFor="description"
+                      className="leading-7 text-sm"
+                    >
+                      สิ่งที่ต้องการจะให้ปรับปรุง (หากไม่มีกรุณาใส่ -)
+                    </label>
+                    <Textarea
+                      placeholder="ข้อความของคุณ"
+                      onChange={(event) => setDecs(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="flex mt-2 justify-center items-center p-2 w-full">
+                  <Turnstile
+                    sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                    theme="light"
+                    language={"th"}
+                    onVerify={() => {
+                      setVerify(true);
+                    }}
+                  />
+                </div>
+                <div className="flex justify-center items-center p-2 w-full">
+                  {isLoading ? (
+                    <>
+                      <Button isProcessing style={{ backgroundColor: "#2d76ff" }}
+                        color="blue" onClick={submitFeedback}>
+                        ส่งคำขอ
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button style={{ backgroundColor: "#2d76ff" }}
+                        color="blue" onClick={submitFeedback}>
+                        ส่งคำขอ
+                        <IoSend className="ml-2 h-5 w-5" />
+                      </Button>
+                    </>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <div className="lg:w-1/2 md:w-2/3 mx-auto">
-          <form className="flex flex-wrap -m-2">
-            <div className="p-2 w-1/2">
-              <div className="relative">
-                <label
-                  htmlFor="name"
-                  className="leading-7 text-sm"
-                >
-                  สถานภาพ
-                </label>
-                <Select onChange={(e) => setYCS(e.target.value)} required>
-                  <option>นักเรียน</option>
-                  <option>ผู้สนับสนุน</option>
-                  <option>อาจารย์ (คุณครู)</option>
-                  <option>บุคคลทั่วไป</option>
-                  <option>ผู้ปกครอง</option>
-                </Select>
-              </div>
-            </div>
-            <div className="p-2 w-1/2">
-              <div className="relative">
-                <label
-                  htmlFor="email"
-                  className="leading-7 text-sm"
-                >
-                  อีเมล
-                </label>
-                <TextInput
-                  placeholder="อีเมล"
-                  value={realEmail}
-                  onChange={(event) => setRealEmail(event.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  ประสบการณ์การใช้งานเว็ปไซต์ (UX)
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={UXrating} onChange={setUXRating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(UXrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  ความเรียบง่ายและสวยงามของเว็ปไซต์ (UI)
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={UIrating} onChange={setUIRating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(UIrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  เว็บไซต์ง่ายต่อการอ่านและการใช้งาน
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={STrating} onChange={setSTRating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(STrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  ความสะดวกในการเชื่อมโยงข้อมูลภายในเว็บไซต์
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={NDrating} onChange={setNDRating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(NDrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  มีการจัดหมวดหมู่ให้ง่ายต่อการค้นหา
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={THrating} onChange={setTHRating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(THrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full md:w-1/2">
-              <div className="relative flex flex-col items-center">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  ระบบใช้งานสะดวกและไม่ซับซ้อน
-                </label>
-                <Rating style={{ maxWidth: 200 }} value={FUrating} onChange={setFURating} itemStyles={StarStyles} />
-                <Badge
-                  className="mt-2 rounded-full"
-                  style={{
-                    maxWidth: '175px',
-                    color: 'white',
-                    background: '#2d76ff'
-                  }}
-                >
-                  {RatingTOT(FUrating)}
-                </Badge>
-              </div>
-            </div>
-            <div className="p-2 w-full">
-              <div className="relative">
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm"
-                >
-                  สิ่งที่ต้องการจะให้ปรับปรุง (หากไม่มีกรุณาใส่ -)
-                </label>
-                <Textarea
-                  placeholder="ข้อความของคุณ"
-                  onChange={(event) => setDecs(event.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="flex mt-2 justify-center items-center p-2 w-full">
-              <Turnstile
-                sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
-                theme="light"
-                language={"th"}
-                onVerify={() => {
-                  setVerify(true);
-                }}
-              />
-            </div>
-            <div className="flex justify-center items-center p-2 w-full">
-              {isLoading ? (
-                <>
-                  <Button isProcessing style={{ backgroundColor: "#2d76ff" }}
-                    color="blue" onClick={submitFeedback}>
-                    ส่งคำขอ
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button style={{ backgroundColor: "#2d76ff" }}
-                    color="blue" onClick={submitFeedback}>
-                    ส่งคำขอ
-                    <IoSend className="ml-2 h-5 w-5" />
-                  </Button>
-                </>
-              )}
-            </div>
-          </form>
-        </div>
+        <p className="text-center mt-4">** เราจะทำการแก้ไขปัญหาให้เร็วที่สุด เท่าที่จะเป็นไปได้</p>
       </div>
     </>
   );
