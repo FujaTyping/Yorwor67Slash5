@@ -150,7 +150,7 @@ export default function Absent() {
               </p>
             </div>
           </div>
-          <div style={{ marginTop: "15px" }} className="ccard">
+          <div style={{ marginTop: "15px" }} className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">
               <span className="rounded-full bg-white p-3">
                 <CgBoy className="size-8" />

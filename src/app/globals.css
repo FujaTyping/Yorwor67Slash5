@@ -184,13 +184,6 @@ li:hover,
   margin: auto;
 }
 
-.ccard {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 30px;
-  margin: auto;
-}
-
 .FOF-flex {
   display: flex;
 }
@@ -336,10 +329,6 @@ ol h3 {
 
   h2 {
     font-size: 20px;
-  }
-
-  .ccard {
-    grid-template-columns: repeat(1, auto);
   }
 
   .FOF-flex {
