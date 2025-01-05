@@ -67,7 +67,7 @@ export default function Sheet() {
             .then((response) => {
                 setData(response.data.Sheet);
             })
-            .catch((error) => {
+            .catch(() => {
                 setData([
                     {
                         Url: "ไม่สามารถ",

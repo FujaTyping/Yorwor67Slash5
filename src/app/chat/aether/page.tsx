@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import useLocalStorge from "../../lib/localstorage-db";
 import { FloatingLabel, Button, Card, Modal, Label, Tooltip, Select, Spinner } from "flowbite-react";
-import AetherProfile from "../../assets/chat/ProfileAether.png"
+import AetherProfile from "../../assets/Chat/ProfileAether.png"
 import ChatBubble from "@/app/components/chat";
 import { IoSend } from "react-icons/io5";
 import smtConfig from "../../smt-config.mjs";

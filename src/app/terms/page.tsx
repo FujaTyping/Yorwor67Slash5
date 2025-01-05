@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Alert } from "flowbite-react";
-import { HiInformationCircle } from "react-icons/hi";
 import { IoIosMail } from "react-icons/io";
 import { TiWarning } from "react-icons/ti";
 import { MdMiscellaneousServices } from "react-icons/md";

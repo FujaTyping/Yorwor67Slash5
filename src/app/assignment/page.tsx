@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Pagination, Button, Label, Dropdown, Tooltip } from "flowbite-react";
 import { FaHistory, FaHandPointer, FaFilter } from "react-icons/fa";
@@ -96,7 +96,6 @@ export default function Homework() {
   const [hwDue, setHwDue] = useState("ไม่มีข้อมูล");
   const [hwTime, setHwTime] = useState("ไม่มีข้อมูล");
   const [hwisDue, setHwisDue] = useState(false);
-  const DatadetailsRef = useRef<null | HTMLDivElement>(null);
   const itemsPerPage = 15;
   const currentMonthText = currentDate.format("MMMM");
   const currentYearText = currentDate.format("YYYY");

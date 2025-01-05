@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { List, Accordion, Modal, Button, Checkbox, Label } from "flowbite-react";
-import Cynthia from '../assets/chat/Cynthia.jpg'
+import Cynthia from '../assets/Chat/Cynthia.jpg'
 import { useRouter } from "next/navigation";
-import Aether from '../assets/chat/Aether.jpg'
+import Aether from '../assets/Chat/Aether.jpg'
 import { AiFillExperiment } from "react-icons/ai";
 import useLocalStorge from "../lib/localstorage-db";
 import useSound from 'use-sound';
@@ -13,7 +13,7 @@ import { SiGooglegemini } from "react-icons/si";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BiSolidCustomize } from "react-icons/bi";
 
-export default function smtAI() {
+export default function SmtAI() {
     const [title] = useState("Hatyaiwit - AI");
     const [CynthiaV] = useSound("/assets/Sound/Cynthia.wav");
     const router = useRouter();

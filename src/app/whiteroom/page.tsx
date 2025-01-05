@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from "react"
-import { HiInformationCircle } from "react-icons/hi";
-import { Alert } from "flowbite-react";
 import TreeImg from "../assets/About/Tree.webp"
 import VeinImg from "../assets/About/Vein.webp"
 
