@@ -14,7 +14,7 @@ import generatePayload from "promptpay-qr";
 import { QRCodeSVG } from 'qrcode.react';
 import jsQR from 'jsqr';
 import { slipVerify } from 'promptparse/validate'
-import { MdNotificationsNone } from "react-icons/md";
+import { RiGitRepositoryCommitsFill } from "react-icons/ri";
 import useSound from 'use-sound';
 
 interface DonorName {
@@ -33,6 +33,7 @@ export default function AboutWeb() {
   const [displayPAY, setDisplayPAY] = useState("0");
   const [statusCOde, setSatusCode] = useState(1);
   const [qrCodeResult, setQrCodeResult] = useState("กรุณาอัพโหลด QR code");
+  const [commitMessage, setCommitMessage] = useState("กำลังดึงข้อมูล");
   const [data, setData] = useState<DonorName[]>([
     {
       name: "กำลังดึงข้อมูล",
@@ -118,6 +119,17 @@ export default function AboutWeb() {
 
     reader.readAsDataURL(file);
   };
+
+  useEffect(() => {
+    axios
+      .get(`https://api.github.com/repos/FujaTyping/Yorwor67Slash5/branches/dev`)
+      .then((response) => {
+        setCommitMessage(`${response.data.commit.commit.message} โดย ${response.data.commit.commit.committer.name}`);
+      })
+      .catch(() => {
+        setCommitMessage("ไม่สามารถดึงข้อมูลได้");
+      });
+  }, []);
 
   useEffect(() => {
     axios
@@ -227,12 +239,12 @@ export default function AboutWeb() {
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <div className="flex items-center justify-center w-12 h-12 rounded-md">
-                      <MdNotificationsNone className="w-6 h-6" />
+                      <RiGitRepositoryCommitsFill className="w-6 h-6" />
                     </div>
                   </div>
                   <div className="ml-4">
-                    <h4 className="text-lg font-medium leadi ">การจัดการการแจ้งเตือน</h4>
-                    <p className="mt-2 ">ระบบสามารถส่งการแจ้งเตือนให้ผู้ใช้ผ่านอีเมลหรือแอปพลิเคชันเมื่อมีการอัปเดตข้อมูลสำคัญ เช่น การขาดเรียนหรือการบ้านที่ต้องส่ง</p>
+                    <h4 className="text-lg font-medium leadi ">ระบบ Commit และ Deploy</h4>
+                    <p className="mt-2 ">ฟีเจอร์ที่ช่วย Commit และ Deploy โค้ดได้เร็ว ปลอดภัย และ Rollback หากเกิดปัญหา {`(ล่าสุด : ${commitMessage})`}</p>
                   </div>
                 </div>
               </div>

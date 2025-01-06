@@ -177,7 +177,7 @@ export default function Absent() {
                 <p className="text-2xl font-medium">
                   ไม่มา <span><CountUp end={parseInt(Staticdata.Absent)} duration={2} /></span> คน
                 </p>
-                <p className="text-sm">นักเรียนที่ไม่มา</p>
+                <p className="text-sm">นักเรียนที่ไม่มา {`เลขที่ ${data[0].Number}`}</p>
               </div>
             </article>
             <article className="cardd-item flex items-center gap-4 rounded-lg border border-gray-100 bg-white p-6">

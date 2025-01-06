@@ -18,7 +18,7 @@ export default function Terms() {
                         <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center"><MdMiscellaneousServices className="mr-3" /> ข้อตกลงและเงื่อนไขการใช้บริการ</h1>
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">1. การยอมรับข้อกำหนด</h2>
-                            <div className="text-gray-600">
+                            <div>
                                 <p>
                                     โดยการใช้งาน Yorwor67Slash5 คุณยืนยันว่าคุณได้อ่าน เข้าใจ และตกลงตามข้อกำหนดที่ระบุไว้ในเอกสารนี้ ข้อกำหนดเหล่านี้จะใช้กับการใช้งานเว็บไซต์และบริการใดๆ ที่มีการให้บริการผ่านเว็บไซต์นี้ เราขอสงวนสิทธิ์ในการแก้ไขหรือปรับปรุงข้อกำหนดเหล่านี้ได้ตลอดเวลา การใช้งานเว็บไซต์ต่อไปหลังจากการแก้ไขหรือปรับปรุงข้อกำหนดถือเป็นการยอมรับข้อกำหนดที่มีการอัปเดต
                                 </p>
@@ -26,7 +26,7 @@ export default function Terms() {
                         </section>
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">2. การปฏิเสธความรับผิด</h2>
-                            <div className="text-gray-600">
+                            <div>
                                 <p>
                                     Yorwor67Slash5 ถูกออกแบบมาเพื่อช่วยนักเรียนในการติดตามการเข้าเรียนและการจัดการการบ้าน อย่างไรก็ตาม ความถูกต้องของข้อมูลขึ้นอยู่กับข้อมูลที่ได้รับจากทั้งนักเรียนและบุคลากรของโรงเรียน เราไม่สามารถรับประกันความถูกต้องหรือความแม่นยำของข้อมูลที่ให้มา และจะไม่รับผิดชอบต่อข้อผิดพลาดหรือความคลาดเคลื่อนใดๆ ที่เกิดขึ้นจากการใช้งานเว็บไซต์
                                 </p>
@@ -40,7 +40,7 @@ export default function Terms() {
                         </section>
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">4. ความเป็นส่วนตัวและการใช้ข้อมูล</h2>
-                            <div className="text-gray-600">
+                            <div>
                                 <p>
                                     ความเป็นส่วนตัวของคุณมีความสำคัญกับเรา ข้อมูลส่วนบุคคลใดๆ ที่ถูกเก็บรวบรวมผ่านเว็บไซต์จะถูกใช้งานเฉพาะเพื่อวัตถุประสงค์ที่ตั้งไว้ เช่น การติดตามการเข้าเรียนและการจัดการการบ้าน ข้อมูลส่วนบุคคลของคุณจะไม่ถูกแบ่งปันกับบุคคลภายนอก
                                 </p>
@@ -49,7 +49,7 @@ export default function Terms() {
                         <section>
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">5. ข้อมูลติดต่อ</h2>
                             <div className="bg-gray-50 rounded-lg p-6 flex items-center justify-between">
-                                <p className="text-gray-600">หากคุณมีคำถาม ข้อกังวล หรือข้อเสนอแนะเกี่ยวกับข้อกำหนดนี้หรือเว็บไซต์ กรุณาติดต่อเราที่</p>
+                                <p>หากคุณมีคำถาม ข้อกังวล หรือข้อเสนอแนะเกี่ยวกับข้อกำหนดนี้หรือเว็บไซต์ กรุณาติดต่อเราที่</p>
                                 <a href="mailto:yorwor@siraphop.me" className="inline-flex items-center text-blue-600 hover:text-blue-500">
                                     <IoIosMail className="w-5 h-5 mr-2" />
                                     อีเมล

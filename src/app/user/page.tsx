@@ -1412,7 +1412,7 @@ export default function User() {
                           <MdOutlineUploadFile className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                         </>
                       ) : (<><img style={{ maxHeight: '10rem' }} className="rounded-lg" src={filePrv} /></>)}
-                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">{file == null ? ("คลิกเพื่ออัพโหลด") : (`${file.name}`)}</span>
                       </p>
                     </div>
@@ -1520,7 +1520,7 @@ export default function User() {
                           <MdOutlineUploadFile className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                         </>
                       ) : (<><img style={{ maxHeight: '10rem' }} className="rounded-lg" src={filePrv} /></>)}
-                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         <span className="font-semibold">{file == null ? ("คลิกเพื่ออัพโหลด") : (`${file.name}`)}</span>
                       </p>
                     </div>
