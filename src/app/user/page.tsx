@@ -368,7 +368,7 @@ export default function User() {
         setApi1down(true);
       });
     axios
-      .get(`${smtConfig.apiMain}ping`)
+      .get(`${smtConfig.apiUser}ping`)
       .then(() => {
         setApi2down(false);
       })
