@@ -80,7 +80,7 @@ export default function Sheet() {
     useEffect(() => {
         if (email && !showAlert) {
             axios
-                .get(`${smtConfig.apiUser}permission`, {
+                .get(`${smtConfig.apiMain}permission`, {
                     headers: {
                         Auth: email,
                     },

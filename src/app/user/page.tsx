@@ -38,6 +38,8 @@ import smtConfig from "../smt-config.mjs"
 import { ToastContainer, toast } from 'react-toastify';
 import { MdOutlineUploadFile } from "react-icons/md";
 
+const RealApiServer = smtConfig.apiBackup
+
 const ywTheme: CustomFlowbiteTheme = {
   datepicker: {
     popup: {
@@ -124,7 +126,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .patch(
-        `${smtConfig.apiUser}announcement`,
+        `${smtConfig.apiMain}announcement`,
         {
           msg: text,
         },
@@ -149,7 +151,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `${smtConfig.apiUser}absent`,
+        `${RealApiServer}absent`,
         {
           zabs: `${absent}`,
           zboy: `${boy}`,
@@ -179,7 +181,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `${smtConfig.apiUser}assignment`,
+        `${RealApiServer}assignment`,
         {
           subj: subj,
           time: time,
@@ -207,7 +209,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `${smtConfig.apiUser}classcode`,
+        `${smtConfig.apiMain}classcode`,
         {
           code: code,
           subj: subj,
@@ -234,7 +236,7 @@ export default function User() {
     setIsLoading(true);
     axios
       .post(
-        `${smtConfig.apiUser}line/announcement`,
+        `${RealApiServer}line/announcement`,
         {
           author: author,
           date: time,
@@ -276,7 +278,7 @@ export default function User() {
           console.log(titleAct, decs, dateAct, url);
           axios
             .post(
-              `${smtConfig.apiUser}activities`,
+              `${smtConfig.apiMain}activities`,
               {
                 title: titleAct,
                 decs: decs,
@@ -323,7 +325,7 @@ export default function User() {
           const url = await getDownloadURL(storageRef);
           axios
             .post(
-              `${smtConfig.apiUser}completion`,
+              `${smtConfig.apiMain}completion`,
               {
                 title: titleCom,
                 decs: decs,
@@ -366,7 +368,7 @@ export default function User() {
         setApi1down(true);
       });
     axios
-      .get(`${smtConfig.apiUser}ping`)
+      .get(`${smtConfig.apiMain}ping`)
       .then(() => {
         setApi2down(false);
       })
@@ -388,7 +390,7 @@ export default function User() {
       setTitleWeb(`Hatyaiwit - ผู้ใช้งาน ${email}`)
       checkAPIserver();
       axios
-        .get(`${smtConfig.apiUser}permission`, {
+        .get(`${smtConfig.apiMain}permission`, {
           headers: {
             Auth: email,
           },

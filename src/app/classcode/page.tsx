@@ -50,7 +50,7 @@ export default function Classroom() {
     if (email && !showAlert) {
       setStudentMsg("กรุณารอสักครู่");
       axios
-        .get(`${smtConfig.apiUser}permission`, {
+        .get(`${smtConfig.apiMain}permission`, {
           headers: {
             Auth: email,
           },

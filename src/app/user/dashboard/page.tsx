@@ -20,7 +20,7 @@ export default function Dashboard() {
         if (email) {
             setFetching(true);
             axios
-                .get(`${smtConfig.apiUser}permission`, {
+                .get(`${smtConfig.apiMain}permission`, {
                     headers: {
                         Auth: email,
                     },
