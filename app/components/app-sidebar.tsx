@@ -27,10 +27,13 @@ import { Separator } from "@/components/ui/separator"
 export function AppSidebar() {
     return (
         <Sidebar>
-            <SidebarHeader>
-                <div className="flex items-center gap-2 mx-auto">
-                    <img className="w-7" src={Logo.src} alt="Yorwor Logo" />
-                    SMT - Yorwor
+            <SidebarHeader className="flex items-center justify-center">
+                <div className="flex items-center gap-2 -ml-2">
+                    <img className="w-6" src={Logo.src} alt="Yorwor Logo" />
+                    <div>
+                        <h1 className="font-bold">ม.5/5</h1>
+                        <p className="text-xs">โรงเรียนหาดใหญ่วิทยาลัย</p>
+                    </div>
                 </div>
             </SidebarHeader>
             <SidebarContent>
