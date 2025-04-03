@@ -13,10 +13,10 @@ async function page() {
                         <h1 className='font-bold text-lg'>Assignment</h1>
                     </div>
                     <p className='text-sm'>หน้านี้รวบรวมงาน การบ้าน และสิ่งที่ต้องทำทั้งหมด พร้อมระบบแจ้งเตือน กรอง และค้นหา เพื่อให้ติดตามและจัดการงานได้ง่ายขึ้น</p>
-                    <div>
-                        <DataTableDemo />
-                    </div>
                 </div>
+            </div>
+            <div className='px-6 w-full'>
+                <DataTableDemo />
             </div>
         </>
     )

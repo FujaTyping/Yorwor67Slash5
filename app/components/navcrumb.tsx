@@ -11,6 +11,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { House } from "lucide-react";
+import Link from "next/link";
 
 const Navcrumb: React.FC = () => {
     const pathname = usePathname();
@@ -20,8 +21,8 @@ const Navcrumb: React.FC = () => {
         <Breadcrumb>
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink href="/">
-                        <House size={18} />
+                    <BreadcrumbLink asChild>
+                        <Link href="/"><House size={18} /></Link>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
                 {pathSegments.map((segment, index) => {
@@ -36,8 +37,8 @@ const Navcrumb: React.FC = () => {
                                         {segment.charAt(0).toUpperCase() + segment.slice(1)}
                                     </BreadcrumbPage>
                                 ) : (
-                                    <BreadcrumbLink href={href}>
-                                        {segment.charAt(0).toUpperCase() + segment.slice(1)}
+                                    <BreadcrumbLink asChild>
+                                        <Link href={href}>{segment.charAt(0).toUpperCase() + segment.slice(1)}</Link>
                                     </BreadcrumbLink>
                                 )}
                             </BreadcrumbItem>

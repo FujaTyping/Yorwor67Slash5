@@ -68,7 +68,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.425rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -140,7 +140,31 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.loader {
+  height: 4px;
+  width: 300px;
+  --c: no-repeat linear-gradient(#b1b1b1 0 0);
+  background: var(--c), var(--c), #000000;
+  background-size: 60% 100%;
+  animation: l16 3s infinite;
+}
+
+@keyframes l16 {
+  0% {
+    background-position: -150% 0, -150% 0
+  }
+
+  66% {
+    background-position: 250% 0, -150% 0
+  }
+
+  100% {
+    background-position: 250% 0, 250% 0
   }
 }
