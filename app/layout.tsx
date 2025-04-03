@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import Navcrumb from "./components/navcrumb";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +34,15 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <main>
-            <SidebarTrigger className="m-3" />
+            <div className="flex items-center gap-2 mx-6 m-3 mb-6">
+              <SidebarTrigger />
+              <div className="h-5">
+                <Separator orientation="vertical" />
+              </div>
+              <div className="ml-2">
+                <Navcrumb />
+              </div>
+            </div>
             {children}
           </main>
         </SidebarProvider>

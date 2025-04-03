@@ -59,9 +59,9 @@ export type TableDDATA = {
 export const columns: ColumnDef<TableDDATA>[] = [
   {
     accessorKey: "Time",
-    header: "วันที่",
+    header: () => <div className="hidden md:table-cell">วันที่</div>,
     cell: ({ row }) => (
-      <div>{row.getValue("Time")}</div>
+      <div className="hidden md:table-cell">{row.getValue("Time")}</div>
     ),
   },
   {
@@ -77,20 +77,24 @@ export const columns: ColumnDef<TableDDATA>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div>{row.getValue("Subject")}</div>,
+    cell: ({ row }) => <div className="max-w-sm break-words whitespace-pre-wrap">{row.getValue("Subject")}</div>,
   },
   {
     accessorKey: "Decs",
     header: () => <div>ลายละเอียด</div>,
     cell: ({ row }) => {
-      return <div>{row.getValue("Decs")}</div>
+      return (
+        <div className="max-w-sm break-words whitespace-pre-wrap">
+          {row.getValue("Decs")}
+        </div>
+      )
     },
   },
   {
     accessorKey: "Due",
     header: () => <div>วันกำหนดส่ง</div>,
     cell: ({ row }) => {
-      return <div>{row.getValue("Due")}</div>
+      return <div className="max-w-sm break-words whitespace-pre-wrap">{row.getValue("Due")}</div>
     },
   },
 ]
@@ -136,7 +140,7 @@ export function DataTableDemo() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-3">
         <Input
           placeholder="ค้นหาลายละเอียดงาน"
           value={(table.getColumn("Decs")?.getFilterValue() as string) ?? ""}
@@ -173,7 +177,7 @@ export function DataTableDemo() {
         </DropdownMenu>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -197,6 +201,7 @@ export function DataTableDemo() {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className={row.original.isDue ? "line-through opacity-50" : ""}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
