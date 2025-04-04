@@ -214,7 +214,7 @@ export function AppSidebar() {
                 <SidebarMenuButton asChild className="cursor-pointer">
                     <div>
                         <Lock />
-                        <span>เล็อกอิน</span>
+                        <span>ล็อกอิน</span>
                     </div>
                 </SidebarMenuButton>
             </SidebarFooter>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Component } from 'lucide-react'
+import ActivitiesTimeline from './grid/tl'
 
 function page() {
     return (
@@ -12,6 +13,9 @@ function page() {
                     </div>
                     <p className='text-sm'>หน้านี้รวบรวมกิจกรรมต่างๆ ที่เคยเกิดขึ้น ทั้งในและนอกห้องเรียน เพื่อใช้เป็นบันทึกและย้อนดูความทรงจำที่ผ่านมา</p>
                 </div>
+            </div>
+            <div className='px-6 w-full'>
+                <ActivitiesTimeline />
             </div>
         </>
     )

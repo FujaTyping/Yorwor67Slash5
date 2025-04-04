@@ -81,7 +81,7 @@ export const columns: ColumnDef<TableDDATA>[] = [
   },
   {
     accessorKey: "Decs",
-    header: () => <div>ลายละเอียด</div>,
+    header: () => <div>รายละเอียด</div>,
     cell: ({ row }) => {
       return (
         <div className="max-w-sm break-words whitespace-pre-wrap">
@@ -146,7 +146,7 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4 gap-3">
         <Input
-          placeholder="ค้นหาลายละเอียดงาน"
+          placeholder="ค้นหารายละเอียดงาน"
           value={(table.getColumn("Decs")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("Decs")?.setFilterValue(event.target.value)
