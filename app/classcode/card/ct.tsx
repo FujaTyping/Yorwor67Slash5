@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ export default function ClassroomCards() {
                 const fetchedClasses = response.data.Classcode.map((cls: any) => ({
                     title: cls.Subject,
                     teacher: cls.Teacher,
-                    color: "bg-blue-500",
+                    color: cls.Color || "oklch(62.3% 0.214 259.815)",
                     code: cls.Code
                 }));
                 setClasses(fetchedClasses);
@@ -47,18 +48,18 @@ export default function ClassroomCards() {
     };
 
     if (loading) {
-        return <div className="py-4"><div className="loader rounded-full"></div></div>;
+        return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>;
     }
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-4">
             {classes.map((cls, index) => (
                 <div key={index} className="overflow-hidden hover:shadow-lg rounded-md border border-gray-200 transition-all duration-150">
-                    <div className={`${cls.color} text-white p-4 flex items-center justify-between font-bold text-lg`}>
+                    <div style={{ backgroundColor: cls.color }} className={`text-white p-4 flex items-center justify-between font-bold text-lg`}>
                         <span>{cls.title}</span>
                     </div>
                     <div className="p-4 flex justify-between items-center">
-                        <span className="text-sm">{cls.teacher}</span>
+                        <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
                         <Button
                             variant="ghost"
                             className="hover:cursor-pointer"

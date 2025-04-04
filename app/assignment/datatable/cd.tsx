@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import * as React from "react"
@@ -137,6 +138,10 @@ export function DataTableDemo() {
       rowSelection,
     },
   })
+
+  if (loading) {
+    return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>;
+  }
 
   return (
     <div className="w-full">
