@@ -38,12 +38,12 @@ function TimelineItem({ title, date, description, image, imageAlt, isLast = fals
                 <img
                     src={image || "/placeholder.svg"}
                     alt={imageAlt}
-                    className="w-full h-48 object-cover"
+                    className="w-full object-cover"
                 />
                 <div className="p-4">
                     <h3 className="text-lg font-semibold">{title}</h3>
                     <p className="flex items-center gap-2 text-sm text-gray-500"><CalendarDays size={14} /> {date}</p>
-                    <p className="mt-2 text-gray-700">{description}</p>
+                    <p className="mt-2">{description}</p>
                 </div>
             </div>
         </div>

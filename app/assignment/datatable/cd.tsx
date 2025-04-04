@@ -136,6 +136,11 @@ export function DataTableDemo() {
       columnVisibility,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageSize: 20,
+      },
+    },
   })
 
   if (loading) {
