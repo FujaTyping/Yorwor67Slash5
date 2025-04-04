@@ -52,9 +52,9 @@ export default function ClassroomCards() {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4 w-full">
             {classes.map((cls, index) => (
-                <div key={index} className="overflow-hidden hover:shadow-lg rounded-md border border-gray-200 transition-all duration-150">
+                <div key={index} className="overflow-hidden hover:shadow-lg rounded-md border border-gray-200 transition-all duration-150 w-full">
                     <div style={{ backgroundColor: cls.color }} className={`text-white p-4 flex items-center justify-between font-bold text-lg`}>
                         <span>{cls.title}</span>
                     </div>
@@ -72,4 +72,5 @@ export default function ClassroomCards() {
             ))}
         </div>
     );
+    
 }

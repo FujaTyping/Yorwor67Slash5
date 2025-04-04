@@ -14,7 +14,7 @@ function page() {
                     <p className='text-sm'>หน้านี้รวบรวมรหัสเข้าห้องเรียน Google Classroom ของแต่ละวิชา เพื่อให้สามารถเข้าถึงและติดตามการเรียนได้สะดวก </p>
                 </div>
             </div>
-            <div className='px-6 max-w-4xl'>
+            <div className='px-6 w-full'>
                 <ClassroomGrid />
             </div>
         </>
