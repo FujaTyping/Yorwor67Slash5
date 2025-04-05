@@ -2,6 +2,12 @@ import React from 'react'
 import { PencilLine } from "lucide-react"
 
 import { DataTableDemo } from './datatable/cd'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ ภาระงาน',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 async function page() {
     return (

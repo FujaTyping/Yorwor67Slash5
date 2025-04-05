@@ -1,6 +1,12 @@
 import React from 'react'
 import { SquareAsterisk } from 'lucide-react';
 import ClassroomGrid from './card/ct';
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ รหัสเข้าห้องเรียน',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 function page() {
     return (

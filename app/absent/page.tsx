@@ -1,6 +1,12 @@
 import React from 'react'
 import { CalendarArrowUp } from 'lucide-react'
 import Main from './datatable/main'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ สถิตินักเรียน',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 function page() {
     return (

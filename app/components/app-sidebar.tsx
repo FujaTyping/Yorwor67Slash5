@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react"
 import {
-    Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, ChevronsUpDown, LogOut,
+    Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical
 } from "lucide-react"
 import Link from "next/link"
 import Logo from "@/app/assets/Yorwor.svg"
@@ -263,7 +263,7 @@ export function AppSidebar() {
                                         <span>{user.displayName}</span>
                                         <span className="text-xs font-semibold">{user.email}</span>
                                     </div>
-                                    <ChevronsUpDown className="ml-auto" />
+                                    <EllipsisVertical size={30} className="ml-auto" />
                                 </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent

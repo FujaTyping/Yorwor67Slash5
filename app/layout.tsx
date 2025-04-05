@@ -46,21 +46,21 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
-            <main>
-              <div className="flex items-center gap-2 mx-6 m-3 mb-6">
-                <SidebarTrigger />
-                <div className="h-5">
-                  <Separator orientation="vertical" />
+            <Providers>
+              <main>
+                <div className="flex items-center gap-2 mx-6 m-3 mb-6">
+                  <SidebarTrigger />
+                  <div className="h-5">
+                    <Separator orientation="vertical" />
+                  </div>
+                  <div className="ml-2">
+                    <Navcrumb />
+                  </div>
                 </div>
-                <div className="ml-2">
-                  <Navcrumb />
-                </div>
-              </div>
-              <Providers>
                 {children}
-              </Providers>
-              <Toaster />
-            </main>
+                <Toaster />
+              </main>
+            </Providers>
           </SidebarInset>
         </SidebarProvider>
       </body>

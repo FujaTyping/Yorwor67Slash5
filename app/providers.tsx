@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
-import Logo from "@/app/assets/YorworOutline.webp";
+import Logo from "@/app/assets/YorworOutline.svg";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const firstLayer = useRef<HTMLDivElement | null>(null);
@@ -78,11 +78,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
             <div
                 ref={firstLayer}
-                className="fixed inset-0 z-50 -translate-y-full bg-blue-400"
+                className="fixed inset-0 z-50 -translate-y-full bg-gray-50"
             />
             <div
                 ref={secondLayer}
-                className="fixed inset-0 z-50 -translate-y-full bg-blue-500 w-full flex items-center justify-center"
+                className="fixed inset-0 z-50 -translate-y-full bg-gray-100 w-full flex items-center justify-center"
             >
                 <img src={Logo.src} className="w-48 md:w-72" alt="Logo" />
             </div>

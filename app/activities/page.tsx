@@ -1,6 +1,12 @@
 import React from 'react'
 import { Component } from 'lucide-react'
 import ActivitiesTimeline from './grid/tl'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ กิจกรรม',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 function page() {
     return (
