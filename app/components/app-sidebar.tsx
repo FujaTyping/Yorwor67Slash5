@@ -1,6 +1,22 @@
-import { Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock } from "lucide-react"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
+
+import { useState, useEffect } from "react"
+import {
+    Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, ChevronsUpDown, LogOut,
+} from "lucide-react"
 import Link from "next/link"
 import Logo from "@/app/assets/Yorwor.svg"
+import { toast } from "sonner"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import {
     Sidebar,
@@ -24,7 +40,30 @@ import {
 
 import { Separator } from "@/components/ui/separator"
 
+import { signInWithGoogle } from "@/app/lib/firesbaseAuth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
 export function AppSidebar() {
+    const [user, setUser] = useState<any>(null);
+
+    const auth = getAuth();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setUser({
+                    uid: currentUser.uid,
+                    displayName: currentUser.displayName,
+                    email: currentUser.email,
+                    photoURL: currentUser.photoURL,
+                });
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
+    }, [auth]);
+
     return (
         <Sidebar>
             <SidebarHeader className="flex items-center justify-center">
@@ -211,12 +250,102 @@ export function AppSidebar() {
             </SidebarContent>
             <SidebarFooter>
                 <Separator />
-                <SidebarMenuButton asChild className="cursor-pointer">
-                    <div>
-                        <Lock />
-                        <span>ล็อกอิน</span>
-                    </div>
-                </SidebarMenuButton>
+                {user ? <>
+                    <SidebarMenuButton asChild className="my-1">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild className="cursor-pointer">
+                                <div className="flex items-center gap-2">
+                                    <Avatar className="h-8 w-8 rounded-lg">
+                                        <AvatarImage src={user.photoURL} alt={user.displayName} />
+                                        <AvatarFallback className="rounded-lg">{user.displayName}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="text-left text-sm">
+                                        <span className="font-semibold">{user.displayName}</span>
+                                        <span className="text-xs">{user.email}</span>
+                                    </div>
+                                    <ChevronsUpDown className="ml-auto" />
+                                </div>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                                side="right"
+                                align="end"
+                                sideOffset={4}
+                            >
+                                <DropdownMenuGroup asChild>
+                                    <DropdownMenuItem>
+                                        <Link href={"/dashboard"} className="flex items-center gap-2">
+                                            <UserRoundCog />
+                                            ไปยังหน้าผู้ใช้
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuGroup>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="cursor-pointer" onClick={() => {
+                                    toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                        description: <p className="text-black">กำลังสลับบัญชี</p>
+                                    })
+                                    signInWithGoogle()
+                                        .then((userData) => {
+                                            console.log(userData);
+                                            toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                                description: <p className="text-black">สลับบัญชีสำเร็จ</p>
+                                            })
+                                        })
+                                        .catch(() => {
+                                            toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                                description: <p className="text-black">ไม่สามารถสลับบัญชีได้ กรุณาลองใหม่อีกครั้ง</p>
+                                            })
+                                        });
+                                }}>
+                                    <Users />
+                                    สลับบัญชี
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="cursor-pointer" onClick={() => {
+                                    toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                        description: <p className="text-black">กำลังออกจากระบบ</p>
+                                    })
+                                    const auth = getAuth();
+                                    signOut(auth).then(() => {
+                                        toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                            description: <p className="text-black">ออกจากระบบสำเร็จ</p>
+                                        })
+                                    }).catch(() => {
+                                        toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                            description: <p className="text-black">ไม่สามารถออกจากระบบได้ กรุณาลองใหม่อีกครั้ง</p>
+                                        })
+                                    });
+                                }}>
+                                    <LogOut />
+                                    ออกจากระบบ
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuButton>
+                </> : <>
+                    <SidebarMenuButton asChild className="cursor-pointer">
+                        <div onClick={() => {
+                            toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                description: <p className="text-black">กำลังล็อกอิน</p>
+                            })
+                            signInWithGoogle()
+                                .then((userData) => {
+                                    console.log(userData);
+                                    toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                        description: <p className="text-black">ล็อกอินสำเร็จ</p>
+                                    })
+                                })
+                                .catch(() => {
+                                    toast(<h1 className="flex items-center gap-1 font-bold"><ShieldUser size={16} /> ระบบล็อกอิน</h1>, {
+                                        description: <p className="text-black">ไม่สามารถล็อกอินได้ กรุณาลองใหม่อีกครั้ง</p>
+                                    })
+                                });
+                        }}>
+                            <Lock />
+                            <span>ล็อกอิน</span>
+                        </div>
+                    </SidebarMenuButton>
+                </>}
             </SidebarFooter>
         </Sidebar>
     )
