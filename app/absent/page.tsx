@@ -1,6 +1,6 @@
 import React from 'react'
 import { CalendarArrowUp } from 'lucide-react'
-import { DataTableDemo } from './datatable/cd'
+import Main from './datatable/main'
 
 function page() {
     return (
@@ -15,7 +15,7 @@ function page() {
                 </div>
             </div>
             <div className='px-6 w-full'>
-                <DataTableDemo />
+                <Main />
             </div>
         </>
     )

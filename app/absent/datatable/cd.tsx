@@ -31,7 +31,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import axios from "axios"
 
 export type TableDDATA = {
     Date: string
@@ -40,28 +39,16 @@ export type TableDDATA = {
     All: string
 }
 
-async function getData(): Promise<TableDDATA[]> {
-    try {
-        const response = await axios.get(`https://api.smt.siraphop.me/absent`);
-        const absentData = response.data.Absent;
-
-        return absentData
-    } catch (error) {
-        console.error("ไม่สามารถดึงข้อมูลการขาดเรียนได้ :", error);
-        return [];
-    }
-}
-
 export const columns: ColumnDef<TableDDATA>[] = [
     {
-        accessorKey: "Date",
+        accessorKey: "date",
         header: () => <div>วันที่</div>,
         cell: ({ row }) => (
-            <div>{row.getValue("Date")}</div>
+            <div>{row.getValue("date")}</div>
         ),
     },
     {
-        accessorKey: "Count",
+        accessorKey: "count",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -70,35 +57,28 @@ export const columns: ColumnDef<TableDDATA>[] = [
                 สถิตินักเรียน <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
         ),
-        cell: ({ row }) => <div className="flex items-center gap-2"><UserCheck size={16} /> {36 - parseInt(row.getValue("Count"))} คน <UserX size={18} /> {row.getValue("Count")} คน</div>,
+        cell: ({ row }) => <div className="flex items-center gap-2"><UserCheck size={16} /> {36 - parseInt(row.getValue("count"))} คน <UserX size={18} /> {row.getValue("count")} คน</div>,
     },
     {
-        accessorKey: "Number",
+        accessorKey: "number",
         header: () => <div>เลขที่ ที่ไม่มา</div>,
         cell: ({ row }) => (
             <div className="max-w-sm break-words whitespace-pre-wrap">
-                {row.getValue("Number")}
+                {row.getValue("number")}
             </div>
         ),
     },
 ]
 
-export function DataTableDemo() {
+interface DataTableProps {
+    data: TableDDATA[];
+}
+
+export function DataTableDemo({ data }: DataTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
-    const [data, setData] = React.useState<TableDDATA[]>([])
-    const [loading, setLoading] = React.useState(true)
-
-    React.useEffect(() => {
-        const fetchData = async () => {
-            const result = await getData()
-            setData(result)
-            setLoading(false)
-        }
-        fetchData()
-    }, [])
 
     const table = useReactTable({
         data,
@@ -124,18 +104,14 @@ export function DataTableDemo() {
         },
     })
 
-    if (loading) {
-        return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>;
-    }
-
     return (
         <div className="w-full">
             <div className="flex items-center py-4 gap-3">
                 <Input
                     placeholder="ค้นหาวันที่"
-                    value={(table.getColumn("Date")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("date")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("Date")?.setFilterValue(event.target.value)
+                        table.getColumn("date")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
