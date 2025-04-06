@@ -1,21 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from 'next/font/local'
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import Navcrumb from "./components/navcrumb";
 import { Toaster } from "@/components/ui/sonner"
+import { Providers } from "./providers"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const PPLPartyFont = localFont({
+  src: [
+    {
+      path: './assets/font/anakotmai-light.woff2',
+      weight: '300',
+      style: 'light',
+    },
+    {
+      path: './assets/font/anakotmai-medium.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './assets/font/anakotmai-bold.woff2',
+      weight: '700',
+      style: 'bold',
+    },
+  ],
+})
 
 export const metadata: Metadata = {
   title: "โรงเรียนหาดใหญ่วิทยาลัย",
@@ -30,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${PPLPartyFont.className} antialiased`}
       >
         <SidebarProvider>
           <AppSidebar />
@@ -45,7 +56,9 @@ export default function RootLayout({
                   <Navcrumb />
                 </div>
               </div>
-              {children}
+              <Providers>
+                {children}
+              </Providers>
               <Toaster />
             </main>
           </SidebarInset>

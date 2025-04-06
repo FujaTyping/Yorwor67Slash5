@@ -260,8 +260,8 @@ export function AppSidebar() {
                                         <AvatarFallback className="rounded-lg">{user.displayName}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left text-sm">
-                                        <span className="font-semibold">{user.displayName}</span>
-                                        <span className="text-xs">{user.email}</span>
+                                        <span>{user.displayName}</span>
+                                        <span className="text-xs font-semibold">{user.email}</span>
                                     </div>
                                     <ChevronsUpDown className="ml-auto" />
                                 </div>
@@ -275,7 +275,7 @@ export function AppSidebar() {
                                 <DropdownMenuGroup asChild>
                                     <DropdownMenuItem>
                                         <Link href={"/dashboard"} className="flex items-center gap-2">
-                                            <UserRoundCog />
+                                            <UserRoundCog className="text-black" />
                                             ไปยังหน้าผู้ใช้
                                         </Link>
                                     </DropdownMenuItem>
@@ -298,7 +298,7 @@ export function AppSidebar() {
                                             })
                                         });
                                 }}>
-                                    <Users />
+                                    <Users className="text-black" />
                                     สลับบัญชี
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="cursor-pointer" onClick={() => {
@@ -316,7 +316,7 @@ export function AppSidebar() {
                                         })
                                     });
                                 }}>
-                                    <LogOut />
+                                    <LogOut className="text-black" />
                                     ออกจากระบบ
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
