@@ -22,8 +22,15 @@ export default function ClassroomCards() {
     const user = useAuth();
 
     useEffect(() => {
+        const timeout = setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+
+        if (!user) return;
+
         async function checkPermissionAndFetchClasses() {
-            if (!user?.email) {
+            if (!user.email) {
+                setLoading(false);
                 return;
             }
 
@@ -34,7 +41,14 @@ export default function ClassroomCards() {
                     }
                 });
                 setHasPermission(true);
+            } catch (error) {
+                console.error("บุคคลภายนอก :", error);
+                setHasPermission(false);
+                setLoading(false);
+                return;
+            }
 
+            try {
                 const response = await axios.get("https://api.smt.siraphop.me/classcode");
                 const fetchedClasses = response.data.Classcode.map((cls: any) => ({
                     title: cls.Subject,
@@ -44,15 +58,15 @@ export default function ClassroomCards() {
                 }));
                 setClasses(fetchedClasses);
             } catch (error) {
-                console.error("บุลคลภายนอก :", error);
-                setLoading(false);
-                setHasPermission(false);
+                console.error("Error fetching classes:", error);
             } finally {
                 setLoading(false);
             }
         }
 
         checkPermissionAndFetchClasses();
+
+        return () => clearTimeout(timeout);
     }, [user]);
 
     const handleCopy = (code: string) => {
@@ -71,7 +85,7 @@ export default function ClassroomCards() {
         );
     }
 
-    if (!user && !hasPermission) {
+    if (!user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
                 <TriangleAlert size={32} />
@@ -81,7 +95,7 @@ export default function ClassroomCards() {
         );
     }
 
-    if (user && !hasPermission) {
+    if (user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
                 <ShieldX size={32} />
@@ -92,24 +106,26 @@ export default function ClassroomCards() {
     }
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4 w-full">
-            {classes.map((cls, index) => (
-                <div key={index} className="overflow-hidden rounded-md border border-gray-200 transition-all duration-150 w-full">
-                    <div style={{ backgroundColor: cls.color }} className="text-white p-4 flex items-center justify-between font-bold text-lg">
-                        <span>{cls.title}</span>
+        <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4 w-full">
+                {classes.map((cls, index) => (
+                    <div key={index} className="overflow-hidden rounded-md border border-gray-200 transition-all duration-150 w-full">
+                        <div style={{ backgroundColor: cls.color }} className="text-white p-4 flex items-center justify-between font-bold text-lg">
+                            <span>{cls.title}</span>
+                        </div>
+                        <div className="p-4 flex justify-between items-center">
+                            <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
+                            <Button
+                                variant="ghost"
+                                className="hover:cursor-pointer"
+                                onClick={() => handleCopy(cls.code)}
+                            >
+                                {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
+                            </Button>
+                        </div>
                     </div>
-                    <div className="p-4 flex justify-between items-center">
-                        <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
-                        <Button
-                            variant="ghost"
-                            className="hover:cursor-pointer"
-                            onClick={() => handleCopy(cls.code)}
-                        >
-                            {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
-                        </Button>
-                    </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 }
