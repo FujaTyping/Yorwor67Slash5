@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { useState, useEffect } from "react"
 import {
     Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical
 } from "lucide-react"
@@ -41,28 +40,12 @@ import {
 import { Separator } from "@/components/ui/separator"
 
 import { signInWithGoogle } from "@/app/lib/firesbaseAuth";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useAuth } from "@/app/lib/getAuth";
+import { getAuth, signOut } from "firebase/auth";
 
 export function AppSidebar() {
-    const [user, setUser] = useState<any>(null);
 
-    const auth = getAuth();
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setUser({
-                    uid: currentUser.uid,
-                    displayName: currentUser.displayName,
-                    email: currentUser.email,
-                    photoURL: currentUser.photoURL,
-                });
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, [auth]);
+    const user = useAuth();
 
     return (
         <Sidebar>

@@ -84,7 +84,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 ref={secondLayer}
                 className="fixed inset-0 z-50 -translate-y-full bg-gray-100 w-full flex items-center justify-center"
             >
-                <img src={Logo.src} className="w-48 md:w-72" alt="Logo" />
+                <img src={Logo.src} className="w-48 sm:w-52 md:w-68" alt="Logo" />
             </div>
         </TransitionRouter>
     );
