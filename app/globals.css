@@ -155,10 +155,6 @@
   animation: l16 3s infinite;
 }
 
-.fade-in {
-  animation: fade-in 2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-}
-
 @keyframes l16 {
   0% {
     background-position: -150% 0, -150% 0
@@ -170,15 +166,5 @@
 
   100% {
     background-position: 250% 0, 250% 0
-  }
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
   }
 }

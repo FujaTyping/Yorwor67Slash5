@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { TransitionRouter } from "next-transition-router";
 import Logo from "@/app/assets/YorworOutline.svg";
 import { MessageCircleQuestion } from "lucide-react";
-import Link from "next/link";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const firstLayer = useRef<HTMLDivElement | null>(null);
@@ -86,13 +85,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 ref={secondLayer}
                 className="fixed inset-0 z-50 -translate-y-full bg-gray-100 w-full flex items-center justify-center"
             >
-                <Link
-                    href={"/"}
-                    className="absolute bottom-0 left-0 p-2 flex items-center gap-1 text-xs fade-in"
+                <div
+                    className="absolute bottom-0 left-0 p-2 flex items-center gap-1 text-xs cursor-pointer"
+                    onClick={() => window.location.reload()}
                 >
                     <MessageCircleQuestion size={14} />
-                    <h1>ติดอยู่หน้านี้ คลิกที่นี้เพื่อกลับไปหน้าหลัก</h1>
-                </Link>
+                    <h1>ติดอยู่หน้านี้ คลิกที่นี้เพื่อรีเฟรชหน้านี้ใหม่</h1>
+                </div>
                 <img src={Logo.src} className="w-48 sm:w-52 md:w-68" alt="Logo" />
             </div>
         </TransitionRouter>
