@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import axios from "axios"
+import Turnstile, { useTurnstile } from "react-turnstile";
 
 const categories = [
     { label: "รายงานปัญหาทั่วไป", value: "รายงานปัญหาทั่วไป" },
@@ -53,6 +54,11 @@ const formSchema = z.object({
         .max(500, {
             message: "ช้อความต้องไม่เกิน 500 ตัวอักษร",
         }),
+    captcha: z.string({
+        required_error: "กรุณายืนยันว่าคุณไม่ใช่บอท",
+    }).min(1, {
+        message: "กรุณายืนยันว่าคุณไม่ใช่บอท",
+    }),
 })
 
 export default function FeedbackForm() {
@@ -60,6 +66,7 @@ export default function FeedbackForm() {
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [open, setOpen] = useState(false)
     const [sopen, setSOpen] = useState(false)
+    const turnstile = useTurnstile();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -78,6 +85,7 @@ export default function FeedbackForm() {
             await axios.post("https://api.smt.siraphop.me/feedback", values)
 
             setIsSubmitted(true)
+            turnstile.reset();
 
             toast(<h1 className="flex items-center gap-1 font-bold"><MessageSquare size={16} /> ระบบความคิดเห็น</h1>, {
                 description: <p className="text-black">ส่งคำขอเรียบร้อยแล้ว</p>
@@ -291,6 +299,28 @@ export default function FeedbackForm() {
                                                 />
                                             </FormControl>
                                             <FormDescription>{field.value?.length || 0}/500 ตัวอักษร</FormDescription>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="captcha"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>ยืนยันตัวตน</FormLabel>
+                                            <FormControl>
+                                                <Turnstile
+                                                    sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                                                    onVerify={(token) => {
+                                                        field.onChange(token);
+                                                    }}
+                                                    onExpire={() => {
+                                                        field.onChange('');
+                                                    }}
+                                                />
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
