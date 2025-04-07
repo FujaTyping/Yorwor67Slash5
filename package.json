@@ -41,6 +41,7 @@
     "next-transition-router": "^0.2.9",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.55.0",
     "react-turnstile": "^1.1.4",
     "recharts": "^2.15.2",

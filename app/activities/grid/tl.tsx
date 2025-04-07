@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import axios from "axios"
 import { cn } from "@/lib/utils"
 import { CalendarDays } from "lucide-react"
 
@@ -57,16 +58,17 @@ export default function ActivitiesTimeline({ className }: { className?: string }
     useEffect(() => {
         const fetchActivities = async () => {
             try {
-                const res = await fetch("https://api.smt.siraphop.me/activities")
-                const data: { Activities: APIActivity[] } = await res.json()
+                const res = await axios.get<{ Activities: APIActivity[] }>("https://api.smt.siraphop.me/activities")
 
-                const formatted = data.Activities.map((item): TimelineItemProps => ({
-                    title: item.title,
-                    date: item.date,
-                    description: item.decs,
-                    image: item.url || "/placeholder.svg",
-                    imageAlt: item.title,
-                }))
+                const formatted = res.data.Activities
+                    .reverse()
+                    .map((item): TimelineItemProps => ({
+                        title: item.title,
+                        date: item.date,
+                        description: item.decs,
+                        image: item.url || "/placeholder.svg",
+                        imageAlt: item.title,
+                    }))
 
                 setItems(formatted)
             } catch (error) {
@@ -80,7 +82,11 @@ export default function ActivitiesTimeline({ className }: { className?: string }
     }, [])
 
     if (loading) {
-        return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>;
+        return (
+            <div className="my-10 flex items-center justify-center w-full">
+                <div className="loader rounded-full" />
+            </div>
+        )
     }
 
     return (
