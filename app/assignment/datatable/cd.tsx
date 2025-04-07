@@ -31,22 +31,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import axios from "axios"
-
-
-async function getData(): Promise<TableDDATA[]> {
-  try {
-    const response = await axios.get(`https://api.smt.siraphop.me/assignment`);
-    const homeworkData = response.data.Homework;
-
-    return homeworkData;
-  } catch (error) {
-    console.error("ไม่สามารถดึงข้อมูลได้ :", error);
-
-    return [];
-  }
-}
-
 
 export type TableDDATA = {
   Time: string
@@ -99,7 +83,11 @@ export const columns: ColumnDef<TableDDATA>[] = [
   },
 ]
 
-export function DataTableDemo() {
+interface DataTableDemoProps {
+  data: TableDDATA[]
+}
+
+export function DataTableDemo({ data }: DataTableDemoProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -107,17 +95,6 @@ export function DataTableDemo() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
-
-  const [data, setData] = React.useState<TableDDATA[]>([])
-  const [loading, setLoading] = React.useState(true)
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const result = await getData()
-      setData(result)
-      setLoading(false)
-    }
-    fetchData()
-  }, [])
 
   const table = useReactTable({
     data,
@@ -142,10 +119,6 @@ export function DataTableDemo() {
       },
     },
   })
-
-  if (loading) {
-    return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>;
-  }
 
   return (
     <div className="w-full">

@@ -1,7 +1,6 @@
 import React from 'react'
 import { PencilLine } from "lucide-react"
-
-import { DataTableDemo } from './datatable/cd'
+import Main from './datatable/main'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -22,7 +21,7 @@ async function page() {
                 </div>
             </div>
             <div className='px-6 w-full'>
-                <DataTableDemo />
+                <Main />
             </div>
         </>
     )
