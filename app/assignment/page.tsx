@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
 }
 
-async function page() {
+function page() {
     return (
         <>
             <div className='px-6 w-full'>

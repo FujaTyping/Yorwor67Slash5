@@ -214,7 +214,7 @@ export function AppSidebar() {
                         </SidebarMenu>
                         <SidebarMenu>
                             <SidebarMenuButton asChild>
-                                <Link href="/notify">
+                                <Link href="/notification">
                                     <Bell />
                                     <span>การแจ้งเตือน</span>
                                 </Link>
