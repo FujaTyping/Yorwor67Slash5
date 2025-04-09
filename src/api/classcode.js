@@ -26,9 +26,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { code: Code, teac: Teacher, subj: Subject } = req.body;
+        const { code: Code, teac: Teacher, subj: Subject, color: Color } = req.body;
 
-        if (!Code || !Teacher || !Subject) {
+        if (!Code || !Teacher || !Subject || !Color) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -38,6 +38,7 @@ module.exports = (db) => {
                 Code: `${Code}`,
                 Teacher: `${Teacher}`,
                 Subject: `${Subject}`,
+                Color: `${Color}`,
             });
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
