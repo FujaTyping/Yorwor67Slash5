@@ -59,7 +59,7 @@ function Main() {
 
     return (
         <div className="py-4 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+            <Link href={"/dashboard/announcement"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                 <Megaphone />
                 <h1 className='font-bold mt-1'>แก้ไขประกาศ</h1>
                 <p className='text-xs'>ข้อความประกาศของเว็ปไซต์</p>

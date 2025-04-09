@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown, Loader2, Send, MessageSquare, RotateCcw, Eye, CopyCheck, Copy } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Send, RotateCcw, Eye, CopyCheck, Copy, Database } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -91,12 +91,12 @@ export default function FForm() {
             setIsSubmitted(true)
             turnstile.reset();
 
-            toast(<h1 className="flex items-center gap-1 font-bold"><MessageSquare size={16} /> ระบบฐานข้อมูล</h1>, {
+            toast(<h1 className="flex items-center gap-1 font-bold"><Database size={16} /> ระบบฐานข้อมูล</h1>, {
                 description: <p className="text-black">บันทึกข้อมูลเรียบร้อยแล้ว</p>
             })
         } catch (error) {
             console.error(error)
-            toast(<h1 className="flex items-center gap-1 font-bold"><MessageSquare size={16} /> ระบบฐานข้อมูล</h1>, {
+            toast(<h1 className="flex items-center gap-1 font-bold"><Database size={16} /> ระบบฐานข้อมูล</h1>, {
                 description: <p className="text-black">ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง</p>
             })
         } finally {
