@@ -257,7 +257,7 @@ export function AppSidebar() {
                             >
                                 <DropdownMenuGroup asChild>
                                     <DropdownMenuItem>
-                                        <Link href={`/dashboard/${user.uid}`} className="flex items-center gap-2">
+                                        <Link href={`/dashboard`} className="flex items-center gap-2">
                                             <UserRoundCog className="text-black" />
                                             ไปยังหน้าผู้ใช้
                                         </Link>

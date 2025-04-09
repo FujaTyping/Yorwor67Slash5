@@ -1,8 +1,7 @@
-// /dashboard/[id]/page.tsx
 import { UserCog } from "lucide-react";
 import Main from "./main";
 
-export default async function Page() {
+export default function Page() {
     return (
         <>
             <div className='px-6 w-full'>
@@ -19,8 +18,4 @@ export default async function Page() {
             </div>
         </>
     );
-}
-
-export async function generateStaticParams() {
-    return [];
 }
