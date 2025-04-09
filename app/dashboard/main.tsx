@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
-import axios from 'axios';
 import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone } from "lucide-react";
 import Link from 'next/link';
+import { checkPermission } from '../lib/checkPermission';
 
 function Main() {
     const user = useAuth();
@@ -18,35 +18,13 @@ function Main() {
 
         if (!user) return;
 
-        async function checkPermission() {
-            if (!user.email) {
-                setLoading(false);
-                return;
-            }
-
-            try {
-                const response = await axios.get("https://api.smt.siraphop.me/permission", {
-                    headers: {
-                        "Auth": user.email
-                    }
-                });
-
-                if (response.data === "Admin") {
-                    setHasPermission(true);
-                } else {
-                    setHasPermission(false);
-                }
-            } catch (error) {
-                console.error("บุคคลภายนอก :", error);
-                setHasPermission(false);
-                setLoading(false);
-                return;
-            } finally {
-                setLoading(false);
-            }
+        async function fetchPermission() {
+            const permission = await checkPermission(user.email);
+            setHasPermission(permission);
+            setLoading(false);
         }
 
-        checkPermission();
+        fetchPermission();
 
         return () => clearTimeout(timeout);
     }, [user]);
@@ -91,7 +69,7 @@ function Main() {
                 <h1 className='font-bold mt-1'>เพิ่มข้อมูลภาระงาน</h1>
                 <p className='text-xs'>ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน</p>
             </Link>
-            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+            <Link href={"/dashboard/classcode"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                 <School />
                 <h1 className='font-bold mt-1'>เพิ่มข้อมูลรหัสห้องเรียน</h1>
                 <p className='text-xs'>ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน</p>
