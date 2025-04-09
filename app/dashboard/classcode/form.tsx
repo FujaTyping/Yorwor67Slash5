@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown, Loader2, Send, MessageSquare, RotateCcw } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Send, MessageSquare, RotateCcw, Eye, CopyCheck, Copy } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -56,6 +56,7 @@ export default function FForm() {
     const [open, setOpen] = useState(false)
     const turnstile = useTurnstile();
     const user = useAuth();
+    const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -65,6 +66,11 @@ export default function FForm() {
             teac: "",
         },
     })
+
+    const title = form.watch("subj") || "ชื่อวิชา"
+    const color = form.watch("color") || "#171717"
+    const code = form.watch("code") || "******"
+    const teacher = form.watch("teac") || "ชื่อครู"
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsSubmitting(true)
@@ -97,6 +103,14 @@ export default function FForm() {
             setIsSubmitting(false)
         }
     }
+
+    const handleCopy = (code: string) => {
+        navigator.clipboard.writeText(code);
+        setCopiedCode(code);
+        setTimeout(() => {
+            setCopiedCode(null);
+        }, 3000);
+    };
 
 
     if (isSubmitted) {
@@ -131,19 +145,88 @@ export default function FForm() {
     return (
         <>
             <div className="my-4">
-                <Card>
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)}>
-                            <CardContent className="space-y-6">
-                                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="flex flex-col-reverse lg:grid lg:grid-cols-3 lg:gap-4">
+                    <Card className="col-span-2">
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)}>
+                                <CardContent className="space-y-6">
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="subj"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>วิชา</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="กรุณาชื่อวิชา" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="color"
+                                            render={({ field }) => (
+                                                <FormItem className="flex flex-col">
+                                                    <FormLabel>สีพื้นหลัง</FormLabel>
+                                                    <Popover open={open} onOpenChange={setOpen}>
+                                                        <PopoverTrigger asChild>
+                                                            <FormControl>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    role="combobox"
+                                                                    className={cn("justify-between", !field.value && "text-muted-foreground")}
+                                                                >
+                                                                    {field.value
+                                                                        ? colors.find((category) => category.value === field.value)?.label
+                                                                        : "กรุณาสีพื้นหลัง"}
+                                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                                </Button>
+                                                            </FormControl>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="p-0">
+                                                            <Command>
+                                                                <CommandInput placeholder="ค้นหาสี" />
+                                                                <CommandList>
+                                                                    <CommandEmpty>ไม่พบสี</CommandEmpty>
+                                                                    <CommandGroup>
+                                                                        {colors.map((category) => (
+                                                                            <CommandItem
+                                                                                value={category.label}
+                                                                                key={category.value}
+                                                                                onSelect={() => {
+                                                                                    form.setValue("color", category.value)
+                                                                                    setOpen(false)
+                                                                                }}
+                                                                            >
+                                                                                <Check
+                                                                                    className={cn(
+                                                                                        "mr-2 h-4 w-4",
+                                                                                        category.value === field.value ? "opacity-100" : "opacity-0",
+                                                                                    )}
+                                                                                />
+                                                                                {category.label}
+                                                                            </CommandItem>
+                                                                        ))}
+                                                                    </CommandGroup>
+                                                                </CommandList>
+                                                            </Command>
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
                                     <FormField
                                         control={form.control}
-                                        name="subj"
+                                        name="code"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>วิชา</FormLabel>
+                                                <FormLabel>รหัสห้องเรียน</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="กรุณาชื่อวิชา" {...field} />
+                                                    <Input placeholder="กรุณาใส่รหัสห้องเรียน" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -151,125 +234,78 @@ export default function FForm() {
                                     />
                                     <FormField
                                         control={form.control}
-                                        name="color"
+                                        name="teac"
                                         render={({ field }) => (
-                                            <FormItem className="flex flex-col">
-                                                <FormLabel>สีพื้นหลัง</FormLabel>
-                                                <Popover open={open} onOpenChange={setOpen}>
-                                                    <PopoverTrigger asChild>
-                                                        <FormControl>
-                                                            <Button
-                                                                variant="outline"
-                                                                role="combobox"
-                                                                className={cn("justify-between", !field.value && "text-muted-foreground")}
-                                                            >
-                                                                {field.value
-                                                                    ? colors.find((category) => category.value === field.value)?.label
-                                                                    : "กรุณาสีพื้นหลัง"}
-                                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                            </Button>
-                                                        </FormControl>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="p-0">
-                                                        <Command>
-                                                            <CommandInput placeholder="ค้นหาสี" />
-                                                            <CommandList>
-                                                                <CommandEmpty>ไม่พบสี</CommandEmpty>
-                                                                <CommandGroup>
-                                                                    {colors.map((category) => (
-                                                                        <CommandItem
-                                                                            value={category.label}
-                                                                            key={category.value}
-                                                                            onSelect={() => {
-                                                                                form.setValue("color", category.value)
-                                                                                setOpen(false)
-                                                                            }}
-                                                                        >
-                                                                            <Check
-                                                                                className={cn(
-                                                                                    "mr-2 h-4 w-4",
-                                                                                    category.value === field.value ? "opacity-100" : "opacity-0",
-                                                                                )}
-                                                                            />
-                                                                            {category.label}
-                                                                        </CommandItem>
-                                                                    ))}
-                                                                </CommandGroup>
-                                                            </CommandList>
-                                                        </Command>
-                                                    </PopoverContent>
-                                                </Popover>
+                                            <FormItem>
+                                                <FormLabel>ครูผู้สอน</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="กรุณาใส่ชื่อคุณครู" {...field} />
+                                                </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+                                    <FormField
+                                        control={form.control}
+                                        name="captcha"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>ยืนยันตัวตน</FormLabel>
+                                                <FormControl>
+                                                    <Turnstile
+                                                        sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
+                                                        onVerify={(token) => {
+                                                            field.onChange(token);
+                                                        }}
+                                                        onExpire={() => {
+                                                            field.onChange('');
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </CardContent>
+                                <CardFooter>
+                                    <Button type="submit" className="w-full mt-6  cursor-pointer" disabled={isSubmitting}>
+                                        {isSubmitting ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                กำลังบันทึกข้อมูล
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Send />
+                                                บันทึกข้อมูล
+                                            </>
+                                        )}
+                                    </Button>
+                                </CardFooter>
+                            </form>
+                        </Form>
+                    </Card>
+                    <div className="flex flex-col w-full mb-6 lg:mb-0">
+                        <div className="border-2 border-gray-200 rounded-lg p-6">
+                            <p className="flex items-center gap-1 text-sm w-full mb-2"><Eye size={22} /> ดูตัวอย่าง</p>
+                            <div className="overflow-hidden rounded-md border border-gray-200 transition-all duration-150 w-full">
+                                <div style={{ backgroundColor: color }} className="text-white p-4 flex items-center justify-between font-bold text-lg">
+                                    <span className="break-all">{title}</span>
                                 </div>
-                                <FormField
-                                    control={form.control}
-                                    name="code"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>รหัสห้องเรียน</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="กรุณาใส่รหัสห้องเรียน" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="teac"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>ครูผู้สอน</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="กรุณาใส่ชื่อคุณครู" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="captcha"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>ยืนยันตัวตน</FormLabel>
-                                            <FormControl>
-                                                <Turnstile
-                                                    sitekey="0x4AAAAAAAwmJyPRGMPSMEvC"
-                                                    onVerify={(token) => {
-                                                        field.onChange(token);
-                                                    }}
-                                                    onExpire={() => {
-                                                        field.onChange('');
-                                                    }}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </CardContent>
-                            <CardFooter>
-                                <Button type="submit" className="w-full mt-6  cursor-pointer" disabled={isSubmitting}>
-                                    {isSubmitting ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            กำลังบันทึกข้อมูล
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Send />
-                                            บันทึกข้อมูล
-                                        </>
-                                    )}
-                                </Button>
-                            </CardFooter>
-                        </form>
-                    </Form>
-                </Card>
+                                <div className="p-4 flex justify-between items-center">
+                                    <span className="text-sm break-all">{teacher}<br />รหัส : {code}</span>
+                                    <Button
+                                        variant="ghost"
+                                        className="hover:cursor-pointer"
+                                        onClick={() => handleCopy(code)}
+                                    >
+                                        {copiedCode === code ? <CopyCheck size={16} /> : <Copy size={16} />}
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )
