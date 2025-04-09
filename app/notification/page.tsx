@@ -1,6 +1,12 @@
 import React from 'react'
 import { BellDot } from 'lucide-react';
 import System from './system';
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ การแจ้งเตือน',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 function Page() {
     return (

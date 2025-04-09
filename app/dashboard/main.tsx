@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
 import axios from 'axios';
-import { TriangleAlert, ShieldX, UserCheck } from "lucide-react";
+import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone } from "lucide-react";
+import Link from 'next/link';
 
 function Main() {
     const user = useAuth();
@@ -63,7 +64,7 @@ function Main() {
             <div className="py-4 w-full flex flex-col items-center justify-center">
                 <TriangleAlert size={32} />
                 <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
-                <p className="text-sm">เพื่อเป็นการยืนยันว่าเป็นนักเรียนห้อง ม.5/5</p>
+                <p className="text-sm">เพื่อเข้าหน้าผู้ใช้งาน</p>
             </div>
         );
     }
@@ -79,10 +80,42 @@ function Main() {
     }
 
     return (
-        <div className="py-4 w-full flex flex-col items-center justify-center">
-            <UserCheck size={32} />
-            <h1 className="font-bold text-lg">คุณมีสิทธิ์เข้าถึงหน้านี้</h1>
-            <p className="text-sm">ยินดีต้อนรับ {user.email}</p>
+        <div className="py-4 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <Megaphone />
+                <h1 className='font-bold mt-1'>แก้ไขประกาศ</h1>
+                <p className='text-xs'>ข้อความประกาศของเว็ปไซต์</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <NotebookPen />
+                <h1 className='font-bold mt-1'>เพิ่มข้อมูลภาระงาน</h1>
+                <p className='text-xs'>ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <School />
+                <h1 className='font-bold mt-1'>เพิ่มข้อมูลรหัสห้องเรียน</h1>
+                <p className='text-xs'>ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <ClipboardPen />
+                <h1 className='font-bold mt-1'>เช็คชื่อนักเรียน</h1>
+                <p className='text-xs'>เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <Volleyball />
+                <h1 className='font-bold mt-1'>เพิ่มข้อมูลการแข่งขัน</h1>
+                <p className='text-xs'>ข้อมูลการแข่งขันของนักเรียน</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <PartyPopper />
+                <h1 className='font-bold mt-1'>เพิ่มข้อมูลกิจกรรม</h1>
+                <p className='text-xs'>บันทึกกิจกรรม โดยฝ่ายกิจกรรม</p>
+            </Link>
+            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <Megaphone />
+                <h1 className='font-bold mt-1'>ส่งข้อความประกาศ</h1>
+                <p className='text-xs'>ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical</p>
+            </Link>
         </div>
     )
 }

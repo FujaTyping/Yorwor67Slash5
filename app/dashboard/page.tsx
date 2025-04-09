@@ -1,5 +1,11 @@
 import { UserCog } from "lucide-react";
 import Main from "./main";
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'โรงเรียนหาดใหญ่วิทยาลัย ╎ ผู้ใช้งาน',
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+}
 
 export default function Page() {
     return (
