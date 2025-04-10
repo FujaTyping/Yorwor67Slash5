@@ -21,7 +21,7 @@
   "dependencies": {
     "@firebase/firestore": "^4.7.2",
     "@google/generative-ai": "^0.21.0",
-    "@sparticuz/chromium": "^133.0.0",
+    "@sparticuz/chromium": "112",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -29,7 +29,7 @@
     "firebase": "^10.13.2",
     "imagekit": "^6.0.0",
     "openai-gpt-token-counter": "^1.1.1",
-    "puppeteer-core": "^24.6.1",
+    "puppeteer-core": "19.8.0",
     "swagger-ui-express": "^5.0.1"
   }
 }

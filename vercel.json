@@ -12,11 +12,6 @@
             "dest": "index.js"
         }
     ],
-    "functions": {
-        "src/api/**/*.js": {
-            "includeFiles": "node_modules/@sparticuz/chromium/**"
-        }
-    },
     "git": {
         "deploymentEnabled": {
             "main": false,
