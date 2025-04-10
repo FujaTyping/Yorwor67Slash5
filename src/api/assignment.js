@@ -53,16 +53,27 @@ module.exports = (db) => {
 
         try {
             const UID = generateID();
+            const SDate = new Date(Time).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+            const DDate = new Date(Due).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+
             await setDoc(doc(db, "Homework", `${UID}`), {
                 Decs: `${Decs}`,
-                Due: `${Due}`,
+                Due: `${DDate}`,
                 Subject: `${Subject}`,
-                Time: `${Time}`,
+                Time: `${SDate}`,
                 timestamp: serverTimestamp(),
             });
 
-            await pushNewHomework(Time, Subject, Decs, Due);
-            await notifyHomework(Time, Subject, Decs, Due);
+            await pushNewHomework(SDate, Subject, Decs, DDate);
+            await notifyHomework(SDate, Subject, Decs, DDate);
 
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
