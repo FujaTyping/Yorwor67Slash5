@@ -155,6 +155,11 @@
   animation: l16 3s infinite;
 }
 
+.outlinee {
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: oklch(92.8% 0.006 264.531);
+}
+
 @keyframes l16 {
   0% {
     background-position: -150% 0, -150% 0

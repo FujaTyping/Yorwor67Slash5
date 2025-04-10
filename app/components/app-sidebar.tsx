@@ -5,7 +5,7 @@ import {
     Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical
 } from "lucide-react"
 import Link from "next/link"
-import Logo from "@/app/assets/Yorwor.svg"
+import Logo from "@/app/assets/SMT.svg"
 import { toast } from "sonner"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -49,14 +49,22 @@ export function AppSidebar() {
 
     return (
         <Sidebar>
-            <SidebarHeader className="flex items-center justify-center">
-                <div className="flex items-center gap-2 -ml-2">
-                    <img className="w-6" src={Logo.src} alt="Yorwor Logo" />
-                    <div>
-                        <h1 className="font-bold">ม.5/5</h1>
-                        <p className="text-xs">โรงเรียนหาดใหญ่วิทยาลัย</p>
-                    </div>
-                </div>
+            <SidebarHeader>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <SidebarMenuButton size="lg" asChild>
+                            <Link href="/">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg">
+                                    <img src={Logo.src} alt="Logo" />
+                                </div>
+                                <div className="flex flex-col gap-0.5 leading-none">
+                                    <span className="font-semibold">ม.5/5</span>
+                                    <span className="text-xs">โรงเรียนหาดใหญ่วิทยาลัย</span>
+                                </div>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
