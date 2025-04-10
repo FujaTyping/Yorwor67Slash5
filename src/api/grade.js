@@ -1,5 +1,6 @@
 const express = require("express");
-const puppeteer = require('puppeteer');
+const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer-core");
 
 module.exports = (db) => {
     const router = express.Router();
@@ -12,10 +13,15 @@ module.exports = (db) => {
         if (!ID || !PAS || !MA) {
             return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
         } else {
+            let browser = null;
+
             try {
-                const browser = await puppeteer.launch({
-                    headless: true,
-                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                browser = await puppeteer.launch({
+                    args: chromium.args,
+                    defaultViewport: chromium.defaultViewport,
+                    executablePath: await chromium.executablePath(),
+                    headless: chromium.headless,
+                    ignoreHTTPSErrors: true,
                 });
                 const page = await browser.newPage();
                 await page.goto(`http://202.129.48.202/${MA}/`);
