@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, Loader2, Send, RotateCcw, Eye, Database, CalendarIcon, Upload, CalendarDays } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -24,6 +24,16 @@ import { cn } from "@/lib/utils"
 import { format } from "date-fns"
 import { th } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar"
+import { ImageKitProvider, IKUpload } from "imagekitio-next";
+
+const publicKey = process.env.NEXT_PUBLIC_KITPUBLICKEY;
+const urlEndpoint = process.env.NEXT_PUBLIC_KITURLENDPOINT;
+
+interface AuthResponse {
+    signature: string;
+    expire: number;
+    token: string;
+}
 
 const formSchema = z.object({
     title: z.string().min(5, {
@@ -32,14 +42,12 @@ const formSchema = z.object({
     date: z.date({
         required_error: "วันที่กิจกรรมต้องใส่",
     }),
-    image: z
-        .custom<File>((file) => file instanceof File, {
-            message: "กรุณาเลือกไฟล์ที่ถูกต้อง",
-        })
-        .refine((file) => file.size < 5 * 1024 * 1024, {
-            message: "ขนาดไฟล์ต้องไม่เกิน 5MB",
-        })
-        .nullable(),
+    uupdate: z.string(),
+    url: z.string({
+        required_error: "กรุณาอัพโหลดรูปกิจกรรม",
+    }).min(6, {
+        message: "กรุณาอัพโหลดรูปกิจกรรม",
+    }),
     decs: z
         .string()
         .min(10, {
@@ -62,6 +70,8 @@ export default function FForm() {
     const [preview, setPreview] = useState<string | null>(null);
     const turnstile = useTurnstile();
     const user = useAuth();
+    const uploadRef = useRef<HTMLInputElement | null>(null);
+    const [imageProgress, setimageProgress] = useState(0);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -69,6 +79,11 @@ export default function FForm() {
             title: "",
             decs: "",
             date: new Date(),
+            uupdate: new Date().toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }),
         },
     })
 
@@ -81,7 +96,7 @@ export default function FForm() {
 
         try {
             const res = await axios.post(
-                "https://api.smt.siraphop.me/classcode",
+                "https://api.smt.siraphop.me/activities",
                 values,
                 {
                     headers: {
@@ -107,6 +122,32 @@ export default function FForm() {
             setIsSubmitting(false)
         }
     }
+
+    const authenticator = async (): Promise<AuthResponse> => {
+        try {
+            const response = await axios.get("https://api.smt.siraphop.me/kitAuth");
+
+            const { signature, expire, token } = response.data;
+            return { signature, expire, token };
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    throw new Error(`Request failed with status ${error.response.status}: ${error.response.data}`);
+                } else if (error.request) {
+                    throw new Error('No response received from the server');
+                }
+            }
+            throw new Error(`Authentication request failed: ${(error as Error).message}`);
+        }
+    };
+
+    const onError = (err: any) => {
+        console.error("Error", err);
+    };
+
+    const onSuccess = (res: any) => {
+        console.log("Success", res);
+    };
 
 
     if (isSubmitted) {
@@ -194,6 +235,7 @@ export default function FForm() {
                                                                     date > new Date() || date < new Date("1900-01-01")
                                                                 }
                                                                 initialFocus
+                                                                locale={th}
                                                             />
                                                         </PopoverContent>
                                                     </Popover>
@@ -204,54 +246,62 @@ export default function FForm() {
                                     </div>
                                     <FormField
                                         control={form.control}
-                                        name="image"
+                                        name="url"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>อัปโหลดรูปกิจกรรม</FormLabel>
                                                 <FormControl>
                                                     <div>
-                                                        <label
-                                                            htmlFor="image-upload"
-                                                            className={cn(
-                                                                "flex flex-col items-center justify-center w-full border-2 rounded-lg cursor-pointer"
-                                                            )}
+                                                        <ImageKitProvider
+                                                            publicKey={publicKey}
+                                                            urlEndpoint={urlEndpoint}
+                                                            authenticator={authenticator}
                                                         >
-                                                            <div className="flex flex-col items-center justify-center p-6">
-                                                                {!preview ? (
-                                                                    <>
-                                                                        <Upload className="h-8 w-8 text-gray-500 dark:text-gray-400" />
-                                                                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                                            คลิกเพื่ออัปโหลด
-                                                                        </p>
-                                                                    </>
-                                                                ) : (
-                                                                    <img
-                                                                        src={preview}
-                                                                        alt="Preview"
-                                                                        className="object-cover rounded-md"
-                                                                    />
+                                                            <label
+                                                                htmlFor="image-upload"
+                                                                className={cn(
+                                                                    "flex flex-col items-center justify-center w-full border-2 rounded-lg cursor-pointer"
                                                                 )}
-                                                            </div>
-                                                            <Input
-                                                                id="image-upload"
-                                                                type="file"
-                                                                accept="image/*"
-                                                                className="hidden"
-                                                                onChange={(e) => {
-                                                                    const file = e.target.files?.[0];
-                                                                    if (file) {
-                                                                        field.onChange(file);
-                                                                        setPreview(URL.createObjectURL(file));
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </label>
+                                                            >
+                                                                <div onClick={() => uploadRef.current?.click()} className="flex flex-col items-center justify-center p-6">
+                                                                    {!preview ? (
+                                                                        <>
+                                                                            {imageProgress > 0 ? <><Loader2 className="h-8 w-8 animate-spin text-gray-500" /></> : <><Upload className="h-8 w-8 text-gray-500" /></>}
+                                                                            <p className="text-sm text-gray-500 mt-2">
+                                                                                คลิกเพื่ออัปโหลด
+                                                                            </p>
+                                                                            <IKUpload
+                                                                                ref={uploadRef}
+                                                                                className="hidden"
+                                                                                onUploadProgress={(progress) => {
+                                                                                    const perc = Math.round((progress.loaded / progress.total) * 100);
+                                                                                    setimageProgress(perc);
+                                                                                }}
+                                                                                fileName="Activities.png"
+                                                                                onError={onError}
+                                                                                onSuccess={(fileInfo) => {
+                                                                                    field.onChange(fileInfo.url);
+                                                                                    setPreview(fileInfo.url);
+                                                                                }}
+                                                                            />
+                                                                        </>
+                                                                    ) : (
+                                                                        <img
+                                                                            src={preview}
+                                                                            alt="Preview"
+                                                                            className="object-cover rounded-md"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </label>
+                                                        </ImageKitProvider>
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={form.control}
                                         name="decs"
