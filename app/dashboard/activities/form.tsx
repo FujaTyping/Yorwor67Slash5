@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState, useRef } from "react"
@@ -144,11 +145,6 @@ export default function FForm() {
     const onError = (err: any) => {
         console.error("Error", err);
     };
-
-    const onSuccess = (res: any) => {
-        console.log("Success", res);
-    };
-
 
     if (isSubmitted) {
         return (
