@@ -64,7 +64,7 @@ function Main() {
                 <h1 className='font-bold mt-1'>แก้ไขประกาศ</h1>
                 <p className='text-xs'>ข้อความประกาศของเว็ปไซต์</p>
             </Link>
-            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+            <Link href={"/dashboard/assignment"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                 <NotebookPen />
                 <h1 className='font-bold mt-1'>เพิ่มข้อมูลภาระงาน</h1>
                 <p className='text-xs'>ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน</p>
