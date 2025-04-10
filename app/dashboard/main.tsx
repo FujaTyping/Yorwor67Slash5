@@ -84,7 +84,7 @@ function Main() {
                 <h1 className='font-bold mt-1'>เพิ่มข้อมูลการแข่งขัน</h1>
                 <p className='text-xs'>ข้อมูลการแข่งขันของนักเรียน</p>
             </Link>
-            <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+            <Link href={"/dashboard/activities"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                 <PartyPopper />
                 <h1 className='font-bold mt-1'>เพิ่มข้อมูลกิจกรรม</h1>
                 <p className='text-xs'>บันทึกกิจกรรม โดยฝ่ายกิจกรรม</p>
