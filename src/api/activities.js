@@ -15,16 +15,23 @@ module.exports = (db) => {
         const url = req.body.url;
         const date = req.body.date;
         const uupdate = req.body.updatee;
+
         if (!title || !decs || !url || !date) {
             res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         } else {
             const UID = generateID();
             const statActRef = doc(db, "Status", "Activities");
+            const TDate = new Date(date).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+
             await setDoc(doc(db, "Activities", `${UID}`), {
                 title: `${title}`,
                 decs: `${decs}`,
                 url: `${url}`,
-                date: `${date}`,
+                date: `${TDate}`,
                 timestamp: serverTimestamp(),
             });
             await updateDoc(statActRef, {
