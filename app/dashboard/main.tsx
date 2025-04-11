@@ -39,6 +39,7 @@ function Main() {
                 await axios.get(url);
                 setStatus('online');
             } catch (error) {
+                console.log(`Failed to ping the server : ${error}`)
                 setStatus('offline');
             }
         };
@@ -108,7 +109,7 @@ function Main() {
                     <h1 className='font-bold mt-1'>เพิ่มข้อมูลกิจกรรม</h1>
                     <p className='text-xs'>บันทึกกิจกรรม โดยฝ่ายกิจกรรม</p>
                 </Link>
-                <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <Link href={"/dashboard/line"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <Megaphone />
                     <h1 className='font-bold mt-1'>ส่งข้อความประกาศ</h1>
                     <p className='text-xs'>ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical</p>
