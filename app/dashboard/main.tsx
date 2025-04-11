@@ -44,7 +44,7 @@ function Main() {
         };
 
         checkApi('https://api.smt.siraphop.me/ping', setStatusMain);
-        checkApi('https://api3.smt.siraphop.me/pings', setStatusBackup);
+        checkApi('https://api3.smt.siraphop.me/ping', setStatusBackup);
     }, []);
 
     if (loading) {
