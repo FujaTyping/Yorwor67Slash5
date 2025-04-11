@@ -36,9 +36,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { zabs: ZAbsent, zboy: ZBoy, zdate: ZDate, zgirl: ZGirl, date: Date, number: Number } = req.body;
+        const { zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: Date, number: Number } = req.body;
 
-        if (!ZAbsent || !ZBoy || !ZDate || !ZGirl || !Date || !Number) {
+        if (!ZAbsent || !ZBoy || !ZGirl || !Date || !Number) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -49,22 +49,28 @@ module.exports = (db) => {
             const Boy = 21 - parseInt(ZBoy);
             const Girl = 15 - parseInt(ZGirl);
 
+            const DDate = new Date(Date).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+
             await updateDoc(statAbRef, {
                 Absent: `${ZAbsent}`,
                 Boy: `${Boy}`,
-                Date: `${ZDate}`,
+                Date: `${DDate}`,
                 Girl: `${Girl}`,
             });
 
             await setDoc(doc(db, "Absent", `${UID}`), {
                 All: `ขาด / ลา ${ZAbsent}`,
                 Count: `${ZAbsent}`,
-                Date: `${Date}`,
+                Date: `${DDate}`,
                 Number: `${Number}`,
                 timestamp: serverTimestamp(),
             });
 
-            await pushNewAbsent(Date, ZAbsent, Number, Boy, Girl);
+            await pushNewAbsent(DDate, ZAbsent, Number, Boy, Girl);
 
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
