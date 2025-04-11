@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
-import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed } from "lucide-react";
+import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed, Database } from "lucide-react";
 import Link from 'next/link';
 import { checkPermission } from '../lib/checkPermission';
 import axios from 'axios';
+import { toast } from "sonner"
 
 function Main() {
     const user = useAuth();
@@ -94,16 +95,29 @@ function Main() {
                     <h1 className='font-bold mt-1'>เพิ่มข้อมูลรหัสห้องเรียน</h1>
                     <p className='text-xs'>ข้อมูลรหัสห้องเรียน จาก ครูแต่ละวิชา โดยฝ่ายการเรียน</p>
                 </Link>
-                <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <Link href={"/dashboard/absent"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <ClipboardPen />
                     <h1 className='font-bold mt-1'>เช็คชื่อนักเรียน</h1>
                     <p className='text-xs'>เช็คจำนวนสมาชิกภายในห้อง โดยฝ่ายสารวัตร</p>
                 </Link>
-                <Link href={"#"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
+                <div onClick={() => {
+                    toast(
+                        <h1 className="flex items-center gap-1 font-bold">
+                            <Database size={16} /> ระบบฐานข้อมูล
+                        </h1>,
+                        {
+                            description: (
+                                <p className="text-black">
+                                    หน้านี้ปิดใช้งานชั่วคราว
+                                </p>
+                            ),
+                        },
+                    );
+                }} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <Volleyball />
                     <h1 className='font-bold mt-1'>เพิ่มข้อมูลการแข่งขัน</h1>
                     <p className='text-xs'>ข้อมูลการแข่งขันของนักเรียน</p>
-                </Link>
+                </div>
                 <Link href={"/dashboard/activities"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <PartyPopper />
                     <h1 className='font-bold mt-1'>เพิ่มข้อมูลกิจกรรม</h1>
