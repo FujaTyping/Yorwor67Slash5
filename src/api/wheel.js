@@ -17,10 +17,12 @@ module.exports = (db) => {
                 WheelRealData.StudentData = [];
 
                 const querySnapshot = await getDocs(collection(db, "Wheel"));
-                
+
                 querySnapshot.forEach((doc) => {
                     WheelRealData.StudentData.push(doc.data());
                 });
+
+                WheelRealData.StudentData.sort((a, b) => Number(a.number) - Number(b.number));
 
                 WheellastFetchTime = Date.now();
             }
@@ -29,7 +31,7 @@ module.exports = (db) => {
 
         } catch (error) {
             console.error("Error fetching Wheel data:", error);
-            res.status(500).send("เกิดข้อผิดพลาดขณะดึงข้อมูล Wheel");
+            res.status(500).send("เกิดข้อผิดพลาดขณะดึงข้อมูล");
         }
     });
 

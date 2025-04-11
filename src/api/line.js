@@ -8,13 +8,19 @@ module.exports = (db) => {
     const router = express.Router();
 
     router.post('/announcement', Authenticate(db), async (req, res) => {
-        const { date, author, message } = req.body;
+        const { date, author, message, title } = req.body;
 
-        if (!date || !author || !message) {
+        if (!date || !author || !message || !title) {
             return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
         }
 
         const stickerID = randomSticker();
+        const DDate = new Date(date).toLocaleDateString('th-TH', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+
         const Linedata = {
             messages: [
                 {
@@ -24,7 +30,7 @@ module.exports = (db) => {
                 },
                 {
                     type: 'text',
-                    text: `📣 ประกาศจาก ${author}\nณ วันที่ ${date}\n${message}`,
+                    text: `📣 ประกาศจาก ${author}\nณ วันที่ ${DDate}\nเรื่อง : ${title}\n${message}`,
                 },
             ],
         };
