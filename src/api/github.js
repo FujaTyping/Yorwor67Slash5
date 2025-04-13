@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 
-let RealData = { data: [] };
+let RealData = {};
 let lastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
 
@@ -23,7 +23,7 @@ module.exports = (db) => {
 
                 if (match) {
                     const version = match[1];
-                    RealData.data.push({ version });
+                    RealData.version = version;
                     lastFetchTime = Date.now();
                 } else {
                     return res.status(400).send('No last page found in link header');
