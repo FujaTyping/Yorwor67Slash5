@@ -55,7 +55,7 @@ export function AppSidebar() {
                         <SidebarMenuButton size="lg" asChild>
                             <Link href="/">
                                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg">
-                                    <img src={Logo.src} alt="Logo" />
+                                    <img src={Logo.src} alt="Logo" width={600} height={600} />
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
                                     <span className="font-semibold">ม.5/5</span>

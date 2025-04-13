@@ -22,7 +22,7 @@ function page() {
                 </div>
             </div>
             <div className='px-6 w-full py-4'>
-                <img src={Tree.src} alt="Student Tree" className="w-full object-cover max-w-[1100px] mx-auto" />
+                <img src={Tree.src} alt="Student Tree" className="w-full object-cover max-w-[1100px] mx-auto" height={960} width={1280} />
             </div>
             <div className='px-6 w-full'>
                 <div>
@@ -34,7 +34,7 @@ function page() {
                 </div>
             </div>
             <div className='px-6 w-full py-4'>
-                <img src={SS.src} alt="Schedule" className="w-full object-cover max-w-[1100px] mx-auto" />
+                <img src={SS.src} alt="Schedule" className="w-full object-cover max-w-[1100px] mx-auto" height={960} width={1280} />
             </div>
         </>
     )

@@ -92,7 +92,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     <MessageCircleQuestion size={14} />
                     <h1>ติดอยู่หน้านี้ คลิกที่นี้เพื่อรีเฟรชหน้านี้ใหม่</h1>
                 </div>
-                <img src={Logo.src} className="w-48 sm:w-52 md:w-68" alt="Logo" />
+                <img src={Logo.src} className="w-48 sm:w-52 md:w-68" alt="Logo" width={512} height={512} />
             </div>
         </TransitionRouter>
     );
