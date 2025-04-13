@@ -1,7 +1,5 @@
-import { CalendarDays } from "lucide-react";
 import Announcement from "./components/page/announcement";
-import Schedule from "@/app/assets/media/Timetable.webp"
-import ExSchedule from "@/app/assets/media/ExamTimetable.webp"
+import Logo from "@/app/assets/Yorwor.svg"
 
 export default function Home() {
   return (
@@ -9,34 +7,13 @@ export default function Home() {
       <div className='px-6 w-full'>
         <Announcement />
       </div>
-      <div className="px-6 w-full flex flex-col items-center justify-center">
-        <div className="py-4">
-          <h1 className="font-bold text-xl">หน้าเว็ปไหม่จะมาเร็วๆนี้</h1>
+      <div className="px-6 py-4 w-full">
+        <div className="my-4 flex flex-col items-center justify-center">
+          <img src={Logo.src} alt="Logo" className="w-14 md:w-18" />
+          <h1 className="font-bold text-2xl md:text-4xl my-2">ม.5/5 - โครงการ SMT</h1>
+          <p>แพลตฟอร์มจัดการห้องเรียนสำหรับ ม.5/5 SMT โรงเรียนหาดใหญ่วิทยาลัย ช่วยให้นักเรียนสามารถเช็กข้อมูลสำคัญต่างๆ ของห้องได้อย่างสะดวก รวดเร็ว และทันสมัย</p>
+          <img className="mt-4 max-w-[1200px] w-full object-cover rounded-md" src={"https://picsum.photos/1920/1080?grayscale"} alt="Banner" />
         </div>
-      </div>
-      <div className='px-6 w-full'>
-        <div>
-          <div className='flex items-center gap-2'>
-            <CalendarDays />
-            <h1 className='font-bold text-lg'>Schedule</h1>
-          </div>
-          <p className='text-sm'>ส่วนนี้แสดงตารางเรียนประจำสัปดาห์ เพื่อให้ดูเวลาเรียนของแต่ละวิชาได้อย่างสะดวก</p>
-        </div>
-      </div>
-      <div className='px-6 w-full py-4'>
-        <img src={Schedule.src} alt="Schedule" className="w-full object-cover max-w-[1000px] mx-auto" height={643} width={998} />
-      </div>
-      <div className='px-6 w-full'>
-        <div>
-          <div className='flex items-center gap-2'>
-            <CalendarDays />
-            <h1 className='font-bold text-lg'>Exam Schedule</h1>
-          </div>
-          <p className='text-sm'>ส่วนนี้แสดงตารางสอบประจำภาคเรียน เพื่อให้ดูเวลาสอบของแต่ละวิชาได้อย่างสะดวก</p>
-        </div>
-      </div>
-      <div className='px-6 w-full py-4'>
-        <img src={ExSchedule.src} alt="Schedule" className="w-full object-cover max-w-[900px] mx-auto" height={1501} width={1077} />
       </div>
     </>
   );

@@ -19,7 +19,7 @@ function Announcement() {
     }, [])
 
     if (!announcement) {
-        return <div className="my-10 flex items-center justify-center w-full"><div className="loader rounded-full"></div></div>
+        return <div className="px-2 py-1.5 flex items-center justify-center"><div className="loader rounded-full"></div></div>
     }
 
     return (
