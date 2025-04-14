@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import Navcrumb from "./components/navcrumb";
 import { Toaster } from "@/components/ui/sonner"
 import { Providers } from "./providers"
+import Footer from "./components/footer";
 
 const PPLPartyFont = localFont({
   src: [
@@ -58,6 +59,7 @@ export default function RootLayout({
                   </div>
                 </div>
                 {children}
+                <Footer />
                 <Toaster />
               </main>
             </Providers>

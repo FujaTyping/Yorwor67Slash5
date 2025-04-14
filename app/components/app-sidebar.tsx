@@ -30,14 +30,11 @@ import {
     SidebarMenuSub,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import axios from "axios"
 
 import { Separator } from "@/components/ui/separator"
 
@@ -48,19 +45,6 @@ import { getAuth, signOut } from "firebase/auth";
 export function AppSidebar() {
 
     const user = useAuth();
-    const [version, setVersion] = useState("0");
-
-    useEffect(() => {
-        axios.get("https://api.smt.siraphop.me/github/version")
-            .then((response) => {
-                if (response.data) {
-                    setVersion(response.data.version);
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching version:", error);
-            });
-    }, []);
 
     return (
         <Sidebar>
@@ -250,10 +234,6 @@ export function AppSidebar() {
                                     <span>ความคิดเห็น</span>
                                 </Link>
                             </SidebarMenuButton>
-                        </SidebarMenu>
-                        <Separator className="my-2" />
-                        <SidebarMenu className="mx-2">
-                            <p className="text-xs flex items-center gap-2">เวอร์ชั่น :<Badge className="bg-neutral-800 text-xs">{version} {":(dev)"}</Badge></p>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
