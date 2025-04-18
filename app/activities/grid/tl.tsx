@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { cn } from "@/lib/utils"
 import { CalendarDays } from "lucide-react"
+import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 interface TimelineItemProps {
     title: string
@@ -36,11 +37,15 @@ function TimelineItem({ title, date, description, image, imageAlt, isLast = fals
             </div>
 
             <div className={`flex-1 bg-white rounded-md border-1 overflow-hidden ${!isLast ? "mb-12" : ""}`}>
-                <img
-                    src={image || "/placeholder.svg"}
-                    alt={imageAlt}
-                    className="w-full object-cover"
-                />
+                <PhotoProvider maskOpacity={0.5}>
+                    <PhotoView src={image}>
+                        <img
+                            src={image}
+                            alt={imageAlt}
+                            className="w-full object-cover"
+                        />
+                    </PhotoView>
+                </PhotoProvider>
                 <div className="p-4">
                     <h3 className="text-lg font-semibold">{title}</h3>
                     <p className="flex items-center gap-2 text-sm text-gray-500"><CalendarDays size={14} /> {date}</p>

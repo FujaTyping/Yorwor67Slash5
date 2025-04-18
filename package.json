@@ -48,6 +48,7 @@
     "react-dom": "^19.0.0",
     "react-fast-marquee": "^1.6.5",
     "react-hook-form": "^7.55.0",
+    "react-photo-view": "^1.2.7",
     "react-turnstile": "^1.1.4",
     "recharts": "^2.15.2",
     "sonner": "^2.0.3",

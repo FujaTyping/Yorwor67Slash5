@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
+import 'react-photo-view/dist/react-photo-view.css';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
