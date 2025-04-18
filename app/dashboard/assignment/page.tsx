@@ -15,10 +15,10 @@ function page() {
         <div>
           <div className="flex items-center gap-2">
             <Book />
-            <h1 className="font-bold text-lg">Assignment Form</h1>
+            <h1 className="font-bold text-lg">Assignment Dashboard</h1>
           </div>
           <p className="text-sm">
-            บันทึกข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน
+            ดู / แก้ไข ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน
           </p>
         </div>
       </div>

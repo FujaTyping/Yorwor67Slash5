@@ -4,12 +4,32 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
 import { checkPermission } from '@/app/lib/checkPermission';
 import { TriangleAlert, ShieldX } from "lucide-react";
-import FForm from './form';
+import { DataTableDemo } from './cd';
+import axios from 'axios';
+
+type TableDDATA = {
+    Time: string
+    Subject: string
+    Decs: string
+    Due: string
+    isDue: boolean
+}
 
 function Main() {
     const user = useAuth();
     const [loading, setLoading] = useState<boolean>(true);
     const [hasPermission, setHasPermission] = useState<boolean>(false);
+    const [data, setData] = useState<TableDDATA[]>([])
+
+    useEffect(() => {
+        axios.get('https://api.smt.siraphop.me/assignment')
+            .then((response) => {
+                setData(response.data.Homework)
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error)
+            })
+    }, [])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -60,7 +80,7 @@ function Main() {
     return (
         <>
             <div>
-                <FForm />
+                <DataTableDemo data={data} />
             </div>
         </>
     )
