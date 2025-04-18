@@ -83,9 +83,9 @@ module.exports = (db) => {
     });
 
     router.patch('/', Authenticate(db), async (req, res) => {
-        const { id: ID, decs: Decs, due: Due, subj: Subject, time: Time } = req.body;
+        const { id: ID, decs: Decs, subj: Subject } = req.body;
 
-        if (!Decs || !Due || !Subject || !Time || !ID) {
+        if (!Decs || !Subject || !ID) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -97,22 +97,9 @@ module.exports = (db) => {
         }
 
         try {
-            const SDate = new Date(Time).toLocaleDateString('th-TH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            })
-            const DDate = new Date(Due).toLocaleDateString('th-TH', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            })
-
             await updateDoc(docRef, {
                 Decs: `${Decs}`,
-                Due: `${DDate}`,
                 Subject: `${Subject}`,
-                Time: `${SDate}`,
             });
             res.send(`อัพเดทข้อมูลของไอดี ${ID} เรียบร้อยแล้ว`);
         } catch (error) {
