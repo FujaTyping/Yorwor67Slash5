@@ -87,8 +87,8 @@ function Main() {
                 </Link>
                 <Link href={"/dashboard/assignment"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <NotebookPen />
-                    <h1 className='font-bold mt-1'>เพิ่มข้อมูลภาระงาน</h1>
-                    <p className='text-xs'>ข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน</p>
+                    <h1 className='font-bold mt-1'>จัดการภาระงาน</h1>
+                    <p className='text-xs'>จัดการข้อมูลภาระงานในแต่ละวัน โดยฝ่ายการเรียน</p>
                 </Link>
                 <Link href={"/dashboard/classcode"} className='border-1 w-full border-gray-300 rounded-md p-4 py-6 flex flex-col items-center justify-center cursor-pointer'>
                     <School />
