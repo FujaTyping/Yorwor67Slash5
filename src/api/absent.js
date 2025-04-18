@@ -16,7 +16,9 @@ module.exports = (db) => {
                 const querySnapshot = await getDocs(query(collection(db, "Absent"), orderBy("timestamp", "desc")));
                 ARealData.Absent = [];
                 querySnapshot.forEach((doc) => {
-                    ARealData.Absent.push(doc.data());
+                    const abssent = doc.data();
+                    abssent.id = doc.id;
+                    ARealData.Absent.push(abssent);
                 });
 
                 const statRef = doc(db, "Status", "Absent");
@@ -75,6 +77,57 @@ module.exports = (db) => {
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
             res.status(500).send(`Error adding absent data: ${e.message}`);
+        }
+    });
+
+    router.patch('/', Authenticate(db), async (req, res) => {
+        const { id: ID, zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: Date, number: Number } = req.body;
+
+        if (!ID || !ZAbsent || !ZBoy || !ZGirl || !Date || !Number) {
+            return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
+        }
+
+        const docRef = doc(db, "Absent", ID);
+        const ADoc = await getDoc(docRef);
+
+        if (!ADoc.exists()) {
+            return res.status(400).send("ไม่พบไอดีของข้อมูลนี้");
+        }
+
+        try {
+            const statAbRef = doc(db, "Status", "Absent");
+            const Boy = 21 - parseInt(ZBoy);
+            const Girl = 15 - parseInt(ZGirl);
+
+            const DDate = new Date(Date).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+            const todayFormatted = new Date().toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            await updateDoc(docRef, {
+                All: `ขาด / ลา ${ZAbsent}`,
+                Count: `${ZAbsent}`,
+                Date: `${DDate}`,
+                Number: `${Number}`,
+            });
+            if (DDate == todayFormatted) {
+                await updateDoc(statAbRef, {
+                    Absent: `${ZAbsent}`,
+                    Boy: `${Boy}`,
+                    Date: `${DDate}`,
+                    Girl: `${Girl}`,
+                });
+            }
+
+            res.send(`อัพเดทข้อมูลของไอดี ${ID} เรียบร้อยแล้ว`);
+        } catch (error) {
+            res.status(500).send(`Error editing absent data: ${error.message}`);
         }
     });
 

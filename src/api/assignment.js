@@ -113,7 +113,6 @@ module.exports = (db) => {
                 Due: `${DDate}`,
                 Subject: `${Subject}`,
                 Time: `${SDate}`,
-                timestamp: serverTimestamp(),
             });
             res.send(`อัพเดทข้อมูลของไอดี ${ID} เรียบร้อยแล้ว`);
         } catch (error) {
