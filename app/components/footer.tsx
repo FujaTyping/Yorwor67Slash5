@@ -5,9 +5,19 @@ import { Separator } from "@/components/ui/separator";
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
+import { logEvent } from "firebase/analytics";
+import { analyticsPromise } from '../lib/firebaseAnalytic';
 
 function Footer() {
     const [version, setVersion] = useState("0");
+
+    useEffect(() => {
+        analyticsPromise.then((analytics) => {
+            if (analytics) {
+                logEvent(analytics, "page_view");
+            }
+        });
+    }, []);
 
     useEffect(() => {
         axios.get("https://api.smt.siraphop.me/github/version")
