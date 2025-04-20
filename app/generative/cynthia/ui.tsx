@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Loader2, Send } from "lucide-react"
+import { Loader2, Send, TriangleAlert } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import MessageList from "./list"
@@ -68,8 +68,10 @@ export default function ChatInterface() {
 
     if (!user) {
         return (
-            <div className="my-10 flex items-center justify-center w-full">
-                <div className="loader rounded-full"></div>
+            <div className="py-4 w-full flex flex-col items-center justify-center">
+                <TriangleAlert size={32} />
+                <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
+                <p className="text-sm">เพื่อใช้งานแชทบอท</p>
             </div>
         );
     }
