@@ -2,7 +2,8 @@
 "use client"
 
 import {
-    Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical
+    Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical,
+    BotMessageSquare
 } from "lucide-react"
 import Link from "next/link"
 import Logo from "@/app/assets/SMT.svg"
@@ -192,6 +193,29 @@ export function AppSidebar() {
                                                 <Link href="/whiteroom">
                                                     <SidebarMenuButton className="cursor-pointer">
                                                         ห้องเรียนสีขาว
+                                                    </SidebarMenuButton>
+                                                </Link>
+                                            </SidebarMenuSubItem>
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                        </SidebarMenu>
+                        <SidebarMenu>
+                            <Collapsible className="group/collapsible">
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton className="cursor-pointer">
+                                            <BotMessageSquare />
+                                            <span>แชทบอท</span>
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            <SidebarMenuSubItem>
+                                                <Link href="/generative/cynthia">
+                                                    <SidebarMenuButton className="cursor-pointer">
+                                                        ซินเทีย เรเวนเฮิร์ต
                                                     </SidebarMenuButton>
                                                 </Link>
                                             </SidebarMenuSubItem>

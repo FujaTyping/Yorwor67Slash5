@@ -1,6 +1,12 @@
 import React from 'react'
 import FForm from './form'
+import type { Metadata } from "next";
 import { Book } from 'lucide-react'
+
+export const metadata: Metadata = {
+    title: "โรงเรียนหาดใหญ่วิทยาลัย ╎ ภาระงาน",
+    description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+};
 
 function page() {
     return (

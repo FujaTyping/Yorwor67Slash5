@@ -110,7 +110,7 @@ export default function FForm(data: any) {
           <Database size={16} /> ระบบฐานข้อมูล
         </h1>,
         {
-          description: <p className="text-black">บันทึกข้อมูลเรียบร้อยแล้ว</p>,
+          description: <p className="text-black">อัพเดทข้อมูลเรียบร้อยแล้ว</p>,
         },
       );
     } catch (error) {
@@ -122,7 +122,7 @@ export default function FForm(data: any) {
         {
           description: (
             <p className="text-black">
-              ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง
+              ไม่สามารถอัพเดทข้อมูลได้ กรุณาลองใหม่อีกครั้ง
             </p>
           ),
         },
