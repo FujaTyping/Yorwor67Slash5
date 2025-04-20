@@ -99,7 +99,7 @@ export default function ChatInterface() {
                 <div className="flex items-center space-x-2 px-6">
                     <Input
                         disabled={loading}
-                        placeholder="Type a message..."
+                        placeholder="พิมพ์ข้อความ"
                         value={currentMessage}
                         onChange={(e) => setCurrentMessage(e.target.value)}
                         onKeyDown={(e) => {

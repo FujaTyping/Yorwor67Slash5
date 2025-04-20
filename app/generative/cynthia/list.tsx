@@ -35,7 +35,9 @@ export default function MessageList({ messages }: MessageListProps) {
                                 : "bg-white rounded-tl-none"
                                 }`}
                         >
-                            <Markdown>{message.content}</Markdown>
+                            <div className="text-sm md:text-base">
+                                <Markdown>{message.content}</Markdown>
+                            </div>
                             <div
                                 className={`text-xs mt-1 ${message.sender === "user" ? "text-blue-100" : "text-gray-500"
                                     }`}
