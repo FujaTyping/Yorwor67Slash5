@@ -26,7 +26,7 @@ export default function MessageList({ messages }: MessageListProps) {
                     <div key={message.id} className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}>
                         {message.sender === "other" && (
                             <div className="mr-2">
-                                <img src={Cynthia.src} alt="Cynthia" className="w-8 h-8 rounded-full" />
+                                <img src={Cynthia.src} alt="Cynthia" className="w-8 h-8 rounded-lg" />
                             </div>
                         )}
                         <div
@@ -47,7 +47,7 @@ export default function MessageList({ messages }: MessageListProps) {
                         </div>
                         {message.sender === "user" && (
                             <div className="ml-2">
-                                <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-full" />
+                                <img src={user?.photoURL} alt="Profile" className="w-8 h-8 rounded-lg" />
                             </div>
                         )}
                     </div>

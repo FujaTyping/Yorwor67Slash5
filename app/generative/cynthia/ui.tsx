@@ -8,6 +8,7 @@ import MessageList from "./list"
 import Cynthia from "@/app/assets/media/PCynthia.svg"
 import axios from "axios"
 import { useAuth } from "@/app/lib/getAuth";
+import { Badge } from "@/components/ui/badge"
 
 export type Message = {
     id: string
@@ -36,35 +37,50 @@ export default function ChatInterface() {
     ])
     const user = useAuth();
 
-    const handleSendMessage = async () => {
-        if (currentMessage.trim() === "") return
+    const handleSendMessage = async (messageToSend?: string) => {
+        const content = messageToSend ?? currentMessage;
+
+        if (content.trim() === "") return;
 
         const newMessage: Message = {
             id: Date.now().toString(),
-            content: currentMessage,
+            content: content,
             sender: "user",
             timestamp: new Date(),
-        }
+        };
 
-        setMessages([...messages, newMessage])
-
+        setMessages((prev) => [...prev, newMessage]);
+        setCurrentMessage("");
         setLoading(true);
-        const res = await axios.post(
-            "https://api.smt.siraphop.me/generative/cynthia",
-            { prompt: currentMessage }
-        );
-        setCurrentMessage("")
 
-        const responseMessage: Message = {
-            id: (Date.now() + 1).toString(),
-            content: res.data.response,
-            model: res.data.model,
-            sender: "other",
-            timestamp: new Date(),
+        try {
+            const res = await axios.post(
+                "https://api.smt.siraphop.me/generative/cynthia",
+                { prompt: content }
+            );
+
+            const responseMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                content: res.data.response,
+                model: res.data.model,
+                sender: "other",
+                timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, responseMessage]);
+        } catch (error) {
+            console.error("Error sending message:", error);
+            const errorMessage: Message = {
+                id: (Date.now() + 1).toString(),
+                content: "ฉันไม่สามารถตอบคำถามของคุณได้ในขณะนี้",
+                sender: "other",
+                timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, errorMessage]);
+        } finally {
+            setLoading(false);
         }
-        setMessages((prev) => [...prev, responseMessage])
-        setLoading(false);
-    }
+    };
+
 
     if (!user) {
         return (
@@ -81,8 +97,8 @@ export default function ChatInterface() {
             <div className="flex items-center py-4 pt-0 border-b bg-white px-6">
                 <div className="flex items-center">
                     <div className="relative">
-                        <img src={Cynthia.src} alt="Cynthia" className="w-10 h-10 rounded-full" />
-                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full dark:border-gray-800"></span>
+                        <img src={Cynthia.src} alt="Cynthia" className="w-10 h-10 rounded-lg" />
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-lg dark:border-gray-800"></span>
                     </div>
                     <div className="ml-3">
                         <h2 className="text-lg font-semibold">Cynthia Ravenhert</h2>
@@ -96,7 +112,10 @@ export default function ChatInterface() {
             </div>
 
             <div className="py-4 border-t bg-white dark:bg-gray-800">
-                <div className="flex items-center space-x-2 px-6">
+                <div className="px-6 mb-2">
+                    <Badge className="cursor-pointer" variant="outline" onClick={() => { handleSendMessage("พรุ่งนี้มีงานที่ต้องส่งไหม"); }}>พรุ่งนี้มีงานที่ต้องส่งไหม</Badge>
+                </div>
+                <div className="flex items-center gap-3 px-6">
                     <Input
                         disabled={loading}
                         placeholder="พิมพ์ข้อความ"
@@ -104,12 +123,12 @@ export default function ChatInterface() {
                         onChange={(e) => setCurrentMessage(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                                handleSendMessage()
+                                handleSendMessage();
                             }
                         }}
                         className="flex-1"
                     />
-                    <Button disabled={loading} onClick={handleSendMessage} size="icon">
+                    <Button disabled={loading} onClick={() => { handleSendMessage(); }} size="icon">
                         {loading ? <><Loader2 className="h-5 w-5 animate-spin" /></> : <><Send className="h-5 w-5" /></>}
                     </Button>
                 </div>
