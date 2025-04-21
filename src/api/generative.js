@@ -1,6 +1,7 @@
 const express = require('express');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const openaiTokenCounter = require('openai-gpt-token-counter');
+const { query, getDocs, collection, orderBy } = require('firebase/firestore');
 
 const GeminiAI = new GoogleGenerativeAI(process.env.GMN_KEY);
 const AetherModel = "gemini-2.0-flash-exp"
@@ -19,17 +20,70 @@ const LGeminiModel = GeminiAI.getGenerativeModel({
         temperature: 1,
     },
 });
+let HRealData = { Homework: [] };
+let lastFetchTime = 0;
+const fetchInterval = 5 * 60 * 1000;
 
-module.exports = () => {
+async function getHomework(db, datee) {
+    try {
+        if (Date.now() - lastFetchTime > fetchInterval) {
+            const HwQuery = query(
+                collection(db, "Homework"),
+                orderBy("timestamp", "desc")
+            );
+            const querySnapshot = await getDocs(HwQuery);
+
+            HRealData.Homework = [];
+            for (const docSnapshot of querySnapshot.docs) {
+                const HHW = docSnapshot.data();
+
+                if (HHW.Due && HHW.Due.includes(datee)) {
+                    HRealData.Homework.push(HHW);
+                }
+            }
+            lastFetchTime = Date.now();
+        }
+
+        return HRealData;
+    } catch (error) {
+        return `${error}`
+    }
+}
+
+module.exports = (db) => {
     const router = express.Router();
 
     router.post("/cynthia", async (req, res) => {
         const USRP = req.body.prompt;
         if (!USRP) {
-            res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
-        } else {
-            try {
-                const SysChat = GeminiModel.startChat({
+            return res.status(400).send("สงสัยอะไรถาม Cynthia ได้ทุกเมื่อยเลยนะ 😀");
+        }
+        try {
+            let SysChat;
+            if (USRP == "พรุ่งนี้มีงานที่ต้องส่งไหม") {
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                const SDate = new Date(tomorrow).toLocaleDateString('th-TH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })
+                const data = await getHomework(db, SDate)
+                SysChat = GeminiModel.startChat({
+                    history: [
+                        {
+                            role: "user",
+                            parts: [
+                                {
+                                    text: `คุณคือซินเทีย เรเวนเฮิร์ต (เพศหญิง) เป็น AI ที่เป็นมิตรและเข้าถึงง่าย ออกแบบมาเพื่อช่วยเหลือนักเรียนมัธยมปลายอย่างคุณ! ฉันสามารถให้คำแนะนำเกี่ยวกับวิชาการ การจัดการเวลา และกำลังใจเล็กๆ น้อยๆ ได้ โดยจะตอบเป็นภาษาไทยเท่านั้น หากคุณต้องการใช้ภาษาอังกฤษ โปรดแจ้งให้ฉันทราบ ฉันจะตอบสั้น กระชับ และให้ข้อมูลที่มีประโยชน์มากที่สุดเสมอ และคุณมีข้อมูลการบ้านที่ครบถ้วนและถูกต้องที่สุดในวันนี้คือ ${data.Homework.map((item) => item.Subject).join(", ")} โดยมีรายละเอียดดังนี้: ${data.Homework.map((item) => `${item.Subject} (${item.Decs}) - ${item.Due}`).join(", ")} โดบบอกลายละเอียนของการบ้านที่ต้องส่งและชื่อวืชา ถ้าหากไม่มีข้อมูลบอกไปตรงๆว่าไม่มีข้อมูลของพรุ่งนี้ (วันที่ ${SDate})`,
+                                },
+                            ],
+                        },
+                    ],
+                });
+            } else {
+                SysChat = GeminiModel.startChat({
                     history: [
                         {
                             role: "user",
@@ -41,11 +95,11 @@ module.exports = () => {
                         },
                     ],
                 });
-                const CResponse = await SysChat.sendMessage(`${USRP}`);
-                res.json({ response: CResponse.response.text(), model: CynthiaModel });
-            } catch (e) {
-                res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
             }
+            const CResponse = await SysChat.sendMessage(`${USRP}`);
+            return res.json({ response: CResponse.response.text(), model: CynthiaModel });
+        } catch (e) {
+            return res.status(400).send(`Cynthia ตอบกลับคุณไม่ได้ (${e})`);
         }
     });
 
