@@ -132,6 +132,9 @@ export default function ChatInterface() {
                         {loading ? <><Loader2 className="h-5 w-5 animate-spin" /></> : <><Send className="h-5 w-5" /></>}
                     </Button>
                 </div>
+                <div className="px-6 mt-2">
+                    <p className="text-xs">Cynthia อาจให้ข้อมูลที่คลาดเคลื่อนหรือไม่สมบูรณ์ได้ในบางกรณี กรุณาตรวจสอบข้อมูลจากแหล่งอื่นประกอบก่อนนำไปใช้งานจริง</p>
+                </div>
             </div>
         </div>
     )
