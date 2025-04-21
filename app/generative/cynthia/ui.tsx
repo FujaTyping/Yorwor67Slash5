@@ -112,8 +112,9 @@ export default function ChatInterface() {
             </div>
 
             <div className="py-4 border-t bg-white dark:bg-gray-800">
-                <div className="px-6 mb-2">
+                <div className="px-6 mb-2 flex items-center gap-2">
                     <Badge className="cursor-pointer" variant="outline" onClick={() => { handleSendMessage("พรุ่งนี้มีงานที่ต้องส่งไหม"); }}>พรุ่งนี้มีงานที่ต้องส่งไหม</Badge>
+                    <Badge className="cursor-pointer" variant="outline" onClick={() => { setCurrentMessage("ขอรหัสห้องเรียนวิชา <ชื่อวิชา>"); }}>ขอรหัสห้องเรียนวิชา</Badge>
                 </div>
                 <div className="flex items-center gap-3 px-6">
                     <Input
