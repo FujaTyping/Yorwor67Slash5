@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://smt.siraphop.me/</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/assignment</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/classcode</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/absent</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/activities</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/whiteroom</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/generative/cynthia</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/notification</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://smt.siraphop.me/feedback</loc>
+  <lastmod>2025-04-28T19:01:58+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+</urlset>

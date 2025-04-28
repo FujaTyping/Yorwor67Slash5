@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Viewport } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 import 'react-photo-view/dist/react-photo-view.css';
@@ -33,6 +34,18 @@ const PPLPartyFont = localFont({
 export const metadata: Metadata = {
   title: "โรงเรียนหาดใหญ่วิทยาลัย",
   description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+  openGraph: {
+    url: 'https://smt.siraphop.me/',
+    description: `ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย`,
+    type: 'website',
+    images: 'https://smt.siraphop.me/oGraph.png',
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
