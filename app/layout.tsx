@@ -34,6 +34,7 @@ const PPLPartyFont = localFont({
 export const metadata: Metadata = {
   title: "โรงเรียนหาดใหญ่วิทยาลัย",
   description: "ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย",
+  keywords: `โรงเรียนหาดใหญ่วิทยาลัย (ญ.ว.),โรงเรียนหาดใหญ่วิทยาลัย,หาดใหญ่วิทยาลัย,ญ.ว.,ญว,hatyaiwit,SMT,smt,โครงการ SMT,โครงการ smt,yorwor smt,Yorwor SMT,Yorwor,Platform,platform,แพลตฟอร์ม,แพลตฟอร์มจัดการห้องเรียน`,
   openGraph: {
     url: 'https://smt.siraphop.me/',
     description: `ห้องเรียน SMT โรงเรียนหาดใหญ่วิทยาลัย`,
