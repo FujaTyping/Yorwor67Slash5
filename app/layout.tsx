@@ -51,7 +51,10 @@ export default function RootLayout({
             <Providers>
               <main>
                 <div className="flex items-center gap-2 mx-6 m-3 mb-6">
-                  <SidebarTrigger className="cursor-pointer" />
+                  <div className="flex items-center gap-1 mr-3">
+                    <SidebarTrigger className="cursor-pointer" />
+                    <p className="text-sm">เมนู</p>
+                  </div>
                   <div className="h-5">
                     <Separator orientation="vertical" />
                   </div>

@@ -7,8 +7,18 @@ import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { logEvent } from "firebase/analytics";
 import { analyticsPromise } from '../lib/firebaseAnalytic';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+} from "@/components/ui/drawer";
+import { Info } from 'lucide-react';
+import { Button } from "@/components/ui/button"
+import Link from 'next/link';
 
 function Footer() {
+    const [openDrawer, SetOpenDrawer] = useState(true);
     const [version, setVersion] = useState("0");
 
     useEffect(() => {
@@ -41,6 +51,19 @@ function Footer() {
                 </div>
                 <p className="text-xs flex items-center gap-2">เวอร์ชั่น :<Badge className="bg-neutral-800 text-xs">{version} {":(dev)"}</Badge></p>
             </div>
+            <Drawer open={openDrawer} onOpenChange={SetOpenDrawer}>
+                <DrawerContent>
+                    <div className='max-w-xl mx-auto'>
+                        <DrawerHeader>
+                            <DrawerTitle className='flex items-center gap-2'><Info size={18} />แจ้งเตือน</DrawerTitle>
+                            <div className='flex flex-col gap-3'>
+                                <p>เราได้มีการปรับปรุงและเปลี่ยนแปลงหลายอย่าง อยากรู้ว่าทุกคนรู้สึกยังไงบ้าง รู้สึกมีอะไรใหม่ ๆ ไหม? ช่วยคอมเมนต์หรือแสดงความคิดเห็นได้เลยน้าาา</p>
+                                <Link href={"/feedback"}><Button variant="outline" className='w-full cursor-pointer'>แสงความคิดเห็น</Button></Link>
+                            </div>
+                        </DrawerHeader>
+                    </div>
+                </DrawerContent>
+            </Drawer>
         </>
     )
 }
