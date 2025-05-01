@@ -4,6 +4,7 @@ const { Authenticate } = require('../utils/authenticate');
 const { generateID } = require('../lib/module');
 const pushNewHomework = require("../lib/lineOA/pushHomework");
 const notifyHomework = require("../lib/dsgHook/notifyHomework");
+const { HwDB } = require("../db-config.json");
 let HRealData = { Homework: [] };
 let lastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
@@ -28,7 +29,7 @@ module.exports = (db) => {
     router.get('/', async (req, res) => {
         if (Date.now() - lastFetchTime > fetchInterval) {
             try {
-                const querySnapshot = await getDocs(query(collection(db, "Homework"), orderBy("timestamp", "desc")));
+                const querySnapshot = await getDocs(query(collection(db, HwDB), orderBy("timestamp", "desc")));
                 HRealData.Homework = [];
                 querySnapshot.forEach((doc) => {
                     const homework = doc.data();
@@ -65,7 +66,7 @@ module.exports = (db) => {
                 day: 'numeric'
             })
 
-            await setDoc(doc(db, "Homework", `${UID}`), {
+            await setDoc(doc(db, HwDB, `${UID}`), {
                 Decs: `${Decs}`,
                 Due: `${DDate}`,
                 Subject: `${Subject}`,
@@ -89,7 +90,7 @@ module.exports = (db) => {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
-        const docRef = doc(db, "Homework", ID);
+        const docRef = doc(db, HwDB, ID);
         const ADoc = await getDoc(docRef);
 
         if (!ADoc.exists()) {

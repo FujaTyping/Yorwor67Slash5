@@ -2,6 +2,7 @@ const express = require("express");
 const { getDocs, collection, setDoc, doc } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
 const { generateID } = require('../lib/module');
+const { ClasscodeDB } = require("../db-config.json");
 let CRealData = { Classcode: [] };
 let TreelastFetchTime = 0;
 const TreefetchInterval = 3 * 60 * 1000;
@@ -12,7 +13,7 @@ module.exports = (db) => {
     router.get('/', async (req, res) => {
         if (Date.now() - TreelastFetchTime > TreefetchInterval) {
             try {
-                const querySnapshot = await getDocs(collection(db, "Classcode"));
+                const querySnapshot = await getDocs(collection(db, ClasscodeDB));
                 CRealData.Classcode = [];
                 querySnapshot.forEach((doc) => {
                     CRealData.Classcode.push(doc.data());
@@ -34,7 +35,7 @@ module.exports = (db) => {
 
         try {
             const UID = generateID();
-            await setDoc(doc(db, "Classcode", `${UID}`), {
+            await setDoc(doc(db, ClasscodeDB, `${UID}`), {
                 Code: `${Code}`,
                 Teacher: `${Teacher}`,
                 Subject: `${Subject}`,

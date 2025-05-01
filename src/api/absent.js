@@ -3,6 +3,7 @@ const { getDocs, query, collection, orderBy, setDoc, doc, getDoc, updateDoc, ser
 const { Authenticate } = require('../utils/authenticate');
 const { generateID } = require('../lib/module');
 const pushNewAbsent = require("../lib/lineOA/pushAbsent");
+const { AbsentDB } = require("../db-config.json");
 let ARealData = { Static: {}, Absent: [] };
 let AbslastFetchTime = 0;
 const TreefetchInterval = 3 * 60 * 1000;
@@ -13,7 +14,7 @@ module.exports = (db) => {
     router.get('/', async (req, res) => {
         if (Date.now() - AbslastFetchTime > TreefetchInterval) {
             try {
-                const querySnapshot = await getDocs(query(collection(db, "Absent"), orderBy("timestamp", "desc")));
+                const querySnapshot = await getDocs(query(collection(db, AbsentDB), orderBy("timestamp", "desc")));
                 ARealData.Absent = [];
                 querySnapshot.forEach((doc) => {
                     const abssent = doc.data();
@@ -64,7 +65,7 @@ module.exports = (db) => {
                 Girl: `${Girl}`,
             });
 
-            await setDoc(doc(db, "Absent", `${UID}`), {
+            await setDoc(doc(db, AbsentDB, `${UID}`), {
                 All: `ขาด / ลา ${ZAbsent}`,
                 Count: `${ZAbsent}`,
                 Date: `${DDate}`,
@@ -87,7 +88,7 @@ module.exports = (db) => {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
-        const docRef = doc(db, "Absent", ID);
+        const docRef = doc(db, AbsentDB, ID);
         const ADoc = await getDoc(docRef);
 
         if (!ADoc.exists()) {
