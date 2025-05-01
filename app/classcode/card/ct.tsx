@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Copy, CopyCheck, TriangleAlert, ShieldX } from "lucide-react";
+import { Copy, CopyCheck, TriangleAlert, ShieldX, DatabaseBackup } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/lib/getAuth";
 
@@ -107,25 +107,37 @@ export default function ClassroomCards() {
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4 w-full">
-                {classes.map((cls, index) => (
-                    <div key={index} className="overflow-hidden rounded-md border border-gray-200 transition-all duration-150 w-full">
-                        <div style={{ backgroundColor: cls.color }} className="text-white p-4 flex items-center justify-between font-bold text-lg">
-                            <span>{cls.title}</span>
-                        </div>
-                        <div className="p-4 flex justify-between items-center">
-                            <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
-                            <Button
-                                variant="ghost"
-                                className="hover:cursor-pointer"
-                                onClick={() => handleCopy(cls.code)}
-                            >
-                                {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
-                            </Button>
-                        </div>
+            {classes.length == 0 ?
+                <>
+                    <div className="py-4 w-full flex flex-col items-center justify-center">
+                        <DatabaseBackup size={32} />
+                        <h1 className="font-bold text-lg">ไม่พบข้อมูล</h1>
+                        <p className="text-sm">ตอนนี้ยังไม่มีข้อมูลรหัสห้องเรียน</p>
                     </div>
-                ))}
-            </div>
+                </>
+                :
+                <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4 w-full">
+                        {classes.map((cls, index) => (
+                            <div key={index} className="overflow-hidden rounded-md border border-gray-200 transition-all duration-150 w-full">
+                                <div style={{ backgroundColor: cls.color }} className="text-white p-4 flex items-center justify-between font-bold text-lg">
+                                    <span>{cls.title}</span>
+                                </div>
+                                <div className="p-4 flex justify-between items-center">
+                                    <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
+                                    <Button
+                                        variant="ghost"
+                                        className="hover:cursor-pointer"
+                                        onClick={() => handleCopy(cls.code)}
+                                    >
+                                        {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            }
         </>
     );
 }
