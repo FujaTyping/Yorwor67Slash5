@@ -4,7 +4,7 @@ import React from 'react'
 import { CalendarDays, Database, Image, NotebookTabs } from 'lucide-react';
 import Link from "next/link";
 import { toast } from "sonner"
-import Schedule from "@/app/assets/media/Timetable.webp"
+import Schedule from "@/app/assets/media/Timetable.png"
 import Exam from "@/app/assets/media/ExamTimetable.webp"
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 
