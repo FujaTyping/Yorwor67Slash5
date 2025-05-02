@@ -1,32 +1,16 @@
 const express = require('express');
-const { collection, getDocs } = require('firebase/firestore');
+const { doc, getDoc } = require('firebase/firestore');
 
-let UserRealData = { user: [] };
-let StuRealData = { user: [] };
-let AdminlastFetchTime = 0;
-let UserlastFetchTime = 0;
-const fetchInterval = 5 * 60 * 1000;
-
-async function getUserData(db) {
-    if (Date.now() - AdminlastFetchTime > fetchInterval) {
-        const querySnapshot = await getDocs(collection(db, 'Admin'));
-        UserRealData.user = [];
-        querySnapshot.forEach((doc) => {
-            UserRealData.user.push(doc.id);
-        });
-        AdminlastFetchTime = Date.now();
-    }
+async function isAdmin(db, KEY) {
+    const docRef = doc(db, 'Admin', KEY);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
 }
 
-async function getStudentData(db) {
-    if (Date.now() - UserlastFetchTime > fetchInterval) {
-        const querySnapshot = await getDocs(collection(db, 'User'));
-        StuRealData.user = [];
-        querySnapshot.forEach((doc) => {
-            StuRealData.user.push(doc.id);
-        });
-        UserlastFetchTime = Date.now();
-    }
+async function isStudent(db, KEY) {
+    const docRef = doc(db, 'User', KEY);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
 }
 
 module.exports = (db) => {
@@ -35,19 +19,16 @@ module.exports = (db) => {
     router.get('/', async (req, res) => {
         const Auth = req.get('Auth');
 
-        await getUserData(db);
-        await getStudentData(db);
-
         if (!Auth) {
-            return res.status(400).send('ไม่พบอีเมลในการเข้าสู่ระบบ');
+            return res.status(400).send(`Invalid Credentials`);
         } else {
-            if (UserRealData.user.includes(Auth)) {
+            if (await isAdmin(db, Auth)) {
                 return res.send('Admin');
-            } else if (StuRealData.user.includes(Auth)) {
+            } else if (await isStudent(db, Auth)) {
                 return res.send('Student');
             } else {
                 return res.status(400).send(
-                    `อีเมล ${Auth} ไม่ได้รับอนุญาติให้แก้ไข / เพิ่มข้อมูลภายในเว็ปไซต์`
+                    `Invalid Credentials`
                 );
             }
         }
