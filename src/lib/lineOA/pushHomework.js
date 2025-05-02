@@ -13,13 +13,13 @@ function pushNewHomework(Time, Subject, Decs, Due) {
                     "type": "bubble",
                     "hero": {
                         "type": "image",
-                        "url": "https://smt.siraphop.me/assets/lineOA/NewHomework.png",
+                        "url": "https://smt.siraphop.me/media/AssignmentNotify.png",
                         "size": "full",
                         "aspectRatio": "20:10",
                         "aspectMode": "cover",
                         "action": {
                             "type": "uri",
-                            "uri": "https://smt.siraphop.me/homework"
+                            "uri": "https://smt.siraphop.me/assignment"
                         }
                     },
                     "body": {

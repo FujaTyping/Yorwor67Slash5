@@ -14,7 +14,7 @@ async function notifyHomework(db, Time, Subject, Decs, Due) {
                 {
                     "color": 4892137,
                     "image": {
-                        "url": "https://smt.siraphop.me/assets/Discord/NewHomework.png"
+                        "url": "https://smt.siraphop.me/media/AssignmentNotify.png"
                     }
                 },
                 {

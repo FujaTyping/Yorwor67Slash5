@@ -73,7 +73,7 @@ module.exports = (db) => {
                 timestamp: serverTimestamp(),
             });
 
-            await pushNewAbsent(DDate, ZAbsent, Number, Boy, Girl);
+            //await pushNewAbsent(DDate, ZAbsent, Number, Boy, Girl);
 
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
