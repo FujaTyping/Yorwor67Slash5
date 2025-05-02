@@ -1,14 +1,14 @@
 import axios from "axios";
 
-export async function checkPermission(email: string | undefined) {
-    if (!email) {
+export async function checkPermission(Auth: string | undefined) {
+    if (!Auth) {
         return false;
     }
 
     try {
         const response = await axios.get("https://api.smt.siraphop.me/permission", {
             headers: {
-                "Auth": email
+                "Auth": Auth
             }
         });
 

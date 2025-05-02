@@ -19,7 +19,7 @@ function Main() {
         if (!user) return;
 
         async function fetchPermission() {
-            const permission = await checkPermission(user.email);
+            const permission = await checkPermission(user.uid);
             setHasPermission(permission);
             setLoading(false);
         }
