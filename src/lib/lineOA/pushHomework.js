@@ -7,152 +7,119 @@ function pushNewHomework(Time, Subject, Decs, Due) {
     const Linedata = {
         "messages": [
             {
-                "type": "flex",
-                "altText": "แจ้งเตือนการบ้าน",
-                "contents": {
-                    "type": "bubble",
-                    "hero": {
-                        "type": "image",
-                        "url": "https://smt.siraphop.me/media/AssignmentNotify.png",
-                        "size": "full",
-                        "aspectRatio": "20:10",
-                        "aspectMode": "cover",
-                        "action": {
-                            "type": "uri",
-                            "uri": "https://smt.siraphop.me/assignment"
+                "type": "bubble",
+                "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "image",
+                                    "url": "https://smt.siraphop.me/media/AssignmentNotify.png",
+                                    "size": "100%",
+                                    "aspectMode": "cover",
+                                    "gravity": "center",
+                                    "flex": 1,
+                                    "aspectRatio": "16:9"
+                                }
+                            ]
                         }
-                    },
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "มีการบ้านใหม่มาแล้วนะ !",
-                                "weight": "bold",
-                                "size": "xl",
-                                "color": "#000000"
-                            },
-                            {
-                                "type": "box",
-                                "layout": "vertical",
-                                "margin": "lg",
-                                "spacing": "sm",
-                                "contents": [
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "วันที่",
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 1,
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": `${Time}`,
-                                                "wrap": true,
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 5
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "วิชา",
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 1,
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": `${Subject}`,
-                                                "wrap": true,
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 5
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "baseline",
-                                        "spacing": "xs",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "วันส่ง",
-                                                "color": "#ff0000",
-                                                "size": "sm",
-                                                "flex": 1,
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": `${Due}`,
-                                                "wrap": true,
-                                                "color": "#ff0000",
-                                                "size": "sm",
-                                                "flex": 5,
-                                                "weight": "bold"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "spacing": "sm",
-                                        "contents": [
-                                            {
-                                                "type": "text",
-                                                "text": "รายละเอียดงาน",
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 1,
-                                                "weight": "bold"
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": `${Decs}`,
-                                                "wrap": true,
-                                                "color": "#000000",
-                                                "size": "sm",
-                                                "flex": 5
-                                            }
-                                        ],
-                                        "offsetTop": "5px"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "footer": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "spacing": "sm",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "อย่าลืมส่งงานให้ตรงเวลาด้วย !",
-                                "align": "center",
-                                "color": "#ff0000",
-                                "weight": "bold",
-                                "offsetTop": "5px"
-                            }
-                        ],
-                        "flex": 1
-                    }
+                    ],
+                    "paddingAll": "0px"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "contents": [],
+                                            "size": "xl",
+                                            "wrap": true,
+                                            "text": `วิชา ${Subject}`,
+                                            "color": "#000000",
+                                            "weight": "bold"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": `สั่ง : ${Time}`,
+                                            "color": "#000000",
+                                            "size": "sm"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": `ส่ง : ${Due}`,
+                                            "size": "sm",
+                                            "color": "#000000"
+                                        }
+                                    ],
+                                    "spacing": "sm"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "box",
+                                            "layout": "vertical",
+                                            "contents": [
+                                                {
+                                                    "type": "text",
+                                                    "contents": [],
+                                                    "size": "sm",
+                                                    "wrap": true,
+                                                    "margin": "lg",
+                                                    "color": "#000000",
+                                                    "text": `${Decs}`
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "paddingAll": "13px",
+                                    "backgroundColor": "#ededed",
+                                    "cornerRadius": "8px",
+                                    "margin": "xl"
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "box",
+                                            "layout": "vertical",
+                                            "contents": [
+                                                {
+                                                    "type": "button",
+                                                    "action": {
+                                                        "type": "uri",
+                                                        "label": "ดูภาระงานทั้งหมด",
+                                                        "uri": "https://smt.siraphop.me/assignment"
+                                                    },
+                                                    "color": "#ffffff"
+                                                }
+                                            ],
+                                            "backgroundColor": "#26353f",
+                                            "cornerRadius": "8px"
+                                        }
+                                    ],
+                                    "margin": "xl"
+                                }
+                            ]
+                        }
+                    ],
+                    "paddingAll": "20px",
+                    "backgroundColor": "#ffffff"
                 }
             }
         ]
