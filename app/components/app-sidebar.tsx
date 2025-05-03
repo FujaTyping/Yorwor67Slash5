@@ -259,6 +259,15 @@ export function AppSidebar() {
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenu>
+                        <Separator className="my-2" />
+                        <SidebarMenu>
+                            <SidebarMenuItem className="p-2 flex flex-warp gap-2 text-[12px]">
+                                <p>
+                                    <Link href={"https://yorworplatform.com/"} className="mr-1">Yorwor Platform</Link>✦
+                                    <Link href={"https://sites.google.com/hatyaiwit.ac.th/innovative-center/"} className="ml-1">Innovative Center</Link>
+                                </p>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
