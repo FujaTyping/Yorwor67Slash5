@@ -1,6 +1,6 @@
 import React from 'react'
 import Main from './main'
-import { ChartCandlestick, School } from 'lucide-react'
+import { ChartCandlestick } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
