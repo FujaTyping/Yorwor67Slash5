@@ -11,7 +11,9 @@ module.exports = (db) => {
             const querySnapshot = await getDocs(query(collection(db, "Logs"), orderBy("timestamp", "desc")));
             RealData.Logs = [];
             querySnapshot.forEach((doc) => {
-                RealData.Logs.push(doc.data());
+                let data = doc.data();
+                data.Time = data.timestamp.toDate().toLocaleString('th-TH', { dateStyle: 'long', timeStyle: 'medium' });
+                RealData.Logs.push(data);
             });
         } catch (e) {
             return res.status(500).send(`Error fetching logs data: ${e.message}`);
