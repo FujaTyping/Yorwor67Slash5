@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
-import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed, Database, ChartCandlestick } from "lucide-react";
+import { TriangleAlert, ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed, Database, ChartCandlestick, ScrollText } from "lucide-react";
 import Link from 'next/link';
 import { checkPermission } from '../lib/checkPermission';
 import axios from 'axios';
 import { toast } from "sonner"
+import { DataTableDemo } from './logs';
 
 function Main() {
     const user = useAuth();
@@ -134,6 +135,14 @@ function Main() {
                     <p className='text-xs'>ส่งข่าวสาร / ประกาศต่างๆ ไปทาง Line Offical</p>
                 </Link>
             </div>
+            <div>
+                <div className='flex items-center gap-2'>
+                    <ScrollText />
+                    <h1 className='font-bold text-lg'>Activity Logs</h1>
+                </div>
+                <p className='text-sm'>ติดตามทุกการกระทำภายในเว็บไซต์ ไม่ว่าจะเป็นการเข้าใช้งาน แก้ไขข้อมูล หรือกิจกรรมต่าง ๆ ของผู้ใช้ ระบบจะบันทึกไว้อย่างละเอียดเพื่อความโปร่งใส ตรวจสอบย้อนหลังได้ตลอดเวลา</p>
+            </div>
+            <DataTableDemo />
             <div>
                 <div className='flex items-center gap-2'>
                     <EthernetPort />
