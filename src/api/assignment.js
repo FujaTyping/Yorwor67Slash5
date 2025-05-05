@@ -5,6 +5,7 @@ const { generateID } = require('../lib/module');
 const pushNewHomework = require("../lib/lineOA/pushHomework");
 const notifyHomework = require("../lib/dsgHook/notifyHomework");
 const { HwDB } = require("../db-config.json");
+const { CLogger } = require('../utils/loggers');
 let HRealData = { Homework: [] };
 let lastFetchTime = 0;
 const fetchInterval = 5 * 60 * 1000;
@@ -47,9 +48,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { decs: Decs, due: Due, subj: Subject, time: Time } = req.body;
+        const { decs: Decs, due: Due, subj: Subject, time: Time, user: User } = req.body;
 
-        if (!Decs || !Due || !Subject || !Time) {
+        if (!Decs || !Due || !Subject || !Time || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -77,6 +78,7 @@ module.exports = (db) => {
             await pushNewHomework(SDate, Subject, Decs, DDate);
             await notifyHomework(db, SDate, Subject, Decs, DDate);
 
+            CLogger(db, "POST", User, "เพิ่มรายการ ภาระงานใหม่");
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
             res.status(500).send(`Error adding homework data: ${e.message}`);
@@ -84,9 +86,9 @@ module.exports = (db) => {
     });
 
     router.patch('/', Authenticate(db), async (req, res) => {
-        const { id: ID, decs: Decs, subj: Subject } = req.body;
+        const { id: ID, decs: Decs, subj: Subject, user: User } = req.body;
 
-        if (!Decs || !Subject || !ID) {
+        if (!Decs || !Subject || !ID || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -102,6 +104,7 @@ module.exports = (db) => {
                 Decs: `${Decs}`,
                 Subject: `${Subject}`,
             });
+            CLogger(db, "PATCH", User, "แก้ไขรายการ ภาระงาน");
             res.send(`อัพเดทข้อมูลของไอดี ${ID} เรียบร้อยแล้ว`);
         } catch (error) {
             res.status(500).send(`Error editing homework data: ${error.message}`);

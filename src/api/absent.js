@@ -5,6 +5,7 @@ const { generateID } = require('../lib/module');
 const pushNewAbsent = require("../lib/lineOA/pushAbsent");
 const { AbsentDB } = require("../db-config.json");
 let ARealData = { Static: {}, Absent: [] };
+const { CLogger } = require('../utils/loggers');
 let AbslastFetchTime = 0;
 const TreefetchInterval = 3 * 60 * 1000;
 
@@ -39,9 +40,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: Date, number: Number } = req.body;
+        const { zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: Date, number: Number, user: User } = req.body;
 
-        if (!ZAbsent || !ZBoy || !ZGirl || !Date || !Number) {
+        if (!ZAbsent || !ZBoy || !ZGirl || !Date || !Number || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -74,7 +75,7 @@ module.exports = (db) => {
             });
 
             //await pushNewAbsent(DDate, ZAbsent, Number, Boy, Girl);
-
+            CLogger(db, "POST", User, "เพิ่มรายการ เช็คชื่อประจำวัน");
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
             res.status(500).send(`Error adding absent data: ${e.message}`);

@@ -3,6 +3,7 @@ const { getDocs, collection, setDoc, doc } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
 const { generateID } = require('../lib/module');
 const { ClasscodeDB } = require("../db-config.json");
+const { CLogger } = require('../utils/loggers');
 let CRealData = { Classcode: [] };
 let TreelastFetchTime = 0;
 const TreefetchInterval = 3 * 60 * 1000;
@@ -27,9 +28,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { code: Code, teac: Teacher, subj: Subject, color: Color } = req.body;
+        const { code: Code, teac: Teacher, subj: Subject, color: Color, user: User } = req.body;
 
-        if (!Code || !Teacher || !Subject || !Color) {
+        if (!Code || !Teacher || !Subject || !Color || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -41,6 +42,8 @@ module.exports = (db) => {
                 Subject: `${Subject}`,
                 Color: `${Color}`,
             });
+
+            CLogger(db, "POST", User, "เพิ่มรายการ รหัสห้องเรียน");
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
         } catch (e) {
             res.status(500).send(`Error adding class code data: ${e.message}`);

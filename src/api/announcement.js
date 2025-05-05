@@ -1,6 +1,7 @@
 const express = require('express');
 const { doc, getDoc, updateDoc } = require('firebase/firestore');
 const { Authenticate } = require('../utils/authenticate');
+const { CLogger } = require('../utils/loggers');
 let AnnData = {};
 let AnnLastFetchtime = 0;
 const TreefetchInterval = 3 * 60 * 1000;
@@ -21,25 +22,19 @@ module.exports = (db) => {
     router.patch('/', Authenticate(db), async (req, res) => {
         try {
             const message = req.body.msg;
+            const user = req.body.user;
 
-            if (!message) {
+            if (!message || !user) {
                 return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
             }
 
             const announcementRef = doc(db, 'Announcement', 'Main');
-            if (req.body.isImg) {
-                await updateDoc(announcementRef, {
-                    Text: `${message}`,
-                    IsImg: true,
-                    Url: `${req.body.url}`,
-                });
-                res.send(`เป็น ${message} มีรูปภาพแนบด้วย`);
-            } else {
-                await updateDoc(announcementRef, {
-                    Text: `${message}`,
-                });
-                res.send(`เป็น ${message}`);
-            }
+            await updateDoc(announcementRef, {
+                Text: `${message}`,
+            });
+
+            CLogger(db, "PATCH", user, "แก้ไขประกาศเว็ปไชต์");
+            res.send(`เป็น ${message}`);
         } catch (error) {
             res.status(500).send({ message: 'Error updating announcement', error: error.message });
         }
