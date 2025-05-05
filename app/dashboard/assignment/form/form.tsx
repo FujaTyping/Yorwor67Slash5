@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Check,
@@ -58,6 +58,9 @@ const formSchema = z.object({
   due: z.date({
     required_error: "วันที่ส่งงานต้องใส่",
   }),
+  user: z.string().min(5, {
+    message: "Auth Require",
+  }),
   decs: z
     .string()
     .min(10, {
@@ -92,6 +95,12 @@ export default function FForm() {
     },
   });
 
+  useEffect(() => {
+    if (user && user.email) {
+      form.setValue("user", user.email);
+    }
+  }, [user, form.reset, form]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
 
@@ -101,7 +110,7 @@ export default function FForm() {
         values,
         {
           headers: {
-            Auth: user.email,
+            Auth: user.uid,
           },
         },
       );

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Check,
@@ -45,6 +45,9 @@ const formSchema = z.object({
   subj: z.string().min(3, {
     message: "วิชาน้อยต้องมี 3 ตัวอักษร",
   }),
+  user: z.string().min(5, {
+    message: "Auth Require",
+  }),
   decs: z
     .string()
     .min(10, {
@@ -86,6 +89,12 @@ export default function FForm(data: any) {
     },
   });
 
+  useEffect(() => {
+    if (user && user.email) {
+      form.setValue("user", user.email);
+    }
+  }, [user, form.reset, form]);
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
 
@@ -95,7 +104,7 @@ export default function FForm(data: any) {
         values,
         {
           headers: {
-            Auth: user.email,
+            Auth: user.uid,
           },
         },
       );

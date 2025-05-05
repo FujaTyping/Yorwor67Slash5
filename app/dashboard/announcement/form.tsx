@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, Loader2, Send, RotateCcw, Megaphone, Database, Eye } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -19,6 +19,9 @@ import Marquee from "react-fast-marquee";
 const formSchema = z.object({
     msg: z.string().min(5, {
         message: "ข้อความประกาศอย่างน้อยต้องมี 5 ตัวอักษร",
+    }),
+    user: z.string().min(5, {
+        message: "Auth Require",
     }),
     captcha: z.string({
         required_error: "กรุณายืนยันว่าคุณไม่ใช่บอท",
@@ -41,6 +44,12 @@ export default function FForm() {
         },
     })
 
+    useEffect(() => {
+        if (user && user.email) {
+            form.setValue("user", user.email);
+        }
+    }, [user, form.reset, form]);
+
     const text = form.watch("msg") || "ตัวอย่างข้อความ"
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -52,7 +61,7 @@ export default function FForm() {
                 values,
                 {
                     headers: {
-                        Auth: user.email
+                        Auth: user.uid
                     }
                 }
             );

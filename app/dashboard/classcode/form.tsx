@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown, Loader2, Send, RotateCcw, Eye, CopyCheck, Copy, Database } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -42,6 +42,9 @@ const formSchema = z.object({
     teac: z.string().min(4, {
         message: "ชื่อคุณครูอย่างน้อยต้องมี 4 ตัวอักษร",
     }),
+    user: z.string().min(5, {
+        message: "Auth Require",
+    }),
     captcha: z.string({
         required_error: "กรุณายืนยันว่าคุณไม่ใช่บอท",
     }).min(1, {
@@ -72,6 +75,12 @@ export default function FForm() {
     const code = form.watch("code") || "******"
     const teacher = form.watch("teac") || "ชื่อครู"
 
+    useEffect(() => {
+        if (user && user.email) {
+            form.setValue("user", user.email);
+        }
+    }, [user, form.reset, form]);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsSubmitting(true)
 
@@ -81,7 +90,7 @@ export default function FForm() {
                 values,
                 {
                     headers: {
-                        Auth: user.email
+                        Auth: user.uid
                     }
                 }
             );
