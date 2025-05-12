@@ -3,7 +3,7 @@ const { query, getDocs, collection, orderBy } = require('firebase/firestore');
 const { gemini20FlashLite, googleAI } = require('@genkit-ai/googleai');
 const { genkit } = require('genkit');
 
-const CynthiaModel = "cynthia-geniemini-2.0-fl)";
+const CynthiaModel = "cynthia-geniemini-2.0-fl";
 const ai = genkit({
     plugins: [googleAI()],
     model: CynthiaModel,
@@ -17,7 +17,6 @@ const askCynn = ai.defineFlow('askCynn', async (geminiprompt, prompt) => {
     });
     return text;
 });
-
 
 async function getHomework(db, datee) {
     try {
