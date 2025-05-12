@@ -20,6 +20,7 @@
   "homepage": "https://github.com/FujaTyping/Yorwor67Slash5#readme",
   "dependencies": {
     "@firebase/firestore": "^4.7.2",
+    "@genkit-ai/googleai": "^1.8.0",
     "@google/generative-ai": "^0.21.0",
     "@sparticuz/chromium": "112",
     "axios": "^1.7.7",
@@ -27,6 +28,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "firebase": "^10.13.2",
+    "genkit": "^1.8.0",
     "imagekit": "^6.0.0",
     "openai-gpt-token-counter": "^1.1.1",
     "puppeteer-core": "19.8.0",
