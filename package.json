@@ -20,6 +20,7 @@
   "homepage": "https://github.com/FujaTyping/Yorwor67Slash5#readme",
   "dependencies": {
     "@firebase/firestore": "^4.7.2",
+    "@genkit-ai/ai": "^1.8.0",
     "@genkit-ai/googleai": "^1.8.0",
     "@google/generative-ai": "^0.21.0",
     "@sparticuz/chromium": "112",
