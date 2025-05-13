@@ -50,7 +50,7 @@ module.exports = (db) => {
             const statAbRef = doc(db, "Status", "Absent");
             const UID = generateID();
 
-            const Boy = 21 - parseInt(ZBoy);
+            const Boy = 20 - parseInt(ZBoy);
             const Girl = 15 - parseInt(ZGirl);
 
             const DDate = new Date(ABSDate).toLocaleDateString('th-TH', {
@@ -98,7 +98,7 @@ module.exports = (db) => {
 
         try {
             const statAbRef = doc(db, "Status", "Absent");
-            const Boy = 21 - parseInt(ZBoy);
+            const Boy = 20 - parseInt(ZBoy);
             const Girl = 15 - parseInt(ZGirl);
 
             const DDate = new Date(Date).toLocaleDateString('th-TH', {
