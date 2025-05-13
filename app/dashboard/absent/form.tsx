@@ -348,7 +348,7 @@ export default function FForm() {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{36 - Number(ZABS)} คน</div>
-                                        <p className="text-xs text-muted-foreground">คิดเป็น {((36 - Number(ZABS)) / 36 * 100).toFixed(2)}% ของนักเรียนทั้งหมด</p>
+                                        <p className="text-xs text-muted-foreground">คิดเป็น {((35 - Number(ZABS)) / 35 * 100).toFixed(2)}% ของนักเรียนทั้งหมด</p>
                                     </CardContent>
                                 </Card>
                                 <Card>
@@ -358,7 +358,7 @@ export default function FForm() {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{ZABS} คน</div>
-                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZABS) / 36 * 100).toFixed(2)}% ของนักเรียนทั้งหมด</p>
+                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZABS) / 35 * 100).toFixed(2)}% ของนักเรียนทั้งหมด</p>
                                     </CardContent>
                                 </Card>
                                 <Card>
@@ -368,7 +368,7 @@ export default function FForm() {
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{ZBOY} คน</div>
-                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZBOY) / 21 * 100).toFixed(2)}% ของนักเรียนชายทั้งหมด</p>
+                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZBOY) / 20 * 100).toFixed(2)}% ของนักเรียนชายทั้งหมด</p>
                                     </CardContent>
                                 </Card>
                                 <Card>
