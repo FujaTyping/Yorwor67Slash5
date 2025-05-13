@@ -367,8 +367,8 @@ export default function FForm() {
                                         <UserCheck className="h-4 w-4 text-muted-foreground" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">{ZBOY} คน</div>
-                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZBOY) / 20 * 100).toFixed(2)}% ของนักเรียนชายทั้งหมด</p>
+                                        <div className="text-2xl font-bold">{20 - Number(ZBOY)} คน</div>
+                                        <p className="text-xs text-muted-foreground">คิดเป็น {((20 - Number(ZBOY)) / 20 * 100).toFixed(2)}% ของนักเรียนชายทั้งหมด</p>
                                     </CardContent>
                                 </Card>
                                 <Card>
@@ -377,8 +377,8 @@ export default function FForm() {
                                         <UserCheck className="h-4 w-4 text-muted-foreground" />
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">{ZGRIL} คน</div>
-                                        <p className="text-xs text-muted-foreground">คิดเป็น {(Number(ZGRIL) / 15 * 100).toFixed(2)}% ของนักเรียนหญิงทั้งหมด</p>
+                                        <div className="text-2xl font-bold">{15 - Number(ZGRIL)} คน</div>
+                                        <p className="text-xs text-muted-foreground">คิดเป็น {((15 - Number(ZGRIL)) / 15 * 100).toFixed(2)}% ของนักเรียนหญิงทั้งหมด</p>
                                     </CardContent>
                                 </Card>
                             </div>
