@@ -1,5 +1,6 @@
 const express = require('express');
 const ImageKit = require("imagekit");
+require('dotenv').config();
 
 const imagekit = new ImageKit({
     publicKey: process.env.KITPUBLICKEY,

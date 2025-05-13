@@ -40,9 +40,9 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: Date, number: Number, user: User } = req.body;
+        const { zabs: ZAbsent, zboy: ZBoy, zgirl: ZGirl, date: ABSDate, number: Number, user: User } = req.body;
 
-        if (!ZAbsent || !ZBoy || !ZGirl || !Date || !Number || !User) {
+        if (!ZAbsent || !ZBoy || !ZGirl || !ABSDate || !Number || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
         }
 
@@ -53,7 +53,7 @@ module.exports = (db) => {
             const Boy = 21 - parseInt(ZBoy);
             const Girl = 15 - parseInt(ZGirl);
 
-            const DDate = new Date(Date).toLocaleDateString('th-TH', {
+            const DDate = new Date(ABSDate).toLocaleDateString('th-TH', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
