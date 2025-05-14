@@ -28,7 +28,7 @@ module.exports = (db) => {
     });
 
     router.post('/', Authenticate(db), async (req, res) => {
-        const { code: Code, teac: Teacher, subj: Subject, color: Color, user: User } = req.body;
+        const { code: Code, teac: Teacher, subj: Subject, color: Color, user: User, cid: Cid } = req.body;
 
         if (!Code || !Teacher || !Subject || !Color || !User) {
             return res.status(400).send("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -36,12 +36,17 @@ module.exports = (db) => {
 
         try {
             const UID = generateID();
-            await setDoc(doc(db, ClasscodeDB, `${UID}`), {
+            const dataToSet = {
                 Code: `${Code}`,
                 Teacher: `${Teacher}`,
                 Subject: `${Subject}`,
                 Color: `${Color}`,
-            });
+            };
+
+            if (Cid != "") {
+                dataToSet.Cid = `https://classroom.google.com/c/${Cid}?cjc=${Code}`;
+            }
+            await setDoc(doc(db, ClasscodeDB, `${UID}`), dataToSet);
 
             CLogger(db, "POST", User, "เพิ่มรายการ รหัสห้องเรียน");
             res.send(`เพิ่มข้อมูลด้วยไอดี ${UID} เรียบร้อยแล้ว`);
