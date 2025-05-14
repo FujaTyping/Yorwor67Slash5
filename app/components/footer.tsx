@@ -7,18 +7,9 @@ import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
 import { logEvent } from "firebase/analytics";
 import { analyticsPromise } from '../lib/firebaseAnalytic';
-import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-} from "@/components/ui/drawer";
-import { Info } from 'lucide-react';
-import { Button } from "@/components/ui/button"
-import Link from 'next/link';
+import Script from 'next/script';
 
 function Footer() {
-    const [openDrawer, SetOpenDrawer] = useState(true);
     const [version, setVersion] = useState("0");
 
     useEffect(() => {
@@ -44,26 +35,20 @@ function Footer() {
     return (
         <>
             <Separator />
-            <div className='py-4 flex items-center justify-center w-full gap-3'>
-                <p className='text-xs'>© 2567-2568 ทีมพัฒนา ม.5/5</p>
-                <div className="h-5">
+            <div className='py-4 flex flex-col items-center text-center md:flex-row md:justify-center md:text-left w-full gap-2 md:gap-4 px-4'>
+                <div className='flex items-center gap-2 md:gap-4'>
+                    <a href="//www.dmca.com/Protection/Status.aspx?ID=840d3032-64f8-4843-9b11-3ebe6b2c100a" title="DMCA.com Protection Status" className="dmca-badge"> <img src="https://images.dmca.com/Badges/dmca_protected_sml_120t.png?ID=840d3032-64f8-4843-9b11-3ebe6b2c100a" alt="DMCA.com Protection Status" /></a>
+                    <div className="h-5">
+                        <Separator orientation="vertical" />
+                    </div>
+                    <p className='text-xs'>© 2567-2568 ทีมพัฒนา ม.5/5</p>
+                </div>
+                <div className="h-5 hidden md:block">
                     <Separator orientation="vertical" />
                 </div>
                 <p className="text-xs flex items-center gap-2">เวอร์ชั่น :<Badge className="bg-neutral-800 text-xs">{version} {":(dev)"}</Badge></p>
+                <Script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js" />
             </div>
-            <Drawer open={openDrawer} onOpenChange={SetOpenDrawer}>
-                <DrawerContent>
-                    <div className='max-w-xl mx-auto'>
-                        <DrawerHeader>
-                            <DrawerTitle className='flex items-center gap-2'><Info size={18} />แจ้งเตือน</DrawerTitle>
-                            <div className='flex flex-col gap-3'>
-                                <p>เราได้มีการปรับปรุงและเปลี่ยนแปลงหลายอย่าง อยากรู้ว่าทุกคนรู้สึกยังไงบ้าง รู้สึกมีอะไรใหม่ ๆ ไหม? ช่วยคอมเมนต์หรือแสดงความคิดเห็นได้เลยน้าาา</p>
-                                <Link href={"/feedback"}><Button variant="outline" className='w-full cursor-pointer'>แสงความคิดเห็น</Button></Link>
-                            </div>
-                        </DrawerHeader>
-                    </div>
-                </DrawerContent>
-            </Drawer>
         </>
     )
 }
