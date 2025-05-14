@@ -3,15 +3,17 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Copy, CopyCheck, TriangleAlert, ShieldX, DatabaseBackup } from "lucide-react";
+import { Copy, CopyCheck, TriangleAlert, ShieldX, DatabaseBackup, PanelTop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/lib/getAuth";
+import Link from "next/link";
 
 type ClassData = {
     title: string;
     teacher: string;
     color: string;
     code: string;
+    cid?: string;
 };
 
 export default function ClassroomCards() {
@@ -54,7 +56,8 @@ export default function ClassroomCards() {
                     title: cls.Subject,
                     teacher: cls.Teacher,
                     color: cls.Color || "oklch(62.3% 0.214 259.815)",
-                    code: cls.Code
+                    code: cls.Code,
+                    cid: cls.Cid
                 }));
                 setClasses(fetchedClasses);
             } catch (error) {
@@ -125,13 +128,25 @@ export default function ClassroomCards() {
                                 </div>
                                 <div className="p-4 flex justify-between items-center">
                                     <span className="text-sm">{cls.teacher}<br />รหัส : {cls.code}</span>
-                                    <Button
-                                        variant="ghost"
-                                        className="hover:cursor-pointer"
-                                        onClick={() => handleCopy(cls.code)}
-                                    >
-                                        {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
-                                    </Button>
+                                    <div>
+                                        <Button
+                                            variant="ghost"
+                                            className="hover:cursor-pointer"
+                                            onClick={() => handleCopy(cls.code)}
+                                        >
+                                            {copiedCode === cls.code ? <CopyCheck size={16} /> : <Copy size={16} />}
+                                        </Button>
+                                        {cls.cid != "" && (<>
+                                            <Link href={`${cls.cid}`}>
+                                                <Button
+                                                    variant="ghost"
+                                                    className="hover:cursor-pointer"
+                                                >
+                                                    <PanelTop size={16} />
+                                                </Button>
+                                            </Link>
+                                        </>)}
+                                    </div>
                                 </div>
                             </div>
                         ))}

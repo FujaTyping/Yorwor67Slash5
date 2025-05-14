@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Check, ChevronsUpDown, Loader2, Send, RotateCcw, Eye, CopyCheck, Copy, Database } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2, Send, RotateCcw, Eye, CopyCheck, Copy, Database, PanelTop } from "lucide-react"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import Turnstile, { useTurnstile } from "react-turnstile";
 import { useAuth } from "@/app/lib/getAuth";
+import Link from "next/link"
 
 const colors = [
     { label: "สีส้ม", value: "oklch(70.5% 0.213 47.604)" },
@@ -39,6 +40,7 @@ const formSchema = z.object({
     code: z.string().min(6, {
         message: "รหัสห้องเรียนอย่างน้อยต้องมี 6 ตัวอักษร",
     }),
+    cid: z.string(),
     teac: z.string().min(4, {
         message: "ชื่อคุณครูอย่างน้อยต้องมี 4 ตัวอักษร",
     }),
@@ -67,6 +69,7 @@ export default function FForm() {
             subj: "",
             code: "",
             teac: "",
+            cid: ""
         },
     })
 
@@ -74,6 +77,7 @@ export default function FForm() {
     const color = form.watch("color") || "#171717"
     const code = form.watch("code") || "******"
     const teacher = form.watch("teac") || "ชื่อครู"
+    const pcid = form.watch("cid") || ""
 
     useEffect(() => {
         if (user && user.email) {
@@ -228,19 +232,34 @@ export default function FForm() {
                                             )}
                                         />
                                     </div>
-                                    <FormField
-                                        control={form.control}
-                                        name="code"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>รหัสห้องเรียน</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="กรุณาใส่รหัสห้องเรียน" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                                        <FormField
+                                            control={form.control}
+                                            name="code"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>รหัสห้องเรียน</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="กรุณาใส่รหัสห้องเรียน" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <FormField
+                                            control={form.control}
+                                            name="cid"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>ไอดีห้องเรียน {"(ไม่จำเป็น)"}</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="กรุณาใส่รหัสห้องเรียน" {...field} />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </div>
                                     <FormField
                                         control={form.control}
                                         name="teac"
@@ -303,13 +322,25 @@ export default function FForm() {
                                 </div>
                                 <div className="p-4 flex justify-between items-center">
                                     <span className="text-sm break-all">{teacher}<br />รหัส : {code}</span>
-                                    <Button
-                                        variant="ghost"
-                                        className="hover:cursor-pointer"
-                                        onClick={() => handleCopy(code)}
-                                    >
-                                        {copiedCode === code ? <CopyCheck size={16} /> : <Copy size={16} />}
-                                    </Button>
+                                    <div>
+                                        <Button
+                                            variant="ghost"
+                                            className="hover:cursor-pointer"
+                                            onClick={() => handleCopy(code)}
+                                        >
+                                            {copiedCode === code ? <CopyCheck size={16} /> : <Copy size={16} />}
+                                        </Button>
+                                        {pcid != "" && (<>
+                                            <Link href={`https://classroom.google.com/c/${pcid}?cjc=${code}`}>
+                                                <Button
+                                                    variant="ghost"
+                                                    className="hover:cursor-pointer"
+                                                >
+                                                    <PanelTop size={16} />
+                                                </Button>
+                                            </Link>
+                                        </>)}
+                                    </div>
                                 </div>
                             </div>
                         </div>
