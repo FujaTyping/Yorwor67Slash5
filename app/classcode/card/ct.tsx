@@ -3,11 +3,12 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Copy, CopyCheck, TriangleAlert, ShieldX, DatabaseBackup, PanelTop } from "lucide-react";
+import { Copy, CopyCheck, ShieldX, DatabaseBackup, PanelTop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/lib/getAuth";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import Cynthia from "@/app/assets/media/CynthiaWarning.svg";
 
 type ClassData = {
     title: string;
@@ -93,9 +94,9 @@ export default function ClassroomCards() {
     if (!user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <TriangleAlert size={32} />
-                <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
-                <p className="text-sm">เพื่อเป็นการยืนยันว่าเป็นนักเรียนห้อง ม.5/5</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">กรุณาล็อกอิน</h1>
+                <p className="text-xs">เพื่อเป็นการยืนยันว่าเป็นนักเรียนห้อง ม.5/5</p>
             </div>
         );
     }

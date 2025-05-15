@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
 import { checkPermission } from '@/app/lib/checkPermission';
-import { TriangleAlert, ShieldX } from "lucide-react";
+import { ShieldX } from "lucide-react";
 import { DataTableDemo } from './cd';
 import axios from 'axios';
+import Cynthia from "@/app/assets/media/CynthiaWarning.svg";
 
 type TableDDATA = {
     Time: string
@@ -60,9 +61,9 @@ function Main() {
     if (!user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <TriangleAlert size={32} />
-                <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
-                <p className="text-sm">เพื่อเข้าหน้าผู้ใช้งาน</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">กรุณาล็อกอิน</h1>
+                <p className="text-xs">เพื่อเข้าหน้าผู้ใช้งาน</p>
             </div>
         );
     }
