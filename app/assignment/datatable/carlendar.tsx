@@ -149,7 +149,7 @@ export default function EventCalendar({ data }: EventCalendarProps) {
                                 <DrawerTitle className='flex items-center gap-2'><GalleryHorizontal size={18} />ข้อมูลภาระงาน</DrawerTitle>
                                 <div className='flex flex-col gap-1'>
                                     <p><span className='font-bold'>วิชา</span> : {charData?.subject}</p>
-                                    <p><span className='font-bold'>รายละเอียด</span> : {charData?.decs}</p>
+                                    <p className='whitespace-pre-line'><span className='font-bold'>รายละเอียด</span> : {charData?.decs}</p>
                                     <div className='flex flex-col gap-1 md:flex-row md:items-center md:gap-5'>
                                         <p><span className='font-bold'>วันที่สั่ง</span> : {charData?.time}</p>
                                         <p><span className='font-bold'>วันที่ครบกำหนด</span> : {charData?.due}</p>
