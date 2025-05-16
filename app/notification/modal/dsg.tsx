@@ -51,7 +51,7 @@ const formSchema = z.object({
         }),
 });
 
-export default function FForm(data: any) {
+export default function FForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [responsee, SetResponsee] = useState("");
