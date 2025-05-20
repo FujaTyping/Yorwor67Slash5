@@ -10,6 +10,8 @@ import Navcrumb from "./components/navcrumb";
 import { Toaster } from "@/components/ui/sonner"
 import { Providers } from "./providers"
 import Footer from "./components/footer";
+import 'swiper/css';
+import 'swiper/css/effect-fade';
 
 const PPLPartyFont = localFont({
   src: [
