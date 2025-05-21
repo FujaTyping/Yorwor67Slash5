@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
-import { ShieldX, NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed, Database, ChartCandlestick, ScrollText } from "lucide-react";
+import { NotebookPen, School, ClipboardPen, Volleyball, PartyPopper, Megaphone, EthernetPort, Circle, CircleDashed, Database, ChartCandlestick, ScrollText } from "lucide-react";
 import Link from 'next/link';
 import { checkPermission } from '../lib/checkPermission';
 import axios from 'axios';
@@ -72,9 +72,9 @@ function Main() {
     if (user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <ShieldX size={32} />
-                <h1 className="font-bold text-lg">ไม่สามารถเข้าหน้านี้ได้</h1>
-                <p className="text-sm">คุณไม่ได้มีสิทธิ์เข้าถึงหน้านี้</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">ไม่สามารถเข้าหน้านี้ได้</h1>
+                <p className="text-xs">คุณไม่ได้มีสิทธิ์เข้าถึงหน้านี้</p>
             </div>
         );
     }
