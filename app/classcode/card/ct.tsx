@@ -104,9 +104,9 @@ export default function ClassroomCards() {
     if (user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <ShieldX size={32} />
-                <h1 className="font-bold text-lg">ไม่สามารถเข้าถึงข้อมูลได้</h1>
-                <p className="text-sm">คุณไม่ได้อยู่ในห้อง ม.5/5</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">ไม่สามารถเข้าถึงข้อมูลได้</h1>
+                <p className="text-xs">คุณไม่ได้อยู่ในห้อง ม.5/5</p>
             </div>
         );
     }
