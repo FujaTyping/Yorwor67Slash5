@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
 import { checkPermission } from '@/app/lib/checkPermission';
-import { ShieldX } from "lucide-react";
+
 import Cynthia from "@/app/assets/media/CynthiaWarning.svg";
 
 function Main() {

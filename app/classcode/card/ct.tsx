@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Copy, CopyCheck, ShieldX, DatabaseBackup, PanelTop } from "lucide-react";
+import { Copy, CopyCheck, DatabaseBackup, PanelTop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/app/lib/getAuth";
 import Link from "next/link";
