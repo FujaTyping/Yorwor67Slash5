@@ -11,6 +11,7 @@
 }
 
 .fc .fc-daygrid-event {
+    cursor: pointer;
     background-color: #171717;
     color: white;
     border: none;

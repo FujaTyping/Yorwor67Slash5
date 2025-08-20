@@ -1,14 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import { Loader2, Send, TriangleAlert } from "lucide-react"
+import { Loader2, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import MessageList from "./list"
 import Cynthia from "@/app/assets/media/PCynthia.svg"
 import axios from "axios"
 import { useAuth } from "@/app/lib/getAuth";
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
+import ACynthia from "@/app/assets/media/CynthiaWarning.svg";
 
 export type Message = {
     id: string
@@ -85,9 +86,9 @@ export default function ChatInterface() {
     if (!user) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <TriangleAlert size={32} />
-                <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
-                <p className="text-sm">เพื่อใช้งานแชทบอท</p>
+                <img src={ACynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">กรุณาล็อกอิน</h1>
+                <p className="text-xs">เพื่อใช้งานแชทบอท</p>
             </div>
         );
     }

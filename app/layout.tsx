@@ -10,6 +10,9 @@ import Navcrumb from "./components/navcrumb";
 import { Toaster } from "@/components/ui/sonner"
 import { Providers } from "./providers"
 import Footer from "./components/footer";
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import { MobileBottomNav } from "./components/mobile-navigation";
 
 const PPLPartyFont = localFont({
   src: [
@@ -65,19 +68,23 @@ export default function RootLayout({
             <Providers>
               <main>
                 <div className="flex items-center gap-2 mx-6 m-3 mb-6">
-                  <div className="flex items-center gap-1 mr-3">
+                  <div className="hidden md:flex items-center gap-1 mr-4">
                     <SidebarTrigger className="cursor-pointer" />
-                    <p className="text-sm">เมนู</p>
                   </div>
-                  <div className="h-5">
+                  <div className="h-5 hidden md:block">
                     <Separator orientation="vertical" />
                   </div>
-                  <div className="ml-2">
+                  <div className="md:ml-2 hidden md:block">
                     <Navcrumb />
                   </div>
                 </div>
                 {children}
-                <Footer />
+                <div className="block md:hidden mt-20">
+                  <MobileBottomNav />
+                </div>
+                <div className="hidden md:block">
+                  <Footer />
+                </div>
                 <Toaster />
               </main>
             </Providers>

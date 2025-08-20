@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "@/app/lib/getAuth";
 import { checkPermission } from '@/app/lib/checkPermission';
-import { TriangleAlert, ShieldX } from "lucide-react";
+
+import Cynthia from "@/app/assets/media/CynthiaWarning.svg";
 import FForm from './form';
 
 function Main() {
@@ -40,9 +41,9 @@ function Main() {
     if (!user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <TriangleAlert size={32} />
-                <h1 className="font-bold text-lg">กรุณาล็อกอิน</h1>
-                <p className="text-sm">เพื่อเข้าหน้าผู้ใช้งาน</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">กรุณาล็อกอิน</h1>
+                <p className="text-xs">เพื่อเข้าหน้าผู้ใช้งาน</p>
             </div>
         );
     }
@@ -50,9 +51,9 @@ function Main() {
     if (user?.email && !hasPermission) {
         return (
             <div className="py-4 w-full flex flex-col items-center justify-center">
-                <ShieldX size={32} />
-                <h1 className="font-bold text-lg">ไม่สามารถเข้าหน้านี้ได้</h1>
-                <p className="text-sm">คุณไม่ได้มีสิทธิ์เข้าถึงหน้านี้</p>
+                <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
+                <h1 className="font-bold text-xl mb-1 mt-3">ไม่สามารถเข้าหน้านี้ได้</h1>
+                <p className="text-xs">คุณไม่ได้มีสิทธิ์เข้าถึงหน้านี้</p>
             </div>
         );
     }
