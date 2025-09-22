@@ -3,7 +3,8 @@
 
 import {
     Home, Book, ClipboardList, ClipboardPenLine, PartyPopper, File, Users, ChevronsLeftRightEllipsis, Bell, Bug, Lock, ShieldUser, UserRoundCog, LogOut, EllipsisVertical,
-    BotMessageSquare
+    BotMessageSquare,
+    ListChecks
 } from "lucide-react"
 import Link from "next/link"
 import Logo from "@/app/assets/SMT.svg"
@@ -295,11 +296,17 @@ export function AppSidebar() {
                                 align="end"
                                 sideOffset={4}
                             >
-                                <DropdownMenuGroup asChild>
+                                <DropdownMenuGroup>
                                     <DropdownMenuItem>
                                         <Link href={`/dashboard`} className="flex items-center gap-2">
                                             <UserRoundCog className="text-black" />
                                             ไปยังหน้าผู้ใช้
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link href={`/todo`} className="flex items-center gap-2">
+                                            <ListChecks className="text-black" />
+                                            รายการที่ต้องทำ
                                         </Link>
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>
