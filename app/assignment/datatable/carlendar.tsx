@@ -150,7 +150,7 @@ export default function EventCalendar({ data }: EventCalendarProps) {
                 user: user.email
             })
             setTSD('SUCC');
-        } catch (e: any) {
+        } catch {
             setTSD('ERR')
         }
     }
