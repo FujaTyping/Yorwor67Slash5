@@ -1,5 +1,5 @@
 const express = require('express');
-const { doc, getDoc, collection, addDoc, getDocs, query, orderBy, deleteDoc } = require('firebase/firestore');
+const { doc, getDoc, collection, addDoc, getDocs, query, orderBy, deleteDoc, updateDoc } = require('firebase/firestore');
 
 async function isStudent(db, KEY) {
     const docRef = doc(db, 'User', KEY);
@@ -48,7 +48,8 @@ module.exports = (db) => {
                 Decs,
                 Due,
                 Subject,
-                timestamp
+                timestamp,
+                status: "NOTD"
             });
 
             return res.send('Add To List!');
@@ -71,6 +72,43 @@ module.exports = (db) => {
             await deleteDoc(doc(db, "User", User, "Todo", ID));
 
             return res.send('Remove done!');
+        } else {
+            return res.status(400).send(
+                `Invalid Credentials`
+            );
+        }
+    });
+
+    router.patch('/update', async (req, res) => {
+        const { user: User, id: ID } = req.body;
+
+        if (!User || !ID) {
+            return res.status(400)
+                .send(`กรุณากรอกข้อมูลให้ครบถ้วน`);
+        }
+
+        if (await isStudent(db, User)) {
+            const docRef = doc(db, "User", User, "Todo", ID);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const todoDocRef = doc(db, "User", User, "Todo", ID);
+                if (docSnap.data().status == "NOTD") {
+                    await updateDoc(todoDocRef, {
+                        status: "DONE"
+                    });
+                } else {
+                    await updateDoc(todoDocRef, {
+                        status: "NOTD"
+                    });
+                }
+
+                return res.send('Done update!');
+            } else {
+                return res.status(400).send(
+                    `No such document!`
+                );
+            }
         } else {
             return res.status(400).send(
                 `Invalid Credentials`
