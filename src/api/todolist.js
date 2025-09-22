@@ -11,16 +11,16 @@ module.exports = (db) => {
     const router = express.Router();
 
     router.get('/', async (req, res) => {
-        const { user: User } = req.body;
+        const Auth = req.get('Auth');
 
-        if (!User) {
+        if (!Auth) {
             return res.status(400)
                 .send(`กรุณากรอกข้อมูลให้ครบถ้วน`);
         }
 
-        if (await isStudent(db, User)) {
+        if (await isStudent(db, Auth)) {
             let Data = [];
-            const querySnapshot = await getDocs(query(collection(db, "User", User, "Todo"), orderBy("timestamp", "asc")));
+            const querySnapshot = await getDocs(query(collection(db, "User", Auth, "Todo"), orderBy("timestamp", "asc")));
             querySnapshot.forEach((doc) => {
                 datt = doc.data();
                 datt.id = doc.id;
