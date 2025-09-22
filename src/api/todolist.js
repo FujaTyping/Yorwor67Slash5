@@ -1,5 +1,5 @@
 const express = require('express');
-const { doc, getDoc, collection, addDoc, getDocs, query, orderBy, deleteDoc, updateDoc } = require('firebase/firestore');
+const { doc, getDoc, collection, addDoc, getDocs, query, orderBy, deleteDoc, updateDoc, serverTimestamp } = require('firebase/firestore');
 
 async function isStudent(db, KEY) {
     const docRef = doc(db, 'User', KEY);
@@ -20,7 +20,7 @@ module.exports = (db) => {
 
         if (await isStudent(db, Auth)) {
             let Data = [];
-            const querySnapshot = await getDocs(query(collection(db, "User", Auth, "Todo"), orderBy("timestamp", "asc")));
+            const querySnapshot = await getDocs(query(collection(db, "User", Auth, "Todo"), orderBy("timestamp", "desc")));
             querySnapshot.forEach((doc) => {
                 datt = doc.data();
                 datt.id = doc.id;
@@ -36,9 +36,9 @@ module.exports = (db) => {
     });
 
     router.post('/add', async (req, res) => {
-        const { user: User, decs: Decs, due: Due, subj: Subject, timestamp: timestamp } = req.body;
+        const { user: User, decs: Decs, due: Due, subj: Subject } = req.body;
 
-        if (!User || !Decs || !Due || !Subject || !timestamp) {
+        if (!User || !Decs || !Due || !Subject) {
             return res.status(400)
                 .send(`กรุณากรอกข้อมูลให้ครบถ้วน`);
         }
@@ -48,7 +48,7 @@ module.exports = (db) => {
                 Decs,
                 Due,
                 Subject,
-                timestamp,
+                timestamp: serverTimestamp(),
                 status: "NOTD"
             });
 
