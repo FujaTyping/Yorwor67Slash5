@@ -174,6 +174,7 @@ function Main() {
                         <div className='max-w-xl mx-auto'>
                             <DrawerHeader>
                                 <DrawerTitle className='flex items-center gap-2'><Trash2 size={18} /> ยืนยันการลบรายการ</DrawerTitle>
+                                <p>คุณแน่ใจที่จะลบรายการนี้หรือไม่</p>
                                 <p>{decsI}</p>
                                 <Button onClick={deleteItem} className='mt-2 cursor-pointer'>
                                     {delLoad ? <Loader className='animate-spin' /> : <Check />}
