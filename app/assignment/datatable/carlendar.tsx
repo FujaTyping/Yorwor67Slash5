@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import './fullcalendar-custom.css';
-import { ChevronLeft, ChevronRight, GalleryHorizontal } from 'lucide-react';
+import { BookmarkPlus, CalendarPlus, Check, ChevronLeft, ChevronRight, GalleryHorizontal, Loader, X } from 'lucide-react';
 import interactionPlugin from "@fullcalendar/interaction";
 import {
     Drawer,
@@ -22,6 +22,11 @@ import {
     DrawerHeader,
     DrawerTitle,
 } from "@/components/ui/drawer";
+import { useAuth } from "@/app/lib/getAuth";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+const HiiWord = ['เห็นคะแนนแล้วร้องโอ้โห โห...ทำไมน้อยจัง', 'ใครไม่ส่งงานครู ขอให้คนที่คุยอยู่เป็นแค่พี่น้อง', 'อย่าโกรธที่สั่งงาน เพราะยังไงครูก็สั่งอีก', 'ครูเหมือน Google ครับ มีทุกคำตอบ... ยกเว้นคำตอบในข้อสอบ', 'วันครูปีนี้ ไม่ขออะไรเยอะ แค่ขอให้ครูลืมเช็กการบ้าน']
 
 interface Event {
     title: string;
@@ -29,20 +34,34 @@ interface Event {
     subject: string;
     time: string;
     due: string;
+    id: string;
+    timestamp: any;
+}
+
+interface TodoProps {
+    due: string;
+    decs: string;
+    subj: string;
 }
 
 interface EventCalendarProps {
     data: {
-        Time: string; Subject: string; Decs: string; Due: string
+        Time: string; Subject: string; Decs: string; Due: string; id: string; timestamp: any;
     }[];
 }
 
 export default function EventCalendar({ data }: EventCalendarProps) {
+    const user = useAuth();
+    const router = useRouter();
     const calendarRef = useRef<FullCalendar | null>(null);
     const [charData, setCharData] = useState<any | null>(null);
     const [currentTitle, setCurrentTitle] = useState('');
     const [events, setEvents] = useState<Event[]>([]);
-    const [openDrawer, SetOpenDrawer] = useState(false);
+    const [openDrawer, SetOpenDrawer] = useState<boolean>(false);
+    const [hasPermission, setHasPermission] = useState<boolean>(false);
+    const [ASid, setASId] = useState<TodoProps>();
+    const [TDS, setTSD] = useState('NN');
+    const [gCarL, setGCarL] = useState(false);
 
     const formatThaiDate = (thaiDate: string): string => {
         const monthsInThai = {
@@ -66,11 +85,28 @@ export default function EventCalendar({ data }: EventCalendarProps) {
                 time: event.Time,
                 due: event.Due,
                 date: formatThaiDate(event.Due),
+                id: event.id,
+                timestamp: event.timestamp
             }));
 
             setEvents(fetchedEvents);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (!user) return;
+
+        async function fetchPermission() {
+            const response = await axios.get("https://api.smt.siraphop.me/permission", {
+                headers: {
+                    "Auth": user.email
+                }
+            });
+            setHasPermission(response.data == "Student");
+        }
+
+        fetchPermission();
+    }, [user]);
 
     const handlePrev = () => {
         const api = calendarRef.current?.getApi();
@@ -93,6 +129,12 @@ export default function EventCalendar({ data }: EventCalendarProps) {
 
     const carclick = (args: any) => {
         const eventDETA = args.event._def;
+        setTSD('NN');
+        setASId({
+            decs: eventDETA.title,
+            subj: eventDETA.extendedProps.subject,
+            due: eventDETA.extendedProps.due
+        });
         const formattedData = {
             decs: eventDETA.title,
             subject: eventDETA.extendedProps.subject,
@@ -101,6 +143,24 @@ export default function EventCalendar({ data }: EventCalendarProps) {
         }
         setCharData(formattedData);
         SetOpenDrawer(true);
+    }
+
+    const formatDateForGoogleCalendar = (thaiDate: any) => {
+        const formattedDate = formatThaiDate(thaiDate);
+        return formattedDate.replace(/-/g, '');
+    };
+
+    async function addTodolist() {
+        setTSD('LOAD');
+        try {
+            await axios.post("https://api.smt.siraphop.me/todo/add", {
+                ...ASid,
+                user: user.email
+            })
+            setTSD('SUCC');
+        } catch {
+            setTSD('ERR')
+        }
     }
 
     return (
@@ -155,11 +215,26 @@ export default function EventCalendar({ data }: EventCalendarProps) {
                                         <p><span className='font-bold'>วันที่ครบกำหนด</span> : {charData?.due}</p>
                                     </div>
                                 </div>
+                                <div className='grid grid-cols-1 md:grid-cols-3 gap-3 mt-2'>
+                                    {hasPermission && <>
+                                        <Button onClick={addTodolist} className='cursor-pointer w-full md:col-span-2'>
+                                            {
+                                                TDS == 'LOAD' ? <Loader className='animate-spin' /> :
+                                                    TDS == 'SUCC' ? <Check /> :
+                                                        TDS == 'ERR' ? <X /> : <BookmarkPlus />
+                                            }
+                                            เพิ่มไปยังงานที่ต้องทำ</Button>
+                                        <Button onClick={() => { setGCarL(true); router.push(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=ส่งงาน+${ASid?.decs}&details=อย่าลืมส่งงานวิชา+${ASid?.subj}+『${HiiWord[Math.floor(Math.random() * HiiWord.length)]}』&dates=${formatDateForGoogleCalendar(ASid?.due)}/${formatDateForGoogleCalendar(ASid?.due)}&ctz=Asia/Bangkok`) }} className='cursor-pointer'>
+                                            {gCarL ? <Loader className='animate-spin' /> : <CalendarPlus />}
+                                            เพิ่มไปยังปฏิทิน
+                                        </Button>
+                                    </>}
+                                </div>
                             </DrawerHeader>
                         </div>
-                    </DrawerContent>
-                </Drawer>
-            </div>
+                    </DrawerContent >
+                </Drawer >
+            </div >
         </>
     );
 }

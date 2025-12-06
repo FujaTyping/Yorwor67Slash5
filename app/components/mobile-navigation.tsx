@@ -1,7 +1,7 @@
 "use client"
 
 import type * as React from "react"
-import { Home, BookMarked, School, User, ClipboardList, LogIn, ShieldUser, LogOut } from "lucide-react"
+import { Home, BookMarked, School, User, ClipboardList, LogIn, ShieldUser, LogOut, ListChecks } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -171,6 +171,12 @@ export function MobileBottomNav() {
                                         <Link href={item.href}>
                                             <User className="mr-2 h-4 w-4" />
                                             <span>{item.label}</span>
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="cursor-pointer">
+                                        <Link href={`/todo`} className="flex items-center gap-2">
+                                            <ListChecks className="mr-2 h-4 w-4" />
+                                            <span>รายการที่ต้องทำ</span>
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
