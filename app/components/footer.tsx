@@ -41,7 +41,7 @@ function Footer() {
                     <div className="h-5">
                         <Separator orientation="vertical" />
                     </div>
-                    <p className='text-xs'>© 2567-2568 ทีมพัฒนา ม.5/5</p>
+                    <p className='text-xs'>© 2567-2568 ทีมพัฒนา ม.6/5</p>
                 </div>
                 <div className="h-5 hidden md:block">
                     <Separator orientation="vertical" />

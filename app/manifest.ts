@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     return {
         name: 'Yorwor67Slash5',
         short_name: 'SMT',
-        description: 'A platform for managing class activities, attendance, and assignments for M.5/5 SMT',
+        description: 'A platform for managing class activities, attendance, and assignments for M.6/5 SMT',
         start_url: '/assignment',
         display: 'standalone',
         background_color: '#ffffff',

@@ -13,8 +13,8 @@ export default function Home() {
       <div className="px-6 py-4 w-full">
         <div className="my-4 flex flex-col items-center justify-center">
           <img src={Logo.src} alt="Logo" className="w-14 md:w-18" />
-          <h1 className="font-bold text-2xl md:text-4xl my-2">ม.5/5 - โครงการ SMT</h1>
-          <p>แพลตฟอร์มจัดการห้องเรียนสำหรับ ม.5/5 SMT โรงเรียนหาดใหญ่วิทยาลัย ช่วยให้นักเรียนสามารถเช็กข้อมูลสำคัญต่างๆ ของห้องได้อย่างสะดวก รวดเร็ว และทันสมัย</p>
+          <h1 className="font-bold text-2xl md:text-4xl my-2">ม.6/5 - โครงการ SMT</h1>
+          <p>แพลตฟอร์มจัดการห้องเรียนสำหรับ ม.6/5 SMT โรงเรียนหาดใหญ่วิทยาลัย ช่วยให้นักเรียนสามารถเช็กข้อมูลสำคัญต่างๆ ของห้องได้อย่างสะดวก รวดเร็ว และทันสมัย</p>
           <img className="mt-4 w-full max-w-[1100px] object-cover rounded-md" src={Banner.src} alt="Banner" height={630} width={1200} />
         </div>
       </div>

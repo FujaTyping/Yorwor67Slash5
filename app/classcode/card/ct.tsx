@@ -96,7 +96,7 @@ export default function ClassroomCards() {
             <div className="py-4 w-full flex flex-col items-center justify-center">
                 <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
                 <h1 className="font-bold text-xl mb-1 mt-3">กรุณาล็อกอิน</h1>
-                <p className="text-xs">เพื่อเป็นการยืนยันว่าเป็นนักเรียนห้อง ม.5/5</p>
+                <p className="text-xs">เพื่อเป็นการยืนยันว่าเป็นนักเรียนห้อง ม.6/5</p>
             </div>
         );
     }
@@ -106,7 +106,7 @@ export default function ClassroomCards() {
             <div className="py-4 w-full flex flex-col items-center justify-center">
                 <img src={Cynthia.src} alt="Cynthia" className='max-w-[120px]' />
                 <h1 className="font-bold text-xl mb-1 mt-3">ไม่สามารถเข้าถึงข้อมูลได้</h1>
-                <p className="text-xs">คุณไม่ได้อยู่ในห้อง ม.5/5</p>
+                <p className="text-xs">คุณไม่ได้อยู่ในห้อง ม.6/5</p>
             </div>
         );
     }

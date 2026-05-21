@@ -59,7 +59,7 @@ export function AppSidebar() {
                                     <img src={Logo.src} alt="Logo" width={600} height={600} />
                                 </div>
                                 <div className="flex flex-col gap-0.5 leading-none">
-                                    <span className="font-semibold">ม.5/5</span>
+                                    <span className="font-semibold">ม.6/5</span>
                                     <span className="text-xs">โรงเรียนหาดใหญ่วิทยาลัย</span>
                                 </div>
                             </Link>

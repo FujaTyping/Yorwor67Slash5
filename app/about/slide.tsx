@@ -23,14 +23,14 @@ function Slide() {
                     <SwiperSlide>
                         <img
                             src={B1.src}
-                            alt="Students in M.5/5 classroom"
+                            alt="Students in M.6/5 classroom"
                             className="object-cover max-h-[300px] w-full"
                         />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img
                             src={B2.src}
-                            alt="Students in M.5/5 classroom"
+                            alt="Students in M.6/5 classroom"
                             className="object-cover max-h-[300px] w-full"
                         />
                     </SwiperSlide>
